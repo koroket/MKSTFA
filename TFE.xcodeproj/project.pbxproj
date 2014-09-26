@@ -15,6 +15,9 @@
 		D5AB928C19D60565001FB2A7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D5AB928B19D60565001FB2A7 /* Images.xcassets */; };
 		D5AB928F19D60565001FB2A7 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = D5AB928D19D60565001FB2A7 /* LaunchScreen.xib */; };
 		D5AB929B19D60565001FB2A7 /* TFETests.m in Sources */ = {isa = PBXBuildFile; fileRef = D5AB929A19D60565001FB2A7 /* TFETests.m */; };
+		D5AB92A819D60B1A001FB2A7 /* FBLogInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D5AB92A719D60B1A001FB2A7 /* FBLogInViewController.m */; };
+		D5AB92AB19D60D51001FB2A7 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5AB92AA19D60D51001FB2A7 /* FacebookSDK.framework */; };
+		D5AB92B119D6251C001FB2A7 /* FriendTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D5AB92B019D6251C001FB2A7 /* FriendTableViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,6 +45,11 @@
 		D5AB929419D60565001FB2A7 /* TFETests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TFETests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D5AB929919D60565001FB2A7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D5AB929A19D60565001FB2A7 /* TFETests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TFETests.m; sourceTree = "<group>"; };
+		D5AB92A619D60B1A001FB2A7 /* FBLogInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBLogInViewController.h; sourceTree = "<group>"; };
+		D5AB92A719D60B1A001FB2A7 /* FBLogInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FBLogInViewController.m; sourceTree = "<group>"; };
+		D5AB92AA19D60D51001FB2A7 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = ../../Documents/FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
+		D5AB92AF19D6251C001FB2A7 /* FriendTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FriendTableViewController.h; path = ../FriendTableViewController.h; sourceTree = "<group>"; };
+		D5AB92B019D6251C001FB2A7 /* FriendTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FriendTableViewController.m; path = ../FriendTableViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,6 +57,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D5AB92AB19D60D51001FB2A7 /* FacebookSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +74,7 @@
 		D5AB926F19D60565001FB2A7 = {
 			isa = PBXGroup;
 			children = (
+				D5AB92A419D60AA0001FB2A7 /* Frameworks */,
 				D5AB927A19D60565001FB2A7 /* TFE */,
 				D5AB929719D60565001FB2A7 /* TFETests */,
 				D5AB927919D60565001FB2A7 /* Products */,
@@ -83,11 +93,15 @@
 		D5AB927A19D60565001FB2A7 /* TFE */ = {
 			isa = PBXGroup;
 			children = (
+				D5AB928819D60565001FB2A7 /* Main.storyboard */,
 				D5AB927F19D60565001FB2A7 /* AppDelegate.h */,
 				D5AB928019D60565001FB2A7 /* AppDelegate.m */,
 				D5AB928519D60565001FB2A7 /* ViewController.h */,
 				D5AB928619D60565001FB2A7 /* ViewController.m */,
-				D5AB928819D60565001FB2A7 /* Main.storyboard */,
+				D5AB92A619D60B1A001FB2A7 /* FBLogInViewController.h */,
+				D5AB92A719D60B1A001FB2A7 /* FBLogInViewController.m */,
+				D5AB92AF19D6251C001FB2A7 /* FriendTableViewController.h */,
+				D5AB92B019D6251C001FB2A7 /* FriendTableViewController.m */,
 				D5AB928B19D60565001FB2A7 /* Images.xcassets */,
 				D5AB928D19D60565001FB2A7 /* LaunchScreen.xib */,
 				D5AB928219D60565001FB2A7 /* TFE.xcdatamodeld */,
@@ -120,6 +134,14 @@
 				D5AB929919D60565001FB2A7 /* Info.plist */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		D5AB92A419D60AA0001FB2A7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D5AB92AA19D60D51001FB2A7 /* FacebookSDK.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -225,7 +247,9 @@
 				D5AB928119D60565001FB2A7 /* AppDelegate.m in Sources */,
 				D5AB927E19D60565001FB2A7 /* main.m in Sources */,
 				D5AB928719D60565001FB2A7 /* ViewController.m in Sources */,
+				D5AB92A819D60B1A001FB2A7 /* FBLogInViewController.m in Sources */,
 				D5AB928419D60565001FB2A7 /* TFE.xcdatamodeld in Sources */,
+				D5AB92B119D6251C001FB2A7 /* FriendTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -347,6 +371,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/lukesolomon/Documents/FacebookSDK,
+				);
 				INFOPLIST_FILE = TFE/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -357,6 +385,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					/Users/lukesolomon/Documents/FacebookSDK,
+				);
 				INFOPLIST_FILE = TFE/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -416,6 +448,7 @@
 				D5AB92A019D60565001FB2A7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D5AB92A119D60565001FB2A7 /* Build configuration list for PBXNativeTarget "TFETests" */ = {
 			isa = XCConfigurationList;
@@ -424,6 +457,7 @@
 				D5AB92A319D60565001FB2A7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
