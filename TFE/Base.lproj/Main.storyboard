@@ -44,7 +44,6 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="My Friends" id="bOV-nE-Cl0"/>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XL1-WS-Lz6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
