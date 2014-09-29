@@ -34,7 +34,8 @@
     NSString *storyboardName = @"Main";
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:storyboardName bundle:nil];
     UIViewController *vc = [storyboard instantiateViewControllerWithIdentifier:@"TableView"];
-    [self presentViewController:vc animated:YES completion:nil];
+    [[self navigationController] pushViewController:vc animated:YES];
+//    [self presentViewController:vc animated:YES completion:nil];
     
 }
 /*
