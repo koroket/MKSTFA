@@ -8,11 +8,13 @@
 
 #import "FriendTableViewController.h"
 #import <FacebookSDK/FacebookSDK.h>
+#import "Group.h"
+#import "ListOfFriendsTableViewController.h"
 
 @interface FriendTableViewController ()
 
-@property  (nonatomic, strong) NSMutableArray* myFriends;
-@property (nonatomic,strong) NSMutableArray* friendIds;
+
+
 @end
 
 @implementation FriendTableViewController
@@ -20,41 +22,19 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.myFriends = [NSMutableArray array];
-     self.friendIds = [NSMutableArray array];
+    self.myGroups = [NSMutableArray array];
     
-    [FBRequestConnection startWithGraphPath:@"/me/friends" parameters:nil HTTPMethod:@"GET" completionHandler:^(FBRequestConnection *connection, id result, NSError *error){
+}
+
+-(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [self.tableView reloadData];
     
-        NSDictionary *resultDictionary = (NSDictionary*)result;
-        
-        NSArray *data = [resultDictionary objectForKey:@"data"];
-        
-        for(NSDictionary *dic in data)
-        {
-            [self.myFriends addObject:[dic objectForKey:@"name"]];
-            [self.friendIds addObject:[dic objectForKey:@"id"]];
-        }
-//        FBGraphObject* sd ;
-//        [sd ]
-//        NSMutableArray *yeah = [NSMutableArray array];
-//        [yeah addObject:things];
-//        NSLog(@"ALL == %@",result);
-//        NSLog(@"ALL == %@",things);
-        
-        //[self.myFriends addObject:[result getObjects:<#(__unsafe_unretained id *)#> andKeys:<#(__unsafe_unretained id *)#>]];
-        
-        
-        
-        
-    }];
-    
-    
-    
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -64,26 +44,24 @@
 
 #pragma mark - Table view data source
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-#warning Potentially incomplete method implementation.
-    // Return the number of sections.
-    return 0;
-}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-#warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return 1;
+    
+    return self.myGroups.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
     
-    
-    cell.textLabel.text = @"hhh";
+    cell.textLabel.text = [self.myGroups[indexPath.row] name];
     
     return cell;
+}
+
+- (IBAction)unwindToFriendTableViewController:(UIStoryboardSegue*)unwindSegue {
+    
 }
 
 /*
@@ -129,5 +107,14 @@
     // Pass the selected object to the new view controller.
 }
 */
+
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"AddGroup"]) {
+        ListOfFriendsTableViewController *controller = [segue destinationViewController];
+        controller.parent = self;
+        
+    }
+}
 
 @end

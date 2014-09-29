@@ -8,12 +8,14 @@
 
 #import "ListOfFriendsTableViewController.h"
 #import <FacebookSDK/FacebookSDK.h>
+#import "Group.h"
+#import "FriendTableViewController.h"
 
 @interface ListOfFriendsTableViewController()
 
 @property (nonatomic,strong) NSMutableArray *myFriends;
 @property (nonatomic,strong) NSMutableArray *friendIds;
-
+@property (nonatomic,strong) NSMutableArray *selectedFriends;
 
 @end
 
@@ -34,6 +36,7 @@
 {
     self.myFriends = [NSMutableArray array];
     self.friendIds = [NSMutableArray array];
+    self.selectedFriends = [NSMutableArray array];
     
     [FBRequestConnection startWithGraphPath:@"/me/friends" parameters:nil HTTPMethod:@"GET" completionHandler:^(FBRequestConnection *connection, id result, NSError *error){
         
@@ -48,6 +51,7 @@
         }
         dispatch_async(dispatch_get_main_queue(), ^(void){
             [self.tableView reloadData];
+            
         });
         
       
@@ -64,7 +68,11 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - Table view data source
+/*
+ ==========================================================================================================================================================
+ #pragma mark - Table view data source
+ */
+
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
@@ -82,23 +90,47 @@
     
     return cell;
 }
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:@"Details"]) {
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    //[self.candies removeObjectAtIndex:indexPath.row];
+    [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+}
+
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    }else if ([segue.identifier isEqualToString:@"Add"]) {
+    if([tableView cellForRowAtIndexPath:indexPath].accessoryType == UITableViewCellAccessoryCheckmark){
         
+        [tableView cellForRowAtIndexPath:indexPath].accessoryType = UITableViewCellAccessoryNone;
+        
+        [self.selectedFriends removeObject:[self.myFriends objectAtIndex:indexPath.row]];
+        
+    } else {
+        
+        [tableView cellForRowAtIndexPath:indexPath].accessoryType = UITableViewCellAccessoryCheckmark;
+        
+        [self.selectedFriends addObject:[self.myFriends objectAtIndex:indexPath.row]];
         
     }
+    
+    NSLog(@"These are the selected friends %@", self.selectedFriends);
+    
 }
+
+/*
+==========================================================================================================================================================
+ */
+
+
+
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.tableView reloadData];
     
 }
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    //[self.candies removeObjectAtIndex:indexPath.row];
-    [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-}
+
+
 /*
  - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
  UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
@@ -152,5 +184,24 @@
  // Pass the selected object to the new view controller.
  }
  */
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"Details"]) {
+        
+    } else if ([segue.identifier isEqualToString:@"unwindToFriend"]) {
+        Group *newGroup = [[Group alloc] init];
+        newGroup.friendsInGroup = self.selectedFriends;
+        
+        //THIS IS WHERE THE GROUP NAME IS MADE
+        newGroup.name = @"groupTest";
+        
+        [self.parent.myGroups addObject:newGroup];
+        
+    }
+}
+
+
+
+
 
 @end

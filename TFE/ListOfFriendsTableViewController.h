@@ -7,7 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+@class FriendTableViewController;
 
 @interface ListOfFriendsTableViewController : UITableViewController
+
+@property (nonatomic,weak) FriendTableViewController *parent;
 
 @end

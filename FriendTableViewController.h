@@ -10,4 +10,6 @@
 
 @interface FriendTableViewController : UITableViewController
 
+@property (nonatomic, strong) NSMutableArray* myGroups;
+
 @end
