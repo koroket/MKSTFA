@@ -22,6 +22,11 @@
 
 @implementation FriendTableViewController
 
+#pragma mark - init
+// ----------------------------------------------------------------------
+// **************************** Initialize ******************************
+// ----------------------------------------------------------------------
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -41,17 +46,13 @@
     
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 #pragma mark - Table view data source
-
+// ----------------------------------------------------------------------
+// ****************************** Table *********************************
+// ----------------------------------------------------------------------
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
-    
     return self.myGroups.count;
 }
 
@@ -64,87 +65,37 @@
     return cell;
 }
 
-- (IBAction)unwindToFriendTableViewController:(UIStoryboardSegue*)unwindSegue {
-    
-}
-
-/*
-// Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
     return YES;
 }
-*/
 
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
+#pragma mark - Server communication
+// ----------------------------------------------------------------------
+// ****************************** Server *********************************
+// ----------------------------------------------------------------------
 
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([segue.identifier isEqualToString:@"AddGroup"]) {
-        ListOfFriendsTableViewController *controller = [segue destinationViewController];
-        controller.parent = self;
-        
-    }else if ([segue.identifier isEqualToString:@"Swipe"]) {
-        SwipeViewController *controller = [segue destinationViewController];
-        NSIndexPath *selectedIndexPath = self.tableView.indexPathForSelectedRow;
-        controller.groupID = [self.myGroups objectAtIndex:selectedIndexPath.row];
-        
-    }
-}
--(void)getRequests
-{
-    
-    NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/ppl/%@groups",[[NSUserDefaults standardUserDefaults] stringForKey:@"myId"]];
-    // 1
-    
+-(void)getRequests {
+    //URL
+    NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/ppl/%@groups", [[NSUserDefaults standardUserDefaults] stringForKey:@"myId"]];
     NSURL *url = [NSURL URLWithString:fixedUrl];
     
+    //Session Config
+    NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+    NSURLSession *urlSession = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:nil];
+
+    //Request
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
     [request setHTTPMethod:@"GET"];
     
-    NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
-    
-    NSURLSession *urlSession = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:nil];
-    
+    //Data Task Block
     NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        
+
+        //HTTP Response
         NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
+        //Status Code
         NSInteger responseStatusCode = [httpResponse statusCode];
         
+        //if success check
         if (responseStatusCode == 200 && data) {
             dispatch_async(dispatch_get_main_queue(), ^(void){
                 NSArray *fetchedData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
@@ -172,5 +123,26 @@
     [self getRequests];
 }
 
+#pragma mark - navigation
+// ----------------------------------------------------------------------
+// **************************** Navigation ******************************
+// ----------------------------------------------------------------------
+
+- (IBAction)unwindToFriendTableViewController:(UIStoryboardSegue*)unwindSegue {
+    
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"AddGroup"]) {
+        ListOfFriendsTableViewController *controller = [segue destinationViewController];
+        controller.parent = self;
+        
+    }else if ([segue.identifier isEqualToString:@"Swipe"]) {
+        SwipeViewController *controller = [segue destinationViewController];
+        NSIndexPath *selectedIndexPath = self.tableView.indexPathForSelectedRow;
+        controller.groupID = [self.myGroups objectAtIndex:selectedIndexPath.row];
+        
+    }
+}
 
 @end

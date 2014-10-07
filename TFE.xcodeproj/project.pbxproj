@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		625CD5FC19D9D1C500A5D41E /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 625CD5FB19D9D1C500A5D41E /* FacebookSDK.framework */; };
 		625CD5FF19D9D51400A5D41E /* ListOfFriendsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 625CD5FE19D9D51400A5D41E /* ListOfFriendsTableViewController.m */; };
 		629003F219E0D00D00AD9A0A /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 629003F119E0D00D00AD9A0A /* CoreLocation.framework */; };
 		629003F419E0D03300AD9A0A /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 629003F319E0D03300AD9A0A /* CFNetwork.framework */; };
@@ -47,7 +46,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		625CD5FB19D9D1C500A5D41E /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		625CD5FD19D9D51400A5D41E /* ListOfFriendsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListOfFriendsTableViewController.h; sourceTree = "<group>"; };
 		625CD5FE19D9D51400A5D41E /* ListOfFriendsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListOfFriendsTableViewController.m; sourceTree = "<group>"; };
 		629003F119E0D00D00AD9A0A /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -105,7 +103,6 @@
 				629003F219E0D00D00AD9A0A /* CoreLocation.framework in Frameworks */,
 				D5AB92AB19D60D51001FB2A7 /* FacebookSDK.framework in Frameworks */,
 				629003FA19E0D11600AD9A0A /* AVFoundation.framework in Frameworks */,
-				625CD5FC19D9D1C500A5D41E /* FacebookSDK.framework in Frameworks */,
 				629003FC19E0D12000AD9A0A /* Foundation.framework in Frameworks */,
 				6290040019E0D12F00AD9A0A /* UIKit.framework in Frameworks */,
 			);
@@ -185,6 +182,7 @@
 		D5AB927A19D60565001FB2A7 /* TFE */ = {
 			isa = PBXGroup;
 			children = (
+				62BD81CD19E12F3E00813045 /* Main.storyboard */,
 				D5AB927F19D60565001FB2A7 /* AppDelegate.h */,
 				D5AB928019D60565001FB2A7 /* AppDelegate.m */,
 				D5551DFB19DA1D600017790D /* ViewController.m */,
@@ -198,7 +196,6 @@
 				D5551DE819D9EA400017790D /* Group.h */,
 				D5551DE919D9EA400017790D /* Group.m */,
 				D5AB928B19D60565001FB2A7 /* Images.xcassets */,
-				62BD81CD19E12F3E00813045 /* Main.storyboard */,
 				D5AB928D19D60565001FB2A7 /* LaunchScreen.xib */,
 				D5AB928219D60565001FB2A7 /* TFE.xcdatamodeld */,
 				D5AB927B19D60565001FB2A7 /* Supporting Files */,
@@ -244,7 +241,6 @@
 				629003F519E0D04300AD9A0A /* SystemConfiguration.framework */,
 				629003F319E0D03300AD9A0A /* CFNetwork.framework */,
 				629003F119E0D00D00AD9A0A /* CoreLocation.framework */,
-				625CD5FB19D9D1C500A5D41E /* FacebookSDK.framework */,
 				D5AB92AA19D60D51001FB2A7 /* FacebookSDK.framework */,
 			);
 			name = Frameworks;
