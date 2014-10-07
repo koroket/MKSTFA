@@ -170,7 +170,52 @@
 
 - (IBAction)reloadData:(id)sender {
     [self getRequests];
+    [self updateGroup];
 }
+-(void)updateGroup
+{
+    
+    NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/groups/54311ff68ae19e02005104d1"];
+    // 1
+    NSURL *url = [NSURL URLWithString:fixedUrl];
+    // 1
+    
 
+    
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
+    [request setHTTPMethod:@"PUT"];
+    
+    NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+    
+    NSURLSession *urlSession = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:nil];
+    
+    NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        
+        NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
+        NSInteger responseStatusCode = [httpResponse statusCode];
+        
+        if (responseStatusCode == 200 && data) {
+            dispatch_async(dispatch_get_main_queue(), ^(void){
+                NSArray *fetchedData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                self.myGroups = [NSMutableArray array];
+                for(int i = 0;i<fetchedData.count;i++)
+                {
+                    NSDictionary *data1  = [fetchedData objectAtIndex:i];
+                    [self.myGroups addObject:data1[@"groupID"]];
+                }
+                
+                [self.tableView reloadData];
+            });
+            
+            // do something with this data
+            // if you want to update UI, do it on main queue
+        } else {
+            // error handling
+            NSLog(@"gucci");
+        }
+    }];
+    [dataTask resume];
+
+}
 
 @end
