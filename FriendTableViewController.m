@@ -10,8 +10,11 @@
 #import <FacebookSDK/FacebookSDK.h>
 #import "Group.h"
 #import "ListOfFriendsTableViewController.h"
+#import <Foundation/Foundation.h>
+#import "SwipeViewController.h"
 
 @interface FriendTableViewController ()
+- (IBAction)reloadData:(id)sender;
 
 
 
@@ -28,6 +31,7 @@
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [self getRequests];
 
 }
 
@@ -55,7 +59,7 @@
 
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
     
-    cell.textLabel.text = [self.myGroups[indexPath.row] name];
+    cell.textLabel.text = [self.myGroups objectAtIndex:indexPath.row];
     
     return cell;
 }
@@ -114,7 +118,59 @@
         ListOfFriendsTableViewController *controller = [segue destinationViewController];
         controller.parent = self;
         
+    }else if ([segue.identifier isEqualToString:@"Swipe"]) {
+        SwipeViewController *controller = [segue destinationViewController];
+        NSIndexPath *selectedIndexPath = self.tableView.indexPathForSelectedRow;
+        controller.groupID = [self.myGroups objectAtIndex:selectedIndexPath.row];
+        
     }
 }
+-(void)getRequests
+{
+    
+    NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/ppl/%@groups",[[NSUserDefaults standardUserDefaults] stringForKey:@"myId"]];
+    // 1
+    
+    NSURL *url = [NSURL URLWithString:fixedUrl];
+    
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
+    [request setHTTPMethod:@"GET"];
+    
+    NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+    
+    NSURLSession *urlSession = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:nil];
+    
+    NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        
+        NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
+        NSInteger responseStatusCode = [httpResponse statusCode];
+        
+        if (responseStatusCode == 200 && data) {
+            dispatch_async(dispatch_get_main_queue(), ^(void){
+                NSArray *fetchedData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                self.myGroups = [NSMutableArray array];
+                for(int i = 0;i<fetchedData.count;i++)
+                {
+                    NSDictionary *data1  = [fetchedData objectAtIndex:i];
+                    [self.myGroups addObject:data1[@"groupID"]];
+                }
+                
+                [self.tableView reloadData];
+            });
+            
+            // do something with this data
+            // if you want to update UI, do it on main queue
+        } else {
+            // error handling
+            NSLog(@"gucci");
+        }
+    }];
+    [dataTask resume];
+}
+
+- (IBAction)reloadData:(id)sender {
+    [self getRequests];
+}
+
 
 @end

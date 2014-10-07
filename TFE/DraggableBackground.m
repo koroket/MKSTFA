@@ -32,7 +32,7 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
     if (self) {
         [super layoutSubviews];
         [self setupView];
-        exampleCardLabels = [[NSArray alloc]initWithObjects:@"first",@"second",@"third",@"fourth",@"last", nil]; //%%% placeholder for card-specific information
+        exampleCardLabels = [[NSUserDefaults standardUserDefaults] arrayForKey:@"places"];//%%% placeholder for card-specific information
         loadedCards = [[NSMutableArray alloc] init];
         allCards = [[NSMutableArray alloc] init];
         cardsLoadedIndex = 0;
@@ -162,14 +162,16 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
     [dragView leftClickAction];
 }
 
-/*
- // Only override drawRect: if you perform custom drawing.
- // An empty implementation adversely affects performance during animation.
- - (void)drawRect:(CGRect)rect
- {
- // Drawing code
- }
- */
+-(void)checkForGroupAgreement
+{
+
+}
+
+-(void)dislike
+{
+
+}
+
 
 @end
 

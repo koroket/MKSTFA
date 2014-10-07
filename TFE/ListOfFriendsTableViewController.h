@@ -11,6 +11,6 @@
 
 @interface ListOfFriendsTableViewController : UITableViewController
 
-@property (nonatomic,weak) FriendTableViewController *parent;
+@property (nonatomic,retain) FriendTableViewController *parent;
 
 @end

@@ -35,6 +35,8 @@
    
     //self.profilePictureView.profileID = user.id;
     self.nameLabel.text = user.name;
+    [[NSUserDefaults standardUserDefaults] setObject: user.objectID forKey:@"myId"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 
 }
 

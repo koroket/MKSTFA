@@ -9,5 +9,5 @@
 #import <UIKit/UIKit.h>
 
 @interface SwipeViewController : UIViewController
-
+@property (nonatomic,strong) NSString* groupID;
 @end
