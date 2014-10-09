@@ -21,7 +21,6 @@
 		62BD81CF19E12F3E00813045 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 62BD81CD19E12F3E00813045 /* Main.storyboard */; };
 		62BD81D219E17A6800813045 /* SearchSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 62BD81D119E17A6800813045 /* SearchSettingViewController.m */; };
 		D5551DEA19D9EA400017790D /* Group.m in Sources */ = {isa = PBXBuildFile; fileRef = D5551DE919D9EA400017790D /* Group.m */; };
-		D5551DF019DA1A8E0017790D /* SwipeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D5551DEF19DA1A8E0017790D /* SwipeViewController.m */; };
 		D5551DF419DA1ACB0017790D /* Draggable.m in Sources */ = {isa = PBXBuildFile; fileRef = D5551DF319DA1ACB0017790D /* Draggable.m */; };
 		D5551DF719DA1AE10017790D /* DraggableBackground.m in Sources */ = {isa = PBXBuildFile; fileRef = D5551DF619DA1AE10017790D /* DraggableBackground.m */; };
 		D5551DFA19DA1B030017790D /* OverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = D5551DF919DA1B030017790D /* OverlayView.m */; };
@@ -64,8 +63,6 @@
 		62BD81D119E17A6800813045 /* SearchSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchSettingViewController.m; sourceTree = "<group>"; };
 		D5551DE819D9EA400017790D /* Group.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Group.h; sourceTree = "<group>"; };
 		D5551DE919D9EA400017790D /* Group.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Group.m; sourceTree = "<group>"; };
-		D5551DEE19DA1A8E0017790D /* SwipeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwipeViewController.h; sourceTree = "<group>"; };
-		D5551DEF19DA1A8E0017790D /* SwipeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwipeViewController.m; sourceTree = "<group>"; };
 		D5551DF219DA1ACB0017790D /* Draggable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Draggable.h; sourceTree = "<group>"; };
 		D5551DF319DA1ACB0017790D /* Draggable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Draggable.m; sourceTree = "<group>"; };
 		D5551DF519DA1AE10017790D /* DraggableBackground.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DraggableBackground.h; sourceTree = "<group>"; };
@@ -151,8 +148,6 @@
 		D5551DF119DA1A920017790D /* Swipe */ = {
 			isa = PBXGroup;
 			children = (
-				D5551DEE19DA1A8E0017790D /* SwipeViewController.h */,
-				D5551DEF19DA1A8E0017790D /* SwipeViewController.m */,
 				D5551DF219DA1ACB0017790D /* Draggable.h */,
 				D5551DF319DA1ACB0017790D /* Draggable.m */,
 				D5551DF519DA1AE10017790D /* DraggableBackground.h */,
@@ -360,7 +355,6 @@
 				D5AB928419D60565001FB2A7 /* TFE.xcdatamodeld in Sources */,
 				D5AB92B119D6251C001FB2A7 /* GroupTableViewController.m in Sources */,
 				D5551DEA19D9EA400017790D /* Group.m in Sources */,
-				D5551DF019DA1A8E0017790D /* SwipeViewController.m in Sources */,
 				D5551DF719DA1AE10017790D /* DraggableBackground.m in Sources */,
 				D5551DFA19DA1B030017790D /* OverlayView.m in Sources */,
 				62BD81D219E17A6800813045 /* SearchSettingViewController.m in Sources */,

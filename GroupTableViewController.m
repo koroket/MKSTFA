@@ -11,7 +11,8 @@
 #import "Group.h"
 #import "FriendTableViewController.h"
 #import <Foundation/Foundation.h>
-#import "SwipeViewController.h"
+#import "DraggableBackground.h"
+
 
 @interface GroupTableViewController ()
 - (IBAction)reloadData:(id)sender;
@@ -21,6 +22,9 @@
 @end
 
 @implementation GroupTableViewController
+{
+    int myIndex;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -111,18 +115,58 @@
     // Pass the selected object to the new view controller.
 }
 */
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    myIndex = indexPath.row;
+    [[NSUserDefaults standardUserDefaults] setObject:[self.myGroups objectAtIndex:indexPath.row] forKey:@"pract"];
+    [[NSUserDefaults standardUserDefaults] setInteger:self.numOfPeople forKey:@"numOfPeople"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/groups/%@",[self.myGroups objectAtIndex:indexPath.row]];
+    // 1
+    NSURL *url = [NSURL URLWithString:fixedUrl];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
+    
+    [request setHTTPMethod:@"GET"];
+    
+    NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+    
+    NSURLSession *urlSession = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:nil];
+    
+    NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        
+        NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
+        NSInteger responseStatusCode = [httpResponse statusCode];
+        
+        if (responseStatusCode == 200 && data) {
+            dispatch_async(dispatch_get_main_queue(), ^(void){
+                
+                NSArray *fetchedData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                
+                [[NSUserDefaults standardUserDefaults] setObject:fetchedData forKey:@"AllObjects"];
+                [[NSUserDefaults standardUserDefaults] synchronize];
+                [self performSegueWithIdentifier:@"Swipe" sender:self];
+            });
+            
+            // do something with this data
+            // if you want to update UI, do it on main queue
+        } else {
+            // error handling
+            
+        }
+    }];
+    [dataTask resume];
 
-
+}
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"AddGroup"]) {
         FriendTableViewController *controller = [segue destinationViewController];
         controller.parent = self;
         
     }else if ([segue.identifier isEqualToString:@"Swipe"]) {
-        SwipeViewController *controller = [segue destinationViewController];
-        NSIndexPath *selectedIndexPath = self.tableView.indexPathForSelectedRow;
-        controller.groupID = [self.myGroups objectAtIndex:selectedIndexPath.row];
-        controller.numOfPeople = (int)[self.numOfPeople objectAtIndex:selectedIndexPath.row];
+        DraggableBackground *controller = [segue destinationViewController];
+
+        controller.groupID = [self.myGroups objectAtIndex:myIndex];
+        controller.numOfPeople = (int)[self.numOfPeople objectAtIndex:myIndex];
         
     }
 }

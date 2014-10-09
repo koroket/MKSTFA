@@ -13,11 +13,21 @@
     NSInteger yeahp;
     NSMutableArray *loadedCards; //%%% the array of card loaded (change max_buffer_size to increase or decrease the number of cards this holds)
     
+    IBOutlet UIButton *xButton;
+    IBOutlet UIButton *checkButton;
     UIButton* menuButton;
     UIButton* messageButton;
-    UIButton* checkButton;
-    UIButton* xButton;
+  
+   
 }
+- (IBAction)good:(id)sender {
+    [self swipeRight];
+}
+
+- (IBAction)bad:(id)sender {
+    [self swipeLeft];
+}
+
 //this makes it so only two cards are loaded at a time to
 //avoid performance and memory costs
 static const int MAX_BUFFER_SIZE = 2; //%%% max number of cards loaded at any given time, must be greater than 1
@@ -27,11 +37,10 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
 @synthesize exampleCardLabels; //%%% all the labels I'm using as example data at the moment
 @synthesize allCards;//%%% all the cards
 
-- (id)initWithFrame:(CGRect)frame
+-(void)viewDidLoad
 {
-    self = [super initWithFrame:frame];
+    [super viewDidLoad];
     if (self) {
-        [super layoutSubviews];
         [self setupView];
         exampleCardLabels = [[NSUserDefaults standardUserDefaults] arrayForKey:@"AllObjects"];//%%% placeholder for card-specific information
         loadedCards = [[NSMutableArray alloc] init];
@@ -40,28 +49,26 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
         yeahp = -1;
         [self loadCards];
     }
-    return self;
 }
 
 //%%% sets up the extra buttons on the screen
 -(void)setupView
 {
 #warning customize all of this.  These are just place holders to make it look pretty
-    self.backgroundColor = [UIColor colorWithRed:.92 green:.93 blue:.95 alpha:1]; //the gray background colors
+    self.view.backgroundColor = [UIColor colorWithRed:.92 green:.93 blue:.95 alpha:1]; //the gray background colors
     menuButton = [[UIButton alloc]initWithFrame:CGRectMake(17, 34, 22, 15)];
     [menuButton setImage:[UIImage imageNamed:@"menuButton"] forState:UIControlStateNormal];
     messageButton = [[UIButton alloc]initWithFrame:CGRectMake(284, 34, 18, 18)];
     [messageButton setImage:[UIImage imageNamed:@"messageButton"] forState:UIControlStateNormal];
-    xButton = [[UIButton alloc]initWithFrame:CGRectMake(60, 485, 59, 59)];
+
+
     [xButton setImage:[UIImage imageNamed:@"xButton"] forState:UIControlStateNormal];
-    [xButton addTarget:self action:@selector(swipeLeft) forControlEvents:UIControlEventTouchUpInside];
-    checkButton = [[UIButton alloc]initWithFrame:CGRectMake(200, 485, 59, 59)];
+    
     [checkButton setImage:[UIImage imageNamed:@"checkButton"] forState:UIControlStateNormal];
-    [checkButton addTarget:self action:@selector(swipeRight) forControlEvents:UIControlEventTouchUpInside];
-    [self addSubview:menuButton];
-    [self addSubview:messageButton];
-    [self addSubview:xButton];
-    [self addSubview:checkButton];
+
+    [self.view addSubview:menuButton];
+    [self.view addSubview:messageButton];
+
 }
 
 #warning include own card customization here!
@@ -70,7 +77,7 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
 // to get rid of it (eg: if you are building cards from data from the internet)
 -(Draggable *)createDraggableWithDataAtIndex:(NSInteger)index
 {
-    Draggable *draggable = [[Draggable alloc]initWithFrame:CGRectMake((self.frame.size.width - CARD_WIDTH)/2, (self.frame.size.height - CARD_HEIGHT)/2, CARD_WIDTH, CARD_HEIGHT)];
+    Draggable *draggable = [[Draggable alloc]initWithFrame:CGRectMake((self.view.frame.size.width - CARD_WIDTH)/2, (self.view.frame.size.height - CARD_HEIGHT)/2, CARD_WIDTH, CARD_HEIGHT)];
     NSDictionary *tempoaryDict = [exampleCardLabels objectAtIndex:index];
     draggable.information.text = tempoaryDict[@"Name"]; //%%% placeholder for card-specific information
     draggable.delegate = self;
@@ -99,9 +106,9 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
         // are showing at once and clogging a ton of data
         for (int i = 0; i<[loadedCards count]; i++) {
             if (i>0) {
-                [self insertSubview:[loadedCards objectAtIndex:i] belowSubview:[loadedCards objectAtIndex:i-1]];
+                [self.view insertSubview:[loadedCards objectAtIndex:i] belowSubview:[loadedCards objectAtIndex:i-1]];
             } else {
-                [self addSubview:[loadedCards objectAtIndex:i]];
+                [self.view addSubview:[loadedCards objectAtIndex:i]];
             }
             cardsLoadedIndex++; //%%% we loaded a card into loaded cards, so we have to increment
         }
@@ -121,7 +128,7 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
     if (cardsLoadedIndex < [allCards count]) { //%%% if we haven't reached the end of all cards, put another into the loaded cards
         [loadedCards addObject:[allCards objectAtIndex:cardsLoadedIndex]];
         cardsLoadedIndex++;//%%% loaded a card, so have to increment count
-        [self insertSubview:[loadedCards objectAtIndex:(MAX_BUFFER_SIZE-1)] belowSubview:[loadedCards objectAtIndex:(MAX_BUFFER_SIZE-2)]];
+        [self.view insertSubview:[loadedCards objectAtIndex:(MAX_BUFFER_SIZE-1)] belowSubview:[loadedCards objectAtIndex:(MAX_BUFFER_SIZE-2)]];
     }
 }
 
@@ -139,7 +146,7 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
     if (cardsLoadedIndex < [allCards count]) { //%%% if we haven't reached the end of all cards, put another into the loaded cards
         [loadedCards addObject:[allCards objectAtIndex:cardsLoadedIndex]];
         cardsLoadedIndex++;//%%% loaded a card, so have to increment count
-        [self insertSubview:[loadedCards objectAtIndex:(MAX_BUFFER_SIZE-1)] belowSubview:[loadedCards objectAtIndex:(MAX_BUFFER_SIZE-2)]];
+        [self.view insertSubview:[loadedCards objectAtIndex:(MAX_BUFFER_SIZE-1)] belowSubview:[loadedCards objectAtIndex:(MAX_BUFFER_SIZE-2)]];
     }
     
 }
@@ -195,10 +202,10 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
         
         if (1==1||responseStatusCode == 200 && data) {
             dispatch_async(dispatch_get_main_queue(), ^(void){
-                NSLog(@"%@",[NSJSONSerialization JSONObjectWithData:data options:0 error:nil]);
+
                 
-                NSMutableArray * hhh = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                NSNumber *t = [hhh objectAtIndex:index];
+                NSMutableDictionary* hhh = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                NSNumber *t = hhh[@"NumberOfReplies"];
                 if(t==[[NSUserDefaults standardUserDefaults] integerForKey:@"numOfPeople"])
                 {
                     NSLog(@"wegucci");
