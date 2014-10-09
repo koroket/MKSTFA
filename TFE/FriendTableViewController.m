@@ -6,12 +6,12 @@
 //  Copyright (c) 2014 sloot. All rights reserved.
 //
 
-#import "ListOfFriendsTableViewController.h"
+#import "FriendTableViewController.h"
 #import <FacebookSDK/FacebookSDK.h>
 #import "Group.h"
-#import "FriendTableViewController.h"
+#import "GroupTableViewController.h"
 
-@interface ListOfFriendsTableViewController()
+@interface FriendTableViewController()
 
 @property (nonatomic,strong) NSMutableArray *myFriends;
 @property (nonatomic,strong) NSMutableArray *friendIds;
@@ -20,7 +20,7 @@
 
 @end
 
-@implementation ListOfFriendsTableViewController{}
+@implementation FriendTableViewController{}
 
 
 - (void)viewDidLoad {

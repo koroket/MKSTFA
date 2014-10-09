@@ -6,21 +6,21 @@
 //  Copyright (c) 2014 SoloBando Enterprises. All rights reserved.
 //
 
-#import "FriendTableViewController.h"
+#import "GroupTableViewController.h"
 #import <FacebookSDK/FacebookSDK.h>
 #import "Group.h"
-#import "ListOfFriendsTableViewController.h"
+#import "FriendTableViewController.h"
 #import <Foundation/Foundation.h>
 #import "SwipeViewController.h"
 
-@interface FriendTableViewController ()
+@interface GroupTableViewController ()
 - (IBAction)reloadData:(id)sender;
 
 
 
 @end
 
-@implementation FriendTableViewController
+@implementation GroupTableViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -115,7 +115,7 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"AddGroup"]) {
-        ListOfFriendsTableViewController *controller = [segue destinationViewController];
+        FriendTableViewController *controller = [segue destinationViewController];
         controller.parent = self;
         
     }else if ([segue.identifier isEqualToString:@"Swipe"]) {

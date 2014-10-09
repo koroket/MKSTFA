@@ -7,10 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-@class FriendTableViewController;
+@class GroupTableViewController;
 
-@interface ListOfFriendsTableViewController : UITableViewController
+@interface FriendTableViewController : UITableViewController
 
-@property (nonatomic,retain) FriendTableViewController *parent;
+@property (nonatomic,retain) GroupTableViewController *parent;
 
 @end
