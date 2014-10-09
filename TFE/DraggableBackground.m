@@ -195,6 +195,8 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
         
         if (1==1||responseStatusCode == 200 && data) {
             dispatch_async(dispatch_get_main_queue(), ^(void){
+                NSLog(@"%@",[NSJSONSerialization JSONObjectWithData:data options:0 error:nil]);
+                
                 NSMutableArray * hhh = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
                 NSNumber *t = [hhh objectAtIndex:index];
                 if(t==[[NSUserDefaults standardUserDefaults] integerForKey:@"numOfPeople"])

@@ -32,8 +32,7 @@
 
 -(void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self getRequests];
-
+        [self getRequests];
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -221,10 +220,10 @@
     
 }
 
--(void)deleteGroup:(NSString*) myId
+-(void)deleteGroup:(NSString*) pplid with:(NSString*) myId
 {
     
-    NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/ppl/%@groups/%@",[[NSUserDefaults standardUserDefaults] stringForKey:@"myId"],myId];
+    NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/ppl/%@groups/%@",pplid,myId];
     // 1
     NSURL *url = [NSURL URLWithString:fixedUrl];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
@@ -288,5 +287,100 @@
     [dataTask resume];
     
 }
+-(void)resetGroups
+{
+    NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/groups"];
+    // 1
+    
+    NSURL *url = [NSURL URLWithString:fixedUrl];
+    
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
+    [request setHTTPMethod:@"GET"];
+    
+    NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+    
+    NSURLSession *urlSession = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:nil];
+    
+    NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        
+        NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
+        NSInteger responseStatusCode = [httpResponse statusCode];
+        
+        if (responseStatusCode == 200 && data) {
+            dispatch_async(dispatch_get_main_queue(), ^(void){
+                NSArray *fetchedData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                self.myGroups = [NSMutableArray array];
+                for(int i = 0;i<fetchedData.count;i++)
+                {
+                    NSDictionary *data1  = [fetchedData objectAtIndex:i];
+                    
+                    [self deleteIndividualGroup:data1[@"_id"]];
+                    
+                    
+                }
+                
+                [self.tableView reloadData];
+            });
+            
+            // do something with this data
+            // if you want to update UI, do it on main queue
+        } else {
+            // error handling
+            NSLog(@"gucci");
+        }
+    }];
+    [dataTask resume];
 
+}
+-(void)resetPeople:(NSString*)pplid
+{
+    
+    NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/ppl/%@groups",pplid];
+    // 1
+    
+    NSURL *url = [NSURL URLWithString:fixedUrl];
+    
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
+    [request setHTTPMethod:@"GET"];
+    
+    NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+    
+    NSURLSession *urlSession = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:nil];
+    
+    NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        
+        NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
+        NSInteger responseStatusCode = [httpResponse statusCode];
+        
+        if (responseStatusCode == 200 && data) {
+            dispatch_async(dispatch_get_main_queue(), ^(void){
+                NSArray *fetchedData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+               
+                for(int i = 0;i<fetchedData.count;i++)
+                {
+                    NSDictionary *data1  = [fetchedData objectAtIndex:i];
+                    [self deleteGroup:pplid with:data1[@"_id"]];
+                    
+                }
+                
+                [self.tableView reloadData];
+            });
+            
+            // do something with this data
+            // if you want to update UI, do it on main queue
+        } else {
+            // error handling
+            NSLog(@"gucci");
+        }
+    }];
+    [dataTask resume];
+
+}
+-(void)resetEverything
+{
+    [self resetGroups];
+    [self resetPeople:@"10204805165711346"];
+    [self resetPeople:@"10153248739313289"];
+    [self resetPeople:@"10202657658737811"];
+}
 @end
