@@ -17,32 +17,26 @@
 
 @implementation SearchSettingViewController
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
+- (void)viewDidLoad {
+	[super viewDidLoad];
+	// Do any additional setup after loading the view.
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)didReceiveMemoryWarning {
+	[super didReceiveMemoryWarning];
+	// Dispose of any resources that can be recreated.
 }
-
 
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if ([segue.identifier isEqualToString:@"Save"]) {
-        [[NSUserDefaults standardUserDefaults] setObject:self.locationField.text forKey:@"location"];
-        [[NSUserDefaults standardUserDefaults] setObject:self.numberField.text forKey:@"number"];
-        [[NSUserDefaults standardUserDefaults] setObject:self.itemField.text forKey:@"item"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        
-    }
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+	if ([segue.identifier isEqualToString:@"Save"]) {
+		[[NSUserDefaults standardUserDefaults] setObject:self.locationField.text forKey:@"location"];
+		[[NSUserDefaults standardUserDefaults] setObject:self.numberField.text forKey:@"number"];
+		[[NSUserDefaults standardUserDefaults] setObject:self.itemField.text forKey:@"item"];
+		[[NSUserDefaults standardUserDefaults] synchronize];
+	}
 }
-
 
 @end

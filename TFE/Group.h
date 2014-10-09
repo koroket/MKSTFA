@@ -10,7 +10,7 @@
 
 @interface Group : NSObject
 
-@property (nonatomic, strong) NSMutableArray* friendsInGroup;
-@property (nonatomic, retain) NSString * name;
+@property (nonatomic, strong) NSMutableArray *friendsInGroup;
+@property (nonatomic, retain) NSString *name;
 
 @end

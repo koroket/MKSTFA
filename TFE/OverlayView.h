@@ -8,9 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-typedef NS_ENUM(NSUInteger , GGOverlayViewMode) {
-    GGOverlayViewModeLeft,
-    GGOverlayViewModeRight
+typedef NS_ENUM (NSUInteger, GGOverlayViewMode)
+{
+	GGOverlayViewModeLeft,
+	GGOverlayViewModeRight
 };
 
 @interface OverlayView : UIView

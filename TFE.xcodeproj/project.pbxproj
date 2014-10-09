@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		625CD5FF19D9D51400A5D41E /* ListOfFriendsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 625CD5FE19D9D51400A5D41E /* ListOfFriendsTableViewController.m */; };
+		625CD5FF19D9D51400A5D41E /* FriendTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 625CD5FE19D9D51400A5D41E /* FriendTableViewController.m */; };
 		629003F219E0D00D00AD9A0A /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 629003F119E0D00D00AD9A0A /* CoreLocation.framework */; };
 		629003F419E0D03300AD9A0A /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 629003F319E0D03300AD9A0A /* CFNetwork.framework */; };
 		629003F619E0D04300AD9A0A /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 629003F519E0D04300AD9A0A /* SystemConfiguration.framework */; };
@@ -25,6 +25,7 @@
 		D5551DF719DA1AE10017790D /* DraggableBackground.m in Sources */ = {isa = PBXBuildFile; fileRef = D5551DF619DA1AE10017790D /* DraggableBackground.m */; };
 		D5551DFA19DA1B030017790D /* OverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = D5551DF919DA1B030017790D /* OverlayView.m */; };
 		D5551DFD19DA1D600017790D /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D5551DFB19DA1D600017790D /* ViewController.m */; };
+		D5AADA2119E710BB00552EC1 /* Global.m in Sources */ = {isa = PBXBuildFile; fileRef = D5AADA2019E710BB00552EC1 /* Global.m */; };
 		D5AB927E19D60565001FB2A7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D5AB927D19D60565001FB2A7 /* main.m */; };
 		D5AB928119D60565001FB2A7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D5AB928019D60565001FB2A7 /* AppDelegate.m */; };
 		D5AB928419D60565001FB2A7 /* TFE.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D5AB928219D60565001FB2A7 /* TFE.xcdatamodeld */; };
@@ -32,7 +33,8 @@
 		D5AB929B19D60565001FB2A7 /* TFETests.m in Sources */ = {isa = PBXBuildFile; fileRef = D5AB929A19D60565001FB2A7 /* TFETests.m */; };
 		D5AB92A819D60B1A001FB2A7 /* FBLogInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D5AB92A719D60B1A001FB2A7 /* FBLogInViewController.m */; };
 		D5AB92AB19D60D51001FB2A7 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5AB92AA19D60D51001FB2A7 /* FacebookSDK.framework */; };
-		D5AB92B119D6251C001FB2A7 /* FriendTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D5AB92B019D6251C001FB2A7 /* FriendTableViewController.m */; };
+		D5AB92B119D6251C001FB2A7 /* GroupTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D5AB92B019D6251C001FB2A7 /* GroupTableViewController.m */; };
+		D5AF298E19E5B014003DC6BA /* NetworkCom.m in Sources */ = {isa = PBXBuildFile; fileRef = D5AF298D19E5B014003DC6BA /* NetworkCom.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,8 +48,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		625CD5FD19D9D51400A5D41E /* ListOfFriendsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListOfFriendsTableViewController.h; sourceTree = "<group>"; };
-		625CD5FE19D9D51400A5D41E /* ListOfFriendsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListOfFriendsTableViewController.m; sourceTree = "<group>"; };
+		625CD5FD19D9D51400A5D41E /* FriendTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendTableViewController.h; sourceTree = "<group>"; };
+		625CD5FE19D9D51400A5D41E /* FriendTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendTableViewController.m; sourceTree = "<group>"; };
 		629003F119E0D00D00AD9A0A /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		629003F319E0D03300AD9A0A /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		629003F519E0D04300AD9A0A /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -72,6 +74,8 @@
 		D5551DF919DA1B030017790D /* OverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OverlayView.m; sourceTree = "<group>"; };
 		D5551DFB19DA1D600017790D /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		D5551DFC19DA1D600017790D /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		D5AADA1F19E70F8000552EC1 /* Global.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Global.h; sourceTree = "<group>"; };
+		D5AADA2019E710BB00552EC1 /* Global.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Global.m; sourceTree = "<group>"; };
 		D5AB927819D60565001FB2A7 /* TFE.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TFE.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D5AB927C19D60565001FB2A7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D5AB927D19D60565001FB2A7 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -86,8 +90,10 @@
 		D5AB92A619D60B1A001FB2A7 /* FBLogInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBLogInViewController.h; sourceTree = "<group>"; };
 		D5AB92A719D60B1A001FB2A7 /* FBLogInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FBLogInViewController.m; sourceTree = "<group>"; };
 		D5AB92AA19D60D51001FB2A7 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = ../../Documents/FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
-		D5AB92AF19D6251C001FB2A7 /* FriendTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FriendTableViewController.h; path = ../FriendTableViewController.h; sourceTree = "<group>"; };
-		D5AB92B019D6251C001FB2A7 /* FriendTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FriendTableViewController.m; path = ../FriendTableViewController.m; sourceTree = "<group>"; };
+		D5AB92AF19D6251C001FB2A7 /* GroupTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GroupTableViewController.h; path = ../GroupTableViewController.h; sourceTree = "<group>"; };
+		D5AB92B019D6251C001FB2A7 /* GroupTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GroupTableViewController.m; path = ../GroupTableViewController.m; sourceTree = "<group>"; };
+		D5AF298C19E5B014003DC6BA /* NetworkCom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkCom.h; sourceTree = "<group>"; };
+		D5AF298D19E5B014003DC6BA /* NetworkCom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkCom.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,8 +127,8 @@
 		D5551DEB19DA06E00017790D /* FriendTable */ = {
 			isa = PBXGroup;
 			children = (
-				625CD5FD19D9D51400A5D41E /* ListOfFriendsTableViewController.h */,
-				625CD5FE19D9D51400A5D41E /* ListOfFriendsTableViewController.m */,
+				625CD5FD19D9D51400A5D41E /* FriendTableViewController.h */,
+				625CD5FE19D9D51400A5D41E /* FriendTableViewController.m */,
 			);
 			name = FriendTable;
 			sourceTree = "<group>";
@@ -130,8 +136,8 @@
 		D5551DEC19DA06F70017790D /* GroupTable */ = {
 			isa = PBXGroup;
 			children = (
-				D5AB92AF19D6251C001FB2A7 /* FriendTableViewController.h */,
-				D5AB92B019D6251C001FB2A7 /* FriendTableViewController.m */,
+				D5AB92AF19D6251C001FB2A7 /* GroupTableViewController.h */,
+				D5AB92B019D6251C001FB2A7 /* GroupTableViewController.m */,
 			);
 			name = GroupTable;
 			sourceTree = "<group>";
@@ -182,6 +188,8 @@
 		D5AB927A19D60565001FB2A7 /* TFE */ = {
 			isa = PBXGroup;
 			children = (
+				D5AADA1F19E70F8000552EC1 /* Global.h */,
+				D5AADA2019E710BB00552EC1 /* Global.m */,
 				62BD81CD19E12F3E00813045 /* Main.storyboard */,
 				D5AB927F19D60565001FB2A7 /* AppDelegate.h */,
 				D5AB928019D60565001FB2A7 /* AppDelegate.m */,
@@ -193,6 +201,7 @@
 				D5551DEB19DA06E00017790D /* FriendTable */,
 				D5551DEC19DA06F70017790D /* GroupTable */,
 				D5551DF119DA1A920017790D /* Swipe */,
+				D5AF298F19E5B017003DC6BA /* Singleton */,
 				D5551DE819D9EA400017790D /* Group.h */,
 				D5551DE919D9EA400017790D /* Group.m */,
 				D5AB928B19D60565001FB2A7 /* Images.xcassets */,
@@ -244,6 +253,15 @@
 				D5AB92AA19D60D51001FB2A7 /* FacebookSDK.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D5AF298F19E5B017003DC6BA /* Singleton */ = {
+			isa = PBXGroup;
+			children = (
+				D5AF298C19E5B014003DC6BA /* NetworkCom.h */,
+				D5AF298D19E5B014003DC6BA /* NetworkCom.m */,
+			);
+			name = Singleton;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -351,14 +369,16 @@
 				D5551DF419DA1ACB0017790D /* Draggable.m in Sources */,
 				D5AB928119D60565001FB2A7 /* AppDelegate.m in Sources */,
 				D5AB927E19D60565001FB2A7 /* main.m in Sources */,
-				625CD5FF19D9D51400A5D41E /* ListOfFriendsTableViewController.m in Sources */,
+				625CD5FF19D9D51400A5D41E /* FriendTableViewController.m in Sources */,
 				D5AB92A819D60B1A001FB2A7 /* FBLogInViewController.m in Sources */,
 				D5AB928419D60565001FB2A7 /* TFE.xcdatamodeld in Sources */,
-				D5AB92B119D6251C001FB2A7 /* FriendTableViewController.m in Sources */,
+				D5AB92B119D6251C001FB2A7 /* GroupTableViewController.m in Sources */,
 				D5551DEA19D9EA400017790D /* Group.m in Sources */,
 				D5551DF019DA1A8E0017790D /* SwipeViewController.m in Sources */,
 				D5551DF719DA1AE10017790D /* DraggableBackground.m in Sources */,
 				D5551DFA19DA1B030017790D /* OverlayView.m in Sources */,
+				D5AADA2119E710BB00552EC1 /* Global.m in Sources */,
+				D5AF298E19E5B014003DC6BA /* NetworkCom.m in Sources */,
 				62BD81D219E17A6800813045 /* SearchSettingViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

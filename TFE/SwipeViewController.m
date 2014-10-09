@@ -15,57 +15,55 @@
 
 @implementation SwipeViewController
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    
-    [self getRequests];
-}
--(void)getRequests
-{
-    
-    
-    NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/groups/%@",self.groupID];
-    // 1
-    NSURL *url = [NSURL URLWithString:fixedUrl];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
+- (void)viewDidLoad {
+	[super viewDidLoad];
 
-    [request setHTTPMethod:@"GET"];
-    
-    NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
-    
-    NSURLSession *urlSession = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:nil];
-    
-    NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        
-        NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
-        NSInteger responseStatusCode = [httpResponse statusCode];
-        
-        if (responseStatusCode == 200 && data) {
-            dispatch_async(dispatch_get_main_queue(), ^(void){
-                NSDictionary *fetchedData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                
-                
-                
-                
-               NSArray* restaurants = fetchedData[@"locations"];
-
-                [[NSUserDefaults standardUserDefaults] setObject:restaurants forKey:@"places"];
-                [[NSUserDefaults standardUserDefaults] synchronize];
-                DraggableBackground *draggableBackground = [[DraggableBackground alloc]initWithFrame:self.view.frame ];
-                
-                [self.view addSubview:draggableBackground];
-            });
-            
-            // do something with this data
-            // if you want to update UI, do it on main queue
-        } else {
-            // error handling
-            NSLog(@"gucci");
-        }
-    }];
-    [dataTask resume];
+	[self getRequests];
 }
 
+- (void)getRequests {
+	NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/groups/%@", self.groupID];
+	// 1
+	NSURL *url = [NSURL URLWithString:fixedUrl];
+	NSMutableURLRequest *request =
+	    [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
+
+	[request setHTTPMethod:@"GET"];
+
+	NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+
+	NSURLSession *urlSession = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:nil];
+
+	NSURLSessionDataTask *dataTask =
+	    [urlSession dataTaskWithRequest:request
+	                  completionHandler: ^(NSData *data, NSURLResponse *response, NSError *error) {
+	    NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+	    NSInteger responseStatusCode = [httpResponse statusCode];
+
+	    if (responseStatusCode == 200 && data) {
+	        dispatch_async(dispatch_get_main_queue(), ^(void) {
+	            NSDictionary *fetchedData =
+	                [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+
+	            NSArray *restaurants = fetchedData[@"locations"];
+
+	            [[NSUserDefaults standardUserDefaults] setObject:restaurants forKey:@"places"];
+	            [[NSUserDefaults standardUserDefaults] synchronize];
+	            DraggableBackground *draggableBackground =
+	                [[DraggableBackground alloc] initWithFrame:self.view.frame];
+
+	            [self.view addSubview:draggableBackground];
+			});
+
+	        // do something with this data
+	        // if you want to update UI, do it on main queue
+		}
+	    else {
+	        // error handling
+	        NSLog(@"gucci");
+		}
+	}];
+	[dataTask resume];
+}
 
 @end

@@ -8,8 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface FriendTableViewController : UITableViewController
+@interface GroupTableViewController : UITableViewController
 
-@property (nonatomic, strong) NSMutableArray* myGroups;
+@property (nonatomic, strong) NSMutableArray *myGroups;
 
 @end
