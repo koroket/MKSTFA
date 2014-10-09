@@ -22,7 +22,7 @@
                     <navigationItem key="navigationItem" title="Swiping" id="i6t-Ji-ETa">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="WeR-Vq-moV">
                             <connections>
-                                <segue destination="XgO-L2-NZm" kind="show" id="5lR-FI-kFp"/>
+                                <segue destination="XgO-L2-NZm" kind="show" identifier="Done" id="5lR-FI-kFp"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

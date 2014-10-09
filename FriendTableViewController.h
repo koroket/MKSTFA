@@ -11,5 +11,6 @@
 @interface FriendTableViewController : UITableViewController
 
 @property (nonatomic, strong) NSMutableArray* myGroups;
+@property (nonatomic, strong) NSMutableArray* numOfPeople;
 
 @end

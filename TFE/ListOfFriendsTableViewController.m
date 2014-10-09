@@ -16,8 +16,7 @@
 @property (nonatomic,strong) NSMutableArray *myFriends;
 @property (nonatomic,strong) NSMutableArray *friendIds;
 @property (nonatomic,strong) NSMutableArray *selectedFriends;
-@property (nonatomic,strong) NSMutableArray *placeNames;
-
+@property (nonatomic,strong) NSMutableDictionary* dictionary;
 
 @end
 
@@ -36,10 +35,11 @@
 }
 -(void)loadFromFacebook
 {
+    self.dictionary = [NSMutableDictionary dictionary];
     self.myFriends = [NSMutableArray array];
     self.friendIds = [NSMutableArray array];
     self.selectedFriends = [NSMutableArray array];
-    self.placeNames = [NSMutableArray array];
+    
     
     [FBRequestConnection startWithGraphPath:@"/me/friends" parameters:nil HTTPMethod:@"GET" completionHandler:^(FBRequestConnection *connection, id result, NSError *error){
         
@@ -131,7 +131,7 @@
     [super viewWillAppear:animated];
     [self.tableView reloadData];
     
-    
+    [self.selectedFriends addObject:[[NSUserDefaults standardUserDefaults] objectForKey:@"myId"]];
 }
 
 
@@ -221,7 +221,8 @@
                                         
                                         code,
                                         @"groupID",
-                                        
+                                        @(self.selectedFriends.count),
+                                        @"number",
                                         nil];
 
            
@@ -254,9 +255,6 @@
 }
 -(void)createNewGroup
 {
-
-        [self.selectedFriends addObject:[[NSUserDefaults standardUserDefaults] stringForKey:@"myId"]];
-        
         NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/groups"];
         // 1
         NSURL *url = [NSURL URLWithString:fixedUrl];
@@ -267,28 +265,10 @@
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
         [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
         request.HTTPMethod = @"POST";
-        
     
-        
-        // 3
-        NSMutableDictionary* dictionary = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                    
-                                    @"no",
-                                    @"done",
-                                    self.placeNames,
-                                    @"locations",
-                                    
-                                    nil];
-    
-
-        for(int i = 0;i<self.selectedFriends.count;i++)
-        {
-            NSArray *replies = [NSArray array];
-            [dictionary setValue:replies forKey:[self.selectedFriends objectAtIndex:i]];
-        }
         
         NSError *error = nil;
-        NSData *data = [NSJSONSerialization dataWithJSONObject:dictionary
+        NSData *data = [NSJSONSerialization dataWithJSONObject:self.dictionary
                                                        options:kNilOptions error:&error];
         
         if (!error) {
@@ -336,7 +316,7 @@
 
 -(void)getYelp
 {
-    if(self.selectedFriends.count>0)
+    if(self.selectedFriends.count>1)
     {
         NSString* fixedURL = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/yelp/%@/yeah",[[NSUserDefaults standardUserDefaults] stringForKey:@"location"]];
     NSURL *url = [NSURL URLWithString:fixedURL];
@@ -355,15 +335,42 @@
         
         if (responseStatusCode == 200 && data) {
             dispatch_async(dispatch_get_main_queue(), ^(void){
+                //Creates local data for yelp info
                 NSDictionary *fetchedData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                
                 NSArray *buisinesses = [NSArray array];
                 buisinesses =  fetchedData[@"businesses"];
-                for(int i = 0; i<20;i++)
+                
+                int replaceNumberForNumOfPeople = 20;
+                
+                //Creates array of empty replies
+                NSMutableArray* tempReplies = [NSMutableArray array];
+                for(int i = 0; i<replaceNumberForNumOfPeople;i++)
                 {
-                    NSDictionary* temp = [buisinesses objectAtIndex:i];
-                    [self.placeNames addObject:temp[@"name"]];
+                    [tempReplies addObject:[NSNumber numberWithInt:0]];
                 }
+
+                //Creates Decision Objects
+                NSMutableArray *decisionObjects = [NSMutableArray array];
+                
+                //insert object info here
+                for(int i = 0; i< replaceNumberForNumOfPeople; i++)
+                {
+                    NSMutableDictionary* temp = [NSMutableDictionary dictionary];
+                    NSDictionary* dictionary = [buisinesses objectAtIndex:i];
+                    
+                    [temp setObject:dictionary[@"name"] forKey:@"Name"];
+                    
+                    [decisionObjects addObject:temp];
+                }
+                
+
+                
+                // 3
+                [self.dictionary setValue:@(false) forKey:@"Done"];
+                [self.dictionary setValue:@(replaceNumberForNumOfPeople) forKey:@"Number"];
+                [self.dictionary setValue:tempReplies forKey:@"Replies"];
+                [self.dictionary setValue:decisionObjects forKey:@"Objects"];
+                
 
                 [self createNewGroup];
             });
@@ -377,40 +384,10 @@
     }];
     [dataTask resume];
     }
-}
-
--(void)deleteGroup
-{
-    
-    NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/groups/54311e17512a2302001bcc3f"];
-    // 1
-     NSURL *url = [NSURL URLWithString:fixedUrl];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
-    [request setHTTPMethod:@"DELETE"];
-    
-    NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
-    
-    NSURLSession *urlSession = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:nil];
-    
-    NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        
-        NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
-        NSInteger responseStatusCode = [httpResponse statusCode];
-        
-        if (responseStatusCode == 200 && data) {
-            dispatch_async(dispatch_get_main_queue(), ^(void){
-
-            });
-            
-            // do something with this data
-            // if you want to update UI, do it on main queue
-        } else {
-            // error handling
-            NSLog(@"cannot connect to server");
-        }
-    }];
-    [dataTask resume];
-
+    else
+    {
+        NSLog(@"You didnt select any friends");
+    }
 }
 - (IBAction)unwindToSelfViewController:(UIStoryboardSegue*)unwindSegue {
     

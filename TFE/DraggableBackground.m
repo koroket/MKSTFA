@@ -10,6 +10,7 @@
 
 @implementation DraggableBackground{
     NSInteger cardsLoadedIndex; //%%% the index of the card you have loaded into the loadedCards array last
+    NSInteger yeahp;
     NSMutableArray *loadedCards; //%%% the array of card loaded (change max_buffer_size to increase or decrease the number of cards this holds)
     
     UIButton* menuButton;
@@ -32,10 +33,11 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
     if (self) {
         [super layoutSubviews];
         [self setupView];
-        exampleCardLabels = [[NSUserDefaults standardUserDefaults] arrayForKey:@"places"];//%%% placeholder for card-specific information
+        exampleCardLabels = [[NSUserDefaults standardUserDefaults] arrayForKey:@"AllObjects"];//%%% placeholder for card-specific information
         loadedCards = [[NSMutableArray alloc] init];
         allCards = [[NSMutableArray alloc] init];
         cardsLoadedIndex = 0;
+        yeahp = -1;
         [self loadCards];
     }
     return self;
@@ -69,7 +71,8 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
 -(Draggable *)createDraggableWithDataAtIndex:(NSInteger)index
 {
     Draggable *draggable = [[Draggable alloc]initWithFrame:CGRectMake((self.frame.size.width - CARD_WIDTH)/2, (self.frame.size.height - CARD_HEIGHT)/2, CARD_WIDTH, CARD_HEIGHT)];
-    draggable.information.text = [exampleCardLabels objectAtIndex:index]; //%%% placeholder for card-specific information
+    NSDictionary *tempoaryDict = [exampleCardLabels objectAtIndex:index];
+    draggable.information.text = tempoaryDict[@"Name"]; //%%% placeholder for card-specific information
     draggable.delegate = self;
     return draggable;
 }
@@ -112,7 +115,7 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
 {
     //do whatever you want with the card that was swiped
     //    DraggableView *c = (DraggableView *)card;
-    
+    yeahp++;
     [loadedCards removeObjectAtIndex:0]; //%%% card was swiped, so it's no longer a "loaded card"
     
     if (cardsLoadedIndex < [allCards count]) { //%%% if we haven't reached the end of all cards, put another into the loaded cards
@@ -129,7 +132,8 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
 {
     //do whatever you want with the card that was swiped
     //    DraggableView *c = (DraggableView *)card;
-    
+    yeahp++;
+    [self yesWith:yeahp andUrl:[[NSUserDefaults standardUserDefaults] objectForKey:@"pract"]];
     [loadedCards removeObjectAtIndex:0]; //%%% card was swiped, so it's no longer a "loaded card"
     
     if (cardsLoadedIndex < [allCards count]) { //%%% if we haven't reached the end of all cards, put another into the loaded cards
@@ -167,11 +171,53 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
 
 }
 
--(void)dislike
+-(void)yesWith:(int)index andUrl:(NSString*) tempUrl
 {
-
+    
+    NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/groups/%@/%d",tempUrl, index];
+    // 1
+    NSURL *url = [NSURL URLWithString:fixedUrl];
+    // 1
+    
+    
+    
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
+    [request setHTTPMethod:@"PUT"];
+    
+    NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+    
+    NSURLSession *urlSession = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:nil];
+    
+    NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        
+        NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
+        NSInteger responseStatusCode = [httpResponse statusCode];
+        
+        if (1==1||responseStatusCode == 200 && data) {
+            dispatch_async(dispatch_get_main_queue(), ^(void){
+                NSMutableArray * hhh = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                NSNumber *t = [hhh objectAtIndex:index];
+                if(t==[[NSUserDefaults standardUserDefaults] integerForKey:@"numOfPeople"])
+                {
+                    NSLog(@"wegucci");
+                    //[self performSegueWithIdentifier:@"Done" sender:self];
+                }
+                else
+                {
+                    NSLog(@"No Match Yet");
+                }
+            });
+            
+            // do something with this data
+            // if you want to update UI, do it on main queue
+        } else {
+            // error handling
+            NSLog([NSString stringWithFormat:@"Error, status code:%ld", (long)responseStatusCode]);
+        }
+    }];
+    [dataTask resume];
+    
 }
-
 
 @end
 

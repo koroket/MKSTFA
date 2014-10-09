@@ -26,6 +26,7 @@
     [super viewDidLoad];
     
     self.myGroups = [NSMutableArray array];
+    self.numOfPeople = [NSMutableArray array];
     
 }
 
@@ -122,6 +123,7 @@
         SwipeViewController *controller = [segue destinationViewController];
         NSIndexPath *selectedIndexPath = self.tableView.indexPathForSelectedRow;
         controller.groupID = [self.myGroups objectAtIndex:selectedIndexPath.row];
+        controller.numOfPeople = (int)[self.numOfPeople objectAtIndex:selectedIndexPath.row];
         
     }
 }
@@ -153,6 +155,9 @@
                 {
                     NSDictionary *data1  = [fetchedData objectAtIndex:i];
                     [self.myGroups addObject:data1[@"groupID"]];
+                    //[self deleteGroup:data1[@"_id"]];
+                    [self.numOfPeople addObject:data1[@"number"]];
+                    
                 }
                 
                 [self.tableView reloadData];
@@ -170,17 +175,17 @@
 
 - (IBAction)reloadData:(id)sender {
     [self getRequests];
-    [self updateGroup];
+    //[self yesWith:3 andUrl:@"543482c59b6f750200271e81"];
 }
--(void)updateGroup
+-(void)yesWith:(int)index andUrl:(NSString*) tempUrl
 {
     
-    NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/groups/54311ff68ae19e02005104d1"];
+    NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/groups/%@/%d",tempUrl, index];
     // 1
     NSURL *url = [NSURL URLWithString:fixedUrl];
     // 1
     
-
+    
     
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
     [request setHTTPMethod:@"PUT"];
@@ -194,28 +199,94 @@
         NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
         NSInteger responseStatusCode = [httpResponse statusCode];
         
-        if (responseStatusCode == 200 && data) {
+        if (1==1||responseStatusCode == 200 && data) {
             dispatch_async(dispatch_get_main_queue(), ^(void){
-                NSArray *fetchedData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                self.myGroups = [NSMutableArray array];
-                for(int i = 0;i<fetchedData.count;i++)
+                NSDictionary *fetchedData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                NSNumber *a = fetchedData[@"agree"];
+                int t = [a intValue];
+                if(t==3)
                 {
-                    NSDictionary *data1  = [fetchedData objectAtIndex:i];
-                    [self.myGroups addObject:data1[@"groupID"]];
+                    [self performSegueWithIdentifier:@"Done" sender:self];
                 }
-                
-                [self.tableView reloadData];
             });
             
             // do something with this data
             // if you want to update UI, do it on main queue
         } else {
             // error handling
-            NSLog(@"gucci");
+            NSLog([NSString stringWithFormat:@"Error, status code:%ld", (long)responseStatusCode]);
         }
     }];
     [dataTask resume];
+    
+}
 
+-(void)deleteGroup:(NSString*) myId
+{
+    
+    NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/ppl/%@groups/%@",[[NSUserDefaults standardUserDefaults] stringForKey:@"myId"],myId];
+    // 1
+    NSURL *url = [NSURL URLWithString:fixedUrl];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
+    [request setHTTPMethod:@"DELETE"];
+    
+    NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+    
+    NSURLSession *urlSession = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:nil];
+    
+    NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        
+        NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
+        NSInteger responseStatusCode = [httpResponse statusCode];
+        
+        if (responseStatusCode == 200 && data) {
+            dispatch_async(dispatch_get_main_queue(), ^(void){
+                
+            });
+            
+            // do something with this data
+            // if you want to update UI, do it on main queue
+        } else {
+            // error handling
+            NSLog(@"cannot connect to server");
+        }
+    }];
+    [dataTask resume];
+    
+}
+
+-(void)deleteIndividualGroup:(NSString*) str
+{
+    
+    NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/groups/%@",str];
+    // 1
+    NSURL *url = [NSURL URLWithString:fixedUrl];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
+    [request setHTTPMethod:@"DELETE"];
+    
+    NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+    
+    NSURLSession *urlSession = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:nil];
+    
+    NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        
+        NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
+        NSInteger responseStatusCode = [httpResponse statusCode];
+        
+        if (responseStatusCode == 200 && data) {
+            dispatch_async(dispatch_get_main_queue(), ^(void){
+                
+            });
+            
+            // do something with this data
+            // if you want to update UI, do it on main queue
+        } else {
+            // error handling
+            NSLog(@"cannot connect to server");
+        }
+    }];
+    [dataTask resume];
+    
 }
 
 @end
