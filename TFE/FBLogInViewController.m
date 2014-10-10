@@ -31,7 +31,6 @@
 
 -(void)loginViewFetchedUserInfo:(FBLoginView *)loginView user:(id<FBGraphUser>)user
 {
-    NSString* userid = user.name;
    
     //self.profilePictureView.profileID = user.id;
     self.nameLabel.text = user.name;

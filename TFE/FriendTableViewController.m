@@ -324,9 +324,8 @@
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
     [request setHTTPMethod:@"GET"];
     
-    NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
     
-    NSURLSession *urlSession = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:nil];
+    NSURLSession *urlSession = [NSURLSession sharedSession];
     
     NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         

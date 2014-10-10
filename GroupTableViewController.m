@@ -119,7 +119,7 @@
 {
     myIndex = indexPath.row;
     [[NSUserDefaults standardUserDefaults] setObject:[self.myGroups objectAtIndex:indexPath.row] forKey:@"pract"];
-    [[NSUserDefaults standardUserDefaults] setInteger:self.numOfPeople forKey:@"numOfPeople"];
+    [[NSUserDefaults standardUserDefaults] setInteger:self.numOfPeople.count forKey:@"numOfPeople"];
     [[NSUserDefaults standardUserDefaults] synchronize];
     NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/groups/%@",[self.myGroups objectAtIndex:indexPath.row]];
     // 1
@@ -128,9 +128,9 @@
     
     [request setHTTPMethod:@"GET"];
     
-    NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+
     
-    NSURLSession *urlSession = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:nil];
+    NSURLSession *urlSession = [NSURLSession sharedSession];
     
     NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         
@@ -181,10 +181,8 @@
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
     [request setHTTPMethod:@"GET"];
     
-    NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
     
-    NSURLSession *urlSession = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:nil];
-    
+    NSURLSession *urlSession = [NSURLSession sharedSession];
     NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         
         NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
@@ -233,16 +231,16 @@
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
     [request setHTTPMethod:@"PUT"];
     
-    NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+
     
-    NSURLSession *urlSession = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:nil];
+    NSURLSession *urlSession = [NSURLSession sharedSession];
     
     NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         
         NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
         NSInteger responseStatusCode = [httpResponse statusCode];
         
-        if (1==1||responseStatusCode == 200 && data) {
+        if (responseStatusCode == 200 && data) {
             dispatch_async(dispatch_get_main_queue(), ^(void){
                 NSDictionary *fetchedData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
                 NSNumber *a = fetchedData[@"agree"];
@@ -257,7 +255,7 @@
             // if you want to update UI, do it on main queue
         } else {
             // error handling
-            NSLog([NSString stringWithFormat:@"Error, status code:%ld", (long)responseStatusCode]);
+       
         }
     }];
     [dataTask resume];
@@ -273,9 +271,9 @@
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
     [request setHTTPMethod:@"DELETE"];
     
-    NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+
     
-    NSURLSession *urlSession = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:nil];
+    NSURLSession *urlSession = [NSURLSession sharedSession];
     
     NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         
@@ -307,9 +305,8 @@
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
     [request setHTTPMethod:@"DELETE"];
     
-    NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
     
-    NSURLSession *urlSession = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:nil];
+    NSURLSession *urlSession = [NSURLSession sharedSession];
     
     NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         
@@ -341,9 +338,8 @@
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
     [request setHTTPMethod:@"GET"];
     
-    NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
-    
-    NSURLSession *urlSession = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:nil];
+
+    NSURLSession *urlSession = [NSURLSession sharedSession];
     
     NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         
@@ -387,9 +383,8 @@
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
     [request setHTTPMethod:@"GET"];
     
-    NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
-    
-    NSURLSession *urlSession = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:nil];
+
+    NSURLSession *urlSession = [NSURLSession sharedSession];
     
     NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         
