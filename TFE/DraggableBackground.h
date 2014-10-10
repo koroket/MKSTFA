@@ -9,14 +9,16 @@
 #import <UIKit/UIKit.h>
 #import "Draggable.h"
 
-@interface DraggableBackground : UIView <DraggableDelegate>
+@interface DraggableBackground : UIViewController <DraggableDelegate>
 
 //methods called in DraggableView
-- (void)cardSwipedLeft:(UIView *)card;
-- (void)cardSwipedRight:(UIView *)card;
+-(void)cardSwipedLeft:(UIView *)card;
+-(void)cardSwipedRight:(UIView *)card;
 
-@property (retain, nonatomic) NSArray *exampleCardLabels; //%%% the labels the cards
-@property (retain, nonatomic) NSMutableArray *allCards; //%%% the labels the cards
-@property (nonatomic, strong) NSArray *restaurants;
+@property (retain,nonatomic)NSArray* exampleCardLabels; //%%% the labels the cards
+@property (retain,nonatomic)NSMutableArray* allCards; //%%% the labels the cards
+@property (nonatomic, strong) NSArray* restaurants;
+@property (nonatomic,strong) NSString* groupID;
+@property (nonatomic,assign) int numOfPeople;
 
 @end
