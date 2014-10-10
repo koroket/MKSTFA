@@ -191,22 +191,22 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
     [request setHTTPMethod:@"PUT"];
     
-    NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+   
     
-    NSURLSession *urlSession = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:nil];
+    NSURLSession *urlSession = [NSURLSession sharedSession];
     
     NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         
         NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
         NSInteger responseStatusCode = [httpResponse statusCode];
         
-        if (1==1||responseStatusCode == 200 && data) {
+        if (responseStatusCode == 200 && data) {
             dispatch_async(dispatch_get_main_queue(), ^(void){
 
                 
                 NSMutableDictionary* hhh = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
                 NSNumber *t = hhh[@"NumberOfReplies"];
-                if(t==[[NSUserDefaults standardUserDefaults] integerForKey:@"numOfPeople"])
+                if([t intValue]==[[NSUserDefaults standardUserDefaults] integerForKey:@"numOfPeople"])
                 {
                     NSLog(@"wegucci");
                     //[self performSegueWithIdentifier:@"Done" sender:self];
@@ -221,7 +221,7 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
             // if you want to update UI, do it on main queue
         } else {
             // error handling
-            NSLog([NSString stringWithFormat:@"Error, status code:%ld", (long)responseStatusCode]);
+  
         }
     }];
     [dataTask resume];
