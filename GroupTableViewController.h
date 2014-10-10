@@ -10,7 +10,7 @@
 
 @interface GroupTableViewController : UITableViewController
 
-@property (nonatomic, strong) NSMutableArray* myGroups;
-@property (nonatomic, strong) NSMutableArray* numOfPeople;
+@property (nonatomic, strong) NSMutableArray *myGroups;
+@property (nonatomic, strong) NSMutableArray *numOfPeople;
 
 @end
