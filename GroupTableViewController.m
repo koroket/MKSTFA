@@ -98,33 +98,36 @@
     // Data Task Block
     NSURLSessionDataTask *dataTask =
         [urlSession dataTaskWithRequest:request
-                      completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                      completionHandler:^(NSData *data, NSURLResponse *response, NSError *error)
+    {
 
-                          NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-                          NSInteger responseStatusCode = [httpResponse statusCode];
+        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
 
-                          if (responseStatusCode == 200 && data)
-                          {
-                              dispatch_async(dispatch_get_main_queue(), ^(void) {
-                                  NSArray *fetchedData =
-                                      [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+        NSInteger responseStatusCode = [httpResponse statusCode];
 
-                                  [[NSUserDefaults standardUserDefaults] setObject:fetchedData forKey:@"AllObjects"];
+        if (responseStatusCode == 200 && data)
+        {
+          dispatch_async(dispatch_get_main_queue(), ^(void)
+          {
+              NSArray *fetchedData =
+                  [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
 
-                                  [[NSUserDefaults standardUserDefaults] synchronize];
+              [[NSUserDefaults standardUserDefaults] setObject:fetchedData forKey:@"AllObjects"];
 
-                                  [self performSegueWithIdentifier:@"Swipe" sender:self];
-                                  
-                              }); // Main Queue dispatch block
+              [[NSUserDefaults standardUserDefaults] synchronize];
 
-                              // do something with this data
-                              // if you want to update UI, do it on main queue
-                          }
-                          else
-                          {
-                              // error handling
-                          }
-                      }]; // Data Task Block
+              [self performSegueWithIdentifier:@"Swipe" sender:self];
+              
+          }); // Main Queue dispatch block
+
+          // do something with this data
+          // if you want to update UI, do it on main queue
+        }
+        else
+        {
+          // error handling
+        }
+        }]; // Data Task Block
     [dataTask resume];
 }
 
@@ -238,32 +241,38 @@
 
     NSURLSessionDataTask *dataTask =
         [urlSession dataTaskWithRequest:request
-                      completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                      completionHandler:^(NSData *data,
+                                          NSURLResponse *response,
+                                          NSError *error)
+    {
+        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+        NSInteger responseStatusCode = [httpResponse statusCode];
 
-                          NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-                          NSInteger responseStatusCode = [httpResponse statusCode];
+        if (responseStatusCode == 200 && data)
+        {
+          dispatch_async(dispatch_get_main_queue(), ^(void)
+          {
+              NSDictionary *fetchedData =
+                  [NSJSONSerialization JSONObjectWithData:data
+                                                  options:0
+                                                    error:nil];
+              NSNumber *a = fetchedData[@"agree"];
+              int t = [a intValue];
+              if (t == 3)
+              {
+                  [self performSegueWithIdentifier:@"Done"
+                                            sender:self];
+              }
+          });
 
-                          if (responseStatusCode == 200 && data)
-                          {
-                              dispatch_async(dispatch_get_main_queue(), ^(void) {
-                                  NSDictionary *fetchedData =
-                                      [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                                  NSNumber *a = fetchedData[@"agree"];
-                                  int t = [a intValue];
-                                  if (t == 3)
-                                  {
-                                      [self performSegueWithIdentifier:@"Done" sender:self];
-                                  }
-                              });
-
-                              // do something with this data
-                              // if you want to update UI, do it on main queue
-                          }
-                          else
-                          {
-                              // error handling
-                          }
-                      }];
+          // do something with this data
+          // if you want to update UI, do it on main queue
+        }
+        else
+        {
+          // error handling
+        }
+        }];
     [dataTask resume];
 }
 
@@ -322,7 +331,9 @@
     
     //Request
     NSMutableURLRequest *request =
-        [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
+        [NSMutableURLRequest requestWithURL:url
+                                cachePolicy:NSURLRequestUseProtocolCachePolicy
+                            timeoutInterval:30.0];
     [request setHTTPMethod:@"DELETE"];
 
     //Session
@@ -372,7 +383,9 @@
     //Data Task Block
     NSURLSessionDataTask *dataTask =
         [urlSession dataTaskWithRequest:request
-                      completionHandler:^(NSData *data, NSURLResponse *response, NSError *error)
+                      completionHandler:^(NSData *data,
+                                          NSURLResponse *response,
+                                          NSError *error)
     {
 
       NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
@@ -383,7 +396,9 @@
           dispatch_async(dispatch_get_main_queue(), ^(void)
           {
               NSArray *fetchedData =
-                  [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                  [NSJSONSerialization JSONObjectWithData:data
+                                                  options:0
+                                                    error:nil];
               self.myGroups = [NSMutableArray array];
               for (int i = 0; i < fetchedData.count; i++)
               {

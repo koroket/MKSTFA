@@ -106,7 +106,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
   NSLog(@"These are the selected friends %@", self.selectedFriends);
 }
 
-#pragma FaceBook Server Communication
+#pragma mark - FaceBook Server Communication
 /**
  * --------------------------------------------------------------------------
  * FaceBook
@@ -271,7 +271,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
   }
 }
 
-#pragma Yelp Server Communication
+#pragma mark - Yelp Server Communication
 /**
  * --------------------------------------------------------------------------
  * Yelp
@@ -284,8 +284,9 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
   {
       //URL
       NSString *fixedURL = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/yelp/%@/%@/%@",
-                                                    [[NSUserDefaults standardUserDefaults] stringForKey:@"location"],[[NSUserDefaults standardUserDefaults] stringForKey:@"item"],
-                            [[NSUserDefaults standardUserDefaults] stringForKey:@"number"]];
+                           [[NSUserDefaults standardUserDefaults] stringForKey:@"location"],
+                           [[NSUserDefaults standardUserDefaults] stringForKey:@"item"],
+                           [[NSUserDefaults standardUserDefaults] stringForKey:@"number"]];
       NSURL *url = [NSURL URLWithString:fixedURL];
       
       //Request
@@ -382,6 +383,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if ([segue.identifier isEqualToString:@"Details"])
     {
+        
     }
     else if ([segue.identifier isEqualToString:@"Unwind"])
     {
@@ -389,8 +391,13 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     }
 }
 
-- (IBAction)unwindToSelfViewController:(UIStoryboardSegue *)unwindSegue {}
-- (IBAction)unwind:(id)sender {
+- (IBAction)unwindToSelfViewController:(UIStoryboardSegue *)unwindSegue
+{
+    
+}
+
+- (IBAction)unwind:(id)sender
+{
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.mode = MBProgressHUDModeIndeterminate;
     hud.labelText = @"Loading";
