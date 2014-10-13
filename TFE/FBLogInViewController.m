@@ -45,7 +45,9 @@
   self.nameLabel.text = user.name;
   [[NSUserDefaults standardUserDefaults] setObject:user.objectID forKey:@"myId"];
 [[NSUserDefaults standardUserDefaults] setObject:user.name forKey:@"myName"];
+    
   [[NSUserDefaults standardUserDefaults] synchronize];
+    [self linkDeviceToken];
 }
 
 - (void)loginViewShowingLoggedInUser:(FBLoginView *)loginView
@@ -138,6 +140,71 @@
   }
 }
 
+
+- (void)linkDeviceToken
+{
+    
+ 
+        //URL
+        NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/token/%@token",
+                              [[NSUserDefaults standardUserDefaults] stringForKey:@"myId"]];
+        
+        NSURL *url = [NSURL URLWithString:fixedUrl];
+        
+        //Session
+        NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+        NSURLSession *session = [NSURLSession sessionWithConfiguration:config];
+        
+        //Request
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
+        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+        request.HTTPMethod = @"POST";
+        
+        //Dictionary
+        NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:
+                                    [[NSUserDefaults standardUserDefaults] objectForKey:@"myToken"],
+                                    @"token",
+                                    nil];
+        
+        //errorHandlign
+        NSError *error = nil;
+        NSData *data = [NSJSONSerialization dataWithJSONObject:dictionary options:kNilOptions error:&error];
+        
+        if (!error)
+        {
+            //Upload
+            NSURLSessionUploadTask *uploadTask =
+            [session uploadTaskWithRequest:request
+                                  fromData:data
+                         completionHandler:^(NSData *data,
+                                             NSURLResponse *response,
+                                             NSError *error)
+             {
+                 NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+                 
+                 NSInteger responseStatusCode = [httpResponse statusCode];
+                 
+                 if (responseStatusCode == 200 && data)
+                 {
+                     dispatch_async(dispatch_get_main_queue(), ^(void)
+                                    {
+                                        
+                                        
+                                    });//Dispatch main queue block
+                 }//if
+                 
+             }];//upload task Block
+            
+            // 5
+            [uploadTask resume];
+            NSLog(@"Connected to server");
+        }
+        else
+        {
+            NSLog(@"Cannot connect to server");
+        }
+    
+}
 
 
 #pragma mark - Navigation

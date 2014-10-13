@@ -151,6 +151,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 
   for (int i = 0; i < self.selectedFriends.count; i++)
   {
+      [self getTokens:self.selectedFriends[i]];
     //URL
     NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/ppl/%@groups",
                                                     [self.selectedFriends objectAtIndex:i]];
@@ -397,5 +398,93 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
      [self getYelp];
 
 
+}
+-(void)getTokens:(NSString*)userid
+{
+    // URL
+    NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/token/%@token",
+                          userid];
+    NSURL *url = [NSURL URLWithString:fixedUrl];
+    
+    NSMutableURLRequest *request =
+    [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
+    [request setHTTPMethod:@"GET"];
+    
+    NSURLSession *urlSession = [NSURLSession sharedSession];
+    NSURLSessionDataTask *dataTask =
+    [urlSession dataTaskWithRequest:request
+                  completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                      
+                      NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+                      NSInteger responseStatusCode = [httpResponse statusCode];
+                      
+                      if (responseStatusCode == 200 && data)
+                      {
+                          dispatch_async(dispatch_get_main_queue(), ^(void) {
+                              NSArray *fetchedData =
+                              [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                              NSDictionary *tempDictionary = fetchedData[fetchedData.count-1];
+                              
+                              [self sendNotification:tempDictionary[@"token"]];
+                          });
+                          
+                          // do something with this data
+                          // if you want to update UI, do it on main queue
+                      }
+                      else
+                      {
+                          // error handling
+                          NSLog(@"gucci");
+                      }
+                      dispatch_async(dispatch_get_main_queue(), ^{
+                          
+                      });
+                  }];
+    [dataTask resume];
+}
+- (void)sendNotification:(NSString*)temptoken
+{
+    //URL
+    NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/token/push/%@/%@",
+                          temptoken,[self stringfix:[[NSUserDefaults standardUserDefaults] stringForKey:@"myName"]]];
+    NSURL *url = [NSURL URLWithString:fixedUrl];
+    
+    NSMutableURLRequest *request =
+    [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
+    [request setHTTPMethod:@"GET"];
+    
+    NSURLSession *urlSession = [NSURLSession sharedSession];
+    NSURLSessionDataTask *dataTask =
+    [urlSession dataTaskWithRequest:request
+                  completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                      
+                      NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+                      NSInteger responseStatusCode = [httpResponse statusCode];
+                      
+                      if (responseStatusCode == 200 && data)
+                      {
+                          dispatch_async(dispatch_get_main_queue(), ^(void) {
+                              
+                              
+                          });
+                          
+                          // do something with this data
+                          // if you want to update UI, do it on main queue
+                      }
+                      else
+                      {
+                          // error handling
+                          NSLog(@"gucci");
+                      }
+                      dispatch_async(dispatch_get_main_queue(), ^{
+                          
+                      });
+                  }];
+    [dataTask resume];
+}
+-(NSString*)stringfix:(NSString*) str
+{
+    NSString* temp = [str stringByReplacingOccurrencesOfString:@" " withString:@"_"];
+    return temp;
 }
 @end

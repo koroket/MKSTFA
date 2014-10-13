@@ -47,7 +47,12 @@
 }
 - (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
 {
-    NSLog(@"My token is: %@", deviceToken);
+    NSString* mytoken = [NSString stringWithFormat:@"%@",deviceToken];
+    
+    NSString* fixedString = [[[mytoken stringByReplacingOccurrencesOfString:@"<" withString:@""] stringByReplacingOccurrencesOfString:@">" withString:@""] stringByReplacingOccurrencesOfString:@" " withString:@""];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:fixedString forKey:@"myToken"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error

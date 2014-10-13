@@ -225,7 +225,7 @@
             </objects>
             <point key="canvasLocation" x="1620" y="-561"/>
         </scene>
-        <!--Create Candy-->
+        <!--Match Found!-->
         <scene sceneID="0Fm-xp-81r">
             <objects>
                 <viewController id="XgO-L2-NZm" sceneMemberID="viewController">
@@ -238,7 +238,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Create Candy" id="ZpC-gr-6IE"/>
+                    <navigationItem key="navigationItem" title="Match Found!" id="ZpC-gr-6IE"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ubE-cl-GB6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

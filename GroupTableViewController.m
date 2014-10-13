@@ -41,7 +41,7 @@
     self.myGroups = [NSMutableArray array];
     self.numOfPeople = [NSMutableArray array];
     self.myOwners = [NSMutableArray array];
-    
+
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -51,7 +51,7 @@
     hud.mode = MBProgressHUDModeIndeterminate;
     hud.labelText = @"Loading";
     [self getRequests];
-
+    
    
 }
 
@@ -463,4 +463,5 @@
     [self resetPeople:@"10153248739313289"];
     [self resetPeople:@"10202657658737811"];
 }
+
 @end
