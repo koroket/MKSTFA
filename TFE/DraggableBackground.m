@@ -208,12 +208,12 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
                 NSNumber *t = hhh[@"NumberOfReplies"];
                 if([t intValue]==[[NSUserDefaults standardUserDefaults] integerForKey:@"numOfPeople"])
                 {
-                    NSLog(@"wegucci");
+                    [self finalWith:index andUrl:tempUrl];
                     //[self performSegueWithIdentifier:@"Done" sender:self];
                 }
                 else
                 {
-                    NSLog(@"No Match Yet");
+                    NSLog(@"No Match Yet%d",[[NSUserDefaults standardUserDefaults] integerForKey:@"numOfPeople"]);
                 }
             });
             
@@ -222,6 +222,55 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
         } else {
             // error handling
   
+        }
+    }];
+    [dataTask resume];
+    
+}
+-(void)finalWith:(int)index andUrl:(NSString*) tempUrl
+{
+    
+    NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/groups/%@/%d/finished",tempUrl, index];
+    // 1
+    NSURL *url = [NSURL URLWithString:fixedUrl];
+    // 1
+    
+    
+    
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
+    [request setHTTPMethod:@"PUT"];
+    
+    
+    
+    NSURLSession *urlSession = [NSURLSession sharedSession];
+    
+    NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        
+        NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
+        NSInteger responseStatusCode = [httpResponse statusCode];
+        
+        if (responseStatusCode == 200 && data) {
+            dispatch_async(dispatch_get_main_queue(), ^(void){
+                
+                
+                NSMutableDictionary* hhh = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                NSNumber *t = hhh[@"NumberOfReplies"];
+                if([t intValue]==[[NSUserDefaults standardUserDefaults] integerForKey:@"numOfPeople"])
+                {
+                    
+                    //[self performSegueWithIdentifier:@"Done" sender:self];
+                }
+                else
+                {
+                    NSLog(@"No Match Yet%d",[[NSUserDefaults standardUserDefaults] integerForKey:@"numOfPeople"]);
+                }
+            });
+            
+            // do something with this data
+            // if you want to update UI, do it on main queue
+        } else {
+            // error handling
+            
         }
     }];
     [dataTask resume];

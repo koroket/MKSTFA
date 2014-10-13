@@ -69,7 +69,7 @@
             </objects>
             <point key="canvasLocation" x="2392" y="-561"/>
         </scene>
-        <!--Search Settings-->
+        <!--Search Inputs-->
         <scene sceneID="xeO-Jy-FGg">
             <objects>
                 <viewController id="xt9-EP-PmL" customClass="SearchSettingViewController" sceneMemberID="viewController">
@@ -81,7 +81,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Number of results" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Nnv-6Q-huV">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Number of results (max 20)" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Nnv-6Q-huV">
                                 <rect key="frame" x="36" y="244" width="528" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="j2D-DA-Nll"/>
@@ -97,7 +97,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Item" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="c60-n4-dyY">
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Search Term (i.e. food)" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="c60-n4-dyY">
                                 <rect key="frame" x="36" y="364" width="528" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="jwI-Qc-F1C"/>
@@ -114,15 +114,16 @@
                             <constraint firstAttribute="trailingMargin" secondItem="dJ2-js-3fG" secondAttribute="trailing" constant="20" id="LQx-SQ-yRz"/>
                             <constraint firstAttribute="trailingMargin" secondItem="c60-n4-dyY" secondAttribute="trailing" constant="20" id="fWk-X9-A6n"/>
                             <constraint firstItem="dJ2-js-3fG" firstAttribute="leading" secondItem="fkk-Fa-Iz2" secondAttribute="leadingMargin" constant="20" id="hJa-Zt-FQD"/>
-                            <constraint firstItem="Nnv-6Q-huV" firstAttribute="top" secondItem="1f1-tr-j2z" secondAttribute="bottom" constant="180" id="rpE-4I-1zG"/>
+                            <constraint firstItem="Nnv-6Q-huV" firstAttribute="top" secondItem="1f1-tr-j2z" secondAttribute="bottom" constant="180" id="oj6-Qb-eyr"/>
                             <constraint firstItem="c60-n4-dyY" firstAttribute="top" secondItem="dJ2-js-3fG" secondAttribute="bottom" constant="30" id="teO-jz-Snw"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Nnv-6Q-huV" secondAttribute="trailing" constant="20" id="vsP-b5-bju"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Search Settings" id="mgP-13-sxN">
+                    <navigationItem key="navigationItem" title="Search Inputs" id="mgP-13-sxN">
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="WVb-ka-zMa">
                             <connections>
-                                <segue destination="rL7-72-qPe" kind="unwind" identifier="Save" unwindAction="unwindToSelfViewController:" id="hKy-Uu-OoY"/>
+                                <action selector="save:" destination="xt9-EP-PmL" id="SQs-e0-Ku5"/>
+                                <segue destination="OjU-NI-juH" kind="show" identifier="Save" id="Bw4-Hh-bGp"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -133,11 +134,10 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fiK-Gx-F3e" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="rL7-72-qPe" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="806" y="389"/>
+            <point key="canvasLocation" x="620" y="383"/>
         </scene>
-        <!--Friend Table View Controller-->
+        <!--Invite Friends-->
         <scene sceneID="cvR-wP-aQt">
             <objects>
                 <tableViewController id="OjU-NI-juH" customClass="FriendTableViewController" sceneMemberID="viewController">
@@ -158,31 +158,22 @@
                             <outlet property="delegate" destination="OjU-NI-juH" id="1zH-Gd-d18"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="bOV-nE-Cl0">
-                        <nil key="title"/>
-                        <button key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="7QD-JE-1Mz">
-                            <rect key="frame" x="180" y="7" width="240" height="30"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <state key="normal" title="Set Search">
-                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                            </state>
-                            <connections>
-                                <segue destination="xt9-EP-PmL" kind="show" id="buE-ZY-rVI"/>
-                            </connections>
-                        </button>
+                    <navigationItem key="navigationItem" title="Invite Friends" id="bOV-nE-Cl0">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="zy1-8g-a6d">
                             <connections>
-                                <action selector="addButtonTouched:" destination="OjU-NI-juH" id="osG-ea-EzH"/>
-                                <segue destination="CAL-bQ-3tP" kind="unwind" identifier="unwindToFriend" unwindAction="unwindToFriendTableViewController:" id="2bB-ip-Wzf"/>
+                                <action selector="unwind:" destination="OjU-NI-juH" id="AWc-Z7-ctv"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <connections>
+                        <segue destination="CAL-bQ-3tP" kind="unwind" identifier="Unwind" unwindAction="unwindToFriendTableViewController:" id="W7W-mX-PzW"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XL1-WS-Lz6" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="CAL-bQ-3tP" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1620" y="406"/>
+            <point key="canvasLocation" x="1495" y="392"/>
         </scene>
         <!--Friend Table-->
         <scene sceneID="46v-Xq-Kwb">
@@ -218,9 +209,9 @@
                                 <action selector="reloadData:" destination="wuR-fK-ud5" eventType="touchUpInside" id="vPY-pQ-hFg"/>
                             </connections>
                         </button>
-                        <barButtonItem key="rightBarButtonItem" title="Friends" id="PIn-0a-pKT">
+                        <barButtonItem key="rightBarButtonItem" title="New Group" id="PIn-0a-pKT">
                             <connections>
-                                <segue destination="OjU-NI-juH" kind="show" identifier="AddGroup" id="hIG-NU-9J6"/>
+                                <segue destination="xt9-EP-PmL" kind="show" id="qEa-Nm-eXj"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -253,7 +244,7 @@
             </objects>
             <point key="canvasLocation" x="2392" y="392"/>
         </scene>
-        <!--Log In-->
+        <!--Logout-->
         <scene sceneID="kPM-ko-Gm8">
             <objects>
                 <viewController id="2yF-yU-JQ1" customClass="FBLogInViewController" sceneMemberID="viewController">
@@ -337,10 +328,10 @@
                             </mask>
                         </variation>
                     </view>
-                    <navigationItem key="navigationItem" title="Log In" id="6b2-DR-fde">
+                    <navigationItem key="navigationItem" title="Logout" id="6b2-DR-fde">
                         <barButtonItem key="rightBarButtonItem" title="Groups" id="v8r-V7-ptg">
                             <connections>
-                                <segue destination="wuR-fK-ud5" kind="show" id="B9u-YU-mFQ"/>
+                                <segue destination="wuR-fK-ud5" kind="show" identifier="LoggedIn" id="B9u-YU-mFQ"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -349,6 +340,7 @@
                         <outlet property="nameLabel" destination="dhz-Sa-67K" id="2Sn-qv-Mmw"/>
                         <outlet property="profilePictureView" destination="4Wa-Gd-xcF" id="al1-nN-NJT"/>
                         <outlet property="statusLabel" destination="xql-tF-3ih" id="g9f-5p-HHw"/>
+                        <segue destination="XgO-L2-NZm" kind="show" identifier="Done" id="YmC-sW-hCE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1Nq-Aa-cP5" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -374,4 +366,7 @@
             <point key="canvasLocation" x="118" y="-561"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="YmC-sW-hCE"/>
+    </inferredMetricsTieBreakers>
 </document>

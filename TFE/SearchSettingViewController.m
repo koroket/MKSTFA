@@ -13,6 +13,7 @@
 @property (strong, nonatomic) IBOutlet UITextField *locationField;
 @property (strong, nonatomic) IBOutlet UITextField *itemField;
 
+
 @end
 
 @implementation SearchSettingViewController
@@ -37,6 +38,14 @@
 		[[NSUserDefaults standardUserDefaults] setObject:self.itemField.text forKey:@"item"];
 		[[NSUserDefaults standardUserDefaults] synchronize];
 	}
+}
+-(NSString*)stringer:(NSString*) str
+{
+    NSString* temp = @"";
+    for(int i = 0; i < str.length; i++)
+    {
+    }
+    return temp;
 }
 
 @end
