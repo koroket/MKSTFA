@@ -283,8 +283,9 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
   if (self.selectedFriends.count > 1)
   {
       //URL
-      NSString *fixedURL = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/yelp/%@/yeah",
-                                                    [[NSUserDefaults standardUserDefaults] stringForKey:@"location"]];
+      NSString *fixedURL = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/yelp/%@/%@/%@",
+                                                    [[NSUserDefaults standardUserDefaults] stringForKey:@"location"],[[NSUserDefaults standardUserDefaults] stringForKey:@"item"],
+                            [[NSUserDefaults standardUserDefaults] stringForKey:@"number"]];
       NSURL *url = [NSURL URLWithString:fixedURL];
       
       //Request
@@ -315,13 +316,12 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
                                                                                options:0 error:nil];
                    NSArray *buisinesses = [NSArray array];
                    buisinesses = fetchedData[@"businesses"];
-                   
-                   int replaceNumberForNumOfPeople = 20;
+              
                    
                    // Creates array of empty replies
                    NSMutableArray *tempReplies = [NSMutableArray array];
                    
-                   for (int i = 0; i < replaceNumberForNumOfPeople; i++)
+                   for (int i = 0; i < buisinesses.count; i++)
                    {
                        [tempReplies addObject:[NSNumber numberWithInt:0]];
                    }
@@ -330,7 +330,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
                    NSMutableArray *decisionObjects = [NSMutableArray array];
 
                    // insert object info here
-                   for (int i = 0; i < replaceNumberForNumOfPeople; i++)
+                   for (int i = 0; i < buisinesses.count; i++)
                    {
                        NSMutableDictionary *temp = [NSMutableDictionary dictionary];
                        NSDictionary *dictionary = [buisinesses objectAtIndex:i];
@@ -341,9 +341,9 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
                    }
 
                    // 3
-                   [self.dictionary setValue:@(false)
+                   [self.dictionary setValue:@(-1)
                                       forKey:@"Done"];
-                   [self.dictionary setValue:@(replaceNumberForNumOfPeople)
+                   [self.dictionary setValue:@(buisinesses.count)
                                       forKey:@"Number"];
                    [self.dictionary setValue:tempReplies
                                       forKey:@"Replies"];

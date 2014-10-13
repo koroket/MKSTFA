@@ -41,7 +41,7 @@
     self.myGroups = [NSMutableArray array];
     self.numOfPeople = [NSMutableArray array];
     self.myOwners = [NSMutableArray array];
-
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -51,6 +51,7 @@
     hud.mode = MBProgressHUDModeIndeterminate;
     hud.labelText = @"Loading";
     [self getRequests];
+
    
 }
 
@@ -76,7 +77,8 @@
 {
     myIndex = indexPath.row;
     [[NSUserDefaults standardUserDefaults] setObject:[self.myGroups objectAtIndex:indexPath.row] forKey:@"pract"];
-    [[NSUserDefaults standardUserDefaults] setInteger:self.numOfPeople.count forKey:@"numOfPeople"];
+    int tempint = [(NSNumber*)self.numOfPeople[indexPath.row] intValue];
+    [[NSUserDefaults standardUserDefaults] setInteger:tempint forKey:@"numOfPeople"];
     [[NSUserDefaults standardUserDefaults] synchronize];
 
     // URL

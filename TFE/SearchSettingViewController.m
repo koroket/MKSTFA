@@ -41,7 +41,14 @@
         
     }
 }
-
+-(NSString*)stringer:(NSString*) str
+{
+    NSString* temp = @"";
+    for(int i = 0; i < str.length; i++)
+    {
+    }
+    return temp;
+}
 
 
 @end

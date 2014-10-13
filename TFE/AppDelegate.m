@@ -8,6 +8,8 @@
 
 #import "AppDelegate.h"
 #import <FacebookSDK/FacebookSDK.h>
+#import <Pushbots/Pushbots.h>
+#import "DraggableBackground.h"
 
 @interface AppDelegate ()
 
@@ -19,9 +21,56 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     [FBLoginView class];
+    [Pushbots getInstance];
+    NSDictionary * userInfo = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+    if(userInfo) {
+        // Notification Message
+        NSString* notificationMsg = [userInfo valueForKey:@"message"];
+        // Custom Field
+        NSString* title = [userInfo valueForKey:@"title"];
+        NSLog(@"Notification Msg is %@ and Custom field title = %@", notificationMsg , title);
+    }
     return YES;
 }
+-(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
+{
+    [self addMessageFromRemoteNotification:userInfo updateUI:YES];
 
+}
+- (void)addMessageFromRemoteNotification:(NSDictionary*)userInfo updateUI:(BOOL)updateUI
+{
+    UINavigationController *navigationController = (UINavigationController*)_window.rootViewController;
+    DraggableBackground *chatViewController =
+    (DraggableBackground*)[navigationController.viewControllers  objectAtIndex:0];
+    
+    [chatViewController performSegueWithIdentifier:@"Done" sender:chatViewController];
+}
+- (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
+{
+    NSLog(@"My token is: %@", deviceToken);
+}
+
+- (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error
+{
+    NSLog(@"Failed to get token, error: %@", error);
+}
+
+-(void)onReceivePushNotification:(NSDictionary *) pushDict andPayload:(NSDictionary *)payload {
+    [payload valueForKey:@"title"];
+    UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"New Alert !" message:[pushDict valueForKey:@"alert"] delegate:self cancelButtonTitle:@"Thanks !" otherButtonTitles: @"Open",nil];
+    [message show];
+}
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    NSString *title = [alertView buttonTitleAtIndex:buttonIndex];
+    if([title isEqualToString:@"Open"]) {
+        [[Pushbots getInstance] OpenedNotification];
+        // set Badge to 0
+        [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
+        // reset badge on the server
+        [[Pushbots getInstance] resetBadgeCount];
+    }
+}
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
