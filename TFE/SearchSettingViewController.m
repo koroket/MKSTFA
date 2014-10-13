@@ -13,6 +13,7 @@
 @property (strong, nonatomic) IBOutlet UITextField *locationField;
 @property (strong, nonatomic) IBOutlet UITextField *itemField;
 
+
 @end
 
 @implementation SearchSettingViewController
@@ -40,6 +41,7 @@
         
     }
 }
+
 
 
 @end
