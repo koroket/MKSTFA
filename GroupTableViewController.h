@@ -11,6 +11,7 @@
 @interface GroupTableViewController : UITableViewController
 
 @property (nonatomic, strong) NSMutableArray* myGroups;
+#pragma message "in Obj-C you should use expressive property/variable names, e.g. 'numberOfPeople'"
 @property (nonatomic, strong) NSMutableArray* numOfPeople;
 
 @end

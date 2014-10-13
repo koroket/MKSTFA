@@ -90,6 +90,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 - (void)tableView:(UITableView *)tableView
 didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+#pragma message "You should consider checking against the list of friendIDs to see if this row is already selected. Checking against the acessoryType of a cell isn't a very elegant solution"
   if ([tableView cellForRowAtIndexPath:indexPath].accessoryType == UITableViewCellAccessoryCheckmark)
   {
     [tableView cellForRowAtIndexPath:indexPath].accessoryType = UITableViewCellAccessoryNone;
@@ -115,6 +116,8 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 
 - (void)loadFromFacebook
 {
+    
+#pragma message "You should consider moving the server communication out of this ViewController and put it into a separate class that handles FB Requests"
     self.dictionary = [NSMutableDictionary dictionary];
     self.myFriends = [NSMutableArray array];
     self.friendIds = [NSMutableArray array];
@@ -146,6 +149,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     
 }//load
 
+#pragma message "Also this method should probably not be part of this ViewController and instead should be moved into a backend access class"
 - (void)sendNewGroupsWithGroupCode:(NSString *)code
 {
 
@@ -216,6 +220,8 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
   }
 }
 
+#pragma message "Also this method should probably not be part of this ViewController and instead should be moved into a backend access class"
+
 - (void)createNewGroup
 {
   NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/groups"];
@@ -271,6 +277,8 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
   }
 }
 
+#pragma message "You need to use 'pragma mark - abc' to create entries in the method outline"
+
 #pragma Yelp Server Communication
 /**
  * --------------------------------------------------------------------------
@@ -310,6 +318,8 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
            {
                dispatch_async(dispatch_get_main_queue(), ^(void)
                {
+                   
+#pragma message "This section needs comments"
                    // Creates local data for yelp info
                    NSDictionary *fetchedData = [NSJSONSerialization JSONObjectWithData:data
                                                                                options:0 error:nil];

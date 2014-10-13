@@ -17,6 +17,8 @@
 
 @interface GroupTableViewController ()
 
+#pragma message "Properties should be declared before methods"
+
 - (IBAction)reloadData:(id)sender;
 @property (nonatomic,strong) NSMutableArray* myOwners;
 
@@ -54,6 +56,8 @@
    
 }
 
+#pragma message "remove empty methods"
+
 - (void)viewDidAppear:(BOOL)animated
 {
     [self.tableView reloadData];
@@ -74,11 +78,16 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+#pragma message "'myIndex' should be of type 'NSInteger'"
     myIndex = indexPath.row;
+    
+#pragma message "Why are you storing information in NSUserDefaults at this point? Comments?"
     [[NSUserDefaults standardUserDefaults] setObject:[self.myGroups objectAtIndex:indexPath.row] forKey:@"pract"];
     [[NSUserDefaults standardUserDefaults] setInteger:self.numOfPeople.count forKey:@"numOfPeople"];
     [[NSUserDefaults standardUserDefaults] synchronize];
 
+    
+#pragma message "Backend Access should be moved into separate class"
     // URL
     NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/groups/%@",
                                                     [self.myGroups objectAtIndex:indexPath.row]];
@@ -107,6 +116,8 @@
                                   NSArray *fetchedData =
                                       [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
 
+#pragma message "Why are you storing all information in NSUserDefaults? Is that the way how you are transferring information between ViewControllers? If so, you should use properties instead! Using NSUserDefaults requires writing to the disk whenever you save information which is very bad for performance when used to often."
+                                  
                                   [[NSUserDefaults standardUserDefaults] setObject:fetchedData forKey:@"AllObjects"];
 
                                   [[NSUserDefaults standardUserDefaults] synchronize];
@@ -155,7 +166,7 @@
     else if ([segue.identifier isEqualToString:@"Swipe"])
     {
         DraggableBackground *controller = [segue destinationViewController];
-
+#pragma message "You should add a comment to explain why you calculate the index like this 'self.myGroups.count-1-myIndex'"
         controller.groupID = [self.myGroups objectAtIndex:self.myGroups.count-1-myIndex];
         controller.numOfPeople = (int)[self.numOfPeople objectAtIndex:self.myGroups.count-1-myIndex];
     }
@@ -170,6 +181,7 @@
     NSMutableURLRequest *request =
         [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
     [request setHTTPMethod:@"GET"];
+#pragma message "Backend Access should be moved into separate class"
 
     NSURLSession *urlSession = [NSURLSession sharedSession];
     NSURLSessionDataTask *dataTask =
@@ -214,12 +226,14 @@
     [dataTask resume];
 }
 
+#pragma message "bad method name because it is very similar to UITableView's reloadData method"
 - (IBAction)reloadData:(id)sender
 {
     [self getRequests];
     //[self yesWith:3 andUrl:@"543482c59b6f750200271e81"];
 }
 
+#pragma message "This method name should be more descriptive"
 - (void)yesWith:(int)index andUrl:(NSString *)tempUrl
 {
     NSString *fixedUrl =
@@ -227,6 +241,8 @@
     // 1
     NSURL *url = [NSURL URLWithString:fixedUrl];
     // 1
+    
+#pragma message "Backend Access should be moved into separate class"
 
     NSMutableURLRequest *request =
         [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
@@ -267,6 +283,9 @@
 
 - (void)deleteGroup:(NSString *)pplid with:(NSString *)myId
 {
+    
+#pragma message "Backend Access should be moved into separate class"
+
     //URL
     NSString *fixedUrl =
         [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/ppl/%@groups/%@", pplid, myId];
@@ -314,6 +333,9 @@
 
 - (void)deleteIndividualGroup:(NSString *)str
 {
+    
+#pragma message "Backend Access should be moved into separate class"
+
     //URL
     NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/groups/%@", str];
     NSURL *url = [NSURL URLWithString:fixedUrl];
@@ -355,6 +377,8 @@
 }
 - (void)resetGroups
 {
+#pragma message "Backend Access should be moved into separate class"
+
     //URL
     NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/groups"];
     NSURL *url = [NSURL URLWithString:fixedUrl];
@@ -407,6 +431,8 @@
 }
 - (void)resetPeople:(NSString *)pplid
 {
+#pragma message "Backend Access should be moved into separate class"
+
     //URL
     NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/ppl/%@groups", pplid];
     NSURL *url = [NSURL URLWithString:fixedUrl];
@@ -454,6 +480,8 @@
     }];
     [dataTask resume];
 }
+
+#pragma message "Is this method only used for testing purposes? If so, please add a comment"
 - (void)resetEverything
 {
     [self resetGroups];

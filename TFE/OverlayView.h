@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+#pragma message "Please check license and include original author when using code from examples/tutorials/etc"
+
 typedef NS_ENUM(NSUInteger , GGOverlayViewMode) {
     GGOverlayViewModeLeft,
     GGOverlayViewModeRight

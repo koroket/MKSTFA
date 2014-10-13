@@ -8,6 +8,8 @@
 
 #import "DraggableBackground.h"
 
+#pragma message "Is this class written by you? If not you should include a copyright header"
+
 @implementation DraggableBackground{
     NSInteger cardsLoadedIndex; //%%% the index of the card you have loaded into the loadedCards array last
     NSInteger yeahp;
@@ -180,7 +182,7 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
 
 -(void)yesWith:(int)index andUrl:(NSString*) tempUrl
 {
-    
+#pragma message "Backend Code should be in separate class. Is this a duplicate of the other 'yesWith:...' method?"
     NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/groups/%@/%d",tempUrl, index];
     // 1
     NSURL *url = [NSURL URLWithString:fixedUrl];
