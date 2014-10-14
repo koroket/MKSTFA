@@ -36,19 +36,18 @@
     {
 		[self setupView];
 
-#warning placeholder stuff, replace with card-specific information {
         information = [[UILabel alloc]initWithFrame:CGRectMake(0, 50, self.frame.size.width, 100)];
 		information.text = @"no info given";
 		[information setTextAlignment:NSTextAlignmentCenter];
 		information.textColor = [UIColor blackColor];
 
 		self.backgroundColor = [UIColor whiteColor];
-#warning placeholder stuff, replace with card-specific information }
 
 		panGestureRecognizer = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(beingDragged:)];
 
 		[self addGestureRecognizer:panGestureRecognizer];
 		[self addSubview:information];
+        
 
 		overlayView = [[OverlayView alloc]initWithFrame:CGRectMake(self.frame.size.width / 2 - 100, 0, 100, 100)];
 		overlayView.alpha = 0;
@@ -73,10 +72,7 @@
     NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/groups/543482c59b6f750200271e81/%d", index];
     NSURL *url = [NSURL URLWithString:fixedUrl];
     
-    NSMutableURLRequest *request = [NSMutableURLRequest
-                                    requestWithURL:url
-                                    cachePolicy:NSURLRequestUseProtocolCachePolicy
-                                    timeoutInterval:30.0];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
     [request setHTTPMethod:@"PUT"];
     
     NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
@@ -298,12 +294,9 @@
 
 - (void)yes:(int)index
 {
+    //url
 	NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/groups/543482c59b6f750200271e81/%d", index];
-	// 1
 	NSURL *url = [NSURL URLWithString:fixedUrl];
-	// 1
-
-
 
 	NSMutableURLRequest *request = [NSMutableURLRequest
                                     requestWithURL:url
@@ -312,7 +305,6 @@
 	[request setHTTPMethod:@"PUT"];
 
 	NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
-
 	NSURLSession *urlSession = [NSURLSession sessionWithConfiguration:config
                                                              delegate:self
                                                         delegateQueue:nil];

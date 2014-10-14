@@ -11,5 +11,11 @@
 @interface NetworkCommunication : NSObject
 
 @property NSString *HerokuURL;
+@property NSData *myData;
+
+- (void)serverRequests:(NSString *)urlID
+                  type:(NSString *)requestID
+        whatDictionary:(NSDictionary*)dictionaryID
+             withBlock:(void (^)())blockName;
 
 @end

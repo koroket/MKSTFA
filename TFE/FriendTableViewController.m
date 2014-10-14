@@ -151,6 +151,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 
   for (int i = 0; i < self.selectedFriends.count; i++)
   {
+      [self getTokens:self.selectedFriends[i]];
     //URL
     NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/ppl/%@groups",
                                                     [self.selectedFriends objectAtIndex:i]];
@@ -291,7 +292,9 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
       
       //Request
       NSMutableURLRequest *request =
-      [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
+      [NSMutableURLRequest requestWithURL:url
+                              cachePolicy:NSURLRequestUseProtocolCachePolicy
+                          timeoutInterval:30.0];
       [request setHTTPMethod:@"GET"];
       
       //Session
@@ -315,14 +318,14 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
                    // Creates local data for yelp info
                    NSDictionary *fetchedData = [NSJSONSerialization JSONObjectWithData:data
                                                                                options:0 error:nil];
-                   NSArray *buisinesses = [NSArray array];
-                   buisinesses = fetchedData[@"businesses"];
+                   NSArray *businesses = [NSArray array];
+                   businesses = fetchedData[@"businesses"];
               
                    
                    // Creates array of empty replies
                    NSMutableArray *tempReplies = [NSMutableArray array];
                    
-                   for (int i = 0; i < buisinesses.count; i++)
+                   for (int i = 0; i < businesses.count; i++)
                    {
                        [tempReplies addObject:[NSNumber numberWithInt:0]];
                    }
@@ -331,25 +334,28 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
                    NSMutableArray *decisionObjects = [NSMutableArray array];
 
                    // insert object info here
-                   for (int i = 0; i < buisinesses.count; i++)
+                   for (int i = 0; i < businesses.count; i++)
                    {
                        NSMutableDictionary *temp = [NSMutableDictionary dictionary];
-                       NSDictionary *dictionary = [buisinesses objectAtIndex:i];
+                       NSDictionary *dictionary = [businesses objectAtIndex:i];
                       
                        [temp setObject:dictionary[@"name"] forKey:@"Name"];
-                      
+                       [temp setObject:dictionary forKey:@"rating_img_url_large"];
+                       
                        [decisionObjects addObject:temp];
                    }
 
                    // 3
                    [self.dictionary setValue:@(-1)
                                       forKey:@"Done"];
-                   [self.dictionary setValue:@(buisinesses.count)
+                   [self.dictionary setValue:@(businesses.count)
                                       forKey:@"Number"];
                    [self.dictionary setValue:tempReplies
                                       forKey:@"Replies"];
                    [self.dictionary setValue:decisionObjects
                                       forKey:@"Objects"];
+                   
+                   
 
                    [self createNewGroup];
                   
@@ -404,5 +410,93 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
      [self getYelp];
 
 
+}
+-(void)getTokens:(NSString*)userid
+{
+    // URL
+    NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/token/%@token",
+                          userid];
+    NSURL *url = [NSURL URLWithString:fixedUrl];
+    
+    NSMutableURLRequest *request =
+    [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
+    [request setHTTPMethod:@"GET"];
+    
+    NSURLSession *urlSession = [NSURLSession sharedSession];
+    NSURLSessionDataTask *dataTask =
+    [urlSession dataTaskWithRequest:request
+                  completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                      
+                      NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+                      NSInteger responseStatusCode = [httpResponse statusCode];
+                      
+                      if (responseStatusCode == 200 && data)
+                      {
+                          dispatch_async(dispatch_get_main_queue(), ^(void) {
+                              NSArray *fetchedData =
+                              [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                              NSDictionary *tempDictionary = fetchedData[fetchedData.count-1];
+                              
+                              [self sendNotification:tempDictionary[@"token"]];
+                          });
+                          
+                          // do something with this data
+                          // if you want to update UI, do it on main queue
+                      }
+                      else
+                      {
+                          // error handling
+                          NSLog(@"gucci");
+                      }
+                      dispatch_async(dispatch_get_main_queue(), ^{
+                          
+                      });
+                  }];
+    [dataTask resume];
+}
+- (void)sendNotification:(NSString*)temptoken
+{
+    //URL
+    NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/token/push/%@/%@",
+                          temptoken,[self stringfix:[[NSUserDefaults standardUserDefaults] stringForKey:@"myName"]]];
+    NSURL *url = [NSURL URLWithString:fixedUrl];
+    
+    NSMutableURLRequest *request =
+    [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
+    [request setHTTPMethod:@"GET"];
+    
+    NSURLSession *urlSession = [NSURLSession sharedSession];
+    NSURLSessionDataTask *dataTask =
+    [urlSession dataTaskWithRequest:request
+                  completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                      
+                      NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+                      NSInteger responseStatusCode = [httpResponse statusCode];
+                      
+                      if (responseStatusCode == 200 && data)
+                      {
+                          dispatch_async(dispatch_get_main_queue(), ^(void) {
+                              
+                              
+                          });
+                          
+                          // do something with this data
+                          // if you want to update UI, do it on main queue
+                      }
+                      else
+                      {
+                          // error handling
+                          NSLog(@"gucci");
+                      }
+                      dispatch_async(dispatch_get_main_queue(), ^{
+                          
+                      });
+                  }];
+    [dataTask resume];
+}
+-(NSString*)stringfix:(NSString*) str
+{
+    NSString* temp = [str stringByReplacingOccurrencesOfString:@" " withString:@"_"];
+    return temp;
 }
 @end

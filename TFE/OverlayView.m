@@ -11,7 +11,8 @@
 @implementation OverlayView
 @synthesize imageView;
 
-- (id)initWithFrame:(CGRect)frame {
+- (id)initWithFrame:(CGRect)frame
+{
 	self = [super initWithFrame:frame];
 	if (self) {
 		self.backgroundColor = [UIColor whiteColor];

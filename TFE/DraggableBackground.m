@@ -20,11 +20,13 @@
   
    
 }
-- (IBAction)good:(id)sender {
+- (IBAction)good:(id)sender
+{
     [self swipeRight];
 }
 
-- (IBAction)bad:(id)sender {
+- (IBAction)bad:(id)sender
+{
     [self swipeLeft];
 }
 
@@ -40,7 +42,8 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
 -(void)viewDidLoad
 {
     [super viewDidLoad];
-    if (self) {
+    if (self)
+    {
         [self setupView];
         exampleCardLabels = [[NSUserDefaults standardUserDefaults] arrayForKey:@"AllObjects"];//%%% placeholder for card-specific information
         loadedCards = [[NSMutableArray alloc] init];
@@ -57,14 +60,19 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
 #warning customize all of this.  These are just place holders to make it look pretty
     self.view.backgroundColor = [UIColor colorWithRed:.92 green:.93 blue:.95 alpha:1]; //the gray background colors
     menuButton = [[UIButton alloc]initWithFrame:CGRectMake(17, 34, 22, 15)];
-    [menuButton setImage:[UIImage imageNamed:@"menuButton"] forState:UIControlStateNormal];
-    messageButton = [[UIButton alloc]initWithFrame:CGRectMake(284, 34, 18, 18)];
-    [messageButton setImage:[UIImage imageNamed:@"messageButton"] forState:UIControlStateNormal];
-
-
-    [xButton setImage:[UIImage imageNamed:@"xButton"] forState:UIControlStateNormal];
+    [menuButton setImage:[UIImage imageNamed:@"menuButton"]
+                forState:UIControlStateNormal];
     
-    [checkButton setImage:[UIImage imageNamed:@"checkButton"] forState:UIControlStateNormal];
+    messageButton = [[UIButton alloc]initWithFrame:CGRectMake(284, 34, 18, 18)];
+    [messageButton setImage:[UIImage imageNamed:@"messageButton"]
+                   forState:UIControlStateNormal];
+
+
+    [xButton setImage:[UIImage imageNamed:@"xButton"]
+             forState:UIControlStateNormal];
+    
+    [checkButton setImage:[UIImage imageNamed:@"checkButton"]
+                 forState:UIControlStateNormal];
 
     [self.view addSubview:menuButton];
     [self.view addSubview:messageButton];
@@ -77,9 +85,17 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
 // to get rid of it (eg: if you are building cards from data from the internet)
 -(Draggable *)createDraggableWithDataAtIndex:(NSInteger)index
 {
-    Draggable *draggable = [[Draggable alloc]initWithFrame:CGRectMake((self.view.frame.size.width - CARD_WIDTH)/2, (self.view.frame.size.height - CARD_HEIGHT)/2, CARD_WIDTH, CARD_HEIGHT)];
+    Draggable *draggable = [[Draggable alloc]initWithFrame:CGRectMake((self.view.frame.size.width - CARD_WIDTH)/2,
+                                                                      (self.view.frame.size.height - CARD_HEIGHT)/2,
+                                                                      CARD_WIDTH,
+                                                                      CARD_HEIGHT)];
+    
     NSDictionary *tempoaryDict = [exampleCardLabels objectAtIndex:index];
+    
     draggable.information.text = tempoaryDict[@"Name"]; //%%% placeholder for card-specific information
+    
+    //draggable.information.picURL = tempoaryDict[@"PicURL"];
+    
     draggable.delegate = self;
     return draggable;
 }
@@ -87,16 +103,19 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
 //%%% loads all the cards and puts the first x in the "loaded cards" array
 -(void)loadCards
 {
-    if([exampleCardLabels count] > 0) {
+    if([exampleCardLabels count] > 0)
+    {
         NSInteger numLoadedCardsCap =(([exampleCardLabels count] > MAX_BUFFER_SIZE)?MAX_BUFFER_SIZE:[exampleCardLabels count]);
         //%%% if the buffer size is greater than the data size, there will be an array error, so this makes sure that doesn't happen
         
         //%%% loops through the exampleCardsLabels array to create a card for each label.  This should be customized by removing "exampleCardLabels" with your own array of data
-        for (int i = 0; i<[exampleCardLabels count]; i++) {
+        for (int i = 0; i<[exampleCardLabels count]; i++)
+        {
             Draggable* newCard = [self createDraggableWithDataAtIndex:i];
             [allCards addObject:newCard];
             
-            if (i<numLoadedCardsCap) {
+            if (i<numLoadedCardsCap)
+            {
                 //%%% adds a small number of cards to be loaded
                 [loadedCards addObject:newCard];
             }
@@ -104,10 +123,14 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
         
         //%%% displays the small number of loaded cards dictated by MAX_BUFFER_SIZE so that not all the cards
         // are showing at once and clogging a ton of data
-        for (int i = 0; i<[loadedCards count]; i++) {
-            if (i>0) {
+        for (int i = 0; i<[loadedCards count]; i++)
+        {
+            if (i>0)
+            {
                 [self.view insertSubview:[loadedCards objectAtIndex:i] belowSubview:[loadedCards objectAtIndex:i-1]];
-            } else {
+            }
+            else
+            {
                 [self.view addSubview:[loadedCards objectAtIndex:i]];
             }
             cardsLoadedIndex++; //%%% we loaded a card into loaded cards, so we have to increment
@@ -125,10 +148,13 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
     yeahp++;
     [loadedCards removeObjectAtIndex:0]; //%%% card was swiped, so it's no longer a "loaded card"
     
-    if (cardsLoadedIndex < [allCards count]) { //%%% if we haven't reached the end of all cards, put another into the loaded cards
+    if (cardsLoadedIndex < [allCards count])
+    {
+        //%%% if we haven't reached the end of all cards, put another into the loaded cards
         [loadedCards addObject:[allCards objectAtIndex:cardsLoadedIndex]];
         cardsLoadedIndex++;//%%% loaded a card, so have to increment count
-        [self.view insertSubview:[loadedCards objectAtIndex:(MAX_BUFFER_SIZE-1)] belowSubview:[loadedCards objectAtIndex:(MAX_BUFFER_SIZE-2)]];
+        [self.view insertSubview:[loadedCards objectAtIndex:(MAX_BUFFER_SIZE-1)]
+                    belowSubview:[loadedCards objectAtIndex:(MAX_BUFFER_SIZE-2)]];
     }
 }
 
@@ -137,15 +163,18 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
 // This should be customized with your own action
 -(void)cardSwipedRight:(UIView *)card
 {
-    //do whatever you want with the card that was swiped
+    // do whatever you want with the card that was swiped
     //    DraggableView *c = (DraggableView *)card;
     yeahp++;
     [self yesWith:yeahp andUrl:[[NSUserDefaults standardUserDefaults] objectForKey:@"pract"]];
     [loadedCards removeObjectAtIndex:0]; //%%% card was swiped, so it's no longer a "loaded card"
     
-    if (cardsLoadedIndex < [allCards count]) { //%%% if we haven't reached the end of all cards, put another into the loaded cards
+    if (cardsLoadedIndex < [allCards count])
+    {
+        //%%% if we haven't reached the end of all cards, put another into the loaded cards
+        
         [loadedCards addObject:[allCards objectAtIndex:cardsLoadedIndex]];
-        cardsLoadedIndex++;//%%% loaded a card, so have to increment count
+        cardsLoadedIndex++; //%%% loaded a card, so have to increment count
         [self.view insertSubview:[loadedCards objectAtIndex:(MAX_BUFFER_SIZE-1)] belowSubview:[loadedCards objectAtIndex:(MAX_BUFFER_SIZE-2)]];
     }
     
@@ -156,7 +185,8 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
 {
     Draggable *dragView = [loadedCards firstObject];
     dragView.overlayView.mode = GGOverlayViewModeRight;
-    [UIView animateWithDuration:0.2 animations:^{
+    [UIView animateWithDuration:0.2 animations:^
+    {
         dragView.overlayView.alpha = 1;
     }];
     [dragView rightClickAction];
@@ -167,7 +197,8 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
 {
     Draggable *dragView = [loadedCards firstObject];
     dragView.overlayView.mode = GGOverlayViewModeLeft;
-    [UIView animateWithDuration:0.2 animations:^{
+    [UIView animateWithDuration:0.2 animations:^
+    {
         dragView.overlayView.alpha = 1;
     }];
     [dragView leftClickAction];
@@ -178,34 +209,39 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
 
 }
 
--(void)yesWith:(int)index andUrl:(NSString*) tempUrl
+-(void)yesWith:(int)index
+        andUrl:(NSString*) tempUrl
 {
-    
+    //URL
     NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/groups/%@/%d",tempUrl, index];
-    // 1
     NSURL *url = [NSURL URLWithString:fixedUrl];
-    // 1
     
-    
-    
+    //Request
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
     [request setHTTPMethod:@"PUT"];
     
-   
-    
+    //Session
     NSURLSession *urlSession = [NSURLSession sharedSession];
     
-    NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        
+    //Data Task Block
+    NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request
+                                                   completionHandler:^(NSData *data,
+                                                                       NSURLResponse *response,
+                                                                       NSError *error)
+    {
         NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
         NSInteger responseStatusCode = [httpResponse statusCode];
         
-        if (responseStatusCode == 200 && data) {
-            dispatch_async(dispatch_get_main_queue(), ^(void){
-
+        if (responseStatusCode == 200 && data)
+        {
+            dispatch_async(dispatch_get_main_queue(), ^(void)
+            {
+                NSMutableDictionary* hhh = [NSJSONSerialization JSONObjectWithData:data
+                                                                           options:0
+                                                                             error:nil];
                 
-                NSMutableDictionary* hhh = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
                 NSNumber *t = hhh[@"NumberOfReplies"];
+                
                 if([t intValue]==[[NSUserDefaults standardUserDefaults] integerForKey:@"numOfPeople"])
                 {
                     [self finalWith:index andUrl:tempUrl];
@@ -219,15 +255,45 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
             
             // do something with this data
             // if you want to update UI, do it on main queue
-        } else {
+        }
+        else
+        {
             // error handling
-  
         }
     }];
     [dataTask resume];
     
+    /*
+     
+     NetworkCommunication *sharedCommunication = [NetworkCommunication alloc];
+     [sharedCommunication serverRequests: [NSString stringWithFormat:@"ppl/%@groups",
+     [[NSUserDefaults standardUserDefaults] stringForKey:@"myId"]]
+     type:@"GET"
+     whatDictionary:nil
+     withBlock:^(void)
+     {
+     
+     NSArray *fetchedData = [NSJSONSerialization JSONObjectWithData:sharedCommunication.myData options:0 error:nil];
+     self.myGroups = [NSMutableArray array];
+     
+     for (int i = 0; i < fetchedData.count; i++)
+     {
+     NSDictionary *data1 = [fetchedData objectAtIndex:i];
+     [self.myGroups addObject:data1[@"groupID"]];
+     
+     [self.numOfPeople addObject:data1[@"number"]];
+     [self.myOwners addObject:data1[@"owner"]];
+     }
+     
+     [self.tableView reloadData];
+     [MBProgressHUD hideHUDForView:self.view animated:YES];
+     
+     }];
+     */
+    
 }
--(void)finalWith:(int)index andUrl:(NSString*) tempUrl
+-(void)finalWith:(int)index
+          andUrl:(NSString*) tempUrl
 {
     
     NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/groups/%@/%d/finished",tempUrl, index];
