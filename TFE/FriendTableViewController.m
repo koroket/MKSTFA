@@ -18,6 +18,8 @@
 @property(nonatomic, strong) NSMutableArray *friendIds;
 @property(nonatomic, strong) NSMutableArray *selectedFriends;
 @property(nonatomic, strong) NSMutableDictionary *dictionary;
+@property(nonatomic,strong) NSMutableArray *myTokens;
+
 - (IBAction)unwind:(id)sender;
 
 @end
@@ -106,7 +108,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
   NSLog(@"These are the selected friends %@", self.selectedFriends);
 }
 
-#pragma mark - FaceBook Server Communication
+#pragma FaceBook Server Communication
 /**
  * --------------------------------------------------------------------------
  * FaceBook
@@ -119,6 +121,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     self.myFriends = [NSMutableArray array];
     self.friendIds = [NSMutableArray array];
     self.selectedFriends = [NSMutableArray array];
+    self.myTokens = [NSMutableArray array];
     
     [FBRequestConnection startWithGraphPath:@"/me/friends"
                                  parameters:nil
@@ -151,7 +154,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 
   for (int i = 0; i < self.selectedFriends.count; i++)
   {
-      [self getTokens:self.selectedFriends[i]];
+      
     //URL
     NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/ppl/%@groups",
                                                     [self.selectedFriends objectAtIndex:i]];
@@ -272,29 +275,36 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
   }
 }
 
-#pragma mark - Yelp Server Communication
+#pragma Yelp Server Communication
 /**
  * --------------------------------------------------------------------------
  * Yelp
  * --------------------------------------------------------------------------
  */
+-(void)collectTokens
+{
+    for(int i = 0; i < self.selectedFriends.count; i++)
+    {
+        [self getTokens:self.selectedFriends[i]];
+    }
+}
+
 
 - (void)getYelp
 {
+
   if (self.selectedFriends.count > 1)
   {
+      
       //URL
       NSString *fixedURL = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/yelp/%@/%@/%@",
-                           [[NSUserDefaults standardUserDefaults] stringForKey:@"location"],
-                           [[NSUserDefaults standardUserDefaults] stringForKey:@"item"],
-                           [[NSUserDefaults standardUserDefaults] stringForKey:@"number"]];
+                                                    [[NSUserDefaults standardUserDefaults] stringForKey:@"location"],[[NSUserDefaults standardUserDefaults] stringForKey:@"item"],
+                            [[NSUserDefaults standardUserDefaults] stringForKey:@"number"]];
       NSURL *url = [NSURL URLWithString:fixedURL];
       
       //Request
       NSMutableURLRequest *request =
-      [NSMutableURLRequest requestWithURL:url
-                              cachePolicy:NSURLRequestUseProtocolCachePolicy
-                          timeoutInterval:30.0];
+      [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
       [request setHTTPMethod:@"GET"];
       
       //Session
@@ -318,14 +328,14 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
                    // Creates local data for yelp info
                    NSDictionary *fetchedData = [NSJSONSerialization JSONObjectWithData:data
                                                                                options:0 error:nil];
-                   NSArray *businesses = [NSArray array];
-                   businesses = fetchedData[@"businesses"];
+                   NSArray *buisinesses = [NSArray array];
+                   buisinesses = fetchedData[@"businesses"];
               
                    
                    // Creates array of empty replies
                    NSMutableArray *tempReplies = [NSMutableArray array];
                    
-                   for (int i = 0; i < businesses.count; i++)
+                   for (int i = 0; i < buisinesses.count; i++)
                    {
                        [tempReplies addObject:[NSNumber numberWithInt:0]];
                    }
@@ -334,28 +344,31 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
                    NSMutableArray *decisionObjects = [NSMutableArray array];
 
                    // insert object info here
-                   for (int i = 0; i < businesses.count; i++)
+                   for (int i = 0; i < buisinesses.count; i++)
                    {
                        NSMutableDictionary *temp = [NSMutableDictionary dictionary];
-                       NSDictionary *dictionary = [businesses objectAtIndex:i];
+                       NSDictionary *dictionary = [buisinesses objectAtIndex:i];
                       
                        [temp setObject:dictionary[@"name"] forKey:@"Name"];
-                       [temp setObject:dictionary forKey:@"rating_img_url_large"];
+                       if(dictionary[@"image_url"]!=nil)
+                       {
+                           [temp setObject:dictionary[@"image_url"] forKey:@"ImageURL"];
+                       }
                        
                        [decisionObjects addObject:temp];
                    }
 
                    // 3
+                   [self.dictionary setValue:self.myTokens
+                                      forKey:@"Tokens"];
                    [self.dictionary setValue:@(-1)
                                       forKey:@"Done"];
-                   [self.dictionary setValue:@(businesses.count)
+                   [self.dictionary setValue:@(buisinesses.count)
                                       forKey:@"Number"];
                    [self.dictionary setValue:tempReplies
                                       forKey:@"Replies"];
                    [self.dictionary setValue:decisionObjects
                                       forKey:@"Objects"];
-                   
-                   
 
                    [self createNewGroup];
                   
@@ -389,7 +402,6 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if ([segue.identifier isEqualToString:@"Details"])
     {
-        
     }
     else if ([segue.identifier isEqualToString:@"Unwind"])
     {
@@ -397,17 +409,12 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     }
 }
 
-- (IBAction)unwindToSelfViewController:(UIStoryboardSegue *)unwindSegue
-{
-    
-}
-
-- (IBAction)unwind:(id)sender
-{
+- (IBAction)unwindToSelfViewController:(UIStoryboardSegue *)unwindSegue {}
+- (IBAction)unwind:(id)sender {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.mode = MBProgressHUDModeIndeterminate;
     hud.labelText = @"Loading";
-     [self getYelp];
+     [self collectTokens];
 
 
 }
@@ -436,8 +443,12 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
                               NSArray *fetchedData =
                               [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
                               NSDictionary *tempDictionary = fetchedData[fetchedData.count-1];
-                              
+                              [self.myTokens addObject:tempDictionary[@"token"]];
                               [self sendNotification:tempDictionary[@"token"]];
+                              if(self.myTokens.count==self.selectedFriends.count)
+                              {
+                                  [self getYelp];
+                              }
                           });
                           
                           // do something with this data
