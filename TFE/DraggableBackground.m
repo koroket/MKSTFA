@@ -80,6 +80,11 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
     Draggable *draggable = [[Draggable alloc]initWithFrame:CGRectMake((self.view.frame.size.width - CARD_WIDTH)/2, (self.view.frame.size.height - CARD_HEIGHT)/2, CARD_WIDTH, CARD_HEIGHT)];
     NSDictionary *tempoaryDict = [exampleCardLabels objectAtIndex:index];
     draggable.information.text = tempoaryDict[@"Name"]; //%%% placeholder for card-specific information
+    if(tempoaryDict[@"ImageURL"]!=nil)
+    {
+          draggable.imageView.image  = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:tempoaryDict[@"ImageURL"]]]];
+    }
+  
     draggable.delegate = self;
     return draggable;
 }

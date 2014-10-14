@@ -19,6 +19,7 @@
 @property(nonatomic, strong) NSMutableArray *selectedFriends;
 @property(nonatomic, strong) NSMutableDictionary *dictionary;
 @property(nonatomic,strong) NSMutableArray *myTokens;
+
 - (IBAction)unwind:(id)sender;
 
 @end
@@ -349,7 +350,11 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
                        NSDictionary *dictionary = [buisinesses objectAtIndex:i];
                       
                        [temp setObject:dictionary[@"name"] forKey:@"Name"];
-                      
+                       if(dictionary[@"image_url"]!=nil)
+                       {
+                           [temp setObject:dictionary[@"image_url"] forKey:@"ImageURL"];
+                       }
+                       
                        [decisionObjects addObject:temp];
                    }
 

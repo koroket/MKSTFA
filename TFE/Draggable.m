@@ -28,7 +28,7 @@
 @synthesize panGestureRecognizer;
 @synthesize information;
 @synthesize overlayView;
-
+@synthesize imageView;
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -41,6 +41,9 @@
         [information setTextAlignment:NSTextAlignmentCenter];
         information.textColor = [UIColor blackColor];
         
+        imageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 200, 100, 100)];
+        
+        
         self.backgroundColor = [UIColor whiteColor];
 #warning placeholder stuff, replace with card-specific information }
         
@@ -50,6 +53,7 @@
         
         [self addGestureRecognizer:panGestureRecognizer];
         [self addSubview:information];
+        [self addSubview:imageView];
         
         overlayView = [[OverlayView alloc]initWithFrame:CGRectMake(self.frame.size.width/2-100, 0, 100, 100)];
         overlayView.alpha = 0;
