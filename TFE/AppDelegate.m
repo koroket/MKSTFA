@@ -32,9 +32,21 @@
     }
     return YES;
 }
--(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
+-(void)application:(UIApplication *)application
+didReceiveRemoteNotification:(NSDictionary *)userInfo
+fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 {
-    [self addMessageFromRemoteNotification:userInfo updateUI:YES];
+    
+
+    NSDictionary *tempDictionary = userInfo;
+    if([@"message" isEqualToString:tempDictionary[@"type"]])
+    {
+        
+    }
+    else
+    {
+            [self addMessageFromRemoteNotification:userInfo updateUI:YES];
+    }
 
 }
 - (void)addMessageFromRemoteNotification:(NSDictionary*)userInfo updateUI:(BOOL)updateUI
@@ -45,7 +57,8 @@
     
     [chatViewController performSegueWithIdentifier:@"Done" sender:chatViewController];
 }
-- (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
+- (void)application:(UIApplication*)application
+didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
 {
     NSString* mytoken = [NSString stringWithFormat:@"%@",deviceToken];
     
@@ -55,20 +68,25 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-- (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error
+- (void)application:(UIApplication*)application
+didFailToRegisterForRemoteNotificationsWithError:(NSError*)error
 {
     NSLog(@"Failed to get token, error: %@", error);
 }
 
--(void)onReceivePushNotification:(NSDictionary *) pushDict andPayload:(NSDictionary *)payload {
+- (void)onReceivePushNotification:(NSDictionary *) pushDict
+                       andPayload:(NSDictionary *)payload
+{
     [payload valueForKey:@"title"];
     UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"New Alert !" message:[pushDict valueForKey:@"alert"] delegate:self cancelButtonTitle:@"Thanks !" otherButtonTitles: @"Open",nil];
     [message show];
 }
--(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+- (void)alertView:(UIAlertView *)alertView
+clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     NSString *title = [alertView buttonTitleAtIndex:buttonIndex];
-    if([title isEqualToString:@"Open"]) {
+    if([title isEqualToString:@"Open"])
+    {
         [[Pushbots getInstance] OpenedNotification];
         // set Badge to 0
         [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];

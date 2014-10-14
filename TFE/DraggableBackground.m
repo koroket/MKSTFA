@@ -208,7 +208,13 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
                 NSNumber *t = hhh[@"NumberOfReplies"];
                 if([t intValue]==[[NSUserDefaults standardUserDefaults] integerForKey:@"numOfPeople"])
                 {
-                    [self finalWith:index andUrl:tempUrl];
+                    
+                    //[self finalWith:index andUrl:tempUrl];
+                    NSArray *temparray = [[NSUserDefaults standardUserDefaults] arrayForKey:@"GroupTokens"];
+                    for(int i = 0; i <[[NSUserDefaults standardUserDefaults] integerForKey:@"numOfPeople"];i++)
+                    {
+                        [self sendNotification:temparray[i] withIndex:index withGroupid:tempUrl];
+                    }
                     //[self performSegueWithIdentifier:@"Done" sender:self];
                 }
                 else
@@ -276,6 +282,47 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
     [dataTask resume];
     
 }
+- (void)sendNotification:(NSString*)temptoken withIndex: (int) daindex withGroupid: (NSString*) grpid
+{
+    //URL
+    NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/token/push/%@/%d/%@",
+                          temptoken,daindex,grpid];
+    NSURL *url = [NSURL URLWithString:fixedUrl];
+    
+    NSMutableURLRequest *request =
+    [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
+    [request setHTTPMethod:@"GET"];
+    
+    NSURLSession *urlSession = [NSURLSession sharedSession];
+    NSURLSessionDataTask *dataTask =
+    [urlSession dataTaskWithRequest:request
+                  completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                      
+                      NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+                      NSInteger responseStatusCode = [httpResponse statusCode];
+                      
+                      if (responseStatusCode == 200 && data)
+                      {
+                          dispatch_async(dispatch_get_main_queue(), ^(void) {
+                              
+                              
+                          });
+                          
+                          // do something with this data
+                          // if you want to update UI, do it on main queue
+                      }
+                      else
+                      {
+                          // error handling
+                          NSLog(@"gucci");
+                      }
+                      dispatch_async(dispatch_get_main_queue(), ^{
+                          
+                      });
+                  }];
+    [dataTask resume];
+}
+
 
 @end
 

@@ -106,11 +106,13 @@
                           if (responseStatusCode == 200 && data)
                           {
                               dispatch_async(dispatch_get_main_queue(), ^(void) {
-                                  NSArray *fetchedData =
+                                  NSDictionary *fetchedData =
                                       [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-
-                                  [[NSUserDefaults standardUserDefaults] setObject:fetchedData forKey:@"AllObjects"];
-
+                                  NSArray* tempdictionary = fetchedData[@"Objects"];
+                                  NSArray* tempdictionary2 = fetchedData[@"Tokens"];
+                                  
+                                  [[NSUserDefaults standardUserDefaults] setObject:tempdictionary forKey:@"AllObjects"];
+                                  [[NSUserDefaults standardUserDefaults] setObject:tempdictionary2 forKey:@"GroupTokens"];
                                   [[NSUserDefaults standardUserDefaults] synchronize];
 
                                   [self performSegueWithIdentifier:@"Swipe" sender:self];

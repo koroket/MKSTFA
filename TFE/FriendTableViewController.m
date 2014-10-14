@@ -18,6 +18,7 @@
 @property(nonatomic, strong) NSMutableArray *friendIds;
 @property(nonatomic, strong) NSMutableArray *selectedFriends;
 @property(nonatomic, strong) NSMutableDictionary *dictionary;
+@property(nonatomic,strong) NSMutableArray *myTokens;
 - (IBAction)unwind:(id)sender;
 
 @end
@@ -119,6 +120,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     self.myFriends = [NSMutableArray array];
     self.friendIds = [NSMutableArray array];
     self.selectedFriends = [NSMutableArray array];
+    self.myTokens = [NSMutableArray array];
     
     [FBRequestConnection startWithGraphPath:@"/me/friends"
                                  parameters:nil
@@ -151,7 +153,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 
   for (int i = 0; i < self.selectedFriends.count; i++)
   {
-      [self getTokens:self.selectedFriends[i]];
+      
     //URL
     NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/ppl/%@groups",
                                                     [self.selectedFriends objectAtIndex:i]];
@@ -278,11 +280,21 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
  * Yelp
  * --------------------------------------------------------------------------
  */
+-(void)collectTokens
+{
+    for(int i = 0; i < self.selectedFriends.count; i++)
+    {
+        [self getTokens:self.selectedFriends[i]];
+    }
+}
+
 
 - (void)getYelp
 {
+
   if (self.selectedFriends.count > 1)
   {
+      
       //URL
       NSString *fixedURL = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/yelp/%@/%@/%@",
                                                     [[NSUserDefaults standardUserDefaults] stringForKey:@"location"],[[NSUserDefaults standardUserDefaults] stringForKey:@"item"],
@@ -342,6 +354,8 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
                    }
 
                    // 3
+                   [self.dictionary setValue:self.myTokens
+                                      forKey:@"Tokens"];
                    [self.dictionary setValue:@(-1)
                                       forKey:@"Done"];
                    [self.dictionary setValue:@(buisinesses.count)
@@ -395,7 +409,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.mode = MBProgressHUDModeIndeterminate;
     hud.labelText = @"Loading";
-     [self getYelp];
+     [self collectTokens];
 
 
 }
@@ -424,8 +438,12 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
                               NSArray *fetchedData =
                               [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
                               NSDictionary *tempDictionary = fetchedData[fetchedData.count-1];
-                              
+                              [self.myTokens addObject:tempDictionary[@"token"]];
                               [self sendNotification:tempDictionary[@"token"]];
+                              if(self.myTokens.count==self.selectedFriends.count)
+                              {
+                                  [self getYelp];
+                              }
                           });
                           
                           // do something with this data
