@@ -1,10 +1,24 @@
 PODS:
+  - AMSmoothAlert (1.1):
+    - GPUImage
+  - GPUImage (0.1.6)
   - MBProgressHUD (0.9)
+  - SVPullToRefresh (0.4.1)
 
 DEPENDENCIES:
+  - AMSmoothAlert (~> 1.0)
   - MBProgressHUD (~> 0.8)
+  - SVPullToRefresh (from `https://github.com/samvermette/SVPullToRefresh`, commit `a5f9dfee86`)
+
+EXTERNAL SOURCES:
+  SVPullToRefresh:
+    :commit: a5f9dfee86
+    :git: https://github.com/samvermette/SVPullToRefresh
 
 SPEC CHECKSUMS:
+  AMSmoothAlert: 1b4bf6688b698a606a963c336b5060490f4d3db2
+  GPUImage: cecb0830bb9428f50192042e3c7b53810f51388e
   MBProgressHUD: 2038dbcf3dce73215abed6001657043d53aa79a8
+  SVPullToRefresh: 61a0e4bd12bd6f8e3465909810b0fbeb1a28d5f2
 
 COCOAPODS: 0.34.2

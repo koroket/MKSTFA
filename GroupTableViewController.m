@@ -14,7 +14,8 @@
 #import "DraggableBackground.h"
 #import "MBProgressHUD.h"
 #import "NetworkCommunication.h"
-
+#import "UIScrollView+SVPullToRefresh.h"
+#import "AMSmoothAlertView.h"
 @interface GroupTableViewController ()
 
 - (IBAction)reloadData:(id)sender;
@@ -41,18 +42,18 @@
     self.myGroups = [NSMutableArray array];
     self.numOfPeople = [NSMutableArray array];
     self.myOwners = [NSMutableArray array];
-
+    [self.tableView addPullToRefreshWithActionHandler:^{
+        [self getRequests];
+    }];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    hud.mode = MBProgressHUDModeIndeterminate;
-    hud.labelText = @"Loading";
-    [self getRequests];
-    
-   
+  
+    //[self getRequests];
+
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -164,8 +165,13 @@
         controller.numOfPeople = (int)[self.numOfPeople objectAtIndex:self.myGroups.count-1-myIndex];
     }
 }
+
 - (void)getRequests
 {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
+    hud.mode = MBProgressHUDModeIndeterminate;
+    hud.labelText = @"Loading";
     
     NetworkCommunication *sharedCommunication = [NetworkCommunication alloc];
     [sharedCommunication serverRequests: [NSString stringWithFormat:@"ppl/%@groups",
@@ -188,11 +194,15 @@
          }
          
          [self.tableView reloadData];
-         [MBProgressHUD hideHUDForView:self.view animated:YES];
+         [self.tableView.pullToRefreshView stopAnimating];
          
+         [MBProgressHUD hideHUDForView:self.view animated:YES];
+         AMSmoothAlertView *alert = [[AMSmoothAlertView alloc]initDropAlertWithTitle:@"Gucci" andText:@"Dat pussy doe" andCancelButton:YES forAlertType:AlertSuccess];
+         [alert show];
      }];
     
 }
+
 - (IBAction)reloadData:(id)sender
 {
     [self getRequests];
