@@ -13,7 +13,7 @@
 #import <Foundation/Foundation.h>
 #import "DraggableBackground.h"
 #import "MBProgressHUD.h"
-
+#import "NetworkCommunication.h"
 
 @interface GroupTableViewController ()
 
@@ -166,58 +166,33 @@
 }
 - (void)getRequests
 {
-    // URL
-    NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/ppl/%@groups",
-                                                    [[NSUserDefaults standardUserDefaults] stringForKey:@"myId"]];
-    NSURL *url = [NSURL URLWithString:fixedUrl];
-
-    NSMutableURLRequest *request =
-        [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
-    [request setHTTPMethod:@"GET"];
-
-    NSURLSession *urlSession = [NSURLSession sharedSession];
-    NSURLSessionDataTask *dataTask =
-        [urlSession dataTaskWithRequest:request
-                      completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-
-                          NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-                          NSInteger responseStatusCode = [httpResponse statusCode];
-
-                          if (responseStatusCode == 200 && data)
-                          {
-                              dispatch_async(dispatch_get_main_queue(), ^(void) {
-                                  NSArray *fetchedData =
-                                      [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                                  self.myGroups = [NSMutableArray array];
-                                  for (int i = 0; i < fetchedData.count; i++)
-                                  {
-                                      NSDictionary *data1 = [fetchedData objectAtIndex:i];
-                                      [self.myGroups addObject:data1[@"groupID"]];
-                                      //[self deleteGroup:data1[@"_id"]];
-                                      [self.numOfPeople addObject:data1[@"number"]];
-                                      [self.myOwners addObject:data1[@"owner"]];
-                                  }
-
-                                  [self.tableView reloadData];
-                                  [MBProgressHUD hideHUDForView:self.view animated:YES];
-                                  
-                              });
-
-                              // do something with this data
-                              // if you want to update UI, do it on main queue
-                          }
-                          else
-                          {
-                              // error handling
-                              NSLog(@"gucci");
-                          }
-                          dispatch_async(dispatch_get_main_queue(), ^{
-                             
-                          });
-                      }];
-    [dataTask resume];
+    
+    NetworkCommunication *sharedCommunication = [NetworkCommunication alloc];
+    [sharedCommunication serverRequests: [NSString stringWithFormat:@"ppl/%@groups",
+                                          [[NSUserDefaults standardUserDefaults] stringForKey:@"myId"]]
+                                   type:@"GET"
+                         whatDictionary:nil
+                              withBlock:^(void)
+     {
+         
+         NSArray *fetchedData = [NSJSONSerialization JSONObjectWithData:sharedCommunication.myData options:0 error:nil];
+         self.myGroups = [NSMutableArray array];
+         
+         for (int i = 0; i < fetchedData.count; i++)
+         {
+             NSDictionary *data1 = [fetchedData objectAtIndex:i];
+             [self.myGroups addObject:data1[@"groupID"]];
+             
+             [self.numOfPeople addObject:data1[@"number"]];
+             [self.myOwners addObject:data1[@"owner"]];
+         }
+         
+         [self.tableView reloadData];
+         [MBProgressHUD hideHUDForView:self.view animated:YES];
+         
+     }];
+    
 }
-
 - (IBAction)reloadData:(id)sender
 {
     [self getRequests];
