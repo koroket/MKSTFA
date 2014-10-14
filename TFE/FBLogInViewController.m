@@ -18,7 +18,7 @@
 
 @implementation FBLogInViewController
 
-#pragma init
+#pragma mark - init
 /**
  * --------------------------------------------------------------------------
  * Init
@@ -32,7 +32,7 @@
   self.loginView.readPermissions = @[ @"public_profile", @"email", @"user_friends" ];
 }
 
-#pragma FaceBook Server Communication
+#pragma mark - FaceBook Server Communication
 /**
  * --------------------------------------------------------------------------
  * FaceBook
@@ -66,7 +66,8 @@
    */
   
   self.statusLabel.text = @"You're logged in as";
-    [self performSegueWithIdentifier:@"LoggedIn" sender:self];
+[self performSegueWithIdentifier:@"LoggedIn" sender:self];
+    
 }
 
 - (void)loginViewShowingLoggedOutUser:(FBLoginView *)loginView
@@ -79,9 +80,10 @@
 /**
  *  Handle possible errors that can occur during login
  *
- *  @param loginView <#loginView description#>
- *  @param error     <#error description#>
+ *  @param loginView
+ *  @param error
  */
+
 - (void)loginView:(FBLoginView *)loginView handleError:(NSError *)error
 {
   NSString *alertMessage, *alertTitle;
@@ -140,7 +142,6 @@
   }
 }
 
-
 - (void)linkDeviceToken
 {
 
@@ -171,7 +172,7 @@
     NSData *data = [NSJSONSerialization dataWithJSONObject:dictionary
                                                    options:kNilOptions
                                                      error:&error];
-
+    
     if (!error)
     {
         //Upload
