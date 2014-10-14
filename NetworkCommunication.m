@@ -43,25 +43,25 @@
     [request setHTTPMethod:requestID];
     
     NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler:
-                                      ^void (NSData *data, NSURLResponse *response, NSError *error)
-                                      {
-                                          self.myData = data;
-                                          NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-                                          NSInteger responseStatusCode = [httpResponse statusCode];
-                                          
-                                          if (responseStatusCode == 200 && data)
-                                          {
-                                              dispatch_async(dispatch_get_main_queue(), blockName);
-                                              // do something with this data
-                                              // if you want to update UI, do it on main queue
-                                          }
-                                          else
-                                          {
-                                              // error handling
-                                              NSLog(@"gucci");
-                                          }
-                                          
-                                      }];
+      ^void (NSData *data, NSURLResponse *response, NSError *error)
+      {
+          self.myData = data;
+          NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+          NSInteger responseStatusCode = [httpResponse statusCode];
+          
+          if (responseStatusCode == 200 && data)
+          {
+              dispatch_async(dispatch_get_main_queue(), blockName);
+              // do something with this data
+              // if you want to update UI, do it on main queue
+          }
+          else
+          {
+              // error handling
+              NSLog(@"gucci");
+          }
+          
+      }];
 
     
     
