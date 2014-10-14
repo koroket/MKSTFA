@@ -186,11 +186,19 @@
 			name = Swipe;
 			sourceTree = "<group>";
 		};
+		D599940A19EDA8870098802B /* Singleton */ = {
+			isa = PBXGroup;
+			children = (
+				62B2177419ECF4D900834EBA /* NetworkCommunication.h */,
+				62B2177319ECF4D900834EBA /* NetworkCommunication.m */,
+			);
+			name = Singleton;
+			path = ..;
+			sourceTree = "<group>";
+		};
 		D5AB926F19D60565001FB2A7 = {
 			isa = PBXGroup;
 			children = (
-				62B2177319ECF4D900834EBA /* NetworkCommunication.m */,
-				62B2177419ECF4D900834EBA /* NetworkCommunication.h */,
 				D5AB92A419D60AA0001FB2A7 /* Frameworks */,
 				D5AB927A19D60565001FB2A7 /* TFE */,
 				D5AB929719D60565001FB2A7 /* TFETests */,
@@ -217,12 +225,13 @@
 				D5551DFC19DA1D600017790D /* ViewController.h */,
 				62BD81D019E17A6800813045 /* SearchSettingViewController.h */,
 				62BD81D119E17A6800813045 /* SearchSettingViewController.m */,
+				D5551DE819D9EA400017790D /* Group.h */,
+				D5551DE919D9EA400017790D /* Group.m */,
 				D5551DED19DA071D0017790D /* Login */,
 				D5551DEB19DA06E00017790D /* FriendTable */,
 				D5551DEC19DA06F70017790D /* GroupTable */,
 				D5551DF119DA1A920017790D /* Swipe */,
-				D5551DE819D9EA400017790D /* Group.h */,
-				D5551DE919D9EA400017790D /* Group.m */,
+				D599940A19EDA8870098802B /* Singleton */,
 				D5AB928B19D60565001FB2A7 /* Images.xcassets */,
 				62BD81CD19E12F3E00813045 /* Main.storyboard */,
 				D5AB928D19D60565001FB2A7 /* LaunchScreen.xib */,

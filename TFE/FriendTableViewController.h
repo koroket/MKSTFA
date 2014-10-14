@@ -11,6 +11,6 @@
 
 @interface FriendTableViewController : UITableViewController
 
-@property (nonatomic,retain) GroupTableViewController *parent;
+@property (nonatomic, retain) GroupTableViewController *parent;
 
 @end

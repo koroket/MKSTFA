@@ -1,0 +1,30 @@
+//
+//  DraggableBackground.h
+//  TFE
+//
+//  Created by Luke Solomon on 9/29/14.
+//  Copyright (c) 2014 SoloBando Enterprises. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+#import "Draggable.h"
+
+@interface DraggableBackground : UIViewController <DraggableDelegate>
+
+//methods called in DraggableView
+- (void)cardSwipedLeft:(UIView *)card;
+- (void)cardSwipedRight:(UIView *)card;
+
+<<<<<<< HEAD
+@property (retain, nonatomic) NSArray *exampleCardLabels; //%%% the labels the cards
+@property (retain, nonatomic) NSMutableArray *allCards; //%%% the labels the cards
+@property (nonatomic, strong) NSArray *restaurants;
+=======
+@property (retain,nonatomic)NSArray* exampleCardLabels; //%%% the labels the cards
+@property (retain,nonatomic)NSMutableArray* allCards; //%%% the labels the cards
+@property (nonatomic, strong) NSArray* restaurants;
+@property (nonatomic,strong) NSString* groupID;
+@property (nonatomic,assign) int numOfPeople;
+>>>>>>> 72b29e979c9bd9cb401127c15f31214916f230ec
+
+@end

@@ -13,9 +13,13 @@
 @property NSString *HerokuURL;
 @property NSData *myData;
 
++ (instancetype)sharedManager;
+
 - (void)serverRequests:(NSString *)urlID
                   type:(NSString *)requestID
         whatDictionary:(NSDictionary*)dictionaryID
              withBlock:(void (^)())blockName;
+
+
 
 @end

@@ -20,6 +20,23 @@
  *  @param dictionaryID The dictionary we are trying to access
  */
 
+
++ (instancetype)sharedManager
+{
+    static NetworkCommunication *sharedMyManager = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^
+    {
+        sharedMyManager = [[self alloc] init];
+    });
+    return sharedMyManager;
+}
+
+- (void)dealloc
+{
+    // Should never be called, but just here for clarity really.
+}
+
 - (void)serverRequests:(NSString *)urlID
                type:(NSString *)requestID
      whatDictionary:(NSDictionary*)dictionaryID
@@ -42,26 +59,28 @@
                                                        timeoutInterval:30.0];
     [request setHTTPMethod:requestID];
     
-    NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler:
-      ^void (NSData *data, NSURLResponse *response, NSError *error)
+    NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request
+                                                   completionHandler: ^void (NSData *data,
+                                                                             NSURLResponse *response,
+                                                                             NSError *error)
+    {
+      self.myData = data;
+      NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+      NSInteger responseStatusCode = [httpResponse statusCode];
+      
+      if (responseStatusCode == 200 && data)
       {
-          self.myData = data;
-          NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-          NSInteger responseStatusCode = [httpResponse statusCode];
-          
-          if (responseStatusCode == 200 && data)
-          {
-              dispatch_async(dispatch_get_main_queue(), blockName);
-              // do something with this data
-              // if you want to update UI, do it on main queue
-          }
-          else
-          {
-              // error handling
-              NSLog(@"gucci");
-          }
-          
-      }];
+          dispatch_async(dispatch_get_main_queue(), blockName);
+          // do something with this data
+          // if you want to update UI, do it on main queue
+      }
+      else
+      {
+          // error handling
+          NSLog(@"gucci");
+      }
+      
+    }];
 
     
     

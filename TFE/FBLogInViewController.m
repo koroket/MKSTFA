@@ -18,7 +18,7 @@
 
 @implementation FBLogInViewController
 
-#pragma init
+#pragma mark - init
 /**
  * --------------------------------------------------------------------------
  * Init
@@ -32,7 +32,7 @@
   self.loginView.readPermissions = @[ @"public_profile", @"email", @"user_friends" ];
 }
 
-#pragma FaceBook Server Communication
+#pragma mark - FaceBook Server Communication
 /**
  * --------------------------------------------------------------------------
  * FaceBook
@@ -66,7 +66,8 @@
    */
   
   self.statusLabel.text = @"You're logged in as";
-    [self performSegueWithIdentifier:@"LoggedIn" sender:self];
+[self performSegueWithIdentifier:@"LoggedIn" sender:self];
+    
 }
 
 - (void)loginViewShowingLoggedOutUser:(FBLoginView *)loginView
@@ -79,9 +80,10 @@
 /**
  *  Handle possible errors that can occur during login
  *
- *  @param loginView <#loginView description#>
- *  @param error     <#error description#>
+ *  @param loginView
+ *  @param error
  */
+
 - (void)loginView:(FBLoginView *)loginView handleError:(NSError *)error
 {
   NSString *alertMessage, *alertTitle;
@@ -140,69 +142,70 @@
   }
 }
 
-
 - (void)linkDeviceToken
 {
+
+
+    //URL
+    NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/token/%@token",
+                          [[NSUserDefaults standardUserDefaults] stringForKey:@"myId"]];
+
+    NSURL *url = [NSURL URLWithString:fixedUrl];
+
+    //Session
+    NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:config];
+
+    //Request
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    request.HTTPMethod = @"POST";
+
+    //Dictionary
+    NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:
+                                [[NSUserDefaults standardUserDefaults] objectForKey:@"myToken"],
+                                @"token",
+                                nil];
+
+    //errorHandlign
+    NSError *error = nil;
+    NSData *data = [NSJSONSerialization dataWithJSONObject:dictionary
+                                                   options:kNilOptions
+                                                     error:&error];
     
- 
-        //URL
-        NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/token/%@token",
-                              [[NSUserDefaults standardUserDefaults] stringForKey:@"myId"]];
-        
-        NSURL *url = [NSURL URLWithString:fixedUrl];
-        
-        //Session
-        NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
-        NSURLSession *session = [NSURLSession sessionWithConfiguration:config];
-        
-        //Request
-        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
-        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-        request.HTTPMethod = @"POST";
-        
-        //Dictionary
-        NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:
-                                    [[NSUserDefaults standardUserDefaults] objectForKey:@"myToken"],
-                                    @"token",
-                                    nil];
-        
-        //errorHandlign
-        NSError *error = nil;
-        NSData *data = [NSJSONSerialization dataWithJSONObject:dictionary options:kNilOptions error:&error];
-        
-        if (!error)
-        {
-            //Upload
-            NSURLSessionUploadTask *uploadTask =
-            [session uploadTaskWithRequest:request
-                                  fromData:data
-                         completionHandler:^(NSData *data,
-                                             NSURLResponse *response,
-                                             NSError *error)
+    if (!error)
+    {
+        //Upload
+        NSURLSessionUploadTask *uploadTask =
+        [session uploadTaskWithRequest:request
+                              fromData:data
+                     completionHandler:^(NSData *data,
+                                         NSURLResponse *response,
+                                         NSError *error)
+         {
+             NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+             
+             NSInteger responseStatusCode = [httpResponse statusCode];
+             
+             if (responseStatusCode == 200 && data)
              {
-                 NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-                 
-                 NSInteger responseStatusCode = [httpResponse statusCode];
-                 
-                 if (responseStatusCode == 200 && data)
-                 {
-                     dispatch_async(dispatch_get_main_queue(), ^(void)
-                                    {
-                                        
-                                        
-                                    });//Dispatch main queue block
-                 }//if
-                 
-             }];//upload task Block
-            
-            // 5
-            [uploadTask resume];
-            NSLog(@"Connected to server");
-        }
-        else
-        {
-            NSLog(@"Cannot connect to server");
-        }
+                 dispatch_async(dispatch_get_main_queue(), ^(void)
+                    {
+                        
+                        
+                    });//Dispatch main queue block
+             }//if
+             
+         }];//upload task Block
+        
+        // 5
+        [uploadTask resume];
+        NSLog(@"Connected to server");
+    }
+    else
+    {
+        NSLog(@"Cannot connect to server");
+    }
     
 }
 

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6206.8" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="10w-ke-JC6">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="10w-ke-JC6">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7026.1"/>
-        <capability name="Constraints with attributes relative to the layout margin" minToolsVersion="6.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Swiping-->
@@ -67,7 +67,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2392" y="-561"/>
+            <point key="canvasLocation" x="890" y="186"/>
         </scene>
         <!--Search Inputs-->
         <scene sceneID="xeO-Jy-FGg">
@@ -135,7 +135,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fiK-Gx-F3e" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="620" y="383"/>
+            <point key="canvasLocation" x="1620" y="186"/>
         </scene>
         <!--Invite Friends-->
         <scene sceneID="cvR-wP-aQt">
@@ -173,7 +173,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XL1-WS-Lz6" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="CAL-bQ-3tP" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1495" y="392"/>
+            <point key="canvasLocation" x="2329" y="186"/>
         </scene>
         <!--Friend Table-->
         <scene sceneID="46v-Xq-Kwb">
@@ -242,7 +242,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ubE-cl-GB6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2392" y="392"/>
+            <point key="canvasLocation" x="118" y="186"/>
         </scene>
         <!--Logout-->
         <scene sceneID="kPM-ko-Gm8">
@@ -267,10 +267,12 @@
                                     <outlet property="delegate" destination="2yF-yU-JQ1" id="9wN-fl-awg"/>
                                 </connections>
                             </view>
-                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4Wa-Gd-xcF">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4Wa-Gd-xcF">
                                 <rect key="frame" x="103" y="138" width="50" height="50"/>
                                 <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="07J-lM-blR"/>
                                     <constraint firstAttribute="width" constant="50" id="Fok-OM-vR1"/>
+                                    <constraint firstAttribute="width" constant="50" id="dSM-Rc-fTL"/>
                                     <constraint firstAttribute="height" constant="50" id="mle-fW-I2T"/>
                                 </constraints>
                                 <variation key="default">
@@ -280,13 +282,21 @@
                                     </mask>
                                 </variation>
                             </view>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="status" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xql-tF-3ih">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="status" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xql-tF-3ih">
                                 <rect key="frame" x="103" y="94" width="145" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="145" id="1S7-cY-ijq"/>
+                                    <constraint firstAttribute="height" constant="21" id="uWe-ts-Ry6"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dhz-Sa-67K">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dhz-Sa-67K">
                                 <rect key="frame" x="161" y="123" width="156" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="156" id="hAW-VP-pKx"/>
+                                    <constraint firstAttribute="height" constant="21" id="zC2-51-epn"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
@@ -295,18 +305,24 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="4Wa-Gd-xcF" firstAttribute="leading" secondItem="SrJ-Xe-7jZ" secondAttribute="leadingMargin" constant="177" id="4Ac-wk-kOg"/>
+                            <constraint firstItem="dhz-Sa-67K" firstAttribute="leading" secondItem="4Wa-Gd-xcF" secondAttribute="trailing" constant="8" id="8PM-zU-QO9"/>
                             <constraint firstItem="4Wa-Gd-xcF" firstAttribute="top" secondItem="xql-tF-3ih" secondAttribute="bottom" constant="8" id="BKe-aJ-IsP"/>
                             <constraint firstItem="xql-tF-3ih" firstAttribute="leading" secondItem="SrJ-Xe-7jZ" secondAttribute="leadingMargin" constant="177" id="CJP-Sp-ib2"/>
                             <constraint firstItem="4Wa-Gd-xcF" firstAttribute="top" secondItem="xql-tF-3ih" secondAttribute="bottom" constant="8" id="CLB-w8-yhy"/>
                             <constraint firstItem="xql-tF-3ih" firstAttribute="top" secondItem="BH9-wa-wZr" secondAttribute="bottom" constant="25" id="Kl0-yN-YYs"/>
                             <constraint firstItem="dhz-Sa-67K" firstAttribute="top" secondItem="xql-tF-3ih" secondAttribute="bottom" constant="8" id="Lyx-c3-rdT"/>
+                            <constraint firstItem="dhz-Sa-67K" firstAttribute="top" secondItem="xql-tF-3ih" secondAttribute="bottom" constant="8" id="MsV-e5-ukX"/>
                             <constraint firstItem="dhz-Sa-67K" firstAttribute="leading" secondItem="4Wa-Gd-xcF" secondAttribute="trailing" constant="8" id="QdF-Tg-dtd"/>
                             <constraint firstAttribute="centerY" secondItem="cLY-L0-A9W" secondAttribute="centerY" id="TB4-My-tPw"/>
+                            <constraint firstItem="4Wa-Gd-xcF" firstAttribute="top" secondItem="xql-tF-3ih" secondAttribute="bottom" constant="23" id="UY2-ui-hRy"/>
                             <constraint firstItem="dhz-Sa-67K" firstAttribute="leading" secondItem="4Wa-Gd-xcF" secondAttribute="trailing" constant="8" id="YAq-Jr-3kz"/>
                             <constraint firstItem="dhz-Sa-67K" firstAttribute="top" secondItem="xql-tF-3ih" secondAttribute="bottom" constant="8" id="aMd-U0-fuV"/>
                             <constraint firstItem="cLY-L0-A9W" firstAttribute="top" secondItem="dhz-Sa-67K" secondAttribute="bottom" constant="136" id="c4V-DG-SfN"/>
                             <constraint firstItem="cLY-L0-A9W" firstAttribute="top" secondItem="4Wa-Gd-xcF" secondAttribute="bottom" constant="107" id="hVI-rP-ECL"/>
+                            <constraint firstItem="4Wa-Gd-xcF" firstAttribute="leading" secondItem="SrJ-Xe-7jZ" secondAttribute="leadingMargin" constant="87" id="jm0-JC-03h"/>
                             <constraint firstAttribute="trailingMargin" secondItem="xql-tF-3ih" secondAttribute="trailing" constant="246" id="o30-nQ-BPR"/>
+                            <constraint firstItem="xql-tF-3ih" firstAttribute="top" secondItem="BH9-wa-wZr" secondAttribute="bottom" constant="30" id="q3H-Ru-rsW"/>
+                            <constraint firstItem="xql-tF-3ih" firstAttribute="leading" secondItem="SrJ-Xe-7jZ" secondAttribute="leadingMargin" constant="87" id="rg2-u9-87N"/>
                             <constraint firstAttribute="centerX" secondItem="cLY-L0-A9W" secondAttribute="centerX" id="vr4-Nq-Lhg"/>
                             <constraint firstAttribute="trailingMargin" secondItem="dhz-Sa-67K" secondAttribute="trailing" constant="177" id="yxj-iL-Tev"/>
                         </constraints>
