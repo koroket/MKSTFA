@@ -6,6 +6,7 @@ source 'https://github.com/CocoaPods/Specs.git'
 target 'TFE' do
 pod 'MBProgressHUD', '~> 0.8'
 pod 'SVPullToRefresh', :git => 'https://github.com/samvermette/SVPullToRefresh', :commit => 'a5f9dfee86'
+pod 'AMSmoothAlert', '~> 1.0’
 end
 
 target 'TFETests' do

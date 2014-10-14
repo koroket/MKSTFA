@@ -15,6 +15,7 @@
 #import "MBProgressHUD.h"
 #import "NetworkCommunication.h"
 #import "UIScrollView+SVPullToRefresh.h"
+#import "AMSmoothAlertView.h"
 @interface GroupTableViewController ()
 
 - (IBAction)reloadData:(id)sender;
@@ -52,8 +53,7 @@
     [super viewWillAppear:animated];
   
     //[self getRequests];
-    
-   
+
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -197,7 +197,8 @@
          [self.tableView.pullToRefreshView stopAnimating];
          
          [MBProgressHUD hideHUDForView:self.view animated:YES];
-         
+         AMSmoothAlertView *alert = [[AMSmoothAlertView alloc]initDropAlertWithTitle:@"Gucci" andText:@"Dat pussy doe" andCancelButton:YES forAlertType:AlertSuccess];
+         [alert show];
      }];
     
 }

@@ -41,7 +41,18 @@ install_resource()
       ;;
   esac
 }
-
+          install_resource "AMSmoothAlert/AMSmoothAlert/assets/checkMark.png"
+                    install_resource "AMSmoothAlert/AMSmoothAlert/assets/checkMark@2x.png"
+                    install_resource "AMSmoothAlert/AMSmoothAlert/assets/crossMark.png"
+                    install_resource "AMSmoothAlert/AMSmoothAlert/assets/crossMark@2x.png"
+                    install_resource "AMSmoothAlert/AMSmoothAlert/assets/info.png"
+                    install_resource "AMSmoothAlert/AMSmoothAlert/assets/info@2x.png"
+                    install_resource "GPUImage/framework/Resources/lookup.png"
+                    install_resource "GPUImage/framework/Resources/lookup_amatorka.png"
+                    install_resource "GPUImage/framework/Resources/lookup_miss_etikate.png"
+                    install_resource "GPUImage/framework/Resources/lookup_soft_elegance_1.png"
+                    install_resource "GPUImage/framework/Resources/lookup_soft_elegance_2.png"
+          
 rsync -avr --copy-links --no-relative --exclude '*/.svn/*' --files-from="$RESOURCES_TO_COPY" / "${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}"
 if [[ "${ACTION}" == "install" ]]; then
   rsync -avr --copy-links --no-relative --exclude '*/.svn/*' --files-from="$RESOURCES_TO_COPY" / "${INSTALL_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}"
