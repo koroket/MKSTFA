@@ -20,9 +20,10 @@
  *  @param dictionaryID The dictionary we are trying to access
  */
 
-+ (id)sharedManager
+
++ (instancetype)sharedManager
 {
-    static MyManager *sharedMyManager = nil;
+    static NetworkCommunication *sharedMyManager = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^
     {
@@ -31,22 +32,10 @@
     return sharedMyManager;
 }
 
-- (id)init
-{
-    if (self = [super init])
-    {
-        someProperty = [[NSString alloc] initWithString:@"Default Property Value"];
-    }
-    return self;
-}
-
 - (void)dealloc
 {
     // Should never be called, but just here for clarity really.
 }
-
-
-
 
 - (void)serverRequests:(NSString *)urlID
                type:(NSString *)requestID

@@ -186,11 +186,19 @@
 			name = Swipe;
 			sourceTree = "<group>";
 		};
+		D599940A19EDA8870098802B /* Singleton */ = {
+			isa = PBXGroup;
+			children = (
+				62B2177419ECF4D900834EBA /* NetworkCommunication.h */,
+				62B2177319ECF4D900834EBA /* NetworkCommunication.m */,
+			);
+			name = Singleton;
+			path = ..;
+			sourceTree = "<group>";
+		};
 		D5AB926F19D60565001FB2A7 = {
 			isa = PBXGroup;
 			children = (
-				62B2177319ECF4D900834EBA /* NetworkCommunication.m */,
-				62B2177419ECF4D900834EBA /* NetworkCommunication.h */,
 				D5AB92A419D60AA0001FB2A7 /* Frameworks */,
 				D5AB927A19D60565001FB2A7 /* TFE */,
 				D5AB929719D60565001FB2A7 /* TFETests */,
@@ -211,6 +219,7 @@
 		D5AB927A19D60565001FB2A7 /* TFE */ = {
 			isa = PBXGroup;
 			children = (
+				D599940A19EDA8870098802B /* Singleton */,
 				D5AB927F19D60565001FB2A7 /* AppDelegate.h */,
 				D5AB928019D60565001FB2A7 /* AppDelegate.m */,
 				D5551DFB19DA1D600017790D /* ViewController.m */,
