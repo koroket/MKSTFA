@@ -29,7 +29,7 @@
     int myIndex;
 }
 
-#pragma init
+#pragma mark - init
 /**
  * --------------------------------------------------------------------------
  * Init
@@ -142,6 +142,30 @@
 {
     TDBadgedCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
 
+    //Facebook connection used for profile picture
+    [[FBRequest requestForMe] startWithCompletionHandler:^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *FBuser, NSError *error)
+     {
+         if (error)
+         {
+             // Handle error
+         }
+         
+         else
+         {
+             //NSString *userName = [FBuser name];
+             
+             NSString *userImageURL = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large", [FBuser objectID]];
+             
+             cell.imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:userImageURL]]];
+            
+             
+         }
+     }];
+    
+
+    
+    
+    
     cell.textLabel.text = [NSString stringWithFormat:@"%@'s Group Event",[self.myOwners objectAtIndex:self.myOwners.count-1-indexPath.row]];
     
     cell.badgeString = @"6";
@@ -152,25 +176,14 @@
     return cell;
 }
 
-- (IBAction)unwindToFriendTableViewController:(UIStoryboardSegue *)unwindSegue
-{
-}
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if ([segue.identifier isEqualToString:@"AddGroup"])
-    {
-        FriendTableViewController *controller = [segue destinationViewController];
-        controller.parent = self;
-    }
-    else if ([segue.identifier isEqualToString:@"Swipe"])
-    {
-        DraggableBackground *controller = [segue destinationViewController];
 
-        controller.groupID = [self.myGroups objectAtIndex:self.myGroups.count-1-myIndex];
-        controller.numOfPeople = (int)[self.numOfPeople objectAtIndex:self.myGroups.count-1-myIndex];
-    }
-}
+#pragma mark - Heroku
+/**
+ * --------------------------------------------------------------------------
+ * Heroku
+ * --------------------------------------------------------------------------
+ */
 
 - (void)getRequests
 {
@@ -400,6 +413,7 @@
     
     [dataTask resume];
 }
+
 - (void)resetPeople:(NSString *)pplid
 {
     //URL
@@ -449,12 +463,41 @@
     }];
     [dataTask resume];
 }
+
 - (void)resetEverything
 {
     [self resetGroups];
     [self resetPeople:@"10204805165711346"];
     [self resetPeople:@"10153248739313289"];
     [self resetPeople:@"10202657658737811"];
+}
+
+#pragma mark - Navigation
+/**
+ * --------------------------------------------------------------------------
+ * Navigation
+ * --------------------------------------------------------------------------
+ */
+
+- (IBAction)unwindToFriendTableViewController:(UIStoryboardSegue *)unwindSegue
+{
+    
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"AddGroup"])
+    {
+        FriendTableViewController *controller = [segue destinationViewController];
+        controller.parent = self;
+    }
+    else if ([segue.identifier isEqualToString:@"Swipe"])
+    {
+        DraggableBackground *controller = [segue destinationViewController];
+        
+        controller.groupID = [self.myGroups objectAtIndex:self.myGroups.count-1-myIndex];
+        controller.numOfPeople = (int)[self.numOfPeople objectAtIndex:self.myGroups.count-1-myIndex];
+    }
 }
 
 @end

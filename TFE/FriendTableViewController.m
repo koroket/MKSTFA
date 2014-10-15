@@ -28,7 +28,7 @@
 {
 }
 
-#pragma init
+#pragma mark - init
 /**
  * --------------------------------------------------------------------------
  * Init
@@ -54,7 +54,6 @@
     [self.tableView reloadData];
     
     [self.selectedFriends addObject:[[NSUserDefaults standardUserDefaults] objectForKey:@"myId"]];
-
 }
 
 #pragma mark - Table view data source
@@ -66,49 +65,151 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-  // Return the number of rows in the section.
 
-  return [self.myFriends count];
+    // Return the number of rows in the section.
+	return [self.myFriends count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
 
-  UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+	cell.textLabel.text = self.myFriends[indexPath.row];
 
-  cell.textLabel.text = self.myFriends[indexPath.row];
 
-  return cell;
+	return cell;
 }
 
-- (void)tableView:(UITableView *)tableView
-commitEditingStyle:(UITableViewCellEditingStyle)editingStyle
-forRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)     tableView:(UITableView *)tableView
+    commitEditingStyle:(UITableViewCellEditingStyle)editingStyle
+     forRowAtIndexPath:(NSIndexPath *)indexPath {
+	[self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+}
+
+- (void)          tableView:(UITableView *)tableView
+    didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+	if ([tableView cellForRowAtIndexPath:indexPath].accessoryType == UITableViewCellAccessoryCheckmark) {
+		[tableView cellForRowAtIndexPath:indexPath].accessoryType = UITableViewCellAccessoryNone;
+
+		[self.selectedFriends removeObject:[self.friendIds objectAtIndex:indexPath.row]];
+	}
+	else {
+		[tableView cellForRowAtIndexPath:indexPath].accessoryType = UITableViewCellAccessoryCheckmark;
+
+		[self.selectedFriends addObject:[self.friendIds objectAtIndex:indexPath.row]];
+	}
+	NSLog(@"These are the selected friends %@", self.selectedFriends);
+}
+
+#pragma mark - Heroku Server Communication
+/**
+ * --------------------------------------------------------------------------
+ * Heroku
+ * --------------------------------------------------------------------------
+ */
+
+-(void)getTokens:(NSString*)userid
 {
-  [self.tableView deleteRowsAtIndexPaths:@[ indexPath ] withRowAnimation:UITableViewRowAnimationAutomatic];
-}
+    // URL
+    NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/token/%@token",
+                          userid];
+    NSURL *url = [NSURL URLWithString:fixedUrl];
+    
+    //Request
+    NSMutableURLRequest *request =
+    [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
+    [request setHTTPMethod:@"GET"];
+    
+    //URL
+    NSURLSession *urlSession = [NSURLSession sharedSession];
+    NSURLSessionDataTask *dataTask =
+    [urlSession dataTaskWithRequest:request
+                  completionHandler:^(NSData *data, NSURLResponse *response, NSError *error)
+    {
+        
+        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+        NSInteger responseStatusCode = [httpResponse statusCode];
 
-- (void)tableView:(UITableView *)tableView
-didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+        if (responseStatusCode == 200 && data)
+        {
+            dispatch_async(dispatch_get_main_queue(), ^(void)
+            {
+                NSArray *fetchedData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                NSDictionary *tempDictionary = fetchedData[fetchedData.count - 1];
+                
+                [self.myTokens addObject:tempDictionary[@"token"]];
+                
+                [self sendNotification:tempDictionary[@"token"]];
+                if (self.myTokens.count == self.selectedFriends.count)
+                {
+                    [self getYelp];
+                }
+        });
+
+        // do something with this data
+        // if you want to update UI, do it on main queue
+        }
+        else
+        {
+        // error handling
+        NSLog(@"gucci");
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+
+        });
+                  }];
+    [dataTask resume];
+}
+- (void)sendNotification:(NSString*)temptoken
 {
-  if ([tableView cellForRowAtIndexPath:indexPath].accessoryType == UITableViewCellAccessoryCheckmark)
-  {
-    [tableView cellForRowAtIndexPath:indexPath].accessoryType = UITableViewCellAccessoryNone;
-
-    [self.selectedFriends removeObject:[self.friendIds objectAtIndex:indexPath.row]];
-  }
-  else
-  {
-
-    [tableView cellForRowAtIndexPath:indexPath].accessoryType = UITableViewCellAccessoryCheckmark;
-
-    [self.selectedFriends addObject:[self.friendIds objectAtIndex:indexPath.row]];
-  }
-  NSLog(@"These are the selected friends %@", self.selectedFriends);
+    //URL
+    NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/token/push/%@/%@",
+                          temptoken,[self stringfix:[[NSUserDefaults standardUserDefaults] stringForKey:@"myName"]]];
+    NSURL *url = [NSURL URLWithString:fixedUrl];
+    
+    NSMutableURLRequest *request =
+    [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
+    [request setHTTPMethod:@"GET"];
+    
+    NSURLSession *urlSession = [NSURLSession sharedSession];
+    NSURLSessionDataTask *dataTask =
+    [urlSession dataTaskWithRequest:request
+                  completionHandler:^(NSData *data, NSURLResponse *response, NSError *error)
+    {
+                      
+        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+        NSInteger responseStatusCode = [httpResponse statusCode];
+        
+        if (responseStatusCode == 200 && data)
+        {
+            dispatch_async(dispatch_get_main_queue(), ^(void)
+               {
+                   
+               });
+            
+            // do something with this data
+            // if you want to update UI, do it on main queue
+        }
+        else
+        {
+            // error handling
+            NSLog(@"gucci");
+        }
+        dispatch_async(dispatch_get_main_queue(), ^
+        {
+            
+        });
+    }];
+    [dataTask resume];
+}
+-(NSString*)stringfix:(NSString*) str
+{
+    NSString* temp = [str stringByReplacingOccurrencesOfString:@" " withString:@"_"];
+    return temp;
 }
 
-#pragma FaceBook Server Communication
+#pragma mark - FaceBook Server Communication
 /**
  * --------------------------------------------------------------------------
  * FaceBook
@@ -128,22 +229,23 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
                                  HTTPMethod:@"GET"
                           completionHandler:^(FBRequestConnection *connection, id result, NSError *error)
      {
-         
+         //dictionary
          NSDictionary *resultDictionary = (NSDictionary *)result;
-         
          NSArray *data = [resultDictionary objectForKey:@"data"];
          
          for (NSDictionary *dic in data)
          {
              [self.myFriends addObject:[dic objectForKey:@"name"]];
              [self.friendIds addObject:[dic objectForKey:@"id"]];
+             
+
          }//for
          
          dispatch_async(dispatch_get_main_queue(), ^(void)
-                        {
-                            [self.tableView reloadData];
-                            
-                        }); //main queue dispatch
+            {
+                [self.tableView reloadData];
+                
+            }); //main queue dispatch
          
      }];//FBrequest block
     
@@ -275,7 +377,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
   }
 }
 
-#pragma Yelp Server Communication
+#pragma mark - Yelp Server Communication
 /**
  * --------------------------------------------------------------------------
  * Yelp
@@ -409,105 +511,17 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     }
 }
 
-- (IBAction)unwindToSelfViewController:(UIStoryboardSegue *)unwindSegue {}
-- (IBAction)unwind:(id)sender {
+- (IBAction)unwindToSelfViewController:(UIStoryboardSegue *)unwindSegue
+{
+}
+
+- (IBAction)unwind:(id)sender
+{
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.mode = MBProgressHUDModeIndeterminate;
     hud.labelText = @"Loading";
      [self collectTokens];
 
 
-}
--(void)getTokens:(NSString*)userid
-{
-    // URL
-    NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/token/%@token",
-                          userid];
-    NSURL *url = [NSURL URLWithString:fixedUrl];
-    
-    NSMutableURLRequest *request =
-    [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
-    [request setHTTPMethod:@"GET"];
-    
-    NSURLSession *urlSession = [NSURLSession sharedSession];
-    NSURLSessionDataTask *dataTask =
-    [urlSession dataTaskWithRequest:request
-                  completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                      
-                      NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-                      NSInteger responseStatusCode = [httpResponse statusCode];
-                      
-                      if (responseStatusCode == 200 && data)
-                      {
-                          dispatch_async(dispatch_get_main_queue(), ^(void) {
-                              NSArray *fetchedData =
-                              [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                              NSDictionary *tempDictionary = fetchedData[fetchedData.count-1];
-                              [self.myTokens addObject:tempDictionary[@"token"]];
-                              [self sendNotification:tempDictionary[@"token"]];
-                              if(self.myTokens.count==self.selectedFriends.count)
-                              {
-                                  [self getYelp];
-                              }
-                          });
-                          
-                          // do something with this data
-                          // if you want to update UI, do it on main queue
-                      }
-                      else
-                      {
-                          // error handling
-                          NSLog(@"gucci");
-                      }
-                      dispatch_async(dispatch_get_main_queue(), ^{
-                          
-                      });
-                  }];
-    [dataTask resume];
-}
-- (void)sendNotification:(NSString*)temptoken
-{
-    //URL
-    NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/token/push/%@/%@",
-                          temptoken,[self stringfix:[[NSUserDefaults standardUserDefaults] stringForKey:@"myName"]]];
-    NSURL *url = [NSURL URLWithString:fixedUrl];
-    
-    NSMutableURLRequest *request =
-    [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
-    [request setHTTPMethod:@"GET"];
-    
-    NSURLSession *urlSession = [NSURLSession sharedSession];
-    NSURLSessionDataTask *dataTask =
-    [urlSession dataTaskWithRequest:request
-                  completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                      
-                      NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-                      NSInteger responseStatusCode = [httpResponse statusCode];
-                      
-                      if (responseStatusCode == 200 && data)
-                      {
-                          dispatch_async(dispatch_get_main_queue(), ^(void) {
-                              
-                              
-                          });
-                          
-                          // do something with this data
-                          // if you want to update UI, do it on main queue
-                      }
-                      else
-                      {
-                          // error handling
-                          NSLog(@"gucci");
-                      }
-                      dispatch_async(dispatch_get_main_queue(), ^{
-                          
-                      });
-                  }];
-    [dataTask resume];
-}
--(NSString*)stringfix:(NSString*) str
-{
-    NSString* temp = [str stringByReplacingOccurrencesOfString:@" " withString:@"_"];
-    return temp;
 }
 @end
