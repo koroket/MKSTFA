@@ -12,7 +12,7 @@
 @property(weak, nonatomic) IBOutlet FBLoginView *loginView;
 @property(weak, nonatomic) IBOutlet UILabel *statusLabel;
 @property(weak, nonatomic) IBOutlet UILabel *nameLabel;
-@property(weak, nonatomic) IBOutlet FBProfilePictureView *profilePictureView;
+@property (weak, nonatomic) IBOutlet UIImageView *profilePictureView;
 
 @end
 
@@ -39,9 +39,36 @@
  * --------------------------------------------------------------------------
  */
 
-- (void)loginViewFetchedUserInfo:(FBLoginView *)loginView user:(id<FBGraphUser>)user
+- (void)loginViewFetchedUserInfo:(FBLoginView *)loginView
+                    user:(id<FBGraphUser>)user
 {
-    self.profilePictureView.profileID = user.id;
+    
+
+    [[FBRequest requestForMe] startWithCompletionHandler:^(FBRequestConnection *connection,
+                                                           NSDictionary<FBGraphUser> *FBuser,
+                                                           NSError *error)
+    {
+        if (error)
+        {
+            // Handle error
+        }
+        
+        else {
+            NSString *userName = [FBuser name];
+
+            NSString *userImageURL = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large", [FBuser objectID]];
+            
+            self.profilePictureView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:userImageURL]]];
+
+            dispatch_async(dispatch_get_main_queue(), ^(void)
+            {
+
+            });
+            
+        }
+    }];
+    
+    
     self.nameLabel.text = user.name;
     
     [[NSUserDefaults standardUserDefaults] setObject:user.objectID forKey:@"myId"];
