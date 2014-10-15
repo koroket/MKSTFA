@@ -30,7 +30,7 @@
     int myIndex;
 }
 
-#pragma init
+#pragma mark - init
 /**
  * --------------------------------------------------------------------------
  * Init
@@ -103,35 +103,37 @@
     // Data Task Block
     NSURLSessionDataTask *dataTask =
         [urlSession dataTaskWithRequest:request
-                      completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                      completionHandler:^(NSData *data, NSURLResponse *response, NSError *error)
+    {
 
-                          NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-                          NSInteger responseStatusCode = [httpResponse statusCode];
+        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+        NSInteger responseStatusCode = [httpResponse statusCode];
 
-                          if (responseStatusCode == 200 && data)
-                          {
-                              dispatch_async(dispatch_get_main_queue(), ^(void) {
-                                  NSDictionary *fetchedData =
-                                      [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                                  NSArray* tempdictionary = fetchedData[@"Objects"];
-                                  NSArray* tempdictionary2 = fetchedData[@"Tokens"];
-                                  
-                                  [[NSUserDefaults standardUserDefaults] setObject:tempdictionary forKey:@"AllObjects"];
-                                  [[NSUserDefaults standardUserDefaults] setObject:tempdictionary2 forKey:@"GroupTokens"];
-                                  [[NSUserDefaults standardUserDefaults] synchronize];
+        if (responseStatusCode == 200 && data)
+        {
+          dispatch_async(dispatch_get_main_queue(), ^(void)
+          {
+              NSDictionary *fetchedData =
+                  [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+              NSArray* tempdictionary = fetchedData[@"Objects"];
+              NSArray* tempdictionary2 = fetchedData[@"Tokens"];
+              
+              [[NSUserDefaults standardUserDefaults] setObject:tempdictionary forKey:@"AllObjects"];
+              [[NSUserDefaults standardUserDefaults] setObject:tempdictionary2 forKey:@"GroupTokens"];
+              [[NSUserDefaults standardUserDefaults] synchronize];
 
-                                  [self performSegueWithIdentifier:@"Swipe" sender:self];
-                                  
-                              }); // Main Queue dispatch block
+              [self performSegueWithIdentifier:@"Swipe" sender:self];
+              
+          }); // Main Queue dispatch block
 
-                              // do something with this data
-                              // if you want to update UI, do it on main queue
-                          }
-                          else
-                          {
-                              // error handling
-                          }
-                      }]; // Data Task Block
+          // do something with this data
+          // if you want to update UI, do it on main queue
+        }
+        else
+        {
+          // error handling
+        }
+        }]; // Data Task Block
     [dataTask resume];
 }
 
@@ -145,6 +147,34 @@
 {
     TDBadgedCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
 
+    //Facebook connection used for profile picture
+    [[FBRequest requestForMe] startWithCompletionHandler:^(FBRequestConnection *connection,
+                                                           NSDictionary<FBGraphUser> *FBuser,
+                                                           NSError *error)
+     {
+         if (error)
+         {
+             // Handle error
+         }
+         
+         else
+         {
+             //NSString *userName = [FBuser name];
+             
+             //NSString *userImageURL = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large", [FBuser objectID]];
+             
+             NSString *userImageURL = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large", [self.myOwnerIds objectAtIndex:self.myOwners.count-1-indexPath.row]];
+             
+             cell.imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:userImageURL]]];
+            
+             
+         }
+     }];
+    
+
+    
+    
+    
     cell.textLabel.text = [NSString stringWithFormat:@"%@'s Group Event",[self.myOwners objectAtIndex:self.myOwners.count-1-indexPath.row]];
     
     cell.badgeString = @"6";
@@ -155,25 +185,14 @@
     return cell;
 }
 
-- (IBAction)unwindToFriendTableViewController:(UIStoryboardSegue *)unwindSegue
-{
-}
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if ([segue.identifier isEqualToString:@"AddGroup"])
-    {
-        FriendTableViewController *controller = [segue destinationViewController];
-        controller.parent = self;
-    }
-    else if ([segue.identifier isEqualToString:@"Swipe"])
-    {
-        DraggableBackground *controller = [segue destinationViewController];
 
-        controller.groupID = [self.myGroups objectAtIndex:self.myGroups.count-1-myIndex];
-        controller.numOfPeople = (int)[self.numOfPeople objectAtIndex:self.myGroups.count-1-myIndex];
-    }
-}
+#pragma mark - Heroku
+/**
+ * --------------------------------------------------------------------------
+ * Heroku
+ * --------------------------------------------------------------------------
+ */
 
 - (void)getRequests
 {
@@ -404,6 +423,7 @@
     
     [dataTask resume];
 }
+
 - (void)resetPeople:(NSString *)pplid
 {
     //URL
@@ -453,12 +473,41 @@
     }];
     [dataTask resume];
 }
+
 - (void)resetEverything
 {
     [self resetGroups];
     [self resetPeople:@"10204805165711346"];
     [self resetPeople:@"10153248739313289"];
     [self resetPeople:@"10202657658737811"];
+}
+
+#pragma mark - Navigation
+/**
+ * --------------------------------------------------------------------------
+ * Navigation
+ * --------------------------------------------------------------------------
+ */
+
+- (IBAction)unwindToFriendTableViewController:(UIStoryboardSegue *)unwindSegue
+{
+    
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"AddGroup"])
+    {
+        FriendTableViewController *controller = [segue destinationViewController];
+        controller.parent = self;
+    }
+    else if ([segue.identifier isEqualToString:@"Swipe"])
+    {
+        DraggableBackground *controller = [segue destinationViewController];
+        
+        controller.groupID = [self.myGroups objectAtIndex:self.myGroups.count-1-myIndex];
+        controller.numOfPeople = (int)[self.numOfPeople objectAtIndex:self.myGroups.count-1-myIndex];
+    }
 }
 
 @end
