@@ -16,6 +16,7 @@
 #import "NetworkCommunication.h"
 #import "UIScrollView+SVPullToRefresh.h"
 #import "AMSmoothAlertView.h"
+#import "TDBadgedCell.h"
 @interface GroupTableViewController ()
 
 - (IBAction)reloadData:(id)sender;
@@ -51,8 +52,8 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-  
-    //[self getRequests];
+    
+    [self getRequests];
 
 }
 
@@ -139,10 +140,15 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+    TDBadgedCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
 
     cell.textLabel.text = [NSString stringWithFormat:@"%@'s Group Event",[self.myOwners objectAtIndex:self.myOwners.count-1-indexPath.row]];
-
+    
+    cell.badgeString = @"6";
+    cell.badgeColor = [UIColor colorWithRed:0.792 green:0.197 blue:0.219 alpha:1.000];
+    cell.badge.radius = 9;
+    cell.badge.fontSize = 18;
+    
     return cell;
 }
 

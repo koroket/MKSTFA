@@ -4,11 +4,13 @@ PODS:
   - GPUImage (0.1.6)
   - MBProgressHUD (0.9)
   - SVPullToRefresh (0.4.1)
+  - TDBadgedCell (2.5.2.1)
 
 DEPENDENCIES:
   - AMSmoothAlert (~> 1.0)
   - MBProgressHUD (~> 0.8)
   - SVPullToRefresh (from `https://github.com/samvermette/SVPullToRefresh`, commit `a5f9dfee86`)
+  - TDBadgedCell (~> 2.5.2.1)
 
 EXTERNAL SOURCES:
   SVPullToRefresh:
@@ -20,5 +22,6 @@ SPEC CHECKSUMS:
   GPUImage: cecb0830bb9428f50192042e3c7b53810f51388e
   MBProgressHUD: 2038dbcf3dce73215abed6001657043d53aa79a8
   SVPullToRefresh: 61a0e4bd12bd6f8e3465909810b0fbeb1a28d5f2
+  TDBadgedCell: dce5feab0caa3c255aed36327012674a1b65e650
 
 COCOAPODS: 0.34.2
