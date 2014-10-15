@@ -102,35 +102,37 @@
     // Data Task Block
     NSURLSessionDataTask *dataTask =
         [urlSession dataTaskWithRequest:request
-                      completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                      completionHandler:^(NSData *data, NSURLResponse *response, NSError *error)
+    {
 
-                          NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-                          NSInteger responseStatusCode = [httpResponse statusCode];
+        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+        NSInteger responseStatusCode = [httpResponse statusCode];
 
-                          if (responseStatusCode == 200 && data)
-                          {
-                              dispatch_async(dispatch_get_main_queue(), ^(void) {
-                                  NSDictionary *fetchedData =
-                                      [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                                  NSArray* tempdictionary = fetchedData[@"Objects"];
-                                  NSArray* tempdictionary2 = fetchedData[@"Tokens"];
-                                  
-                                  [[NSUserDefaults standardUserDefaults] setObject:tempdictionary forKey:@"AllObjects"];
-                                  [[NSUserDefaults standardUserDefaults] setObject:tempdictionary2 forKey:@"GroupTokens"];
-                                  [[NSUserDefaults standardUserDefaults] synchronize];
+        if (responseStatusCode == 200 && data)
+        {
+          dispatch_async(dispatch_get_main_queue(), ^(void)
+          {
+              NSDictionary *fetchedData =
+                  [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+              NSArray* tempdictionary = fetchedData[@"Objects"];
+              NSArray* tempdictionary2 = fetchedData[@"Tokens"];
+              
+              [[NSUserDefaults standardUserDefaults] setObject:tempdictionary forKey:@"AllObjects"];
+              [[NSUserDefaults standardUserDefaults] setObject:tempdictionary2 forKey:@"GroupTokens"];
+              [[NSUserDefaults standardUserDefaults] synchronize];
 
-                                  [self performSegueWithIdentifier:@"Swipe" sender:self];
-                                  
-                              }); // Main Queue dispatch block
+              [self performSegueWithIdentifier:@"Swipe" sender:self];
+              
+          }); // Main Queue dispatch block
 
-                              // do something with this data
-                              // if you want to update UI, do it on main queue
-                          }
-                          else
-                          {
-                              // error handling
-                          }
-                      }]; // Data Task Block
+          // do something with this data
+          // if you want to update UI, do it on main queue
+        }
+        else
+        {
+          // error handling
+        }
+        }]; // Data Task Block
     [dataTask resume];
 }
 
@@ -145,7 +147,9 @@
     TDBadgedCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
 
     //Facebook connection used for profile picture
-    [[FBRequest requestForMe] startWithCompletionHandler:^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *FBuser, NSError *error)
+    [[FBRequest requestForMe] startWithCompletionHandler:^(FBRequestConnection *connection,
+                                                           NSDictionary<FBGraphUser> *FBuser,
+                                                           NSError *error)
      {
          if (error)
          {
@@ -156,7 +160,9 @@
          {
              //NSString *userName = [FBuser name];
              
-             NSString *userImageURL = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large", [FBuser objectID]];
+             //NSString *userImageURL = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large", [FBuser objectID]];
+             
+             NSString *userImageURL = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large", [self.myOwnerIds objectAtIndex:self.myOwners.count-1-indexPath.row]];
              
              cell.imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:userImageURL]]];
             
