@@ -30,3 +30,10 @@
 #define COCOAPODS_VERSION_MINOR_SVPullToRefresh 4
 #define COCOAPODS_VERSION_PATCH_SVPullToRefresh 1
 
+// TDBadgedCell
+#define COCOAPODS_POD_AVAILABLE_TDBadgedCell
+// This library does not follow semantic-versioning,
+// so we were not able to define version macros.
+// Please contact the author.
+// Version: 2.5.2.1.
+
