@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6206.8" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="10w-ke-JC6">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="10w-ke-JC6">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7026.1"/>
-        <capability name="Constraints with attributes relative to the layout margin" minToolsVersion="6.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Swiping-->
@@ -325,12 +325,12 @@
                                 <exclude reference="rg2-u9-87N"/>
                                 <exclude reference="PLc-h2-JHb"/>
                                 <exclude reference="zRZ-Oe-MHX"/>
+                                <exclude reference="TB4-My-tPw"/>
+                                <exclude reference="c4V-DG-SfN"/>
                                 <exclude reference="Lyx-c3-rdT"/>
                                 <exclude reference="aMd-U0-fuV"/>
                                 <exclude reference="uhN-2D-6tJ"/>
                                 <exclude reference="yxj-iL-Tev"/>
-                                <exclude reference="TB4-My-tPw"/>
-                                <exclude reference="c4V-DG-SfN"/>
                             </mask>
                         </variation>
                     </view>
