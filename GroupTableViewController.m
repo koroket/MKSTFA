@@ -21,6 +21,7 @@
 
 - (IBAction)reloadData:(id)sender;
 @property (nonatomic,strong) NSMutableArray* myOwners;
+@property (nonatomic,strong) NSMutableArray* myOwnerIds;
 
 @end
 
@@ -43,6 +44,7 @@
     self.myGroups = [NSMutableArray array];
     self.numOfPeople = [NSMutableArray array];
     self.myOwners = [NSMutableArray array];
+    self.myOwnerIds = [NSMutableArray array];
     [self.tableView addPullToRefreshWithActionHandler:^{
         [self getRequests];
     }];
@@ -210,6 +212,7 @@
              
              [self.numOfPeople addObject:data1[@"number"]];
              [self.myOwners addObject:data1[@"owner"]];
+             [self.myOwnerIds addObject:data1[@"ownerID"]];
          }
          
          [self.tableView reloadData];
@@ -224,7 +227,7 @@
 
 - (IBAction)reloadData:(id)sender
 {
-    [self getRequests];
+    [self resetEverything];
     //[self yesWith:3 andUrl:@"543482c59b6f750200271e81"];
 }
 

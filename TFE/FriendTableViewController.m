@@ -278,8 +278,12 @@
                                 @"groupID",
                                 @(self.selectedFriends.count),
                                 @"number",
+                                @(0),
+                                @"currentIndex",
                                 [[NSUserDefaults standardUserDefaults] objectForKey:@"myName"],
                                 @"owner",
+                                [[NSUserDefaults standardUserDefaults] objectForKey:@"myId"],
+                                @"ownerID",
                                 nil];
 
     //errorHandlign
