@@ -41,12 +41,13 @@
 
 - (void)loginViewFetchedUserInfo:(FBLoginView *)loginView user:(id<FBGraphUser>)user
 {
-  // self.profilePictureView.profileID = user.id;
-  self.nameLabel.text = user.name;
-  [[NSUserDefaults standardUserDefaults] setObject:user.objectID forKey:@"myId"];
-[[NSUserDefaults standardUserDefaults] setObject:user.name forKey:@"myName"];
+    self.profilePictureView.profileID = user.id;
+    self.nameLabel.text = user.name;
     
-  [[NSUserDefaults standardUserDefaults] synchronize];
+    [[NSUserDefaults standardUserDefaults] setObject:user.objectID forKey:@"myId"];
+    [[NSUserDefaults standardUserDefaults] setObject:user.name forKey:@"myName"];
+    
+    [[NSUserDefaults standardUserDefaults] synchronize];
     [self linkDeviceToken];
 }
 
@@ -65,9 +66,8 @@
    * [self presentViewController:vc animated:YES completion:nil];
    */
   
-  self.statusLabel.text = @"You're logged in as";
-[self performSegueWithIdentifier:@"LoggedIn" sender:self];
-    
+    self.statusLabel.text = @"You're logged in as";
+    [self performSegueWithIdentifier:@"LoggedIn" sender:self];
 }
 
 - (void)loginViewShowingLoggedOutUser:(FBLoginView *)loginView
