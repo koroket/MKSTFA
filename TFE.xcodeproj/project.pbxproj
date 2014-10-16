@@ -578,7 +578,7 @@
 				INFOPLIST_FILE = TFE/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "d4a49e34-c83c-4c92-a6e7-07d2d427f079";
 				VALIDATE_PRODUCT = NO;
 			};
 			name = Debug;
@@ -605,7 +605,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "d4a49e34-c83c-4c92-a6e7-07d2d427f079";
 				VALIDATE_PRODUCT = NO;
 			};
 			name = Release;
