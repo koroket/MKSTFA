@@ -77,7 +77,11 @@
 - (void)onReceivePushNotification:(NSDictionary *) pushDict andPayload:(NSDictionary *)payload
 {
     [payload valueForKey:@"title"];
-    UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"New Alert !" message:[pushDict valueForKey:@"alert"] delegate:self cancelButtonTitle:@"Thanks !" otherButtonTitles: @"Open",nil];
+    UIAlertView *message = [[UIAlertView alloc] initWithTitle:@"New Alert !"
+                                                      message:[pushDict valueForKey:@"alert"]
+                                                     delegate:self
+                                            cancelButtonTitle:@"Thanks !"
+                                            otherButtonTitles: @"Open",nil];
     [message show];
 }
 
