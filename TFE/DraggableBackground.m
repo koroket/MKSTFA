@@ -9,25 +9,30 @@
 #import "DraggableBackground.h"
 #import "NetworkCommunication.h"
 
-@implementation DraggableBackground{
-    
+@implementation DraggableBackground
+{
+    //Integers
     NSInteger cardsLoadedIndex; //%%% the index of the card you have loaded into the loadedCards array last
     NSInteger currentCardIndex;
     
+    //Arrays
     NSMutableArray *loadedCards; //%%% the array of card loaded (change max_buffer_size to increase or decrease the number of cards this holds)
     
+    //Buttons
     IBOutlet UIButton *xButton;
     IBOutlet UIButton *checkButton;
     UIButton* menuButton;
     UIButton* messageButton;
-  
    
 }
-- (IBAction)good:(id)sender {
+
+- (IBAction)good:(id)sender
+{
     [self swipeRight];
 }
 
-- (IBAction)bad:(id)sender {
+- (IBAction)bad:(id)sender
+{
     [self swipeLeft];
 }
 
@@ -223,7 +228,6 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
                                                                        NSURLResponse *response,
                                                                        NSError *error)
     {
-        
         NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
         NSInteger responseStatusCode = [httpResponse statusCode];
         
@@ -255,14 +259,15 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
             });
             // do something with this data
             // if you want to update UI, do it on main queue
-        } else {
+        }
+        else
+        {
             // error handling
-  
         }
     }];
     [dataTask resume];
-    
 }
+
 -(void)finalWith:(int)index andUrl:(NSString*) tempUrl
 {
     //URL
