@@ -89,14 +89,17 @@
     yFromCenter = [gestureRecognizer translationInView:self].y; //%%% positive for up, negative for down
     
     //%%% checks what state the gesture is in. (are you just starting, letting go, or in the middle of a swipe?)
-    switch (gestureRecognizer.state) {
+    switch (gestureRecognizer.state)
+    {
             //%%% just started swiping
-        case UIGestureRecognizerStateBegan:{
+        case UIGestureRecognizerStateBegan:
+        {
             self.originalPoint = self.center;
             break;
         };
             //%%% in the middle of a swipe
-        case UIGestureRecognizerStateChanged:{
+        case UIGestureRecognizerStateChanged:
+        {
             //%%% dictates rotation (see ROTATION_MAX and ROTATION_STRENGTH for details)
             CGFloat rotationStrength = MIN(xFromCenter / ROTATION_STRENGTH, ROTATION_MAX);
             
@@ -122,7 +125,8 @@
             break;
         };
             //%%% let go of the card
-        case UIGestureRecognizerStateEnded: {
+        case UIGestureRecognizerStateEnded:
+        {
             [self afterSwipeAction];
             break;
         };
@@ -135,9 +139,12 @@
 //%%% checks to see if you are moving right or left and applies the correct overlay image
 -(void)updateOverlay:(CGFloat)distance
 {
-    if (distance > 0) {
+    if (distance > 0)
+    {
         overlayView.mode = GGOverlayViewModeRight;
-    } else {
+    }
+    else
+    {
         overlayView.mode = GGOverlayViewModeLeft;
     }
     
@@ -147,17 +154,23 @@
 //%%% called when the card is let go
 - (void)afterSwipeAction
 {
-    if (xFromCenter > ACTION_MARGIN) {
+    if (xFromCenter > ACTION_MARGIN)
+    {
         [self rightAction];
-    } else if (xFromCenter < -ACTION_MARGIN) {
+    }
+    else if (xFromCenter < -ACTION_MARGIN)
+    {
         [self leftAction];
-    } else { //%%% resets the card
+    }
+    else
+    { //%%% resets the card
         [UIView animateWithDuration:0.3
-                         animations:^{
-                             self.center = self.originalPoint;
-                             self.transform = CGAffineTransformMakeRotation(0);
-                             overlayView.alpha = 0;
-                         }];
+                         animations:^
+        {
+             self.center = self.originalPoint;
+             self.transform = CGAffineTransformMakeRotation(0);
+             overlayView.alpha = 0;
+        }];
     }
 }
 
@@ -166,11 +179,14 @@
 {
     CGPoint finishPoint = CGPointMake(500, 2*yFromCenter +self.originalPoint.y);
     [UIView animateWithDuration:0.3
-                     animations:^{
-                         self.center = finishPoint;
-                     }completion:^(BOOL complete){
-                         [self removeFromSuperview];
-                     }];
+                     animations:^
+    {
+         self.center = finishPoint;
+    }
+    completion:^(BOOL complete)
+    {
+         [self removeFromSuperview];
+    }];
     
     [delegate cardSwipedRight:self];
     
@@ -180,13 +196,16 @@
 //%%% called when a swip exceeds the ACTION_MARGIN to the left
 -(void)leftAction
 {
-    CGPoint finishPoint = CGPointMake(-500, 2*yFromCenter +self.originalPoint.y);
+    CGPoint finishPoint = CGPointMake(-500, 2 * yFromCenter + self.originalPoint.y);
     [UIView animateWithDuration:0.3
-                     animations:^{
-                         self.center = finishPoint;
-                     }completion:^(BOOL complete){
-                         [self removeFromSuperview];
-                     }];
+                     animations:^
+    {
+        self.center = finishPoint;
+    }
+    completion:^(BOOL complete)
+    {
+        [self removeFromSuperview];
+    }];
     
     [delegate cardSwipedLeft:self];
     
@@ -197,12 +216,15 @@
 {
     CGPoint finishPoint = CGPointMake(600, self.center.y);
     [UIView animateWithDuration:0.3
-                     animations:^{
-                         self.center = finishPoint;
-                         self.transform = CGAffineTransformMakeRotation(1);
-                     }completion:^(BOOL complete){
-                         [self removeFromSuperview];
-                     }];
+                     animations:^
+    {
+        self.center = finishPoint;
+        self.transform = CGAffineTransformMakeRotation(1);
+    }
+    completion:^(BOOL complete)
+    {
+         [self removeFromSuperview];
+    }];
     
     [delegate cardSwipedRight:self];
     
@@ -214,12 +236,15 @@
 {
     CGPoint finishPoint = CGPointMake(-600, self.center.y);
     [UIView animateWithDuration:0.3
-                     animations:^{
-                         self.center = finishPoint;
-                         self.transform = CGAffineTransformMakeRotation(-1);
-                     }completion:^(BOOL complete){
-                         [self removeFromSuperview];
-                     }];
+                     animations:^
+    {
+         self.center = finishPoint;
+         self.transform = CGAffineTransformMakeRotation(-1);
+     }
+     completion:^(BOOL complete)
+     {
+         [self removeFromSuperview];
+     }];
     
     [delegate cardSwipedLeft:self];
     
@@ -228,35 +253,46 @@
 
 -(void)yes:(int) index
 {
-    
+    //URL
     NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/groups/543482c59b6f750200271e81/%d", index];
-    // 1
     NSURL *url = [NSURL URLWithString:fixedUrl];
-    // 1
     
-    
-    
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
+    //Request
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
+                                                           cachePolicy:NSURLRequestUseProtocolCachePolicy
+                                                       timeoutInterval:30.0];
     [request setHTTPMethod:@"PUT"];
     
+    //session
     NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+    NSURLSession *urlSession = [NSURLSession sessionWithConfiguration:config
+                                                             delegate:self
+                                                        delegateQueue:nil];
     
-    NSURLSession *urlSession = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:nil];
-    
-    NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+    //Data Task Block
+    NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request
+                                                   completionHandler:^(NSData *data,
+                                                                       NSURLResponse *response,
+                                                                       NSError *error)
+    {
         
         NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
         NSInteger responseStatusCode = [httpResponse statusCode];
         
-        if (responseStatusCode == 200 && data) {
-            dispatch_async(dispatch_get_main_queue(), ^(void){
-                NSArray *fetchedData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                
+        if (responseStatusCode == 200 && data)
+        {
+            dispatch_async(dispatch_get_main_queue(), ^(void)
+            {
+                NSArray *fetchedData = [NSJSONSerialization JSONObjectWithData:data
+                                                                       options:0
+                                                                         error:nil];
             });
             
             // do something with this data
             // if you want to update UI, do it on main queue
-        } else {
+        }
+        else
+        {
             // error handling
             NSLog(@"gucci");
         }

@@ -43,8 +43,6 @@
 - (void)loginViewFetchedUserInfo:(FBLoginView *)loginView
                     user:(id<FBGraphUser>)user
 {
-    
-
     [[FBRequest requestForMe] startWithCompletionHandler:^(FBRequestConnection *connection,
                                                            NSDictionary<FBGraphUser> *FBUser,
                                                            NSError *error)
@@ -55,21 +53,13 @@
         }
         
         else {
-            NSString *userName = [FBUser name];
-
+            //Fetch the profile picture from facebook
             NSString *userImageURL = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large", [FBUser objectID]];
             
+            //set the UIImageView's Image = to the fetched fbook pic
             self.profilePictureView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:userImageURL]]];
-
-            dispatch_async(dispatch_get_main_queue(), ^(void)
-            {
-
-            });
-            
         }
     }];
-    
-    
     self.nameLabel.text = user.name;
     
     //call the singleton for string data

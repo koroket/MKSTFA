@@ -100,16 +100,19 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
 //%%% loads all the cards and puts the first x in the "loaded cards" array
 -(void)loadCards
 {
-    if([exampleCardLabels count] > 0) {
+    if([exampleCardLabels count] > 0)
+    {
         NSInteger numLoadedCardsCap =(([exampleCardLabels count] > MAX_BUFFER_SIZE)?MAX_BUFFER_SIZE:[exampleCardLabels count]);
         //%%% if the buffer size is greater than the data size, there will be an array error, so this makes sure that doesn't happen
         
         //%%% loops through the exampleCardsLabels array to create a card for each label.  This should be customized by removing "exampleCardLabels" with your own array of data
-        for (int i = 0; i<[exampleCardLabels count]; i++) {
+        for (int i = 0; i<[exampleCardLabels count]; i++)
+        {
             Draggable* newCard = [self createDraggableWithDataAtIndex:i];
             [allCards addObject:newCard];
             
-            if (i<numLoadedCardsCap) {
+            if (i<numLoadedCardsCap)
+            {
                 //%%% adds a small number of cards to be loaded
                 [loadedCards addObject:newCard];
             }
@@ -118,9 +121,12 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
         //%%% displays the small number of loaded cards dictated by MAX_BUFFER_SIZE so that not all the cards
         // are showing at once and clogging a ton of data
         for (int i = 0; i<[loadedCards count]; i++) {
-            if (i>0) {
+            if (i>0)
+            {
                 [self.view insertSubview:[loadedCards objectAtIndex:i] belowSubview:[loadedCards objectAtIndex:i-1]];
-            } else {
+            }
+            else
+            {
                 [self.view addSubview:[loadedCards objectAtIndex:i]];
             }
             cardsLoadedIndex++; //%%% we loaded a card into loaded cards, so we have to increment
@@ -134,13 +140,18 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
 -(void)cardSwipedLeft:(UIView *)card;
 {
     //do whatever you want with the card that was swiped
-    //    DraggableView *c = (DraggableView *)card;
+    //DraggableView *c = (DraggableView *)card;
     currentCardIndex++;
+    
     [loadedCards removeObjectAtIndex:0]; //%%% card was swiped, so it's no longer a "loaded card"
     
-    if (cardsLoadedIndex < [allCards count]) { //%%% if we haven't reached the end of all cards, put another into the loaded cards
+    if (cardsLoadedIndex < [allCards count])
+    { //%%% if we haven't reached the end of all cards, put another into the loaded cards
+        
         [loadedCards addObject:[allCards objectAtIndex:cardsLoadedIndex]];
+        
         cardsLoadedIndex++;//%%% loaded a card, so have to increment count
+        
         [self.view insertSubview:[loadedCards objectAtIndex:(MAX_BUFFER_SIZE-1)] belowSubview:[loadedCards objectAtIndex:(MAX_BUFFER_SIZE-2)]];
     }
 }
@@ -164,7 +175,9 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
         //%%% if we haven't reached the end of all cards, put another into the loaded cards
         
         [loadedCards addObject:[allCards objectAtIndex:cardsLoadedIndex]];
+        
         cardsLoadedIndex++;//%%% loaded a card, so have to increment count
+        
         [self.view insertSubview:[loadedCards objectAtIndex:(MAX_BUFFER_SIZE-1)] belowSubview:[loadedCards objectAtIndex:(MAX_BUFFER_SIZE-2)]];
     }
     
@@ -175,7 +188,8 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
 {
     Draggable *dragView = [loadedCards firstObject];
     dragView.overlayView.mode = GGOverlayViewModeRight;
-    [UIView animateWithDuration:0.2 animations:^{
+    [UIView animateWithDuration:0.2 animations:^
+    {
         dragView.overlayView.alpha = 1;
     }];
     [dragView rightClickAction];
@@ -186,7 +200,8 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
 {
     Draggable *dragView = [loadedCards firstObject];
     dragView.overlayView.mode = GGOverlayViewModeLeft;
-    [UIView animateWithDuration:0.2 animations:^{
+    [UIView animateWithDuration:0.2 animations:^
+    {
         dragView.overlayView.alpha = 1;
     }];
     [dragView leftClickAction];
@@ -205,13 +220,11 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
  */
 -(void)yesWith:(int)index andUrl:(NSString*) groupID
 {
-    
+    //URL
     NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/groups/%@/%d",
                           groupID,
                           index];
     NSURL *url = [NSURL URLWithString:fixedUrl];
-    // 1
-    
     
     //Request
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
@@ -246,7 +259,7 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
                     //get the array of device tokens from the singleton
                     NSArray *temparray = [NetworkCommunication sharedManager].arraySelectedGroupDeviceTokens;
                     
-                    for(int i = 0; i < [NetworkCommunication sharedManager].intSelectedGroupNumberOfPeople; i++)
+                    for (int i = 0; i < [NetworkCommunication sharedManager].intSelectedGroupNumberOfPeople; i++)
                     {
                         [self sendNotification:temparray[i] withIndex:index withGroupid:groupID];
                     }

@@ -39,14 +39,21 @@
 {
     [super viewDidAppear:animated];
     
-    //_yelpOptionPicker
 }
+
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+#pragma mark - Picker Methods
+/**
+ * --------------------------------------------------------------------------
+ * Picker Methods
+ * --------------------------------------------------------------------------
+ */
 
 // The number of columns of data
 - (int)numberOfComponentsInPickerView:(UIPickerView *)pickerView
