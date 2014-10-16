@@ -179,12 +179,8 @@
          }
      }];
     
-
-    
-    
-    
+    //Code to display badge that appears next to the group
     cell.textLabel.text = [NSString stringWithFormat:@"%@'s Group Event",[self.myOwners objectAtIndex:self.myOwners.count-1-indexPath.row]];
-    
     cell.badgeString = @"6";
     cell.badgeColor = [UIColor colorWithRed:0.792 green:0.197 blue:0.219 alpha:1.000];
     cell.badge.radius = 9;
@@ -347,7 +343,9 @@
     
     //Request
     NSMutableURLRequest *request =
-        [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
+        [NSMutableURLRequest requestWithURL:url
+                                cachePolicy:NSURLRequestUseProtocolCachePolicy
+                            timeoutInterval:30.0];
     [request setHTTPMethod:@"DELETE"];
 
     //Session
@@ -380,6 +378,7 @@
     }];//Data Task Block
     [dataTask resume];
 }
+
 - (void)resetGroups
 {
     //URL
@@ -388,7 +387,9 @@
     
     //Request
     NSMutableURLRequest *request =
-        [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
+        [NSMutableURLRequest requestWithURL:url
+                                cachePolicy:NSURLRequestUseProtocolCachePolicy
+                            timeoutInterval:30.0];
     [request setHTTPMethod:@"GET"];
 
     //Session
@@ -397,7 +398,9 @@
     //Data Task Block
     NSURLSessionDataTask *dataTask =
         [urlSession dataTaskWithRequest:request
-                      completionHandler:^(NSData *data, NSURLResponse *response, NSError *error)
+                      completionHandler:^(NSData *data,
+                                          NSURLResponse *response,
+                                          NSError *error)
     {
 
       NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
@@ -408,7 +411,9 @@
           dispatch_async(dispatch_get_main_queue(), ^(void)
           {
               NSArray *fetchedData =
-                  [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                  [NSJSONSerialization JSONObjectWithData:data
+                                                  options:0
+                                                    error:nil];
               self.myGroups = [NSMutableArray array];
               for (int i = 0; i < fetchedData.count; i++)
               {
@@ -450,7 +455,9 @@
     //Data Task Block
     NSURLSessionDataTask *dataTask =
         [urlSession dataTaskWithRequest:request
-                      completionHandler:^(NSData *data, NSURLResponse *response, NSError *error)
+                      completionHandler:^(NSData *data,
+                                          NSURLResponse *response,
+                                          NSError *error)
     {
       NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
       NSInteger responseStatusCode = [httpResponse statusCode];
@@ -460,7 +467,9 @@
           dispatch_async(dispatch_get_main_queue(), ^(void)
           {
               NSArray *fetchedData =
-                  [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                  [NSJSONSerialization JSONObjectWithData:data
+                                                  options:0
+                                                    error:nil];
 
               for (int i = 0; i < fetchedData.count; i++)
               {

@@ -17,25 +17,26 @@
 
 #import "Draggable.h"
 
-@implementation Draggable {
+@implementation Draggable
+{
     CGFloat xFromCenter;
     CGFloat yFromCenter;
 }
 
 //delegate is instance of ViewController
 @synthesize delegate;
-
 @synthesize panGestureRecognizer;
 @synthesize information;
 @synthesize overlayView;
 @synthesize imageView;
+
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
         [self setupView];
-        
-#warning placeholder stuff, replace with card-specific information {
+
+        //Placeholder card Specific Info
         information = [[UILabel alloc]initWithFrame:CGRectMake(0, 50, self.frame.size.width, 100)];
         information.text = @"no info given";
         [information setTextAlignment:NSTextAlignmentCenter];
@@ -45,7 +46,7 @@
         
         
         self.backgroundColor = [UIColor whiteColor];
-#warning placeholder stuff, replace with card-specific information }
+        //Placeholder card Specific Info
         
         
         

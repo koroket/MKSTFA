@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SearchSettingViewController : UIViewController
+@interface SearchSettingViewController : UIViewController <UIPickerViewDelegate>
+
+@property (weak, nonatomic) IBOutlet UIPickerView *picker;
 
 @end
