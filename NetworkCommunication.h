@@ -20,6 +20,20 @@
         whatDictionary:(NSDictionary*)dictionaryID
              withBlock:(void (^)())blockName;
 
+//Strings
+@property NSString *stringFBUserId;
+@property NSString *stringFBUserName;
+@property NSString *stringDeviceToken;
+@property NSString *stringSelectedGroupID;
+@property NSString *stringYelpLocation;
+@property NSString *stringYelpSearchTerm;
 
+//integers
+@property int intSelectedGroupNumberOfPeople;
+@property int intYelpNumberOfLocations;
+
+//Arrays
+@property NSMutableArray *arraySelectedGroupCardData;
+@property NSMutableArray *arraySelectedGroupDeviceTokens;
 
 @end

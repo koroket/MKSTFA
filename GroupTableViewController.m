@@ -45,7 +45,9 @@
     self.numOfPeople = [NSMutableArray array];
     self.myOwners = [NSMutableArray array];
     self.myOwnerIds = [NSMutableArray array];
-    [self.tableView addPullToRefreshWithActionHandler:^{
+    
+    [self.tableView addPullToRefreshWithActionHandler:^
+    {
         [self getRequests];
     }];
     
@@ -79,12 +81,14 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
     myIndex = indexPath.row;
-    [[NSUserDefaults standardUserDefaults] setObject:[self.myGroups objectAtIndex:indexPath.row] forKey:@"pract"];
-    int tempint = [(NSNumber*)self.numOfPeople[indexPath.row] intValue];
-    [[NSUserDefaults standardUserDefaults] setInteger:tempint forKey:@"numOfPeople"];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-
+    
+    //Set the singleton string equal to selected group ID
+    [NetworkCommunication sharedManager].stringSelectedGroupID = [self.myGroups objectAtIndex:indexPath.row];
+    //and the number of users in the selected group
+    [NetworkCommunication sharedManager].intSelectedGroupNumberOfPeople =[(NSNumber*)self.numOfPeople[indexPath.row] intValue];
+    
     // URL
     NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/groups/%@",
                                                     [self.myGroups objectAtIndex:indexPath.row]];
@@ -102,7 +106,9 @@
     // Data Task Block
     NSURLSessionDataTask *dataTask =
         [urlSession dataTaskWithRequest:request
-                      completionHandler:^(NSData *data, NSURLResponse *response, NSError *error)
+                      completionHandler:^(NSData *data,
+                                          NSURLResponse *response,
+                                          NSError *error)
     {
 
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
@@ -112,14 +118,16 @@
         {
           dispatch_async(dispatch_get_main_queue(), ^(void)
           {
-              NSDictionary *fetchedData =
-                  [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-              NSArray* tempdictionary = fetchedData[@"Objects"];
-              NSArray* tempdictionary2 = fetchedData[@"Tokens"];
+              NSDictionary *fetchedData = [NSJSONSerialization JSONObjectWithData:data
+                                                                          options:0
+                                                                            error:nil];
               
-              [[NSUserDefaults standardUserDefaults] setObject:tempdictionary forKey:@"AllObjects"];
-              [[NSUserDefaults standardUserDefaults] setObject:tempdictionary2 forKey:@"GroupTokens"];
-              [[NSUserDefaults standardUserDefaults] synchronize];
+              //Set the singleton array equal to all of the fetched card data from Yelp
+              [NetworkCommunication sharedManager].arraySelectedGroupCardData = fetchedData[@"Objects"];
+              
+              //Set this array equal to the Device tokens from all of the users in the selected group
+              [NetworkCommunication sharedManager].arraySelectedGroupDeviceTokens = fetchedData[@"Tokens"];
+              
 
               [self performSegueWithIdentifier:@"Swipe" sender:self];
               
@@ -201,8 +209,7 @@
     hud.labelText = @"Loading";
     
     NetworkCommunication *sharedCommunication = [NetworkCommunication alloc];
-    [sharedCommunication serverRequests: [NSString stringWithFormat:@"ppl/%@groups",
-                                          [[NSUserDefaults standardUserDefaults] stringForKey:@"myId"]]
+    [sharedCommunication serverRequests: [NSString stringWithFormat:@"ppl/%@groups", [NetworkCommunication sharedManager].stringFBUserId]
                                    type:@"GET"
                          whatDictionary:nil
                               withBlock:^(void)
@@ -225,7 +232,7 @@
          [self.tableView.pullToRefreshView stopAnimating];
          
          [MBProgressHUD hideHUDForView:self.view animated:YES];
-         AMSmoothAlertView *alert = [[AMSmoothAlertView alloc]initDropAlertWithTitle:@"Gucci" andText:@"Dat pussy doe" andCancelButton:YES forAlertType:AlertSuccess];
+         AMSmoothAlertView *alert = [[AMSmoothAlertView alloc]initDropAlertWithTitle:@"Gucci" andText:@"yeah" andCancelButton:YES forAlertType:AlertSuccess];
          [alert show];
      }];
     
@@ -253,32 +260,34 @@
 
     NSURLSessionDataTask *dataTask =
         [urlSession dataTaskWithRequest:request
-                      completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                      completionHandler:^(NSData *data, NSURLResponse *response, NSError *error)
+    {
 
-                          NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-                          NSInteger responseStatusCode = [httpResponse statusCode];
+      NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+      NSInteger responseStatusCode = [httpResponse statusCode];
 
-                          if (responseStatusCode == 200 && data)
-                          {
-                              dispatch_async(dispatch_get_main_queue(), ^(void) {
-                                  NSDictionary *fetchedData =
-                                      [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                                  NSNumber *a = fetchedData[@"agree"];
-                                  int t = [a intValue];
-                                  if (t == 3)
-                                  {
-                                      [self performSegueWithIdentifier:@"Done" sender:self];
-                                  }
-                              });
+      if (responseStatusCode == 200 && data)
+      {
+          dispatch_async(dispatch_get_main_queue(), ^(void)
+          {
+              NSDictionary *fetchedData =
+                  [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+              NSNumber *a = fetchedData[@"agree"];
+              int t = [a intValue];
+              if (t == 3)
+              {
+                  [self performSegueWithIdentifier:@"Done" sender:self];
+              }
+          });
 
-                              // do something with this data
-                              // if you want to update UI, do it on main queue
-                          }
-                          else
-                          {
-                              // error handling
-                          }
-                      }];
+          // do something with this data
+          // if you want to update UI, do it on main queue
+      }
+      else
+      {
+          // error handling
+      }
+    }];
     [dataTask resume];
 }
 

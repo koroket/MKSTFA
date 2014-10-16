@@ -11,6 +11,7 @@
 #import "Group.h"
 #import "GroupTableViewController.h"
 #import "MBProgressHUD.h"
+#import "NetworkCommunication.h"
 
 @interface FriendTableViewController ()
 
@@ -53,7 +54,9 @@
     [super viewWillAppear:animated];
     [self.tableView reloadData];
     
-    [self.selectedFriends addObject:[[NSUserDefaults standardUserDefaults] objectForKey:@"myId"]];
+    
+    
+    [self.selectedFriends addObject:[NetworkCommunication sharedManager].stringFBUserId];
 }
 
 #pragma mark - Table view data source
@@ -81,22 +84,24 @@
 	return cell;
 }
 
-- (void)     tableView:(UITableView *)tableView
-    commitEditingStyle:(UITableViewCellEditingStyle)editingStyle
-     forRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView *)tableView
+commitEditingStyle:(UITableViewCellEditingStyle)editingStyle
+forRowAtIndexPath:(NSIndexPath *)indexPath
+{
 	[self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
-- (void)          tableView:(UITableView *)tableView
-    didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	if ([tableView cellForRowAtIndexPath:indexPath].accessoryType == UITableViewCellAccessoryCheckmark) {
+- (void)tableView:(UITableView *)tableView
+    didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	if ([tableView cellForRowAtIndexPath:indexPath].accessoryType == UITableViewCellAccessoryCheckmark)
+    {
 		[tableView cellForRowAtIndexPath:indexPath].accessoryType = UITableViewCellAccessoryNone;
-
 		[self.selectedFriends removeObject:[self.friendIds objectAtIndex:indexPath.row]];
 	}
-	else {
+	else
+    {
 		[tableView cellForRowAtIndexPath:indexPath].accessoryType = UITableViewCellAccessoryCheckmark;
-
 		[self.selectedFriends addObject:[self.friendIds objectAtIndex:indexPath.row]];
 	}
 	NSLog(@"These are the selected friends %@", self.selectedFriends);
@@ -111,7 +116,7 @@
 
 -(void)getTokens:(NSString*)userid
 {
-    // URL
+    //URL
     NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/token/%@token",
                           userid];
     NSURL *url = [NSURL URLWithString:fixedUrl];
@@ -121,11 +126,13 @@
     [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
     [request setHTTPMethod:@"GET"];
     
-    //URL
+    //Session
     NSURLSession *urlSession = [NSURLSession sharedSession];
     NSURLSessionDataTask *dataTask =
     [urlSession dataTaskWithRequest:request
-                  completionHandler:^(NSData *data, NSURLResponse *response, NSError *error)
+                  completionHandler:^(NSData *data,
+                                      NSURLResponse *response,
+                                      NSError *error)
     {
         
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
@@ -135,37 +142,52 @@
         {
             dispatch_async(dispatch_get_main_queue(), ^(void)
             {
-                NSArray *fetchedData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                NSArray *fetchedData = [NSJSONSerialization JSONObjectWithData:data
+                                                                       options:0
+                                                                         error:nil];
+                
                 NSDictionary *tempDictionary = fetchedData[fetchedData.count - 1];
                 
                 [self.myTokens addObject:tempDictionary[@"token"]];
                 
                 [self sendNotification:tempDictionary[@"token"]];
+                
                 if (self.myTokens.count == self.selectedFriends.count)
                 {
                     [self getYelp];
                 }
-        });
+            });
 
         // do something with this data
         // if you want to update UI, do it on main queue
         }
         else
         {
-        // error handling
-        NSLog(@"gucci");
+            // error handling
+            NSLog(@"gucci");
         }
-        dispatch_async(dispatch_get_main_queue(), ^{
-
-        });
+        
+    dispatch_async(dispatch_get_main_queue(), ^
+    {
+        
+    });
                   }];
     [dataTask resume];
 }
-- (void)sendNotification:(NSString*)temptoken
+
+/**
+ *  Gets called when the actual push notifications are ready to be sent, and sends them.
+ *
+ *  @param temptoken - The unique individual device token that the server then
+ *                     sends the push notifcation to
+ */
+- (void)sendNotification:(NSString*)tempToken
 {
     //URL
     NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/token/push/%@/%@",
-                          temptoken,[self stringfix:[[NSUserDefaults standardUserDefaults] stringForKey:@"myName"]]];
+                          tempToken,
+                          [self stringfix:[NetworkCommunication sharedManager].stringFBUserName]];
+    
     NSURL *url = [NSURL URLWithString:fixedUrl];
     
     NSMutableURLRequest *request =
@@ -175,7 +197,9 @@
     NSURLSession *urlSession = [NSURLSession sharedSession];
     NSURLSessionDataTask *dataTask =
     [urlSession dataTaskWithRequest:request
-                  completionHandler:^(NSData *data, NSURLResponse *response, NSError *error)
+                  completionHandler:^(NSData *data,
+                                      NSURLResponse *response,
+                                      NSError *error)
     {
                       
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
@@ -227,7 +251,9 @@
     [FBRequestConnection startWithGraphPath:@"/me/friends"
                                  parameters:nil
                                  HTTPMethod:@"GET"
-                          completionHandler:^(FBRequestConnection *connection, id result, NSError *error)
+                          completionHandler:^(FBRequestConnection *connection,
+                                              id result,
+                                              NSError *error)
      {
          //dictionary
          NSDictionary *resultDictionary = (NSDictionary *)result;
@@ -251,6 +277,11 @@
     
 }//load
 
+/**
+ *  After a group is created, send push notifications to other members of group
+ *
+ *  @param code - This is the unique identifier for the group
+ */
 - (void)sendNewGroupsWithGroupCode:(NSString *)code
 {
 
@@ -274,16 +305,11 @@
 
     //Dictionary
     NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:
-                                code,
-                                @"groupID",
-                                @(self.selectedFriends.count),
-                                @"number",
-                                @(0),
-                                @"currentIndex",
-                                [[NSUserDefaults standardUserDefaults] objectForKey:@"myName"],
-                                @"owner",
-                                [[NSUserDefaults standardUserDefaults] objectForKey:@"myId"],
-                                @"ownerID",
+                                code, @"groupID",
+                                @(self.selectedFriends.count), @"number",
+                                @(0), @"currentIndex",
+                                [NetworkCommunication sharedManager].stringFBUserName, @"owner",
+                                [NetworkCommunication sharedManager].stringFBUserId, @"ownerID",
                                 nil];
 
     //errorHandlign
@@ -403,9 +429,10 @@
   {
       
       //URL
-      NSString *fixedURL = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/yelp/%@/%@/%@",
-                                                    [[NSUserDefaults standardUserDefaults] stringForKey:@"location"],[[NSUserDefaults standardUserDefaults] stringForKey:@"item"],
-                            [[NSUserDefaults standardUserDefaults] stringForKey:@"number"]];
+      NSString *fixedURL = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/yelp/%@/%d/%@",
+                            [NetworkCommunication sharedManager].stringYelpLocation,
+                            [NetworkCommunication sharedManager].intYelpNumberOfLocations,
+                            [NetworkCommunication sharedManager].stringYelpSearchTerm];
       NSURL *url = [NSURL URLWithString:fixedURL];
       
       //Request

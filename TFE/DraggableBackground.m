@@ -7,10 +7,13 @@
 //
 
 #import "DraggableBackground.h"
+#import "NetworkCommunication.h"
 
 @implementation DraggableBackground{
+    
     NSInteger cardsLoadedIndex; //%%% the index of the card you have loaded into the loadedCards array last
-    NSInteger yeahp;
+    NSInteger currentCardIndex;
+    
     NSMutableArray *loadedCards; //%%% the array of card loaded (change max_buffer_size to increase or decrease the number of cards this holds)
     
     IBOutlet UIButton *xButton;
@@ -42,11 +45,11 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
     [super viewDidLoad];
     if (self) {
         [self setupView];
-        exampleCardLabels = [[NSUserDefaults standardUserDefaults] arrayForKey:@"AllObjects"];//%%% placeholder for card-specific information
+        exampleCardLabels = [NetworkCommunication sharedManager].arraySelectedGroupCardData; //%%% placeholder for card-specific information
         loadedCards = [[NSMutableArray alloc] init];
         allCards = [[NSMutableArray alloc] init];
         cardsLoadedIndex = 0;
-        yeahp = -1;
+        currentCardIndex = -1;
         [self loadCards];
     }
 }
@@ -127,7 +130,7 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
 {
     //do whatever you want with the card that was swiped
     //    DraggableView *c = (DraggableView *)card;
-    yeahp++;
+    currentCardIndex++;
     [loadedCards removeObjectAtIndex:0]; //%%% card was swiped, so it's no longer a "loaded card"
     
     if (cardsLoadedIndex < [allCards count]) { //%%% if we haven't reached the end of all cards, put another into the loaded cards
@@ -144,11 +147,17 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
 {
     //do whatever you want with the card that was swiped
     //    DraggableView *c = (DraggableView *)card;
-    yeahp++;
-    [self yesWith:yeahp andUrl:[[NSUserDefaults standardUserDefaults] objectForKey:@"pract"]];
+    
+    currentCardIndex++;
+    
+    [self yesWith:currentCardIndex andUrl: [NetworkCommunication sharedManager].stringSelectedGroupID];
+    
     [loadedCards removeObjectAtIndex:0]; //%%% card was swiped, so it's no longer a "loaded card"
     
-    if (cardsLoadedIndex < [allCards count]) { //%%% if we haven't reached the end of all cards, put another into the loaded cards
+    if (cardsLoadedIndex < [allCards count])
+    {
+        //%%% if we haven't reached the end of all cards, put another into the loaded cards
+        
         [loadedCards addObject:[allCards objectAtIndex:cardsLoadedIndex]];
         cardsLoadedIndex++;//%%% loaded a card, so have to increment count
         [self.view insertSubview:[loadedCards objectAtIndex:(MAX_BUFFER_SIZE-1)] belowSubview:[loadedCards objectAtIndex:(MAX_BUFFER_SIZE-2)]];
@@ -183,51 +192,67 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
 
 }
 
--(void)yesWith:(int)index andUrl:(NSString*) tempUrl
+/**
+ *  Handles what happens when you say yes to a card
+ *
+ *  @param index - the array index of the card
+ *  @param groupID - The unique ID of the group
+ */
+-(void)yesWith:(int)index andUrl:(NSString*) groupID
 {
     
-    NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/groups/%@/%d",tempUrl, index];
-    // 1
+    NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/groups/%@/%d",
+                          groupID,
+                          index];
     NSURL *url = [NSURL URLWithString:fixedUrl];
     // 1
     
     
-    
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
+    //Request
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
+                                                           cachePolicy:NSURLRequestUseProtocolCachePolicy
+                                                       timeoutInterval:30.0];
     [request setHTTPMethod:@"PUT"];
-    
-   
-    
+
+    //Session
     NSURLSession *urlSession = [NSURLSession sharedSession];
     
-    NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+    //Data Task Block
+    NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request
+                                                   completionHandler:^(NSData *data,
+                                                                       NSURLResponse *response,
+                                                                       NSError *error)
+    {
         
         NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
         NSInteger responseStatusCode = [httpResponse statusCode];
         
-        if (responseStatusCode == 200 && data) {
-            dispatch_async(dispatch_get_main_queue(), ^(void){
+        if (responseStatusCode == 200 && data)
+        {
+            dispatch_async(dispatch_get_main_queue(), ^(void)
+            {
 
-                
-                NSMutableDictionary* hhh = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                NSNumber *t = hhh[@"NumberOfReplies"];
-                if([t intValue]==[[NSUserDefaults standardUserDefaults] integerForKey:@"numOfPeople"])
+                NSMutableDictionary* dictionaryHerokuResponses = [NSJSONSerialization JSONObjectWithData:data
+                                                                           options:0
+                                                                             error:nil];
+                NSNumber *t = dictionaryHerokuResponses[@"NumberOfReplies"];
+                if ([t intValue] == [NetworkCommunication sharedManager].intSelectedGroupNumberOfPeople)
                 {
                     
-                    //[self finalWith:index andUrl:tempUrl];
-                    NSArray *temparray = [[NSUserDefaults standardUserDefaults] arrayForKey:@"GroupTokens"];
-                    for(int i = 0; i <[[NSUserDefaults standardUserDefaults] integerForKey:@"numOfPeople"];i++)
+                    //get the array of device tokens from the singleton
+                    NSArray *temparray = [NetworkCommunication sharedManager].arraySelectedGroupDeviceTokens;
+                    
+                    for(int i = 0; i < [NetworkCommunication sharedManager].intSelectedGroupNumberOfPeople; i++)
                     {
-                        [self sendNotification:temparray[i] withIndex:index withGroupid:tempUrl];
+                        [self sendNotification:temparray[i] withIndex:index withGroupid:groupID];
                     }
                     //[self performSegueWithIdentifier:@"Done" sender:self];
                 }
                 else
                 {
-                    NSLog(@"No Match Yet%d",[[NSUserDefaults standardUserDefaults] integerForKey:@"numOfPeople"]);
+                    
                 }
             });
-            
             // do something with this data
             // if you want to update UI, do it on main queue
         } else {
@@ -240,91 +265,111 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
 }
 -(void)finalWith:(int)index andUrl:(NSString*) tempUrl
 {
-    
-    NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/groups/%@/%d/finished",tempUrl, index];
-    // 1
+    //URL
+    NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/groups/%@/%d/finished",
+                          tempUrl,
+                          index];
     NSURL *url = [NSURL URLWithString:fixedUrl];
-    // 1
     
-    
-    
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
+    //Request
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
+                                                           cachePolicy:NSURLRequestUseProtocolCachePolicy
+                                                       timeoutInterval:30.0];
     [request setHTTPMethod:@"PUT"];
     
-    
-    
+    //Session
     NSURLSession *urlSession = [NSURLSession sharedSession];
     
-    NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        
+    //Data Task Block
+    NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request
+                                                   completionHandler:^(NSData *data,
+                                                                       NSURLResponse *response,
+                                                                       NSError *error)
+    {
         NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
         NSInteger responseStatusCode = [httpResponse statusCode];
         
-        if (responseStatusCode == 200 && data) {
-            dispatch_async(dispatch_get_main_queue(), ^(void){
-                
-                
-                NSMutableDictionary* hhh = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+        if (responseStatusCode == 200 && data)
+        {
+            dispatch_async(dispatch_get_main_queue(), ^(void)
+            {
+                NSMutableDictionary* hhh = [NSJSONSerialization JSONObjectWithData:data
+                                                                           options:0
+                                                                             error:nil];
                 NSNumber *t = hhh[@"NumberOfReplies"];
-                if([t intValue]==[[NSUserDefaults standardUserDefaults] integerForKey:@"numOfPeople"])
+                if ([t intValue] == [NetworkCommunication sharedManager].intSelectedGroupNumberOfPeople)
                 {
-                    
                     //[self performSegueWithIdentifier:@"Done" sender:self];
                 }
                 else
                 {
-                    NSLog(@"No Match Yet%d",[[NSUserDefaults standardUserDefaults] integerForKey:@"numOfPeople"]);
+                    NSLog(@"No Match Yet%d",[NetworkCommunication sharedManager].intSelectedGroupNumberOfPeople);
                 }
             });
             
             // do something with this data
             // if you want to update UI, do it on main queue
-        } else {
+        }
+        else
+        {
             // error handling
-            
         }
     }];
     [dataTask resume];
     
 }
-- (void)sendNotification:(NSString*)temptoken withIndex: (int) daindex withGroupid: (NSString*) grpid
+
+- (void)sendNotification:(NSString*)temptoken withIndex:(int) daindex withGroupid: (NSString*) groupID
 {
     //URL
     NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/token/push/%@/%d/%@",
-                          temptoken,daindex,grpid];
+                          temptoken,
+                          daindex,
+                          groupID];
     NSURL *url = [NSURL URLWithString:fixedUrl];
-    
+
+    //Request
     NSMutableURLRequest *request =
-    [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
+    [NSMutableURLRequest requestWithURL:url
+                            cachePolicy:NSURLRequestUseProtocolCachePolicy
+                        timeoutInterval:30.0];
     [request setHTTPMethod:@"GET"];
-    
+
+    //Session
     NSURLSession *urlSession = [NSURLSession sharedSession];
+
+    //Data Task
     NSURLSessionDataTask *dataTask =
     [urlSession dataTaskWithRequest:request
-                  completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-                      
-                      NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-                      NSInteger responseStatusCode = [httpResponse statusCode];
-                      
-                      if (responseStatusCode == 200 && data)
-                      {
-                          dispatch_async(dispatch_get_main_queue(), ^(void) {
-                              
-                              
-                          });
-                          
-                          // do something with this data
-                          // if you want to update UI, do it on main queue
-                      }
-                      else
-                      {
-                          // error handling
-                          NSLog(@"gucci");
-                      }
-                      dispatch_async(dispatch_get_main_queue(), ^{
-                          
-                      });
-                  }];
+                  completionHandler:^(NSData *data,
+                                      NSURLResponse *response,
+                                      NSError *error)
+    {
+    
+    NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+    NSInteger responseStatusCode = [httpResponse statusCode];
+    
+    if (responseStatusCode == 200 && data)
+    {
+        dispatch_async(dispatch_get_main_queue(), ^(void)
+        {
+              
+        });
+
+        // do something with this data
+        // if you want to update UI, do it on main queue
+
+        }
+        else
+        {
+          // error handling
+          NSLog(@"gucci");
+        }
+        dispatch_async(dispatch_get_main_queue(),^
+        {
+          
+        });
+    }];
     [dataTask resume];
 }
 

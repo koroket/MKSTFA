@@ -7,6 +7,7 @@
 //
 
 #import "FBLogInViewController.h"
+#import "NetworkCommunication.h"
 
 @interface FBLogInViewController ()
 @property(weak, nonatomic) IBOutlet FBLoginView *loginView;
@@ -45,7 +46,7 @@
     
 
     [[FBRequest requestForMe] startWithCompletionHandler:^(FBRequestConnection *connection,
-                                                           NSDictionary<FBGraphUser> *FBuser,
+                                                           NSDictionary<FBGraphUser> *FBUser,
                                                            NSError *error)
     {
         if (error)
@@ -54,9 +55,9 @@
         }
         
         else {
-            NSString *userName = [FBuser name];
+            NSString *userName = [FBUser name];
 
-            NSString *userImageURL = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large", [FBuser objectID]];
+            NSString *userImageURL = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large", [FBUser objectID]];
             
             self.profilePictureView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:userImageURL]]];
 
@@ -71,10 +72,10 @@
     
     self.nameLabel.text = user.name;
     
-    [[NSUserDefaults standardUserDefaults] setObject:user.objectID forKey:@"myId"];
-    [[NSUserDefaults standardUserDefaults] setObject:user.name forKey:@"myName"];
-    
-    [[NSUserDefaults standardUserDefaults] synchronize];
+    //call the singleton for string data
+    [NetworkCommunication sharedManager].stringFBUserId = user.objectID;
+    [NetworkCommunication sharedManager].stringFBUserName = user.name;
+
     [self linkDeviceToken];
 }
 
@@ -172,10 +173,9 @@
 - (void)linkDeviceToken
 {
 
-
     //URL
     NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/token/%@token",
-                          [[NSUserDefaults standardUserDefaults] stringForKey:@"myId"]];
+                          [NetworkCommunication sharedManager].stringFBUserId];
 
     NSURL *url = [NSURL URLWithString:fixedUrl];
 
@@ -190,7 +190,7 @@
 
     //Dictionary
     NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:
-                                [[NSUserDefaults standardUserDefaults] objectForKey:@"myToken"],
+                                [NetworkCommunication sharedManager].stringDeviceToken,
                                 @"token",
                                 nil];
 
