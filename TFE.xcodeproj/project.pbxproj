@@ -345,7 +345,7 @@
 					};
 					D5AB929319D60565001FB2A7 = {
 						CreatedOnToolsVersion = 6.0.1;
-						DevelopmentTeam = 8V8HUCA3M9;
+						DevelopmentTeam = 6TK8Q4KD6G;
 						TestTargetID = D5AB927719D60565001FB2A7;
 					};
 				};
@@ -578,7 +578,7 @@
 				INFOPLIST_FILE = TFE/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "d4a49e34-c83c-4c92-a6e7-07d2d427f079";
+				PROVISIONING_PROFILE = "a7b35e71-58c3-49ce-86e5-a24dc98e5f6f";
 				VALIDATE_PRODUCT = NO;
 			};
 			name = Debug;
@@ -605,7 +605,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "d4a49e34-c83c-4c92-a6e7-07d2d427f079";
+				PROVISIONING_PROFILE = "a7b35e71-58c3-49ce-86e5-a24dc98e5f6f";
 				VALIDATE_PRODUCT = NO;
 			};
 			name = Release;

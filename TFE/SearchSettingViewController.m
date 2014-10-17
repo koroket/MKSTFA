@@ -28,7 +28,7 @@
     [super viewDidLoad];
     
     //initialize the data for the UIPicker
-    _pickerData = @[@"Food", @"Bars", @"Clubs", @"Lauren is amazing"];
+    _pickerData = @[@"Food", @"Bars", @"Clubs"];
     
     self.yelpOptionPicker.dataSource = self;
     self.yelpOptionPicker.delegate = self;
