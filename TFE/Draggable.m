@@ -263,7 +263,7 @@
                                                        timeoutInterval:30.0];
     [request setHTTPMethod:@"PUT"];
     
-    //session
+    //Session
     NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
     NSURLSession *urlSession = [NSURLSession sessionWithConfiguration:config
                                                              delegate:self

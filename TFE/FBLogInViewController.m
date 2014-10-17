@@ -101,8 +101,8 @@
  *  @param loginView
  *  @param error
  */
-
-- (void)loginView:(FBLoginView *)loginView handleError:(NSError *)error
+- (void)loginView:(FBLoginView *)loginView
+      handleError:(NSError *)error
 {
   NSString *alertMessage, *alertTitle;
 
@@ -162,11 +162,9 @@
 
 - (void)linkDeviceToken
 {
-
     //URL
     NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/token/%@token",
                           [NetworkCommunication sharedManager].stringFBUserId];
-
     NSURL *url = [NSURL URLWithString:fixedUrl];
 
     //Session
@@ -183,13 +181,11 @@
                                 [NetworkCommunication sharedManager].stringDeviceToken,
                                 @"token",
                                 nil];
-
     //errorHandlign
     NSError *error = nil;
     NSData *data = [NSJSONSerialization dataWithJSONObject:dictionary
                                                    options:kNilOptions
                                                      error:&error];
-    
     if (!error)
     {
         //Upload
@@ -201,21 +197,18 @@
                                          NSError *error)
          {
              NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-             
              NSInteger responseStatusCode = [httpResponse statusCode];
              
              if (responseStatusCode == 200 && data)
              {
                  dispatch_async(dispatch_get_main_queue(), ^(void)
-                    {
+                {
                         
-                        
-                    });//Dispatch main queue block
-             }//if
+                }
+             }
              
-         }];//upload task Block
+         }];
         
-        // 5
         [uploadTask resume];
         NSLog(@"Connected to server");
     }
@@ -223,7 +216,6 @@
     {
         NSLog(@"Cannot connect to server");
     }
-    
 }
 
 
@@ -237,7 +229,8 @@
 /*
 // In a storyboard-based application, you will often want to do a little
 preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+- (void)prepareForSegue:(UIStoryboardSegue *)segue 
+                 sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
 }
