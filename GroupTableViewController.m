@@ -249,15 +249,18 @@
     NSURL *url = [NSURL URLWithString:fixedUrl];
     // 1
 
-    NSMutableURLRequest *request =
-        [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
+                                                           cachePolicy:NSURLRequestUseProtocolCachePolicy
+                                                       timeoutInterval:30.0];
     [request setHTTPMethod:@"PUT"];
 
     NSURLSession *urlSession = [NSURLSession sharedSession];
 
     NSURLSessionDataTask *dataTask =
         [urlSession dataTaskWithRequest:request
-                      completionHandler:^(NSData *data, NSURLResponse *response, NSError *error)
+                      completionHandler:^(NSData *data,
+                                          NSURLResponse *response,
+                                          NSError *error)
     {
 
       NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
@@ -342,10 +345,9 @@
     NSURL *url = [NSURL URLWithString:fixedUrl];
     
     //Request
-    NSMutableURLRequest *request =
-        [NSMutableURLRequest requestWithURL:url
-                                cachePolicy:NSURLRequestUseProtocolCachePolicy
-                            timeoutInterval:30.0];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
+                                                           cachePolicy:NSURLRequestUseProtocolCachePolicy
+                                                       timeoutInterval:30.0];
     [request setHTTPMethod:@"DELETE"];
 
     //Session
@@ -386,10 +388,9 @@
     NSURL *url = [NSURL URLWithString:fixedUrl];
     
     //Request
-    NSMutableURLRequest *request =
-        [NSMutableURLRequest requestWithURL:url
-                                cachePolicy:NSURLRequestUseProtocolCachePolicy
-                            timeoutInterval:30.0];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
+                                                           cachePolicy:NSURLRequestUseProtocolCachePolicy
+                                                       timeoutInterval:30.0];
     [request setHTTPMethod:@"GET"];
 
     //Session

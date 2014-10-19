@@ -28,8 +28,9 @@
     [super viewDidLoad];
     
     //initialize the data for the UIPicker
-    _pickerData = @[@"Food", @"Bars", @"Clubs", @"Lauren is amazing"];
+    _pickerData = @[@"Food", @"Bars", @"Clubs"];
     
+    //Yelp Option Picker Stuff
     self.yelpOptionPicker.dataSource = self;
     self.yelpOptionPicker.delegate = self;
     
@@ -38,7 +39,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    
+
 }
 
 
@@ -46,6 +47,7 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+
 }
 
 #pragma mark - Picker Methods
@@ -62,7 +64,8 @@
 }
 
 // The number of rows of data
-- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
+- (NSInteger)pickerView:(UIPickerView *)pickerView
+numberOfRowsInComponent:(NSInteger)component
 {
     return _pickerData.count;
 }
@@ -79,6 +82,7 @@
 {
     NSString* temp = [str stringByReplacingOccurrencesOfString:@" " withString:@""];
     return temp;
+    
 }
 
 
@@ -90,17 +94,18 @@
  */
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+- (void)prepareForSegue:(UIStoryboardSegue *)segue
+                 sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"Save"])
     {
         //Save the values of the search boxes to the singleton
-        //The location
-        [NetworkCommunication sharedManager].stringYelpLocation = self.locationField.text;
-        
         //The number of desired locations
         [NetworkCommunication sharedManager].intYelpNumberOfLocations = self.numberField.text.intValue;
         
+        //The location
+        [NetworkCommunication sharedManager].stringYelpLocation = self.locationField.text;
+
         //The search term (food, bars, movie, etc)
         [NetworkCommunication sharedManager].stringYelpSearchTerm = self.itemField.text;
     }
