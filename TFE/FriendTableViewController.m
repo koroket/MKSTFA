@@ -148,9 +148,9 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
                 
                 NSDictionary *tempDictionary = fetchedData[fetchedData.count - 1];
                 
-                //[self.myTokens addObject:tempDictionary[@"token"]];
+                [self.myTokens addObject:tempDictionary[@"token"]];
                 
-                //[self sendNotification:tempDictionary[@"token"]];
+                [self sendNotification:tempDictionary[@"token"]];
                 
                 if (self.myTokens.count == self.selectedFriends.count)
                 {
