@@ -101,8 +101,9 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
     draggable.information.text = tempoaryDict[@"Name"]; //%%% placeholder for card-specific information
     if(tempoaryDict[@"ImageURL"]!=nil)
     {
-        
-          draggable.imageView.image  = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:tempoaryDict[@"ImageURL"]]]];
+        NSString* newString = tempoaryDict[@"ImageURL"];
+        NSString* new2String = [newString stringByReplacingOccurrencesOfString:@"/ms.jpg" withString:@"/o.jpg"];
+          draggable.imageView.image  = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:new2String]]];
     }
   
     draggable.delegate = self;
