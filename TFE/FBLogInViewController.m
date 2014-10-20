@@ -66,7 +66,7 @@
     [NetworkCommunication sharedManager].stringFBUserId = user.objectID;
     [NetworkCommunication sharedManager].stringFBUserName = user.name;
 
-    [self linkDeviceToken];
+    
 }
 
 - (void)loginViewShowingLoggedInUser:(FBLoginView *)loginView
@@ -85,7 +85,8 @@
    */
   
     self.statusLabel.text = @"You're logged in as";
-    [self performSegueWithIdentifier:@"LoggedIn" sender:self];
+    //
+    [self linkDeviceToken];
 }
 
 - (void)loginViewShowingLoggedOutUser:(FBLoginView *)loginView
@@ -198,13 +199,21 @@
          {
              NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
              NSInteger responseStatusCode = [httpResponse statusCode];
-             
+            
              if (responseStatusCode == 200 && data)
              {
+                 
                  dispatch_async(dispatch_get_main_queue(), ^(void)
                 {
-                        
-                }
+                    NSArray *fetchedData = [NSJSONSerialization JSONObjectWithData:data
+                                                                           options:0
+                                                                             error:nil];
+                    NSDictionary *data1 = [fetchedData objectAtIndex:0];
+                    
+                    
+                    
+                    [self performSegueWithIdentifier:@"LoggedIn" sender:self];
+                });
              }
              
          }];
