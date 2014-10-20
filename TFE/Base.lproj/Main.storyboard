@@ -67,7 +67,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="x5A-6p-PRh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="890" y="186"/>
+            <point key="canvasLocation" x="831" y="186"/>
         </scene>
         <!--Search Inputs-->
         <scene sceneID="xeO-Jy-FGg">
@@ -127,6 +127,12 @@
                                     </mask>
                                 </variation>
                             </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xvU-bJ-DPa">
+                                <rect key="frame" x="277" y="456" width="125" height="30"/>
+                                <state key="normal" title="To Search Rework">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -173,7 +179,7 @@
                         </variation>
                     </view>
                     <navigationItem key="navigationItem" title="Search Inputs" id="mgP-13-sxN">
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="WVb-ka-zMa">
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="WVb-ka-zMa">
                             <connections>
                                 <action selector="save:" destination="xt9-EP-PmL" id="SQs-e0-Ku5"/>
                                 <segue destination="OjU-NI-juH" kind="show" identifier="Save" id="Bw4-Hh-bGp"/>
@@ -189,7 +195,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fiK-Gx-F3e" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1620" y="186"/>
+            <point key="canvasLocation" x="2268" y="-561"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="Igj-w5-6JS">
@@ -207,7 +213,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UII-mE-xTo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1621" y="890"/>
+            <point key="canvasLocation" x="3036" y="-561"/>
         </scene>
         <!--Invite Friends-->
         <scene sceneID="cvR-wP-aQt">
@@ -245,7 +251,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XL1-WS-Lz6" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="CAL-bQ-3tP" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="2329" y="186"/>
+            <point key="canvasLocation" x="2268" y="186"/>
         </scene>
         <!--Friend Table-->
         <scene sceneID="46v-Xq-Kwb">
@@ -281,7 +287,7 @@
                                 <action selector="reloadData:" destination="wuR-fK-ud5" eventType="touchUpInside" id="vPY-pQ-hFg"/>
                             </connections>
                         </button>
-                        <barButtonItem key="rightBarButtonItem" title="New Group" id="PIn-0a-pKT">
+                        <barButtonItem key="rightBarButtonItem" image="User-Group-128" id="PIn-0a-pKT">
                             <connections>
                                 <segue destination="xt9-EP-PmL" kind="show" id="qEa-Nm-eXj"/>
                             </connections>
@@ -295,7 +301,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vjZ-fz-4bj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1620" y="-562"/>
+            <point key="canvasLocation" x="1542" y="-561"/>
         </scene>
         <!--Match Found!-->
         <scene sceneID="0Fm-xp-81r">
@@ -423,7 +429,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1Nq-Aa-cP5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="890" y="-561"/>
+            <point key="canvasLocation" x="831" y="-561"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="AgL-F3-0OY">
@@ -444,6 +450,9 @@
             <point key="canvasLocation" x="118" y="-561"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="User-Group-128" width="128" height="128"/>
+    </resources>
     <inferredMetricsTieBreakers>
         <segue reference="5lR-FI-kFp"/>
     </inferredMetricsTieBreakers>
