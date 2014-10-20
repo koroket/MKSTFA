@@ -149,7 +149,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
                                                                        options:0
                                                                          error:nil];
                 
-                NSDictionary *tempDictionary = fetchedData[fetchedData.count - 1];
+                NSDictionary *tempDictionary = fetchedData[0];
                 
                 [self.myTokens addObject:tempDictionary[@"token"]];
                 
@@ -445,10 +445,11 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
   {
       
       //URL
-      NSString *fixedURL = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/yelp/%@/%d/%@",
+      NSString *fixedURL = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/yelp/%@/%@/%d",
                             [NetworkCommunication sharedManager].stringYelpLocation,
-                            [NetworkCommunication sharedManager].intYelpNumberOfLocations,
-                            [NetworkCommunication sharedManager].stringYelpSearchTerm];
+                            [NetworkCommunication sharedManager].stringYelpSearchTerm,
+                            [NetworkCommunication sharedManager].intYelpNumberOfLocations
+                            ];
       NSURL *url = [NSURL URLWithString:fixedURL];
       
       //Request
