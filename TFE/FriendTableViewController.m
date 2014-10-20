@@ -501,7 +501,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
                    {
                        NSMutableDictionary *temp = [NSMutableDictionary dictionary];
                        NSDictionary *dictionary = [buisinesses objectAtIndex:i];
-                      
+
                        [temp setObject:dictionary[@"name"] forKey:@"Name"];
                        
                        if(dictionary[@"image_url"]!=nil)

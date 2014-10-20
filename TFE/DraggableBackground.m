@@ -55,10 +55,19 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
         allCards = [[NSMutableArray alloc] init];
         cardsLoadedIndex = 0;
         currentCardIndex = -1;
-        [self loadCards];
+
     }
 }
-
+-(void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+            [self loadCards];
+    for(int i = 0; i < self.allCards.count; i++)
+    {
+        [self.allCards[i] setFrame:self.viewContainer.frame];
+    }
+    
+}
 //%%% sets up the extra buttons on the screen
 -(void)setupView
 {
@@ -85,11 +94,14 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
 // to get rid of it (eg: if you are building cards from data from the internet)
 -(Draggable *)createDraggableWithDataAtIndex:(NSInteger)index
 {
-    Draggable *draggable = [[Draggable alloc]initWithFrame:CGRectMake((self.view.frame.size.width - CARD_WIDTH)/2, (self.view.frame.size.height - CARD_HEIGHT)/2, CARD_WIDTH, CARD_HEIGHT)];
+    Draggable *draggable = [[[NSBundle mainBundle] loadNibNamed:@"SwipeCardView" owner:self options:nil] objectAtIndex:0];
+//    Draggable *draggable = [[Draggable alloc]initWithFrame:CGRectMake((self.view.frame.size.width - CARD_WIDTH)/2, (self.view.frame.size.height - CARD_HEIGHT)/2, CARD_WIDTH, CARD_HEIGHT)];
+
     NSDictionary *tempoaryDict = [exampleCardLabels objectAtIndex:index];
     draggable.information.text = tempoaryDict[@"Name"]; //%%% placeholder for card-specific information
     if(tempoaryDict[@"ImageURL"]!=nil)
     {
+        
           draggable.imageView.image  = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:tempoaryDict[@"ImageURL"]]]];
     }
   
@@ -127,7 +139,9 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
             }
             else
             {
-                [self.view addSubview:[loadedCards objectAtIndex:i]];
+                [self.view addSubview:loadedCards[i]];
+                
+                
             }
             cardsLoadedIndex++; //%%% we loaded a card into loaded cards, so we have to increment
         }

@@ -30,19 +30,19 @@
 @synthesize overlayView;
 @synthesize imageView;
 
-- (id)initWithFrame:(CGRect)frame
+-(id)initWithCoder:(NSCoder *)aDecoder
 {
-    self = [super initWithFrame:frame];
+    self = [super initWithCoder:aDecoder];
     if (self) {
         [self setupView];
-
+        
         //Placeholder card Specific Info
-        information = [[UILabel alloc]initWithFrame:CGRectMake(0, 50, self.frame.size.width, 100)];
+        
         information.text = @"no info given";
         [information setTextAlignment:NSTextAlignmentCenter];
         information.textColor = [UIColor blackColor];
         
-        imageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 200, 100, 100)];
+        //imageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 200, 100, 100)];
         
         
         self.backgroundColor = [UIColor whiteColor];
@@ -53,8 +53,7 @@
         panGestureRecognizer = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(beingDragged:)];
         
         [self addGestureRecognizer:panGestureRecognizer];
-        [self addSubview:information];
-        [self addSubview:imageView];
+        
         
         overlayView = [[OverlayView alloc]initWithFrame:CGRectMake(self.frame.size.width/2-100, 0, 100, 100)];
         overlayView.alpha = 0;
@@ -62,6 +61,7 @@
     }
     return self;
 }
+
 
 -(void)setupView
 {
