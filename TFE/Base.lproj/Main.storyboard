@@ -17,40 +17,92 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hl2-sq-3cC">
-                                <rect key="frame" x="518" y="506" width="46" height="30"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tX9-Tm-gXm">
+                                <rect key="frame" x="16" y="516" width="568" height="40"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hl2-sq-3cC">
+                                        <rect key="frame" x="522" y="0.0" width="46" height="40"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="1do-RC-gTQ"/>
+                                            <constraint firstAttribute="width" constant="46" id="Q66-uY-kpz"/>
+                                            <constraint firstAttribute="width" constant="46" id="nvb-ec-WgJ"/>
+                                        </constraints>
+                                        <state key="normal" title="Good">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <variation key="default">
+                                            <mask key="constraints">
+                                                <exclude reference="1do-RC-gTQ"/>
+                                                <exclude reference="nvb-ec-WgJ"/>
+                                            </mask>
+                                        </variation>
+                                        <connections>
+                                            <action selector="good:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="ao8-lf-d7x"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dpV-K0-KmL">
+                                        <rect key="frame" x="0.0" y="0.0" width="46" height="40"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="46" id="2rz-tI-baF"/>
+                                            <constraint firstAttribute="height" constant="30" id="MGG-S6-FJl"/>
+                                            <constraint firstAttribute="width" constant="46" id="vqr-Sc-Oj0"/>
+                                        </constraints>
+                                        <state key="normal" title="Bad">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <variation key="default">
+                                            <mask key="constraints">
+                                                <exclude reference="2rz-tI-baF"/>
+                                                <exclude reference="MGG-S6-FJl"/>
+                                            </mask>
+                                        </variation>
+                                        <connections>
+                                            <action selector="bad:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="H5U-4K-AjB"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="1do-RC-gTQ"/>
-                                    <constraint firstAttribute="width" constant="46" id="nvb-ec-WgJ"/>
+                                    <constraint firstItem="dpV-K0-KmL" firstAttribute="top" secondItem="tX9-Tm-gXm" secondAttribute="top" id="27c-uM-7iE"/>
+                                    <constraint firstItem="dpV-K0-KmL" firstAttribute="leading" secondItem="tX9-Tm-gXm" secondAttribute="leading" id="9jG-VP-hQb"/>
+                                    <constraint firstAttribute="trailing" secondItem="Hl2-sq-3cC" secondAttribute="trailing" id="Fph-aZ-Mm3"/>
+                                    <constraint firstItem="Hl2-sq-3cC" firstAttribute="top" secondItem="tX9-Tm-gXm" secondAttribute="top" id="Rb4-Zj-89A"/>
+                                    <constraint firstAttribute="height" constant="40" id="YZA-nl-bXB"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="40" id="eaJ-4M-AoZ"/>
+                                    <constraint firstAttribute="bottom" secondItem="Hl2-sq-3cC" secondAttribute="bottom" id="jsi-QI-MWv"/>
+                                    <constraint firstAttribute="bottom" secondItem="dpV-K0-KmL" secondAttribute="bottom" id="q9a-vy-GYU"/>
+                                    <constraint firstAttribute="height" constant="40" id="syh-MH-RKb"/>
                                 </constraints>
-                                <state key="normal" title="Good">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="good:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="ao8-lf-d7x"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dpV-K0-KmL">
-                                <rect key="frame" x="36" y="506" width="46" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="46" id="2rz-tI-baF"/>
-                                    <constraint firstAttribute="height" constant="30" id="MGG-S6-FJl"/>
-                                </constraints>
-                                <state key="normal" title="Bad">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="bad:" destination="vXZ-lx-hvc" eventType="touchUpInside" id="H5U-4K-AjB"/>
-                                </connections>
-                            </button>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="YZA-nl-bXB"/>
+                                        <exclude reference="eaJ-4M-AoZ"/>
+                                    </mask>
+                                </variation>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="19L-Hj-63a">
+                                <rect key="frame" x="16" y="64" width="568" height="452"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="Hl2-sq-3cC" secondAttribute="bottom" constant="20" id="7jo-jB-l8A"/>
-                            <constraint firstItem="dpV-K0-KmL" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="20" id="lOO-Zx-6sK"/>
-                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="dpV-K0-KmL" secondAttribute="bottom" constant="20" id="mTp-fS-QYG"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="Hl2-sq-3cC" secondAttribute="trailing" constant="20" id="ojN-Jw-EGi"/>
+                            <constraint firstItem="tX9-Tm-gXm" firstAttribute="trailing" secondItem="kh9-bI-dsS" secondAttribute="trailingMargin" id="23M-cI-66b"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="tX9-Tm-gXm" secondAttribute="bottom" id="4hf-1G-qDo"/>
+                            <constraint firstItem="19L-Hj-63a" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" id="9VO-JD-6DB"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="19L-Hj-63a" secondAttribute="trailing" id="Ipw-6q-TbK"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="19L-Hj-63a" secondAttribute="bottom" id="TIu-HT-z9r"/>
+                            <constraint firstItem="tX9-Tm-gXm" firstAttribute="top" secondItem="19L-Hj-63a" secondAttribute="bottom" id="TrU-ku-Bvh"/>
+                            <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="19L-Hj-63a" secondAttribute="bottom" id="Wrf-Sf-FfH"/>
+                            <constraint firstItem="tX9-Tm-gXm" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" id="a8H-JF-fFL"/>
+                            <constraint firstItem="19L-Hj-63a" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" id="whJ-pY-cA3"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="TIu-HT-z9r"/>
+                                <exclude reference="Wrf-Sf-FfH"/>
+                            </mask>
+                        </variation>
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Swiping" id="i6t-Ji-ETa">
@@ -62,6 +114,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="checkButton" destination="Hl2-sq-3cC" id="cSY-Uo-qS3"/>
+                        <outlet property="viewContainer" destination="19L-Hj-63a" id="sE1-cS-WUF"/>
                         <outlet property="xButton" destination="dpV-K0-KmL" id="1Cf-3B-ely"/>
                     </connections>
                 </viewController>

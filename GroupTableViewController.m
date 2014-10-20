@@ -237,9 +237,77 @@
 
 - (IBAction)reloadData:(id)sender
 {
-    [self resetEverything];
+    [self getGoogle];
+    //[self resetEverything];
     //[self yesWith:3 andUrl:@"543482c59b6f750200271e81"];
 }
+
+- (void)getGoogle
+{
+    
+
+        
+        //URL
+        NSString *fixedURL = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/google/food"];
+        NSURL *url = [NSURL URLWithString:fixedURL];
+        
+        //Request
+        NSMutableURLRequest *request =
+        [NSMutableURLRequest requestWithURL:url
+                                cachePolicy:NSURLRequestUseProtocolCachePolicy
+                            timeoutInterval:30.0];
+        [request setHTTPMethod:@"GET"];
+        
+        //Session
+        NSURLSession *urlSession = [NSURLSession sharedSession];
+        
+        //Data Task
+        NSURLSessionDataTask *dataTask =
+        [urlSession dataTaskWithRequest:request
+                      completionHandler:^(NSData *data,
+                                          NSURLResponse *response,
+                                          NSError *error)
+         {
+             NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+             
+             NSInteger responseStatusCode = [httpResponse statusCode];
+             
+             if (responseStatusCode == 200 && data)
+             {
+                 dispatch_async(dispatch_get_main_queue(), ^(void)
+                                {
+                                    // Creates local data for yelp info
+                                    NSDictionary *fetchedData = [NSJSONSerialization JSONObjectWithData:data
+                                                                                                options:0
+                                                                                                  error:nil];
+                                    NSArray *myArray = [NSArray array];
+                                    myArray = fetchedData[@"results"];
+                                    
+                                    NSDictionary *place1 = myArray[0];
+                                    
+                                    NSArray* photos = place1[@"photos"];
+                                    NSLog(@"%@",photos);
+                                    // Creates array of empty replies
+                                    NSLog(@"sup");
+                                    
+                                    //Dictionary Handling
+                                    //Device tokens
+
+                                });
+                 
+                 //where to stick dispatch to main queue
+                 
+             }
+             else
+             {
+                 // error handling
+                 NSLog(@"gucci");
+             }
+         }];//Data Task Block
+        [dataTask resume];
+
+}
+
 
 - (void)yesWith:(int)index andUrl:(NSString *)tempUrl
 {

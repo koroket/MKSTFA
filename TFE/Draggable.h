@@ -31,9 +31,10 @@
 
 @property (nonatomic,strong)OverlayView* overlayView;
 
-@property (nonatomic,strong)UILabel* information; //%%% a placeholder for any card-specific information
+@property (strong, nonatomic) IBOutlet UILabel *information;
 
-@property (nonatomic,strong)UIImageView* imageView; //%%% a placeholder for any card-specific information
+//%%% a placeholder for any card-specific information
+@property (strong, nonatomic) IBOutlet UIImageView *imageView;
 
 
 
