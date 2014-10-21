@@ -13,11 +13,11 @@
 
 @property (nonatomic, strong) IBOutlet UITextField *locationField;
 @property (nonatomic, strong) IBOutlet UITextField *itemField;
+
 @property (nonatomic, weak) IBOutlet UIPickerView *yelpOptionPicker;
 
 @property (nonatomic)NSArray *pickerData;
 
-    
 @end
 
 @implementation SearchSettingViewController
@@ -25,10 +25,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+
     //initialize the data for the UIPicker
     _pickerData = @[@"Food", @"Bars", @"Clubs"];
-    
+
     //Yelp Option Picker Stuff
     self.yelpOptionPicker.dataSource = self;
     self.yelpOptionPicker.delegate = self;
@@ -38,7 +38,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-
+    
 }
 
 
@@ -109,7 +109,5 @@ numberOfRowsInComponent:(NSInteger)component
         
     }
 }
-
-
 
 @end
