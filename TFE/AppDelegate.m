@@ -11,7 +11,7 @@
 #import <Pushbots/Pushbots.h>
 #import "DraggableBackground.h"
 #import "NetworkCommunication.h"
-
+#import "FBLogInViewController.h"
 @interface AppDelegate ()
 
 @end
@@ -54,9 +54,9 @@
 {
     UINavigationController *navigationController = (UINavigationController*)_window.rootViewController;
     DraggableBackground *chatViewController =
-    (DraggableBackground*)[navigationController.viewControllers  objectAtIndex:0];
+    (DraggableBackground*)[navigationController.viewControllers  objectAtIndex:2];
     
-    [chatViewController performSegueWithIdentifier:@"Done" sender:chatViewController];
+    [chatViewController showCompletion: userInfo];
 }
 
 - (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
@@ -67,6 +67,10 @@
     
     //call to singleton for fixed string
     [NetworkCommunication sharedManager].stringDeviceToken = fixedString;
+    UINavigationController *navigationController = (UINavigationController*)_window.rootViewController;
+    FBLogInViewController *chatViewController =
+    (FBLogInViewController*)[navigationController.viewControllers  objectAtIndex:0];
+    [chatViewController linkDeviceToken];
 }
 
 - (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error

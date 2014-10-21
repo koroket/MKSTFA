@@ -15,7 +15,6 @@
 #import "MBProgressHUD.h"
 #import "NetworkCommunication.h"
 #import "UIScrollView+SVPullToRefresh.h"
-#import "AMSmoothAlertView.h"
 #import "TDBadgedCell.h"
 @interface GroupTableViewController ()
 
@@ -229,8 +228,6 @@
          [self.tableView.pullToRefreshView stopAnimating];
          
          [MBProgressHUD hideHUDForView:self.view animated:YES];
-         AMSmoothAlertView *alert = [[AMSmoothAlertView alloc]initDropAlertWithTitle:@"Gucci" andText:@"yeah" andCancelButton:YES forAlertType:AlertSuccess];
-         [alert show];
      }];
     
 }
@@ -238,7 +235,7 @@
 - (IBAction)reloadData:(id)sender
 {
     [self getGoogle];
-    //[self resetEverything];
+    [self resetEverything];
     //[self yesWith:3 andUrl:@"543482c59b6f750200271e81"];
 }
 
@@ -276,12 +273,16 @@
              {
                  dispatch_async(dispatch_get_main_queue(), ^(void)
                                 {
+                                    
                                     // Creates local data for yelp info
                                     NSDictionary *fetchedData = [NSJSONSerialization JSONObjectWithData:data
                                                                                                 options:0
                                                                                                   error:nil];
+                                    NSLog(@"%@",fetchedData);
+                                    
                                     NSArray *myArray = [NSArray array];
-                                    myArray = fetchedData[@"results"];
+                                    
+                                    myArray = fetchedData;
                                     
                                     NSDictionary *place1 = myArray[0];
                                     

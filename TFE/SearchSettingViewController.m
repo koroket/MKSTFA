@@ -104,7 +104,7 @@ numberOfRowsInComponent:(NSInteger)component
         [NetworkCommunication sharedManager].intYelpNumberOfLocations = self.numberField.text.intValue;
         
         //The location
-        [NetworkCommunication sharedManager].stringYelpLocation = self.locationField.text;
+        [NetworkCommunication sharedManager].stringYelpLocation = [self stringfix:self.locationField.text];
 
         //The search term (food, bars, movie, etc)
         [NetworkCommunication sharedManager].stringYelpSearchTerm = self.itemField.text;

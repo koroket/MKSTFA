@@ -12,6 +12,7 @@
 #import "GroupTableViewController.h"
 #import "MBProgressHUD.h"
 #import "NetworkCommunication.h"
+#import "MBProgressHUD.h"
 
 @interface FriendTableViewController ()
 
@@ -57,6 +58,10 @@
     
     
     [self.selectedFriends addObject:[NetworkCommunication sharedManager].stringFBUserId];
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
+    hud.mode = MBProgressHUDModeIndeterminate;
+    hud.labelText = @"Loading Friends";
 }
 
 #pragma mark - Table view data source
@@ -277,6 +282,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
          dispatch_async(dispatch_get_main_queue(), ^(void)
         {
             [self.tableView reloadData];
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
             
         }); //main queue dispatch
          
@@ -347,6 +353,10 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
                     });//Dispatch main queue block
                      
                  }//if
+                 else
+                 {
+                     NSLog(@"Sending to individuals failed");
+                 }
                  
              }];//upload task Block
             
@@ -410,6 +420,10 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
                 });//Dispatch main queue block
                  
              }//if
+             else
+             {
+                 NSLog(@"Group creation failed");
+             }
              
          }];//Upload task Block
         
@@ -537,7 +551,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
            else
            {
                // error handling
-               NSLog(@"gucci");
+               NSLog(@"Yelp Failed");
            }
        }];//Data Task Block
       [dataTask resume];

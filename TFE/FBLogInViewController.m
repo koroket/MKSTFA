@@ -86,7 +86,7 @@
   
     self.statusLabel.text = @"You're logged in as";
     //
-    [self linkDeviceToken];
+
 }
 
 - (void)loginViewShowingLoggedOutUser:(FBLoginView *)loginView
