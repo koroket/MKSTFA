@@ -94,7 +94,7 @@
     
     if (currentLocation != nil)
     {
-        self.textFieldLocation.text = [NSString stringWithFormat:@" ";
+        //self.textFieldLocation.text = [NSString stringWithFormat:@" ";
     }
     
     [geocoder reverseGeocodeLocation:currentLocation completionHandler:^(NSArray *placemarks, NSError *error)
