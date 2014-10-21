@@ -17,9 +17,11 @@
 #import "UIScrollView+SVPullToRefresh.h"
 #import "AMSmoothAlertView.h"
 #import "TDBadgedCell.h"
+
 @interface GroupTableViewController ()
 
 - (IBAction)reloadData:(id)sender;
+
 @property (nonatomic,strong) NSMutableArray* myOwners;
 @property (nonatomic,strong) NSMutableArray* myOwnerIds;
 
@@ -171,11 +173,10 @@
              
              //NSString *userImageURL = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large", [FBuser objectID]];
              
-             NSString *userImageURL = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large", [self.myOwnerIds objectAtIndex:self.myOwners.count-1-indexPath.row]];
+             NSString *userImageURL = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large",
+                                       [self.myOwnerIds objectAtIndex:self.myOwners.count-1-indexPath.row]];
              
              cell.imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:userImageURL]]];
-            
-             
          }
      }];
     
@@ -188,8 +189,6 @@
     
     return cell;
 }
-
-
 
 #pragma mark - Heroku
 /**
@@ -212,7 +211,9 @@
                               withBlock:^(void)
      {
          
-         NSArray *fetchedData = [NSJSONSerialization JSONObjectWithData:sharedCommunication.myData options:0 error:nil];
+         NSArray *fetchedData = [NSJSONSerialization JSONObjectWithData:sharedCommunication.myData
+                                                                options:0
+                                                                  error:nil];
          self.myGroups = [NSMutableArray array];
          
          for (int i = 0; i < fetchedData.count; i++)
@@ -242,81 +243,15 @@
     //[self yesWith:3 andUrl:@"543482c59b6f750200271e81"];
 }
 
-- (void)getGoogle
+
+- (void)yesWith:(int)index
+         andUrl:(NSString *)tempUrl
 {
-    
-
-        
-        //URL
-        NSString *fixedURL = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/google/food"];
-        NSURL *url = [NSURL URLWithString:fixedURL];
-        
-        //Request
-        NSMutableURLRequest *request =
-        [NSMutableURLRequest requestWithURL:url
-                                cachePolicy:NSURLRequestUseProtocolCachePolicy
-                            timeoutInterval:30.0];
-        [request setHTTPMethod:@"GET"];
-        
-        //Session
-        NSURLSession *urlSession = [NSURLSession sharedSession];
-        
-        //Data Task
-        NSURLSessionDataTask *dataTask =
-        [urlSession dataTaskWithRequest:request
-                      completionHandler:^(NSData *data,
-                                          NSURLResponse *response,
-                                          NSError *error)
-         {
-             NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-             
-             NSInteger responseStatusCode = [httpResponse statusCode];
-             
-             if (responseStatusCode == 200 && data)
-             {
-                 dispatch_async(dispatch_get_main_queue(), ^(void)
-                                {
-                                    // Creates local data for yelp info
-                                    NSDictionary *fetchedData = [NSJSONSerialization JSONObjectWithData:data
-                                                                                                options:0
-                                                                                                  error:nil];
-                                    NSArray *myArray = [NSArray array];
-                                    myArray = fetchedData[@"results"];
-                                    
-                                    NSDictionary *place1 = myArray[0];
-                                    
-                                    NSArray* photos = place1[@"photos"];
-                                    NSLog(@"%@",photos);
-                                    // Creates array of empty replies
-                                    NSLog(@"sup");
-                                    
-                                    //Dictionary Handling
-                                    //Device tokens
-
-                                });
-                 
-                 //where to stick dispatch to main queue
-                 
-             }
-             else
-             {
-                 // error handling
-                 NSLog(@"gucci");
-             }
-         }];//Data Task Block
-        [dataTask resume];
-
-}
-
-
-- (void)yesWith:(int)index andUrl:(NSString *)tempUrl
-{
-    NSString *fixedUrl =
-        [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/groups/%@/%d", tempUrl, index];
-    // 1
+    //URL
+    NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/groups/%@/%d", tempUrl, index];
     NSURL *url = [NSURL URLWithString:fixedUrl];
-    // 1
 
+    //Request
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
                                                            cachePolicy:NSURLRequestUseProtocolCachePolicy
                                                        timeoutInterval:30.0];
@@ -324,6 +259,7 @@
 
     NSURLSession *urlSession = [NSURLSession sharedSession];
 
+    //DataTask
     NSURLSessionDataTask *dataTask =
         [urlSession dataTaskWithRequest:request
                       completionHandler:^(NSData *data,
@@ -338,8 +274,9 @@
       {
           dispatch_async(dispatch_get_main_queue(), ^(void)
           {
-              NSDictionary *fetchedData =
-                  [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+              NSDictionary *fetchedData = [NSJSONSerialization JSONObjectWithData:data
+                                                                          options:0
+                                                                            error:nil];
               NSNumber *a = fetchedData[@"agree"];
               int t = [a intValue];
               if (t == 3)
@@ -359,7 +296,8 @@
     [dataTask resume];
 }
 
-- (void)deleteGroup:(NSString *)pplid with:(NSString *)myId
+- (void)deleteGroup:(NSString *)pplid
+               with:(NSString *)myId
 {
     //URL
     NSString *fixedUrl =
@@ -377,11 +315,10 @@
     NSURLSession *urlSession = [NSURLSession sharedSession];
 
     //Data Task Block
-    NSURLSessionDataTask *dataTask =
-        [urlSession dataTaskWithRequest:request
-                      completionHandler:^(NSData *data,
-                                          NSURLResponse *response,
-                                          NSError *error)
+    NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request
+                                                   completionHandler:^(NSData *data,
+                                                                       NSURLResponse *response,
+                                                                       NSError *error)
     {
 
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
@@ -389,18 +326,18 @@
 
         if (responseStatusCode == 200 && data)
         {
-          dispatch_async(dispatch_get_main_queue(), ^(void)
-          {
+            dispatch_async(dispatch_get_main_queue(), ^(void)
+            {
+                
+            });
 
-          });
-
-          // do something with this data
-          // if you want to update UI, do it on main queue
+            // do something with this data
+            // if you want to update UI, do it on main queue
         }
         else
         {
-          // error handling
-          NSLog(@"cannot connect to server");
+            // error handling
+            NSLog(@"cannot connect to server");
         }
     }];
     [dataTask resume];
@@ -417,10 +354,10 @@
                                                            cachePolicy:NSURLRequestUseProtocolCachePolicy
                                                        timeoutInterval:30.0];
     [request setHTTPMethod:@"DELETE"];
-
+    
     //Session
     NSURLSession *urlSession = [NSURLSession sharedSession];
-
+    
     //Data Task Block
     NSURLSessionDataTask *dataTask =
         [urlSession dataTaskWithRequest:request
@@ -460,7 +397,7 @@
                                                            cachePolicy:NSURLRequestUseProtocolCachePolicy
                                                        timeoutInterval:30.0];
     [request setHTTPMethod:@"GET"];
-
+    
     //Session
     NSURLSession *urlSession = [NSURLSession sharedSession];
 
@@ -474,7 +411,7 @@
 
       NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
       NSInteger responseStatusCode = [httpResponse statusCode];
-
+        
       if (responseStatusCode == 200 && data)
       {
           dispatch_async(dispatch_get_main_queue(), ^(void)
@@ -490,10 +427,8 @@
 
                   [self deleteIndividualGroup:data1[@"_id"]];
               }
-
               [self.tableView reloadData];
           });
-
           // do something with this data
           // if you want to update UI, do it on main queue
       }
@@ -515,7 +450,9 @@
 
     //Request
     NSMutableURLRequest *request =
-        [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
+        [NSMutableURLRequest requestWithURL:url
+                                cachePolicy:NSURLRequestUseProtocolCachePolicy
+                            timeoutInterval:30.0];
     [request setHTTPMethod:@"GET"];
 
     //Session
@@ -561,12 +498,83 @@
     [dataTask resume];
 }
 
+
+
 - (void)resetEverything
 {
     [self resetGroups];
     [self resetPeople:@"10204805165711346"];
     [self resetPeople:@"10153248739313289"];
     [self resetPeople:@"10202657658737811"];
+}
+
+#pragma mark - Google
+/**
+ * --------------------------------------------------------------------------
+ * Google
+ * --------------------------------------------------------------------------
+ */
+
+- (void)getGoogle
+{
+    //URL
+    NSString *fixedURL = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/google/food"];
+    NSURL *url = [NSURL URLWithString:fixedURL];
+    
+    //Request
+    NSMutableURLRequest *request =
+    [NSMutableURLRequest requestWithURL:url
+                            cachePolicy:NSURLRequestUseProtocolCachePolicy
+                        timeoutInterval:30.0];
+    [request setHTTPMethod:@"GET"];
+    
+    //Session
+    NSURLSession *urlSession = [NSURLSession sharedSession];
+    
+    //Data Task
+    NSURLSessionDataTask *dataTask =
+    [urlSession dataTaskWithRequest:request
+                  completionHandler:^(NSData *data,
+                                      NSURLResponse *response,
+                                      NSError *error)
+     {
+         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+         
+         NSInteger responseStatusCode = [httpResponse statusCode];
+         
+         if (responseStatusCode == 200 && data)
+         {
+             dispatch_async(dispatch_get_main_queue(), ^(void)
+                            {
+                                // Creates local data for yelp info
+                                NSDictionary *fetchedData = [NSJSONSerialization JSONObjectWithData:data
+                                                                                            options:0
+                                                                                              error:nil];
+                                NSArray *myArray = [NSArray array];
+                                myArray = fetchedData[@"results"];
+                                
+                                NSDictionary *place1 = myArray[0];
+                                
+                                NSArray* photos = place1[@"photos"];
+                                NSLog(@"%@",photos);
+                                // Creates array of empty replies
+                                NSLog(@"sup");
+                                
+                                //Dictionary Handling
+                                //Device tokens
+                                
+                            });
+             
+             //where to stick dispatch to main queue
+             
+         }
+         else
+         {
+             // error handling
+             NSLog(@"gucci");
+         }
+     }];//Data Task Block
+    [dataTask resume];
 }
 
 #pragma mark - Navigation
@@ -581,7 +589,8 @@
     
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+- (void)prepareForSegue:(UIStoryboardSegue *)segue
+                 sender:(id)sender
 {
     if ([segue.identifier isEqualToString:@"AddGroup"])
     {
