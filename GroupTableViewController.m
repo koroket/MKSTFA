@@ -57,6 +57,7 @@
 {
     [super viewWillAppear:animated];
     self.view.userInteractionEnabled = false;
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
     [self getRequests];
 
 }
@@ -227,6 +228,8 @@
          [self.tableView reloadData];
          [self.tableView.pullToRefreshView stopAnimating];
          
+         self.view.userInteractionEnabled = true;
+         [self.navigationController setNavigationBarHidden:NO animated:YES];
          [MBProgressHUD hideHUDForView:self.view animated:YES];
      }];
     
@@ -290,6 +293,7 @@
                                     NSLog(@"%@",photos);
                                     // Creates array of empty replies
                                     NSLog(@"sup");
+
                                     
                                     //Dictionary Handling
                                     //Device tokens

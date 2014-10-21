@@ -11,7 +11,6 @@
 
 @interface SearchSettingViewController ()
 
-@property (nonatomic, strong) IBOutlet UITextField *numberField;
 @property (nonatomic, strong) IBOutlet UITextField *locationField;
 @property (nonatomic, strong) IBOutlet UITextField *itemField;
 @property (nonatomic, weak) IBOutlet UIPickerView *yelpOptionPicker;
@@ -75,6 +74,7 @@ numberOfRowsInComponent:(NSInteger)component
             titleForRow:(NSInteger)row
            forComponent:(NSInteger)component
 {
+    [NetworkCommunication sharedManager].stringYelpSearchTerm = _pickerData[row];
     return _pickerData[row];
 }
 
@@ -101,13 +101,12 @@ numberOfRowsInComponent:(NSInteger)component
     {
         //Save the values of the search boxes to the singleton
         //The number of desired locations
-        [NetworkCommunication sharedManager].intYelpNumberOfLocations = self.numberField.text.intValue;
+        [NetworkCommunication sharedManager].intYelpNumberOfLocations = 20;
         
         //The location
         [NetworkCommunication sharedManager].stringYelpLocation = [self stringfix:self.locationField.text];
-
         //The search term (food, bars, movie, etc)
-        [NetworkCommunication sharedManager].stringYelpSearchTerm = self.itemField.text;
+        
     }
 }
 
