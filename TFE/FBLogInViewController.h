@@ -10,5 +10,5 @@
 #import <FacebookSDK/FacebookSDK.h>
 
 @interface FBLogInViewController : ViewController <FBLoginViewDelegate>
-
+-(void)linkDeviceToken;
 @end

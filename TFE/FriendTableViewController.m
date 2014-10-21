@@ -1,6 +1,6 @@
 //
-//  FriendTableViewController
-//  TFE
+//  CandyTableListTableViewController.m
+//  CandyStore
 //
 //  Created by sloot on 9/16/14.
 //  Copyright (c) 2014 sloot. All rights reserved.
@@ -12,6 +12,7 @@
 #import "GroupTableViewController.h"
 #import "MBProgressHUD.h"
 #import "NetworkCommunication.h"
+#import "MBProgressHUD.h"
 
 @interface FriendTableViewController ()
 
@@ -53,9 +54,14 @@
 {
     [super viewWillAppear:animated];
     [self.tableView reloadData];
-
+    
+    
+    
     [self.selectedFriends addObject:[NetworkCommunication sharedManager].stringFBUserId];
-
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
+    hud.mode = MBProgressHUDModeIndeterminate;
+    hud.labelText = @"Loading Friends";
 }
 
 #pragma mark - Table view data source
@@ -76,8 +82,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell"
-                                                            forIndexPath:indexPath];
+	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
 
 	cell.textLabel.text = self.myFriends[indexPath.row];
 
@@ -98,7 +103,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 	if ([tableView cellForRowAtIndexPath:indexPath].accessoryType == UITableViewCellAccessoryCheckmark)
     {
 		[tableView cellForRowAtIndexPath:indexPath].accessoryType = UITableViewCellAccessoryNone;
-        [self.selectedFriends removeObject:[self.friendIds objectAtIndex:indexPath.row]];
+		[self.selectedFriends removeObject:[self.friendIds objectAtIndex:indexPath.row]];
 	}
 	else
     {
@@ -118,19 +123,19 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 -(void)getTokens:(NSString*)userid
 {
     //URL
-    NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/token/%@token", userid];
+    NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/token/%@token",
+                          userid];
     NSURL *url = [NSURL URLWithString:fixedUrl];
-
+    
     //Request
     NSMutableURLRequest *request =
     [NSMutableURLRequest requestWithURL:url
                             cachePolicy:NSURLRequestUseProtocolCachePolicy
                         timeoutInterval:30.0];
     [request setHTTPMethod:@"GET"];
-
+    
     //Session
     NSURLSession *urlSession = [NSURLSession sharedSession];
-    
     NSURLSessionDataTask *dataTask =
     [urlSession dataTaskWithRequest:request
                   completionHandler:^(NSData *data,
@@ -160,6 +165,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
                     [self getYelp];
                 }
             });
+
         // do something with this data
         // if you want to update UI, do it on main queue
         }
@@ -168,11 +174,12 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
             // error handling
             NSLog(@"gucci");
         }
-        dispatch_async(dispatch_get_main_queue(), ^
-        {
-            
-        });
-    }];
+        
+    dispatch_async(dispatch_get_main_queue(), ^
+    {
+        
+    });
+                  }];
     [dataTask resume];
 }
 
@@ -275,6 +282,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
          dispatch_async(dispatch_get_main_queue(), ^(void)
         {
             [self.tableView reloadData];
+            [MBProgressHUD hideHUDForView:self.view animated:YES];
             
         }); //main queue dispatch
          
@@ -293,7 +301,9 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     {
         
         //URL
-        NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/ppl/%@groups", [self.selectedFriends objectAtIndex:i]];
+        NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/ppl/%@groups",
+                              [self.selectedFriends objectAtIndex:i]];
+        
         NSURL *url = [NSURL URLWithString:fixedUrl];
         
         //Session
@@ -331,7 +341,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
                                              NSError *error)
              {
                  NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-
+                 
                  NSInteger responseStatusCode = [httpResponse statusCode];
                  
                  if (responseStatusCode == 200 && data)
@@ -341,15 +351,19 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
                         [self performSegueWithIdentifier:@"Unwind" sender:self];
                         
                     });//Dispatch main queue block
-                    
+                     
                  }//if
+                 else
+                 {
+                     NSLog(@"Sending to individuals failed");
+                 }
                  
              }];//upload task Block
             
+            // 5
             [uploadTask resume];
             NSLog(@"Connected to server");
         }
-        
         else
         {
             NSLog(@"Cannot connect to server");
@@ -362,15 +376,13 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
  */
 - (void)createNewGroup
 {
-    //URL
     NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/groups"];
+    // 1
     NSURL *url = [NSURL URLWithString:fixedUrl];
-    
-    //Session
     NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:config];
     
-    //Request
+    // 2
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     request.HTTPMethod = @"POST";
@@ -406,14 +418,22 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
                     [self sendNewGroupsWithGroupCode:code];
                     
                 });//Dispatch main queue block
+                 
              }//if
+             else
+             {
+                 NSLog(@"Group creation failed");
+             }
+             
          }];//Upload task Block
+        
         [uploadTask resume];
-        NSLog(@"Connected to Heroku server");
+        
+        NSLog(@"Connected to server");
     }
     else
     {
-        NSLog(@"Cannot connect to Heroku server");
+        NSLog(@"Cannot connect to server");
     }
 }
 
@@ -431,107 +451,115 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     }
 }
 
+
 - (void)getYelp
 {
-    if (self.selectedFriends.count > 1)
-    {
-        // URL
-        NSString *fixedURL = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/yelp/%@/%@/%d",
-                                                        [NetworkCommunication sharedManager].stringYelpLocation,
-                                                        [NetworkCommunication sharedManager].stringYelpSearchTerm,
-                                                        [NetworkCommunication sharedManager].intYelpNumberOfLocations];
-        NSURL *url = [NSURL URLWithString:fixedURL];
 
-        // Request
-        NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
-                                                               cachePolicy:NSURLRequestUseProtocolCachePolicy
-                                                           timeoutInterval:30.0];
-        [request setHTTPMethod:@"GET"];
+  if (self.selectedFriends.count > 1)
+  {
+      
+      //URL
+      NSString *fixedURL = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/yelp/%@/%@/%d",
+                            [NetworkCommunication sharedManager].stringYelpLocation,
+                            [NetworkCommunication sharedManager].stringYelpSearchTerm,
+                            [NetworkCommunication sharedManager].intYelpNumberOfLocations
+                            ];
+      NSURL *url = [NSURL URLWithString:fixedURL];
+      
+      //Request
+      NSMutableURLRequest *request =
+      [NSMutableURLRequest requestWithURL:url
+                              cachePolicy:NSURLRequestUseProtocolCachePolicy
+                          timeoutInterval:30.0];
+      [request setHTTPMethod:@"GET"];
+      
+      //Session
+      NSURLSession *urlSession = [NSURLSession sharedSession];
+      
+      //Data Task
+      NSURLSessionDataTask *dataTask =
+      [urlSession dataTaskWithRequest:request
+                    completionHandler:^(NSData *data,
+                                        NSURLResponse *response,
+                                        NSError *error)
+       {
+           NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+           
+           NSInteger responseStatusCode = [httpResponse statusCode];
+           
+           if (responseStatusCode == 200 && data)
+           {
+               dispatch_async(dispatch_get_main_queue(), ^(void)
+               {
+                   // Creates local data for yelp info
+                   NSDictionary *fetchedData = [NSJSONSerialization JSONObjectWithData:data
+                                                                               options:0
+                                                                                 error:nil];
+                   NSArray *buisinesses = [NSArray array];
+                   buisinesses = fetchedData[@"businesses"];
+              
+                   
+                   // Creates array of empty replies
+                   NSMutableArray *tempReplies = [NSMutableArray array];
+                   
+                   for (int i = 0; i < buisinesses.count; i++)
+                   {
+                       [tempReplies addObject:[NSNumber numberWithInt:0]];
+                   }
 
-        // Session
-        NSURLSession *urlSession = [NSURLSession sharedSession];
+                   // Creates Decision Objects
+                   NSMutableArray *decisionObjects = [NSMutableArray array];
 
-        // Data Task
-        NSURLSessionDataTask *dataTask =
-            [urlSession dataTaskWithRequest:request
-                          completionHandler:^(NSData *data,
-                                              NSURLResponse *response,
-                                              NSError *error)
-        {
-            NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-            
-            NSInteger responseStatusCode = [httpResponse statusCode];
-            
-            if (responseStatusCode == 200 && data)
-            {
-                dispatch_async(dispatch_get_main_queue(), ^(void)
-                    {
-                       // Creates local data for yelp info
-                       NSDictionary *fetchedData = [NSJSONSerialization JSONObjectWithData:data
-                                                                                   options:0
-                                                                                     error:nil];
-                       NSArray *buisinesses = [NSArray array];
-                       buisinesses = fetchedData[@"businesses"];
+                   // insert object info here
+                   for (int i = 0; i < buisinesses.count; i++)
+                   {
+                       NSMutableDictionary *temp = [NSMutableDictionary dictionary];
+                       NSDictionary *dictionary = [buisinesses objectAtIndex:i];
+
+                       [temp setObject:dictionary[@"name"] forKey:@"Name"];
                        
-                       // Creates array of empty replies
-                       NSMutableArray *tempReplies = [NSMutableArray array];
-                       
-                       for (int i = 0; i < buisinesses.count; i++)
+                       if(dictionary[@"image_url"]!=nil)
                        {
-                           [tempReplies addObject:[NSNumber numberWithInt:0]];
+                           [temp setObject:dictionary[@"image_url"] forKey:@"ImageURL"];
                        }
-                       
-                       // Creates Decision Objects
-                       NSMutableArray *decisionObjects = [NSMutableArray array];
-                       
-                       // insert object info here
-                       for (int i = 0; i < buisinesses.count; i++)
-                       {
-                           NSMutableDictionary *temp = [NSMutableDictionary dictionary];
-                           NSDictionary *dictionary = [buisinesses objectAtIndex:i];
-                           
-                           [temp setObject:dictionary[@"name"] forKey:@"Name"];
-                           
-                           if (dictionary[@"image_url"] != nil)
-                           {
-                               [temp setObject:dictionary[@"image_url"] forKey:@"ImageURL"];
-                           }
-                           [decisionObjects addObject:temp];
-                       }
-                       
-                       // Dictionary Handling
-                       // Device tokens
-                       [self.dictionary setValue:self.myTokens forKey:@"Tokens"];
-                       
-                       // Sets DONE
-                       [self.dictionary setValue:@(-1) forKey:@"Done"];
-                       
-                       // Sets the business count
-                       [self.dictionary setValue:@(buisinesses.count) forKey:@"Number"];
-                       
-                       // Sets the replies
-                       [self.dictionary setValue:tempReplies forKey:@"Replies"];
-                       
-                       // Sets the decision objects
-                       [self.dictionary setValue:decisionObjects forKey:@"Objects"];
-                       
-                       // Creates the group
-                       [self createNewGroup];
-                   });
-                // where to stick dispatch to main queue
-            }
-            else
-            {
-                // error handling
-                NSLog(@"gucci");
-            }
-        }]; // Data Task Block
-        [dataTask resume];
-    }
-    else
-    {
-        NSLog(@"You didnt select any friends");
-    }
+                       [decisionObjects addObject:temp];
+                   }
+
+                   //Dictionary Handling
+                   //Device tokens
+                   [self.dictionary setValue:self.myTokens forKey:@"Tokens"];
+                   
+                   //Sets DONE
+                   [self.dictionary setValue:@(-1) forKey:@"Done"];
+                   
+                   //Sets the business count
+                   [self.dictionary setValue:@(buisinesses.count) forKey:@"Number"];
+                   
+                   //Sets the replies
+                   [self.dictionary setValue:tempReplies forKey:@"Replies"];
+                   
+                   //Sets the decision objects
+                   [self.dictionary setValue:decisionObjects forKey:@"Objects"];
+
+                   //Creates the group
+                   [self createNewGroup];
+              });
+
+               //where to stick dispatch to main queue
+               
+           }
+           else
+           {
+               // error handling
+               NSLog(@"Yelp Failed");
+           }
+       }];//Data Task Block
+      [dataTask resume];
+  }
+  else
+  {
+      NSLog(@"You didnt select any friends");
+  }
 }
 
 #pragma mark - Navigation
@@ -544,21 +572,17 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 - (void)prepareForSegue:(UIStoryboardSegue *)segue
                  sender:(id)sender
 {
-    
     if ([segue.identifier isEqualToString:@"Details"])
     {
-        
     }
     else if ([segue.identifier isEqualToString:@"Unwind"])
     {
          [MBProgressHUD hideHUDForView:self.view animated:YES];
     }
-    
 }
 
 - (IBAction)unwindToSelfViewController:(UIStoryboardSegue *)unwindSegue
 {
-    
 }
 
 - (IBAction)unwind:(id)sender
@@ -570,6 +594,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
     hud.labelText = @"Loading";
     
     [self collectTokens];
-}
 
+
+}
 @end

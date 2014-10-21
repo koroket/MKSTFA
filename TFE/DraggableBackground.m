@@ -8,7 +8,7 @@
 
 #import "DraggableBackground.h"
 #import "NetworkCommunication.h"
-
+#import "AMSmoothAlertView.h"
 @implementation DraggableBackground
 {
     //Integers
@@ -101,8 +101,9 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
     draggable.information.text = tempoaryDict[@"Name"]; //%%% placeholder for card-specific information
     if(tempoaryDict[@"ImageURL"]!=nil)
     {
-        
-          draggable.imageView.image  = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:tempoaryDict[@"ImageURL"]]]];
+        NSString* newString = tempoaryDict[@"ImageURL"];
+        NSString* new2String = [newString stringByReplacingOccurrencesOfString:@"/ms.jpg" withString:@"/o.jpg"];
+          draggable.imageView.image  = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:new2String]]];
     }
   
     draggable.delegate = self;
@@ -365,18 +366,27 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
     [NSMutableURLRequest requestWithURL:url
                             cachePolicy:NSURLRequestUseProtocolCachePolicy
                         timeoutInterval:30.0];
-    [request setHTTPMethod:@"GET"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    request.HTTPMethod = @"POST";
 
     //Session
     NSURLSession *urlSession = [NSURLSession sharedSession];
-
+    
+    NSDictionary *dictionary = [exampleCardLabels objectAtIndex:daindex];
+    
+    NSError *error = nil;
+    NSData *data = [NSJSONSerialization dataWithJSONObject:dictionary
+                                                   options:kNilOptions
+                                                     error:&error];
+    
     //Data Task
-    NSURLSessionDataTask *dataTask =
-    [urlSession dataTaskWithRequest:request
-                  completionHandler:^(NSData *data,
-                                      NSURLResponse *response,
-                                      NSError *error)
-    {
+    NSURLSessionUploadTask *uploadTask =
+    [urlSession uploadTaskWithRequest:request
+                          fromData:data
+                 completionHandler:^(NSData *data,
+                                     NSURLResponse *response,
+                                     NSError *error)
+     {
     
     NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
     NSInteger responseStatusCode = [httpResponse statusCode];
@@ -402,9 +412,13 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
           
         });
     }];
-    [dataTask resume];
+    [uploadTask resume];
 }
-
+-(void)showCompletion:(NSDictionary*)dict
+{
+    AMSmoothAlertView *alert = [[AMSmoothAlertView alloc]initDropAlertWithTitle:@"Match Found!" andText:dict[@"Name"] andCancelButton:YES forAlertType:AlertSuccess];
+    [alert show];
+}
 
 @end
 
