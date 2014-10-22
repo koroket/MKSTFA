@@ -11,12 +11,13 @@
 
 @interface SearchSettingViewController ()
 
-@property (nonatomic, strong) IBOutlet UITextField *locationField;
-@property (nonatomic, strong) IBOutlet UITextField *itemField;
-
-@property (nonatomic, weak) IBOutlet UIPickerView *yelpOptionPicker;
-
-@property (nonatomic)NSArray *pickerData;
+//buttons
+@property (weak, nonatomic) IBOutlet UIButton *buttonRestaurants;
+@property (weak, nonatomic) IBOutlet UIButton *buttonQuickEats;
+@property (weak, nonatomic) IBOutlet UIButton *buttonCoffeeTea;
+@property (weak, nonatomic) IBOutlet UIButton *buttonBreakfastBrunch;
+@property (weak, nonatomic) IBOutlet UIButton *buttonDrinks;
+@property (weak, nonatomic) IBOutlet UIButton *buttonNightLife;
 
 @end
 
@@ -25,13 +26,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
-    //initialize the data for the UIPicker
-    _pickerData = @[@"Food", @"Bars", @"Clubs"];
-
-    //Yelp Option Picker Stuff
-    self.yelpOptionPicker.dataSource = self;
-    self.yelpOptionPicker.delegate = self;
     
 }
 
@@ -49,43 +43,6 @@
 
 }
 
-#pragma mark - Picker Methods
-/**
- * --------------------------------------------------------------------------
- * Picker Methods
- * --------------------------------------------------------------------------
- */
-
-// The number of columns of data
-- (int)numberOfComponentsInPickerView:(UIPickerView *)pickerView
-{
-    return 1;
-}
-
-// The number of rows of data
-- (NSInteger)pickerView:(UIPickerView *)pickerView
-numberOfRowsInComponent:(NSInteger)component
-{
-    return _pickerData.count;
-}
-
-// The data to return for the row and component (column) that's being passed in
-- (NSString*)pickerView:(UIPickerView *)pickerView
-            titleForRow:(NSInteger)row
-           forComponent:(NSInteger)component
-{
-    [NetworkCommunication sharedManager].stringYelpSearchTerm = _pickerData[row];
-    return _pickerData[row];
-}
-
--(NSString*)stringfix:(NSString*) str
-{
-    NSString* temp = [str stringByReplacingOccurrencesOfString:@" " withString:@""];
-    return temp;
-    
-}
-
-
 #pragma mark - Navigation
 /**
  * --------------------------------------------------------------------------
@@ -97,17 +54,31 @@ numberOfRowsInComponent:(NSInteger)component
 - (void)prepareForSegue:(UIStoryboardSegue *)segue
                  sender:(id)sender
 {
-    if ([segue.identifier isEqualToString:@"Save"])
+    if ([segue.identifier isEqualToString:@"Restaurants"])
     {
-        //Save the values of the search boxes to the singleton
-        //The number of desired locations
-        [NetworkCommunication sharedManager].intYelpNumberOfLocations = 20;
-        
-        //The location
-        [NetworkCommunication sharedManager].stringYelpLocation = [self stringfix:self.locationField.text];
-        //The search term (food, bars, movie, etc)
-        
+        [NetworkCommunication sharedManager].stringYelpSearchTerm = @"Restaurants";
     }
+    else if ([segue.identifier isEqualToString:@"QuickEats"])
+    {
+        [NetworkCommunication sharedManager].stringYelpSearchTerm = @"QuickEats";
+    }
+    else if ([segue.identifier isEqualToString:@"CoffeeTea"])
+    {
+        [NetworkCommunication sharedManager].stringYelpSearchTerm = @"CoffeeTea";
+    }
+    else if ([segue.identifier isEqualToString:@"BreakfastBrunch"])
+    {
+        [NetworkCommunication sharedManager].stringYelpSearchTerm = @"BreakfastBrunch";
+    }
+    else if ([segue.identifier isEqualToString:@"Drinks"])
+    {
+        [NetworkCommunication sharedManager].stringYelpSearchTerm = @"Drinks";
+    }
+    else if ([segue.identifier isEqualToString:@"NightLife"])
+    {
+        [NetworkCommunication sharedManager].stringYelpSearchTerm = @"NightLife";
+    }
+    [NetworkCommunication sharedManager].intYelpNumberOfLocations = 20;
 }
 
 @end

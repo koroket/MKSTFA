@@ -8,11 +8,13 @@
 
 #import "LocationFinderViewController.h"
 #import <CoreLocation/CoreLocation.h>
+#import <MapKit/MapKit.h>
 
 @interface LocationFinderViewController () <CLLocationManagerDelegate>
 
 @property (weak, nonatomic) IBOutlet UITextField *textFieldLocation;
 @property (weak, nonatomic) IBOutlet UILabel *address;
+@property (weak, nonatomic) IBOutlet MKMapView *mapView;
 
 - (IBAction)buttonCurrentLocation:(UIButton *)sender;
 
@@ -25,7 +27,6 @@
     CLPlacemark *placemark;
 
 }
-
 
 - (void)viewDidLoad
 {
@@ -47,11 +48,11 @@
     [manager requestWhenInUseAuthorization];
 }
 
-- (void)didReceiveMemoryWarning
+- (void)viewWillAppear:(BOOL)animated
 {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-    
+    [super viewWillAppear:animated];
+
+
 }
 
 // ===== ===== ===== ===== =====
@@ -97,13 +98,15 @@
         //self.textFieldLocation.text = [NSString stringWithFormat:@" ";
     }
     
-    [geocoder reverseGeocodeLocation:currentLocation completionHandler:^(NSArray *placemarks, NSError *error)
+    [geocoder reverseGeocodeLocation:currentLocation
+                   completionHandler:^(NSArray *placemarks,
+                                       NSError *error)
     {
         if (error == nil && [placemarks count] > 0)
         {
             placemark = [placemarks lastObject];
             
-            self.address.text = [NSString stringWithFormat:@"%@ %@\n%@ %@\n%@\n%@",
+            self.address.text = [NSString stringWithFormat:@"%@ %@\n%@\n %@\n%@%@",
                                            placemark.subThoroughfare,
                                            placemark.thoroughfare,
                                            placemark.postalCode,
@@ -116,6 +119,15 @@
             NSLog(@"%@",error.debugDescription);
         }
     }];
+    
+    CLLocationCoordinate2D location = CLLocationCoordinate2DMake(currentLocation.coordinate.latitude,
+                                                                 currentLocation.coordinate.longitude);
+    
+    MKCoordinateSpan span = MKCoordinateSpanMake(0.2, 0.2);
+    
+    MKCoordinateRegion region = MKCoordinateRegionMake(location, span);
+    
+    [self.mapView setRegion:region animated:YES];
 }
 
 /*
