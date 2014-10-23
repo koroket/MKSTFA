@@ -1,5 +1,5 @@
 //
-//  CandyTableListTableViewController.m
+//  FriendTableViewController
 //  CandyStore
 //
 //  Created by sloot on 9/16/14.
