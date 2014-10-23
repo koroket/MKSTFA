@@ -82,6 +82,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    
+    hud.mode = MBProgressHUDModeIndeterminate;
+    hud.labelText = @"Loading";
     
     myIndex = indexPath.row;
     
@@ -131,6 +135,7 @@
               
 
               [self performSegueWithIdentifier:@"Swipe" sender:self];
+              [MBProgressHUD hideHUDForView:self.view animated:YES];
               
           }); // Main Queue dispatch block
 
@@ -237,7 +242,7 @@
 
 - (IBAction)reloadData:(id)sender
 {
-    [self getGoogle];
+    //[self getGoogle];
     [self resetEverything];
     //[self yesWith:3 andUrl:@"543482c59b6f750200271e81"];
 }

@@ -13,9 +13,6 @@
 
 @property (nonatomic, strong) IBOutlet UITextField *locationField;
 @property (nonatomic, strong) IBOutlet UITextField *itemField;
-
-@property (nonatomic, weak) IBOutlet UIPickerView *yelpOptionPicker;
-
 @property (nonatomic)NSArray *pickerData;
 
 @end
@@ -26,13 +23,7 @@
 {
     [super viewDidLoad];
 
-    //initialize the data for the UIPicker
-    _pickerData = @[@"Food", @"Bars", @"Clubs"];
-
-    //Yelp Option Picker Stuff
-    self.yelpOptionPicker.dataSource = self;
-    self.yelpOptionPicker.delegate = self;
-    
+    //initialize the data for the UIPicke
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -49,34 +40,6 @@
 
 }
 
-#pragma mark - Picker Methods
-/**
- * --------------------------------------------------------------------------
- * Picker Methods
- * --------------------------------------------------------------------------
- */
-
-// The number of columns of data
-- (int)numberOfComponentsInPickerView:(UIPickerView *)pickerView
-{
-    return 1;
-}
-
-// The number of rows of data
-- (NSInteger)pickerView:(UIPickerView *)pickerView
-numberOfRowsInComponent:(NSInteger)component
-{
-    return _pickerData.count;
-}
-
-// The data to return for the row and component (column) that's being passed in
-- (NSString*)pickerView:(UIPickerView *)pickerView
-            titleForRow:(NSInteger)row
-           forComponent:(NSInteger)component
-{
-    [NetworkCommunication sharedManager].stringYelpSearchTerm = _pickerData[row];
-    return _pickerData[row];
-}
 
 -(NSString*)stringfix:(NSString*) str
 {

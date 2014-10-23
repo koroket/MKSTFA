@@ -61,7 +61,7 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-            [self loadCards];
+    [self loadCards];
     for(int i = 0; i < self.allCards.count; i++)
     {
         [self.allCards[i] setFrame:self.viewContainer.frame];
@@ -71,8 +71,7 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
 //%%% sets up the extra buttons on the screen
 -(void)setupView
 {
-#warning customize all of this.  These are just place holders to make it look pretty
-    self.view.backgroundColor = [UIColor colorWithRed:.92 green:.93 blue:.95 alpha:1]; //the gray background colors
+   self.view.backgroundColor = [UIColor colorWithRed:.92 green:.93 blue:.95 alpha:1]; //the gray background colors
     menuButton = [[UIButton alloc]initWithFrame:CGRectMake(17, 34, 22, 15)];
     [menuButton setImage:[UIImage imageNamed:@"menuButton"] forState:UIControlStateNormal];
     messageButton = [[UIButton alloc]initWithFrame:CGRectMake(284, 34, 18, 18)];
@@ -88,7 +87,6 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
 
 }
 
-#warning include own card customization here!
 //%%% creates a card and returns it.  This should be customized to fit your needs.
 // use "index" to indicate where the information should be pulled.  If this doesn't apply to you, feel free
 // to get rid of it (eg: if you are building cards from data from the internet)
@@ -149,7 +147,6 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
     }
 }
 
-#warning include own action here!
 //%%% action called when the card goes to the left.
 // This should be customized with your own action
 -(void)cardSwipedLeft:(UIView *)card;
@@ -171,7 +168,6 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
     }
 }
 
-#warning include own action here!
 //%%% action called when the card goes to the right.
 // This should be customized with your own action
 -(void)cardSwipedRight:(UIView *)card
