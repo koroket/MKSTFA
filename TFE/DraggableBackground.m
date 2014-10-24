@@ -5,6 +5,7 @@
 //  Created by Luke Solomon on 9/29/14.
 //  Copyright (c) 2014 SoloBando Enterprises. All rights reserved.
 //
+#pragma message "Is this class written by you? If not you should include a copyright header"
 
 #import "DraggableBackground.h"
 #import "NetworkCommunication.h"
@@ -253,6 +254,7 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
  */
 -(void)yesWith:(int)index andUrl:(NSString*) groupID
 {
+    #pragma message "Backend Code should be in separate class. Is this a duplicate of the other 'yesWith:...' method?"
     //URL
     NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/groups/%@/%d/%@/%@groups",
                           groupID,
