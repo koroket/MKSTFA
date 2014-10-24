@@ -23,6 +23,8 @@
 
 @implementation SearchSettingViewController
 
+#pragma message "Remove empty method stubs"
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];

@@ -17,7 +17,7 @@
 #import "UIScrollView+SVPullToRefresh.h"
 #import "TDBadgedCell.h"
 @interface GroupTableViewController ()
-
+#pragma message "Properties should be declared before methods"
 - (IBAction)reloadData:(id)sender;
 @property (nonatomic,strong) NSMutableArray* myOwners;
 @property (nonatomic,strong) NSMutableArray* myOwnerIds;
@@ -67,6 +67,7 @@
     [self.tableView reloadData];
 }
 
+#pragma message "remove empty methods"
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -91,6 +92,7 @@
     [NetworkCommunication sharedManager].intSelectedGroupNumberOfPeople =[(NSNumber*)self.numOfPeople[indexPath.row] intValue];
     
     // URL
+    #pragma message "Backend Access should be moved into separate class"
     NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/groups/%@",
                                                     [self.myGroups objectAtIndex:indexPath.row]];
     NSURL *url = [NSURL URLWithString:fixedUrl];
@@ -235,6 +237,7 @@
     
 }
 
+#pragma message "bad method name because it is very similar to UITableView's reloadData method"
 - (IBAction)reloadData:(id)sender
 {
     [self getGoogle];
@@ -242,6 +245,7 @@
     //[self yesWith:3 andUrl:@"543482c59b6f750200271e81"];
 }
 
+#pragma message "message name does not contain enough information. Pretty sure you are not downloading google ;)"
 - (void)getGoogle
 {
     
@@ -313,9 +317,10 @@
 
 }
 
-
+#pragma message "This method name should be more descriptive"
 - (void)yesWith:(int)index andUrl:(NSString *)tempUrl
 {
+    #pragma message "Backend Access should be moved into separate class"
     NSString *fixedUrl =
         [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/groups/%@/%d", tempUrl, index];
     // 1
@@ -367,6 +372,7 @@
 - (void)deleteGroup:(NSString *)pplid with:(NSString *)myId
 {
     //URL
+    #pragma message "Backend Access should be moved into separate class"
     NSString *fixedUrl =
         [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/ppl/%@groups/%@", pplid, myId];
     NSURL *url = [NSURL URLWithString:fixedUrl];
@@ -414,6 +420,7 @@
 - (void)deleteIndividualGroup:(NSString *)str
 {
     //URL
+    #pragma message "Backend Access should be moved into separate class"
     NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/groups/%@", str];
     NSURL *url = [NSURL URLWithString:fixedUrl];
     
@@ -457,6 +464,7 @@
 - (void)resetGroups
 {
     //URL
+    #pragma message "Backend Access should be moved into separate class"
     NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/groups"];
     NSURL *url = [NSURL URLWithString:fixedUrl];
     
@@ -515,6 +523,7 @@
 - (void)resetPeople:(NSString *)pplid
 {
     //URL
+    #pragma message "Backend Access should be moved into separate class"
     NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/ppl/%@groups", pplid];
     NSURL *url = [NSURL URLWithString:fixedUrl];
 
@@ -566,6 +575,7 @@
     [dataTask resume];
 }
 
+#pragma message "Is this method only used for testing purposes? If so, please add a comment"
 - (void)resetEverything
 {
     [self resetGroups];
@@ -596,7 +606,7 @@
     else if ([segue.identifier isEqualToString:@"Swipe"])
     {
         DraggableBackground *controller = [segue destinationViewController];
-        
+        #pragma message "You should add a comment to explain why you calculate the index like this 'self.myGroups.count-1-myIndex'"
         controller.groupID = [self.myGroups objectAtIndex:self.myGroups.count-1-myIndex];
         controller.numOfPeople = (int)[self.numOfPeople objectAtIndex:self.myGroups.count-1-myIndex];
     }

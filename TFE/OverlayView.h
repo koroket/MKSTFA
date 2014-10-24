@@ -6,6 +6,8 @@
 //  Copyright (c) 2014 SoloBando Enterprises. All rights reserved.
 //
 
+#pragma message "Please check license and include original author when using code from examples/tutorials/etc"
+
 #import <UIKit/UIKit.h>
 
 typedef NS_ENUM (NSUInteger, GGOverlayViewMode) {
