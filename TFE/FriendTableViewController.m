@@ -99,6 +99,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 - (void)tableView:(UITableView *)tableView
     didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    #pragma message "You should consider checking against the list of friendIDs to see if this row is already selected. Checking against the acessoryType of a cell isn't a very elegant solution"
 	if ([tableView cellForRowAtIndexPath:indexPath].accessoryType == UITableViewCellAccessoryCheckmark)
     {
 		[tableView cellForRowAtIndexPath:indexPath].accessoryType = UITableViewCellAccessoryNone;
@@ -359,6 +360,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
 /**
  *  Creates the actual group itself
  */
+#pragma message "Also this method should probably not be part of this ViewController and instead should be moved into a backend access class"
 - (void)createNewGroup
 {
     //URL
@@ -433,7 +435,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
   {
       //URL
       NSString *fixedURL = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/yelp/%@/%@/%d",
-                            [NetworkCommunication sharedManager].stringYelpLocation,
+                            @"PaloAlto",
                             [NetworkCommunication sharedManager].stringYelpSearchTerm,
                             [NetworkCommunication sharedManager].intYelpNumberOfLocations
                             ];
@@ -459,6 +461,7 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
            {
                dispatch_async(dispatch_get_main_queue(), ^(void)
                {
+                   #pragma message "This section needs more comments, ideally you should describe what is going on here on a conceptual level"
                    // Creates local data for yelp info
                    NSDictionary *fetchedData = [NSJSONSerialization JSONObjectWithData:data
                                                                                options:0

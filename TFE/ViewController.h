@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+#pragma message "Remove unused classes"
+
 @interface ViewController : UIViewController
 
 

@@ -11,6 +11,7 @@
 @interface Group : NSObject
 
 @property (nonatomic, strong) NSMutableArray *friendsInGroup;
+#pragma message "use strong instead of retain"
 @property (nonatomic, retain) NSString *name;
 
 @end
