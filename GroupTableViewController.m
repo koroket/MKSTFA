@@ -21,6 +21,8 @@
 - (IBAction)reloadData:(id)sender;
 @property (nonatomic,strong) NSMutableArray* myOwners;
 @property (nonatomic,strong) NSMutableArray* myOwnerIds;
+@property (nonatomic,strong) NSMutableArray* myDBIds;
+@property (nonatomic,strong) NSMutableArray* myGroupIndex;
 
 @end
 
@@ -44,7 +46,8 @@
     self.numOfPeople = [NSMutableArray array];
     self.myOwners = [NSMutableArray array];
     self.myOwnerIds = [NSMutableArray array];
-    
+    self.myDBIds = [NSMutableArray array];
+    self.myGroupIndex = [NSMutableArray array];
     [self.tableView addPullToRefreshWithActionHandler:^
     {
         [self getRequests];
@@ -94,6 +97,7 @@
     //and the number of users in the selected group
     [NetworkCommunication sharedManager].intSelectedGroupNumberOfPeople =[(NSNumber*)self.numOfPeople[indexPath.row] intValue];
     
+    [NetworkCommunication sharedManager].stringCurrentDB = self.myDBIds[indexPath.row];
     // URL
     NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/groups/%@",
                                                     [self.myGroups objectAtIndex:indexPath.row]];
@@ -186,7 +190,7 @@
     
     //Code to display badge that appears next to the group
     cell.textLabel.text = [NSString stringWithFormat:@"%@'s Group Event",[self.myOwners objectAtIndex:self.myOwners.count-1-indexPath.row]];
-    cell.badgeString = @"6";
+    cell.badgeString = [NSString stringWithFormat:@"%@",[self.myGroupIndex objectAtIndex:self.myOwners.count-1-indexPath.row]];
     cell.badgeColor = [UIColor colorWithRed:0.792 green:0.197 blue:0.219 alpha:1.000];
     cell.badge.radius = 9;
     cell.badge.fontSize = 18;
@@ -228,6 +232,8 @@
              [self.numOfPeople addObject:data1[@"number"]];
              [self.myOwners addObject:data1[@"owner"]];
              [self.myOwnerIds addObject:data1[@"ownerID"]];
+             [self.myDBIds addObject:data1[@"_id"]];
+             [self.myGroupIndex addObject:data1[@"currentIndex"]];
          }
          
          [self.tableView reloadData];

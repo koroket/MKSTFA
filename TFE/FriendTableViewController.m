@@ -460,8 +460,8 @@ forRowAtIndexPath:(NSIndexPath *)indexPath
       
       //URL
       NSString *fixedURL = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/yelp/%@/%@/%d",
-                            [NetworkCommunication sharedManager].stringYelpLocation,
-                            @"food",
+                            @"PaloAlto",
+                            [NetworkCommunication sharedManager].stringYelpSearchTerm,
                             [NetworkCommunication sharedManager].intYelpNumberOfLocations
                             ];
       NSURL *url = [NSURL URLWithString:fixedURL];

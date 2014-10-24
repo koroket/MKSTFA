@@ -62,10 +62,7 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
 {
     [super viewDidAppear:animated];
     [self loadCards];
-    for(int i = 0; i < self.allCards.count; i++)
-    {
-        [self.allCards[i] setFrame:self.viewContainer.frame];
-    }
+
     
 }
 //%%% sets up the extra buttons on the screen
@@ -87,23 +84,32 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
 
 }
 
+// Perform on background queue
 //%%% creates a card and returns it.  This should be customized to fit your needs.
 // use "index" to indicate where the information should be pulled.  If this doesn't apply to you, feel free
 // to get rid of it (eg: if you are building cards from data from the internet)
 -(Draggable *)createDraggableWithDataAtIndex:(NSInteger)index
 {
     Draggable *draggable = [[[NSBundle mainBundle] loadNibNamed:@"SwipeCardView" owner:self options:nil] objectAtIndex:0];
-//    Draggable *draggable = [[Draggable alloc]initWithFrame:CGRectMake((self.view.frame.size.width - CARD_WIDTH)/2, (self.view.frame.size.height - CARD_HEIGHT)/2, CARD_WIDTH, CARD_HEIGHT)];
-
+    //    Draggable *draggable = [[Draggable alloc]initWithFrame:CGRectMake((self.view.frame.size.width - CARD_WIDTH)/2, (self.view.frame.size.height - CARD_HEIGHT)/2, CARD_WIDTH, CARD_HEIGHT)];
+    
     NSDictionary *tempoaryDict = [exampleCardLabels objectAtIndex:index];
     draggable.information.text = tempoaryDict[@"Name"]; //%%% placeholder for card-specific information
-    if(tempoaryDict[@"ImageURL"]!=nil)
+    if(1==0&&tempoaryDict[@"ImageURL"]!=nil)
     {
+        
         NSString* newString = tempoaryDict[@"ImageURL"];
+        
         NSString* new2String = [newString stringByReplacingOccurrencesOfString:@"/ms.jpg" withString:@"/o.jpg"];
-          draggable.imageView.image  = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:new2String]]];
+        UIImage *tempImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:new2String]]];
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            draggable.imageView.image  = tempImage;
+        });
+
+        
+        
     }
-  
     draggable.delegate = self;
     return draggable;
 }
@@ -117,33 +123,49 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
         //%%% if the buffer size is greater than the data size, there will be an array error, so this makes sure that doesn't happen
         
         //%%% loops through the exampleCardsLabels array to create a card for each label.  This should be customized by removing "exampleCardLabels" with your own array of data
+        
+        
+        dispatch_group_t myGroup = dispatch_group_create();
+        dispatch_queue_t downloadQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+        
         for (int i = 0; i<[exampleCardLabels count]; i++)
         {
-            Draggable* newCard = [self createDraggableWithDataAtIndex:i];
-            [allCards addObject:newCard];
-            
-            if (i<numLoadedCardsCap)
-            {
-                //%%% adds a small number of cards to be loaded
-                [loadedCards addObject:newCard];
-            }
+            dispatch_group_async(myGroup, downloadQueue, ^{
+                Draggable* newCard = [self createDraggableWithDataAtIndex:i];
+                [allCards addObject:newCard];
+                
+                if (i<numLoadedCardsCap)
+                {
+                    //%%% adds a small number of cards to be loaded
+                    [loadedCards addObject:newCard];
+                }
+            });
         }
         
-        //%%% displays the small number of loaded cards dictated by MAX_BUFFER_SIZE so that not all the cards
-        // are showing at once and clogging a ton of data
-        for (int i = 0; i<[loadedCards count]; i++) {
-            if (i>0)
-            {
-                [self.view insertSubview:[loadedCards objectAtIndex:i] belowSubview:[loadedCards objectAtIndex:i-1]];
+        dispatch_group_notify(myGroup, dispatch_get_main_queue(), ^{
+            NSLog(@"done");
+            //%%% displays the small number of loaded cards dictated by MAX_BUFFER_SIZE so that not all the cards
+            // are showing at once and clogging a ton of data
+            for (int i = 0; i<[loadedCards count]; i++) {
+                if (i>0)
+                {
+                    [self.view insertSubview:[loadedCards objectAtIndex:i] belowSubview:[loadedCards objectAtIndex:i-1]];
+                }
+                else
+                {
+                    [self.view addSubview:loadedCards[i]];
+                    
+                    
+                }
+                cardsLoadedIndex++; //%%% we loaded a card into loaded cards, so we have to increment
             }
-            else
+            for(int i = 0; i < self.allCards.count; i++)
             {
-                [self.view addSubview:loadedCards[i]];
-                
-                
+                [self.allCards[i] setFrame:self.viewContainer.frame];
             }
-            cardsLoadedIndex++; //%%% we loaded a card into loaded cards, so we have to increment
-        }
+        });
+        
+
     }
 }
 
@@ -232,9 +254,11 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
 -(void)yesWith:(int)index andUrl:(NSString*) groupID
 {
     //URL
-    NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/groups/%@/%d",
+    NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/groups/%@/%d/%@/%@groups",
                           groupID,
-                          index];
+                          index,
+                          [NetworkCommunication sharedManager].stringCurrentDB,
+                          [NetworkCommunication sharedManager].stringFBUserId];
     NSURL *url = [NSURL URLWithString:fixedUrl];
     
     //Request
@@ -263,6 +287,8 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
                 NSMutableDictionary* dictionaryHerokuResponses = [NSJSONSerialization JSONObjectWithData:data
                                                                            options:0
                                                                              error:nil];
+                NSLog(@"%@",dictionaryHerokuResponses);
+                
                 NSNumber *t = dictionaryHerokuResponses[@"NumberOfReplies"];
                 if ([t intValue] == [NetworkCommunication sharedManager].intSelectedGroupNumberOfPeople)
                 {

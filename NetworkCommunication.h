@@ -27,6 +27,7 @@
 @property NSString *stringSelectedGroupID;
 @property NSString *stringYelpLocation;
 @property NSString *stringYelpSearchTerm;
+@property NSString *stringCurrentDB;
 
 //integers
 @property int intSelectedGroupNumberOfPeople;
