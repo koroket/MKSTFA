@@ -7,7 +7,7 @@
 //
 
 #import "SearchSettingViewController.h"
-#import "HerokuCommunication.h"
+#import "NetworkCommunication.h"
 
 @interface SearchSettingViewController ()
 

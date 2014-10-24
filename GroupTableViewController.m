@@ -16,6 +16,7 @@
 #import "NetworkCommunication.h"
 #import "UIScrollView+SVPullToRefresh.h"
 #import "TDBadgedCell.h"
+
 @interface GroupTableViewController ()
 #pragma message "Properties should be declared before methods"
 - (IBAction)reloadData:(id)sender;
@@ -55,7 +56,7 @@
     [super viewWillAppear:animated];
         NSLog(@"GroupTableWillAppear");
     self.myGroups = [NSMutableArray array];
-    self.numOfPeople = [NSMutableArray array];
+    self.numberOfPeople = [NSMutableArray array];
     self.myOwners = [NSMutableArray array];
     self.myOwnerIds = [NSMutableArray array];
     self.myDBIds = [NSMutableArray array];
@@ -103,7 +104,7 @@
     //Set the singleton string equal to selected group ID
     [NetworkCommunication sharedManager].stringSelectedGroupID = [self.myGroups objectAtIndex:indexPath.row];
     //and the number of users in the selected group
-    [NetworkCommunication sharedManager].intSelectedGroupNumberOfPeople =[(NSNumber*)self.numOfPeople[indexPath.row] intValue];
+    [NetworkCommunication sharedManager].intSelectedGroupNumberOfPeople =[(NSNumber*)self.numberOfPeople[indexPath.row] intValue];
     
     [NetworkCommunication sharedManager].stringCurrentDB = self.myDBIds[indexPath.row];
     
@@ -248,7 +249,7 @@
              NSDictionary *data1 = [fetchedData objectAtIndex:i];
              [self.myGroups addObject:data1[@"groupID"]];
              
-             [self.numOfPeople addObject:data1[@"number"]];
+             [self.numberOfPeople addObject:data1[@"number"]];
              [self.myOwners addObject:data1[@"owner"]];
              [self.myOwnerIds addObject:data1[@"ownerID"]];
              [self.myDBIds addObject:data1[@"_id"]];

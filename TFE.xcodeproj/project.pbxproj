@@ -23,7 +23,7 @@
 		62B2176C19EBC25F00834EBA /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62B2176B19EBC25F00834EBA /* CoreTelephony.framework */; };
 		62B2177019EBC2A200834EBA /* Pushbots.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62B2176F19EBC2A200834EBA /* Pushbots.framework */; };
 		62B2177219EBC2EB00834EBA /* Pushbots.plist in Resources */ = {isa = PBXBuildFile; fileRef = 62B2177119EBC2EB00834EBA /* Pushbots.plist */; };
-		62B2177519ECF4D900834EBA /* HerokuCommunication.m in Sources */ = {isa = PBXBuildFile; fileRef = 62B2177319ECF4D900834EBA /* HerokuCommunication.m */; };
+		62B2177519ECF4D900834EBA /* NetworkCommunication.m in Sources */ = {isa = PBXBuildFile; fileRef = 62B2177319ECF4D900834EBA /* NetworkCommunication.m */; };
 		62BD81CF19E12F3E00813045 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 62BD81CD19E12F3E00813045 /* Main.storyboard */; };
 		62BD81D219E17A6800813045 /* SearchSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 62BD81D119E17A6800813045 /* SearchSettingViewController.m */; };
 		CA194D46B55476E25DC5AF16 /* libPods-TFE.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D787F848FB445131EEE608 /* libPods-TFE.a */; };
@@ -76,8 +76,8 @@
 		62B2176B19EBC25F00834EBA /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
 		62B2176F19EBC2A200834EBA /* Pushbots.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Pushbots.framework; sourceTree = "<group>"; };
 		62B2177119EBC2EB00834EBA /* Pushbots.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Pushbots.plist; sourceTree = "<group>"; };
-		62B2177319ECF4D900834EBA /* HerokuCommunication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HerokuCommunication.m; sourceTree = "<group>"; };
-		62B2177419ECF4D900834EBA /* HerokuCommunication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HerokuCommunication.h; sourceTree = "<group>"; };
+		62B2177319ECF4D900834EBA /* NetworkCommunication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetworkCommunication.m; sourceTree = "<group>"; };
+		62B2177419ECF4D900834EBA /* NetworkCommunication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkCommunication.h; sourceTree = "<group>"; };
 		62BD81CE19E12F3E00813045 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		62BD81D019E17A6800813045 /* SearchSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchSettingViewController.h; sourceTree = "<group>"; };
 		62BD81D119E17A6800813045 /* SearchSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchSettingViewController.m; sourceTree = "<group>"; };
@@ -215,8 +215,8 @@
 		D599940A19EDA8870098802B /* Singleton */ = {
 			isa = PBXGroup;
 			children = (
-				62B2177419ECF4D900834EBA /* HerokuCommunication.h */,
-				62B2177319ECF4D900834EBA /* HerokuCommunication.m */,
+				62B2177419ECF4D900834EBA /* NetworkCommunication.h */,
+				62B2177319ECF4D900834EBA /* NetworkCommunication.m */,
 				D5E2C5CD19FAEC1C007D4B98 /* FacebookCommunication.h */,
 				D5E2C5CE19FAEC1C007D4B98 /* FacebookCommunication.m */,
 				D5E2C5CA19FAEBFF007D4B98 /* YelpCommunication.h */,
@@ -465,7 +465,7 @@
 				D5AB927E19D60565001FB2A7 /* main.m in Sources */,
 				625CD5FF19D9D51400A5D41E /* FriendTableViewController.m in Sources */,
 				D5E2C5CC19FAEBFF007D4B98 /* YelpCommunication.m in Sources */,
-				62B2177519ECF4D900834EBA /* HerokuCommunication.m in Sources */,
+				62B2177519ECF4D900834EBA /* NetworkCommunication.m in Sources */,
 				D5AB92A819D60B1A001FB2A7 /* FBLogInViewController.m in Sources */,
 				D5AB928419D60565001FB2A7 /* TFE.xcdatamodeld in Sources */,
 				D5AB92B119D6251C001FB2A7 /* GroupTableViewController.m in Sources */,

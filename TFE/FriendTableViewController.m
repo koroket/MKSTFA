@@ -8,7 +8,7 @@
 
 #import "FriendTableViewController.h"
 #import "GroupTableViewController.h"
-#import "HerokuCommunication.h"
+#import "NetworkCommunication.h"
 #import "MBProgressHUD.h"
 #import "Group.h"
 #import <FacebookSDK/FacebookSDK.h>
@@ -55,7 +55,7 @@
     [super viewWillAppear:animated];
     [self.tableView reloadData];
 
-    [self.selectedFriends addObject:[HerokuCommunication sharedManager].stringFBUserId];
+    [self.selectedFriends addObject:[NetworkCommunication sharedManager].stringFBUserId];
     
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.mode = MBProgressHUDModeIndeterminate;

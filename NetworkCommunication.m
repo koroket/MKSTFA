@@ -1,22 +1,22 @@
 //
-//  NetworkCom.m
+//  HerokuCommunication
 //  TFE
 //
 //  Created by Luke Solomon on 10/8/14.
 //  Copyright (c) 2014 SoloBando Enterprises. All rights reserved.
 //
 
-#import "HerokuCommunication.h"
+#import "NetworkCommunication.h"
 #import "YelpCommunication.h"
 
-@interface HerokuCommunication ()
+@interface NetworkCommunication ()
 
 @property(nonatomic,strong) NSMutableArray *myTokens;
 @property(nonatomic, strong) NSMutableArray *selectedFriends;
 
 @end
 
-@implementation HerokuCommunication
+@implementation NetworkCommunication
 {
     
 }
@@ -30,7 +30,7 @@
 
 + (instancetype)sharedManager
 {
-    static HerokuCommunication *sharedMyManager = nil;
+    static NetworkCommunication *sharedMyManager = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^
       {
@@ -145,7 +145,7 @@
     //URL
     NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/token/push/%@/%@",
                           tempToken,
-                          [self stringfix:[HerokuCommunication sharedManager].stringFBUserName]];
+                          [self stringfix:[NetworkCommunication sharedManager].stringFBUserName]];
     
     NSURL *url = [NSURL URLWithString:fixedUrl];
     
@@ -179,80 +179,6 @@
              // error handling
              NSLog(@"gucci");
          }
-         dispatch_async(dispatch_get_main_queue(), ^
-            {
-                
-            });
-     }];
-    [dataTask resume];
-}
-
-#pragma mark - Currently Working On
-/**
- * --------------------------------------------------------------------------
- * Things Luke Is Working On
- * --------------------------------------------------------------------------
- */
-
-/**
- *  Get the user tokens
- *
- *  @param userid - the userid
- */
--(void)getUserIDTokens:(NSString*)userid
-{
-    //URL
-    NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/token/%@token",
-                          userid];
-    NSURL *url = [NSURL URLWithString:fixedUrl];
-    
-    //Request
-    NSMutableURLRequest *request =
-    [NSMutableURLRequest requestWithURL:url
-                            cachePolicy:NSURLRequestUseProtocolCachePolicy
-                        timeoutInterval:30.0];
-    [request setHTTPMethod:@"GET"];
-    
-    //Session
-    NSURLSession *urlSession = [NSURLSession sharedSession];
-    NSURLSessionDataTask *dataTask =
-    [urlSession dataTaskWithRequest:request
-                  completionHandler:^(NSData *data,
-                                      NSURLResponse *response,
-                                      NSError *error)
-     {
-         
-         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-         NSInteger responseStatusCode = [httpResponse statusCode];
-         
-         if (responseStatusCode == 200 && data)
-         {
-             dispatch_async(dispatch_get_main_queue(), ^(void)
-                {
-                    NSArray *fetchedData = [NSJSONSerialization JSONObjectWithData:data
-                                                                           options:0
-                                                                             error:nil];
-                    NSDictionary *tempDictionary = fetchedData[0];
-                    
-                    [self.myTokens addObject:tempDictionary[@"token"]];
-                    
-                    [self sendNotification:tempDictionary[@"token"]];
-                    
-                    if (self.myTokens.count == self.selectedFriends.count)
-                    {
-                        [YelpCommunication getYelp];
-                    }
-                });
-
-             // do something with this data
-             // if you want to update UI, do it on main queue
-         }
-         else
-         {
-             // error handling
-             NSLog(@"gucci");
-         }
-         
          dispatch_async(dispatch_get_main_queue(), ^
             {
                 
