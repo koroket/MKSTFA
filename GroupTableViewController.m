@@ -13,16 +13,18 @@
 #import <Foundation/Foundation.h>
 #import "DraggableBackground.h"
 #import "MBProgressHUD.h"
-#import "NetworkCommunication.h"
+#import "HerokuCommunication.h"
 #import "UIScrollView+SVPullToRefresh.h"
 #import "TDBadgedCell.h"
+
 @interface GroupTableViewController ()
-#pragma message "Properties should be declared before methods"
-- (IBAction)reloadData:(id)sender;
+
 @property (nonatomic,strong) NSMutableArray* myOwners;
 @property (nonatomic,strong) NSMutableArray* myOwnerIds;
 @property (nonatomic,strong) NSMutableArray* myDBIds;
 @property (nonatomic,strong) NSMutableArray* myGroupIndex;
+
+- (IBAction)reloadData:(id)sender;
 
 @end
 
@@ -43,7 +45,7 @@
     [super viewDidLoad];
 
     self.myGroups = [NSMutableArray array];
-    self.numOfPeople = [NSMutableArray array];
+    self.numberOfPeople = [NSMutableArray array];
     self.myOwners = [NSMutableArray array];
     self.myOwnerIds = [NSMutableArray array];
     self.myDBIds = [NSMutableArray array];
@@ -65,18 +67,6 @@
 
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
-    [self.tableView reloadData];
-}
-
-#pragma message "remove empty methods"
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 #pragma mark - Table view data source
 /**
  * --------------------------------------------------------------------------
@@ -94,15 +84,14 @@
     myIndex = indexPath.row;
     
     //Set the singleton string equal to selected group ID
-    [NetworkCommunication sharedManager].stringSelectedGroupID = [self.myGroups objectAtIndex:indexPath.row];
+    [HerokuCommunication sharedManager].stringSelectedGroupID = [self.myGroups objectAtIndex:indexPath.row];
     //and the number of users in the selected group
-    [NetworkCommunication sharedManager].intSelectedGroupNumberOfPeople =[(NSNumber*)self.numOfPeople[indexPath.row] intValue];
+    [HerokuCommunication sharedManager].intSelectedGroupNumberOfPeople =[(NSNumber*)self.numberOfPeople[indexPath.row] intValue];
     
-    [NetworkCommunication sharedManager].stringCurrentDB = self.myDBIds[indexPath.row];
+    [HerokuCommunication sharedManager].stringCurrentDB = self.myDBIds[indexPath.row];
     // URL
     #pragma message "Backend Access should be moved into separate class"
-    NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/groups/%@",
-                                                    [self.myGroups objectAtIndex:indexPath.row]];
+    NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/groups/%@", [self.myGroups objectAtIndex:indexPath.row]];
     NSURL *url = [NSURL URLWithString:fixedUrl];
 
     // Request
@@ -216,8 +205,8 @@
     hud.mode = MBProgressHUDModeIndeterminate;
     hud.labelText = @"Loading";
     
-    NetworkCommunication *sharedCommunication = [NetworkCommunication alloc];
-    [sharedCommunication serverRequests: [NSString stringWithFormat:@"ppl/%@groups", [NetworkCommunication sharedManager].stringFBUserId]
+    HerokuCommunication *sharedCommunication = [HerokuCommunication alloc];
+    [sharedCommunication serverRequests: [NSString stringWithFormat:@"ppl/%@groups", [HerokuCommunication sharedManager].stringFBUserId]
                                    type:@"GET"
                          whatDictionary:nil
                               withBlock:^(void)
@@ -231,7 +220,7 @@
              NSDictionary *data1 = [fetchedData objectAtIndex:i];
              [self.myGroups addObject:data1[@"groupID"]];
              
-             [self.numOfPeople addObject:data1[@"number"]];
+             [self.numberOfPeople addObject:data1[@"number"]];
              [self.myOwners addObject:data1[@"owner"]];
              [self.myOwnerIds addObject:data1[@"ownerID"]];
              [self.myDBIds addObject:data1[@"_id"]];
@@ -259,9 +248,6 @@
 #pragma message "message name does not contain enough information. Pretty sure you are not downloading google ;)"
 - (void)getGoogle
 {
-    
-
-        
         //URL
         NSString *fixedURL = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/google/food"];
         NSURL *url = [NSURL URLWithString:fixedURL];
@@ -334,9 +320,7 @@
     #pragma message "Backend Access should be moved into separate class"
     NSString *fixedUrl =
         [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/groups/%@/%d", tempUrl, index];
-    // 1
     NSURL *url = [NSURL URLWithString:fixedUrl];
-    // 1
 
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
                                                            cachePolicy:NSURLRequestUseProtocolCachePolicy
@@ -619,7 +603,7 @@
         DraggableBackground *controller = [segue destinationViewController];
         #pragma message "You should add a comment to explain why you calculate the index like this 'self.myGroups.count-1-myIndex'"
         controller.groupID = [self.myGroups objectAtIndex:self.myGroups.count-1-myIndex];
-        controller.numOfPeople = (int)[self.numOfPeople objectAtIndex:self.myGroups.count-1-myIndex];
+        controller.numOfPeople = (int)[self.numberOfPeople objectAtIndex:self.myGroups.count-1-myIndex];
     }
 }
 

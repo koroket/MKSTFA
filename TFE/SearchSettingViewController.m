@@ -7,7 +7,7 @@
 //
 
 #import "SearchSettingViewController.h"
-#import "NetworkCommunication.h"
+#import "HerokuCommunication.h"
 
 @interface SearchSettingViewController ()
 
@@ -53,28 +53,17 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue
                  sender:(id)sender
 {
-    if ([segue.identifier isEqualToString:@"Restaurants"])
-    {
+    if ([segue.identifier isEqualToString:@"Restaurants"]) {
         [NetworkCommunication sharedManager].stringYelpSearchTerm = @"Restaurants";
-    }
-    else if ([segue.identifier isEqualToString:@"QuickEats"])
-    {
+    } else if ([segue.identifier isEqualToString:@"QuickEats"]) {
         [NetworkCommunication sharedManager].stringYelpSearchTerm = @"QuickEats";
-    }
-    else if ([segue.identifier isEqualToString:@"CoffeeTea"])
-    {
+    } else if ([segue.identifier isEqualToString:@"CoffeeTea"]) {
         [NetworkCommunication sharedManager].stringYelpSearchTerm = @"CoffeeTea";
-    }
-    else if ([segue.identifier isEqualToString:@"BreakfastBrunch"])
-    {
+    } else if ([segue.identifier isEqualToString:@"BreakfastBrunch"]) {
         [NetworkCommunication sharedManager].stringYelpSearchTerm = @"BreakfastBrunch";
-    }
-    else if ([segue.identifier isEqualToString:@"Drinks"])
-    {
+    } else if ([segue.identifier isEqualToString:@"Drinks"]) {
         [NetworkCommunication sharedManager].stringYelpSearchTerm = @"Drinks";
-    }
-    else if ([segue.identifier isEqualToString:@"NightLife"])
-    {
+    } else if ([segue.identifier isEqualToString:@"NightLife"]) {
         [NetworkCommunication sharedManager].stringYelpSearchTerm = @"NightLife";
     }
     [NetworkCommunication sharedManager].intYelpNumberOfLocations = 20;

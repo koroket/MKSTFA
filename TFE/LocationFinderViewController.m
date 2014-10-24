@@ -8,7 +8,7 @@
 
 #import "LocationFinderViewController.h"
 #import "MBProgressHUD.h"
-#import "NetworkCommunication.h"
+#import "HerokuCommunication.h"
 #import <CoreLocation/CoreLocation.h>
 #import <MapKit/MapKit.h>
 
@@ -151,7 +151,7 @@
     [self.mapView setRegion:region animated:YES];
     
     // Singleton
-    [NetworkCommunication sharedManager].stringYelpLocation = [NSString stringWithFormat:(@"%@"), currentLocation];
+    [NetworkCommunication sharedManager].stringYelpLocation = [NSString stringWithFormat:(@"%f, %f"), currentLocation.coordinate.latitude, currentLocation.coordinate.latitude];
 }
 
 

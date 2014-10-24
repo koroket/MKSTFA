@@ -7,7 +7,7 @@
 //
 
 #import "FBLogInViewController.h"
-#import "NetworkCommunication.h"
+#import "HerokuCommunication.h"
 
 @interface FBLogInViewController ()
 @property(weak, nonatomic) IBOutlet FBLoginView *loginView;

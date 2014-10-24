@@ -8,7 +8,7 @@
 #pragma message "Is this class written by you? If not you should include a copyright header"
 
 #import "DraggableBackground.h"
-#import "NetworkCommunication.h"
+#import "HerokuCommunication.h"
 #import "AMSmoothAlertView.h"
 @implementation DraggableBackground
 {

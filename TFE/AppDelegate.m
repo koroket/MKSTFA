@@ -10,7 +10,7 @@
 #import <FacebookSDK/FacebookSDK.h>
 #import <Pushbots/Pushbots.h>
 #import "DraggableBackground.h"
-#import "NetworkCommunication.h"
+#import "HerokuCommunication.h"
 #import "FBLogInViewController.h"
 @interface AppDelegate ()
 
@@ -35,7 +35,9 @@
     }
     return YES;
 }
--(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
+-(void)application:(UIApplication *)application
+didReceiveRemoteNotification:(NSDictionary *)userInfo
+fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 {
     
 
@@ -50,7 +52,8 @@
     }
 }
 
-- (void)addMessageFromRemoteNotification:(NSDictionary*)userInfo updateUI:(BOOL)updateUI
+- (void)addMessageFromRemoteNotification:(NSDictionary*)userInfo
+                                updateUI:(BOOL)updateUI
 {
     UINavigationController *navigationController = (UINavigationController*)_window.rootViewController;
     DraggableBackground *chatViewController =
@@ -59,7 +62,8 @@
     [chatViewController showCompletion: userInfo];
 }
 
-- (void)application:(UIApplication*)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
+- (void)application:(UIApplication*)application
+didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
 {
     NSString* mytoken = [NSString stringWithFormat:@"%@",deviceToken];
     
@@ -74,7 +78,8 @@
     [chatViewController linkDeviceToken];
 }
 
-- (void)application:(UIApplication*)application didFailToRegisterForRemoteNotificationsWithError:(NSError*)error
+- (void)application:(UIApplication*)application
+didFailToRegisterForRemoteNotificationsWithError:(NSError*)error
 {
     NSLog(@"Failed to get token, error: %@", error);
 }
@@ -90,7 +95,8 @@
     [message show];
 }
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+- (void)alertView:(UIAlertView *)alertView
+clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     NSString *title = [alertView buttonTitleAtIndex:buttonIndex];
     if([title isEqualToString:@"Open"])
