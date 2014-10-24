@@ -23,6 +23,13 @@
 
 @implementation SearchSettingViewController
 
+#pragma mark - init
+/**
+ * --------------------------------------------------------------------------
+ * Init
+ * --------------------------------------------------------------------------
+ */
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -33,14 +40,6 @@
 {
     [super viewDidAppear:animated];
     
-}
-
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-
 }
 
 #pragma mark - Navigation

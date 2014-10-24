@@ -25,7 +25,6 @@
  * Init
  * --------------------------------------------------------------------------
  */
-
 - (void)viewDidLoad
 {
   [super viewDidLoad];
@@ -39,7 +38,6 @@
  * FaceBook
  * --------------------------------------------------------------------------
  */
-
 - (void)loginViewFetchedUserInfo:(FBLoginView *)loginView
                     user:(id<FBGraphUser>)user
 {
@@ -85,7 +83,6 @@
    */
   
     self.statusLabel.text = @"You're logged in as";
-    //
 
 }
 
@@ -167,22 +164,19 @@
     NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/token/%@token",
                           [NetworkCommunication sharedManager].stringFBUserId];
     NSURL *url = [NSURL URLWithString:fixedUrl];
-
     //Session
     NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:config];
-
     //Request
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     request.HTTPMethod = @"POST";
-
     //Dictionary
     NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:
                                 [NetworkCommunication sharedManager].stringDeviceToken,
                                 @"token",
                                 nil];
-    //errorHandlign
+    //errorHandling
     NSError *error = nil;
     NSData *data = [NSJSONSerialization dataWithJSONObject:dictionary
                                                    options:kNilOptions
@@ -196,28 +190,21 @@
                      completionHandler:^(NSData *data,
                                          NSURLResponse *response,
                                          NSError *error)
-         {
+        {
              NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
              NSInteger responseStatusCode = [httpResponse statusCode];
-            
              if (responseStatusCode == 200 && data)
              {
-                 
                  dispatch_async(dispatch_get_main_queue(), ^(void)
                 {
                     NSArray *fetchedData = [NSJSONSerialization JSONObjectWithData:data
                                                                            options:0
                                                                              error:nil];
                     NSDictionary *data1 = [fetchedData objectAtIndex:0];
-                    
-                    
-                    
                     [self performSegueWithIdentifier:@"LoggedIn" sender:self];
                 });
              }
-             
          }];
-        
         [uploadTask resume];
         NSLog(@"Connected to server");
     }
@@ -227,22 +214,20 @@
     }
 }
 
-
 #pragma mark - Navigation
 /**
  * --------------------------------------------------------------------------
  * Navigation
  * --------------------------------------------------------------------------
  */
-
-/*
-// In a storyboard-based application, you will often want to do a little
-preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue 
-                 sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+                 sender:(id)sender
+{
+//    if ([self.statusLabel.text  isEqual: @"You're not logged in!"])
+//    {
+//        
+//    }
+    
 }
-*/
 
 @end

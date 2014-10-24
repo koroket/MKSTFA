@@ -7,18 +7,23 @@
 //
 
 #import "GroupTableViewController.h"
-#import <FacebookSDK/FacebookSDK.h>
-#import "Group.h"
 #import "FriendTableViewController.h"
-#import <Foundation/Foundation.h>
+#import "Group.h"
 #import "DraggableBackground.h"
+
 #import "MBProgressHUD.h"
 #import "NetworkCommunication.h"
 #import "UIScrollView+SVPullToRefresh.h"
 #import "TDBadgedCell.h"
+
+#import <Foundation/Foundation.h>
+#import <FacebookSDK/FacebookSDK.h>
+
+
 @interface GroupTableViewController ()
 
 - (IBAction)reloadData:(id)sender;
+
 @property (nonatomic,strong) NSMutableArray* myOwners;
 @property (nonatomic,strong) NSMutableArray* myOwnerIds;
 
@@ -45,12 +50,13 @@
     self.myOwners = [NSMutableArray array];
     self.myOwnerIds = [NSMutableArray array];
     
+    __weak typeof(self) weakSelf = self;
     [self.tableView addPullToRefreshWithActionHandler:^
     {
-        [self getRequests];
+        [weakSelf getRequests];
     }];
     
-    
+    self.tableView.allowsMultipleSelectionDuringEditing = false;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -59,19 +65,14 @@
     self.view.userInteractionEnabled = false;
     [self.navigationController setNavigationBarHidden:YES animated:YES];
     [self getRequests];
-
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
+    [super viewDidAppear:animated];
     [self.tableView reloadData];
 }
 
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
 #pragma mark - Table view data source
 /**
@@ -80,38 +81,41 @@
  * --------------------------------------------------------------------------
  */
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (NSInteger)tableView:(UITableView *)tableView
+ numberOfRowsInSection:(NSInteger)section
 {
+    // Return the number of rows in the section.
+    return self.myGroups.count;
     
+}
+
+- (void)tableView:(UITableView *)tableView
+didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
     myIndex = indexPath.row;
     
     //Set the singleton string equal to selected group ID
     [NetworkCommunication sharedManager].stringSelectedGroupID = [self.myGroups objectAtIndex:indexPath.row];
+    
     //and the number of users in the selected group
-    [NetworkCommunication sharedManager].intSelectedGroupNumberOfPeople =[(NSNumber*)self.numOfPeople[indexPath.row] intValue];
+    [NetworkCommunication sharedManager].intSelectedGroupNumberOfPeople = [(NSNumber*)self.numOfPeople[indexPath.row] intValue];
     
     // URL
-    NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/groups/%@",
-                                                    [self.myGroups objectAtIndex:indexPath.row]];
+    NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/groups/%@", [self.myGroups objectAtIndex:indexPath.row]];
     NSURL *url = [NSURL URLWithString:fixedUrl];
 
     // Request
-    NSMutableURLRequest *request =
-        [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
-    // Request type
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
+                                                           cachePolicy:NSURLRequestUseProtocolCachePolicy
+                                                       timeoutInterval:30.0];
     [request setHTTPMethod:@"GET"];
 
     // Session
     NSURLSession *urlSession = [NSURLSession sharedSession];
 
     // Data Task Block
-    NSURLSessionDataTask *dataTask =
-        [urlSession dataTaskWithRequest:request
-                      completionHandler:^(NSData *data,
-                                          NSURLResponse *response,
-                                          NSError *error)
+    NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error)
     {
-
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
         NSInteger responseStatusCode = [httpResponse statusCode];
 
@@ -129,11 +133,8 @@
               //Set this array equal to the Device tokens from all of the users in the selected group
               [NetworkCommunication sharedManager].arraySelectedGroupDeviceTokens = fetchedData[@"Tokens"];
               
-
               [self performSegueWithIdentifier:@"Swipe" sender:self];
-              
           }); // Main Queue dispatch block
-
           // do something with this data
           // if you want to update UI, do it on main queue
         }
@@ -145,16 +146,10 @@
     [dataTask resume];
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    // Return the number of rows in the section.
-    return self.myGroups.count;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *)tableView:(UITableView *)tableView
+         cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     TDBadgedCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
-
     //Facebook connection used for profile picture
     [[FBRequest requestForMe] startWithCompletionHandler:^(FBRequestConnection *connection,
                                                            NSDictionary<FBGraphUser> *FBuser,
@@ -164,7 +159,6 @@
          {
              // Handle error
          }
-         
          else
          {
              //NSString *userName = [FBuser name];
@@ -181,15 +175,35 @@
     
     //Code to display badge that appears next to the group
     cell.textLabel.text = [NSString stringWithFormat:@"%@'s Group Event",[self.myOwners objectAtIndex:self.myOwners.count-1-indexPath.row]];
-    cell.badgeString = @"6";
+    cell.badgeString = @"Keep Swiping!";
     cell.badgeColor = [UIColor colorWithRed:0.792 green:0.197 blue:0.219 alpha:1.000];
     cell.badge.radius = 9;
-    cell.badge.fontSize = 18;
-    
+    cell.badge.fontSize = 12;
     return cell;
 }
 
+- (BOOL)tableView:(UITableView *)tableView
+canEditRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // Return YES if you want the specified item to be editable.
+    return YES;
+}
 
+/**
+ *  Code for deleting groups from views
+ */
+- (void)tableView:(UITableView *)tableView
+commitEditingStyle:(UITableViewCellEditingStyle)editingStyle
+forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    //add code here for when you hit delete
+    for(int i; i<self.myOwners.count; i++)
+    {
+        NSString *stringFromArray = [NSString stringWithFormat:@"%@",self.myOwnerIds.firstObject];
+        [self resetPeople:stringFromArray];
+    }
+    [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+}
 
 #pragma mark - Heroku
 /**
@@ -219,8 +233,8 @@
          {
              NSDictionary *data1 = [fetchedData objectAtIndex:i];
              [self.myGroups addObject:data1[@"groupID"]];
-             
              [self.numOfPeople addObject:data1[@"number"]];
+             
              [self.myOwners addObject:data1[@"owner"]];
              [self.myOwnerIds addObject:data1[@"ownerID"]];
          }
@@ -238,15 +252,12 @@
 - (IBAction)reloadData:(id)sender
 {
     [self getGoogle];
-    [self resetEverything];
+    //[self resetEverything];
     //[self yesWith:3 andUrl:@"543482c59b6f750200271e81"];
 }
 
 - (void)getGoogle
 {
-    
-
-        
         //URL
         NSString *fixedURL = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/google/food"];
         NSURL *url = [NSURL URLWithString:fixedURL];
@@ -269,39 +280,27 @@
                                           NSError *error)
          {
              NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-             
              NSInteger responseStatusCode = [httpResponse statusCode];
-             
              if (responseStatusCode == 200 && data)
              {
                  dispatch_async(dispatch_get_main_queue(), ^(void)
-                                {
-                                    
-                                    // Creates local data for yelp info
-                                    NSDictionary *fetchedData = [NSJSONSerialization JSONObjectWithData:data
-                                                                                                options:0
-                                                                                                  error:nil];
-                                    NSLog(@"%@",fetchedData);
-                                    
-                                    NSArray *myArray = [NSArray array];
-                                    
-                                    myArray = fetchedData;
-                                    
-                                    NSDictionary *place1 = myArray[0];
-                                    
-                                    NSArray* photos = place1[@"photos"];
-                                    NSLog(@"%@",photos);
-                                    // Creates array of empty replies
-                                    NSLog(@"sup");
-
-                                    
-                                    //Dictionary Handling
-                                    //Device tokens
-
-                                });
-                 
+                    {
+                        // Creates local data for yelp info
+                        NSDictionary *fetchedData = [NSJSONSerialization JSONObjectWithData:data
+                                                                                    options:0
+                                                                                      error:nil];
+                        NSLog(@"%@",fetchedData);
+                        NSArray *myArray = [NSArray array];
+                        myArray = fetchedData;
+                        NSDictionary *place1 = myArray[0];
+                        NSArray* photos = place1[@"photos"];
+                        NSLog(@"%@",photos);
+                        // Creates array of empty replies
+                        NSLog(@"sup");
+                        //Dictionary Handling
+                        //Device tokens
+                    });
                  //where to stick dispatch to main queue
-                 
              }
              else
              {
@@ -310,25 +309,26 @@
              }
          }];//Data Task Block
         [dataTask resume];
-
 }
 
 
-- (void)yesWith:(int)index andUrl:(NSString *)tempUrl
+- (void)yesWith:(int)index
+         andUrl:(NSString *)tempUrl
 {
-    NSString *fixedUrl =
-        [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/groups/%@/%d", tempUrl, index];
-    // 1
+    //URL
+    NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/groups/%@/%d", tempUrl, index];
     NSURL *url = [NSURL URLWithString:fixedUrl];
-    // 1
 
+    //Request
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
                                                            cachePolicy:NSURLRequestUseProtocolCachePolicy
                                                        timeoutInterval:30.0];
     [request setHTTPMethod:@"PUT"];
 
+    //Session
     NSURLSession *urlSession = [NSURLSession sharedSession];
 
+    //Data Task Block
     NSURLSessionDataTask *dataTask =
         [urlSession dataTaskWithRequest:request
                       completionHandler:^(NSData *data,
@@ -364,7 +364,8 @@
     [dataTask resume];
 }
 
-- (void)deleteGroup:(NSString *)pplid with:(NSString *)myId
+- (void)deleteGroup:(NSString *)pplid
+               with:(NSString *)myId
 {
     //URL
     NSString *fixedUrl =
@@ -388,10 +389,8 @@
                                           NSURLResponse *response,
                                           NSError *error)
     {
-
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
         NSInteger responseStatusCode = [httpResponse statusCode];
-
         if (responseStatusCode == 200 && data)
         {
           dispatch_async(dispatch_get_main_queue(), ^(void)
@@ -401,6 +400,7 @@
 
           // do something with this data
           // if you want to update UI, do it on main queue
+            
         }
         else
         {
@@ -492,7 +492,6 @@
               for (int i = 0; i < fetchedData.count; i++)
               {
                   NSDictionary *data1 = [fetchedData objectAtIndex:i];
-
                   [self deleteIndividualGroup:data1[@"_id"]];
               }
 
@@ -512,6 +511,11 @@
     [dataTask resume];
 }
 
+/**
+ *  Deletes a specific person from the table
+ *
+ *  @param pplid - the ID of the person selected
+ */
 - (void)resetPeople:(NSString *)pplid
 {
     //URL
@@ -520,7 +524,9 @@
 
     //Request
     NSMutableURLRequest *request =
-        [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
+        [NSMutableURLRequest requestWithURL:url
+                                cachePolicy:NSURLRequestUseProtocolCachePolicy
+                            timeoutInterval:30.0];
     [request setHTTPMethod:@"GET"];
 
     //Session
@@ -568,10 +574,11 @@
 
 - (void)resetEverything
 {
-    [self resetGroups];
-    [self resetPeople:@"10204805165711346"];
-    [self resetPeople:@"10153248739313289"];
-    [self resetPeople:@"10202657658737811"];
+//    [self resetGroups];
+//    [self resetPeople:@"10204805165711346"];
+//    [self resetPeople:@"10153248739313289"];
+//    [self resetPeople:@"10202657658737811"];
+    
 }
 
 #pragma mark - Navigation

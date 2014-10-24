@@ -25,8 +25,8 @@
 @property NSString *stringFBUserName;
 @property NSString *stringDeviceToken;
 @property NSString *stringSelectedGroupID;
-@property NSString *stringYelpLocation;
 @property NSString *stringYelpSearchTerm;
+@property NSString *stringYelpLocation;
 
 //integers
 @property int intSelectedGroupNumberOfPeople;
