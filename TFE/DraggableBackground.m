@@ -10,6 +10,8 @@
 #import "DraggableBackground.h"
 #import "HerokuCommunication.h"
 #import "AMSmoothAlertView.h"
+#import "MBProgressHUD.h"
+
 @implementation DraggableBackground
 {
     //Integers
@@ -40,8 +42,6 @@
 //this makes it so only two cards are loaded at a time to
 //avoid performance and memory costs
 static const int MAX_BUFFER_SIZE = 2; //%%% max number of cards loaded at any given time, must be greater than 1
-static const float CARD_HEIGHT = 386; //%%% height of the draggable card
-static const float CARD_WIDTH = 290; //%%% width of the draggable card
 
 @synthesize exampleCardLabels; //%%% all the labels I'm using as example data at the moment
 @synthesize allCards;//%%% all the cards
@@ -50,13 +50,35 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
 {
     [super viewDidLoad];
     if (self) {
-        [self setupView];
-        exampleCardLabels = [NetworkCommunication sharedManager].arraySelectedGroupCardData; //%%% placeholder for card-specific information
+        exampleCardLabels = [NetworkCommunication sharedManager].arraySelectedGroupCardData;
         loadedCards = [[NSMutableArray alloc] init];
         allCards = [[NSMutableArray alloc] init];
         cardsLoadedIndex = 0;
         currentCardIndex = -1;
+        NSInteger numLoadedCardsCap =(([exampleCardLabels count] > MAX_BUFFER_SIZE)?MAX_BUFFER_SIZE:[exampleCardLabels count]);
+        
+        for (int i = 0; i<[exampleCardLabels count]; i++)
+        {
+            Draggable* newCard = [self createDraggableWithDataAtIndex:i];
+            [allCards addObject:newCard];
+            
+            if (i<numLoadedCardsCap)
+            {
+                //%%% adds a small number of cards to be loaded
+                [loadedCards addObject:newCard];
+            }
+            NSLog(@"%d",i);
+        }
+        
+        [self setupView];
 
+        //%%% if the buffer size is greater than the data size, there will be an array error, so this makes sure that doesn't happen
+        
+        //%%% loops through the exampleCardsLabels array to create a card for each label.  This should be customized by removing "exampleCardLabels" with your own array of data
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        
+        hud.mode = MBProgressHUDModeIndeterminate;
+        hud.labelText = @"Loading";
     }
 }
 -(void)viewDidAppear:(BOOL)animated
@@ -64,7 +86,7 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
     [super viewDidAppear:animated];
     [self loadCards];
 
-    
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
 }
 //%%% sets up the extra buttons on the screen
 -(void)setupView
@@ -96,16 +118,17 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
     
     NSDictionary *tempoaryDict = [exampleCardLabels objectAtIndex:index];
     draggable.information.text = tempoaryDict[@"Name"]; //%%% placeholder for card-specific information
-    if(1==0&&tempoaryDict[@"ImageURL"]!=nil)
+    if(tempoaryDict[@"ImageURL"]!=nil)
     {
         
         NSString* newString = tempoaryDict[@"ImageURL"];
         
         NSString* new2String = [newString stringByReplacingOccurrencesOfString:@"/ms.jpg" withString:@"/o.jpg"];
-        UIImage *tempImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:new2String]]];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            draggable.imageView.image  = tempImage;
+        dispatch_async(dispatch_get_global_queue(0, 0), ^{
+            UIImage *tempImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:new2String]]];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                 draggable.imageView.image  = tempImage;
+            });
         });
 
         
@@ -120,30 +143,9 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
 {
     if([exampleCardLabels count] > 0)
     {
-        NSInteger numLoadedCardsCap =(([exampleCardLabels count] > MAX_BUFFER_SIZE)?MAX_BUFFER_SIZE:[exampleCardLabels count]);
-        //%%% if the buffer size is greater than the data size, there will be an array error, so this makes sure that doesn't happen
-        
-        //%%% loops through the exampleCardsLabels array to create a card for each label.  This should be customized by removing "exampleCardLabels" with your own array of data
         
         
-        dispatch_group_t myGroup = dispatch_group_create();
-        dispatch_queue_t downloadQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-        
-        for (int i = 0; i<[exampleCardLabels count]; i++)
-        {
-            dispatch_group_async(myGroup, downloadQueue, ^{
-                Draggable* newCard = [self createDraggableWithDataAtIndex:i];
-                [allCards addObject:newCard];
-                
-                if (i<numLoadedCardsCap)
-                {
-                    //%%% adds a small number of cards to be loaded
-                    [loadedCards addObject:newCard];
-                }
-            });
-        }
-        
-        dispatch_group_notify(myGroup, dispatch_get_main_queue(), ^{
+
             NSLog(@"done");
             //%%% displays the small number of loaded cards dictated by MAX_BUFFER_SIZE so that not all the cards
             // are showing at once and clogging a ton of data
@@ -164,10 +166,11 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
             {
                 [self.allCards[i] setFrame:self.viewContainer.frame];
             }
-        });
+
         
 
     }
+    
 }
 
 //%%% action called when the card goes to the left.
@@ -256,11 +259,12 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
 {
     #pragma message "Backend Code should be in separate class. Is this a duplicate of the other 'yesWith:...' method?"
     //URL
-    NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/groups/%@/%d/%@/%@groups",
+    NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/groups/%@/%d/%@/%@groups/%d",
                           groupID,
-                          index,
+                          index+[NetworkCommunication sharedManager].intSelectedGroupProgressIndex,
                           [NetworkCommunication sharedManager].stringCurrentDB,
-                          [NetworkCommunication sharedManager].stringFBUserId];
+                          [NetworkCommunication sharedManager].stringFBUserId,
+                          [NetworkCommunication sharedManager].intSelectedGroupNumberOfPeople];
     NSURL *url = [NSURL URLWithString:fixedUrl];
     
     //Request
@@ -292,22 +296,8 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
                 NSLog(@"%@",dictionaryHerokuResponses);
                 
                 NSNumber *t = dictionaryHerokuResponses[@"NumberOfReplies"];
-                if ([t intValue] == [NetworkCommunication sharedManager].intSelectedGroupNumberOfPeople)
-                {
-                    
-                    //get the array of device tokens from the singleton
-                    NSArray *temparray = [NetworkCommunication sharedManager].arraySelectedGroupDeviceTokens;
-                    
-                    for (int i = 0; i < [NetworkCommunication sharedManager].intSelectedGroupNumberOfPeople; i++)
-                    {
-                        [self sendNotification:temparray[i] withIndex:index withGroupid:groupID];
-                    }
-                    //[self performSegueWithIdentifier:@"Done" sender:self];
-                }
-                else
-                {
-                    
-                }
+
+
             });
             // do something with this data
             // if you want to update UI, do it on main queue
@@ -325,7 +315,7 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
     //URL
     NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/groups/%@/%d/finished",
                           tempUrl,
-                          index];
+                          index+[NetworkCommunication sharedManager].intSelectedGroupProgressIndex];
     NSURL *url = [NSURL URLWithString:fixedUrl];
     
     //Request
@@ -376,68 +366,6 @@ static const float CARD_WIDTH = 290; //%%% width of the draggable card
     
 }
 
-- (void)sendNotification:(NSString*)temptoken withIndex:(int) daindex withGroupid: (NSString*) groupID
-{
-    //URL
-    NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/token/push/%@/%d/%@",
-                          temptoken,
-                          daindex,
-                          groupID];
-    NSURL *url = [NSURL URLWithString:fixedUrl];
-
-    //Request
-    NSMutableURLRequest *request =
-    [NSMutableURLRequest requestWithURL:url
-                            cachePolicy:NSURLRequestUseProtocolCachePolicy
-                        timeoutInterval:30.0];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    request.HTTPMethod = @"POST";
-
-    //Session
-    NSURLSession *urlSession = [NSURLSession sharedSession];
-    
-    NSDictionary *dictionary = [exampleCardLabels objectAtIndex:daindex];
-    
-    NSError *error = nil;
-    NSData *data = [NSJSONSerialization dataWithJSONObject:dictionary
-                                                   options:kNilOptions
-                                                     error:&error];
-    
-    //Data Task
-    NSURLSessionUploadTask *uploadTask =
-    [urlSession uploadTaskWithRequest:request
-                          fromData:data
-                 completionHandler:^(NSData *data,
-                                     NSURLResponse *response,
-                                     NSError *error)
-     {
-    
-    NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-    NSInteger responseStatusCode = [httpResponse statusCode];
-    
-    if (responseStatusCode == 200 && data)
-    {
-        dispatch_async(dispatch_get_main_queue(), ^(void)
-        {
-              
-        });
-
-        // do something with this data
-        // if you want to update UI, do it on main queue
-
-        }
-        else
-        {
-          // error handling
-          NSLog(@"gucci");
-        }
-        dispatch_async(dispatch_get_main_queue(),^
-        {
-          
-        });
-    }];
-    [uploadTask resume];
-}
 -(void)showCompletion:(NSDictionary*)dict
 {
     AMSmoothAlertView *alert = [[AMSmoothAlertView alloc]initDropAlertWithTitle:@"Match Found!" andText:dict[@"Name"] andCancelButton:YES forAlertType:AlertSuccess];

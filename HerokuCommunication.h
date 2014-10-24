@@ -8,7 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-@interface HerokuCommunication : NSObject
+@interface NetworkCommunication : NSObject
+
+@property NSString *HerokuURL;
+@property NSData *myData;
 
 + (instancetype)sharedManager;
 
@@ -25,17 +28,14 @@
 @property NSString *stringYelpSearchTerm;
 @property NSString *stringYelpLocation;
 @property NSString *stringCurrentDB;
-@property NSString *HerokuURL;
 
 //integers
 @property int intSelectedGroupNumberOfPeople;
 @property int intYelpNumberOfLocations;
+@property int intSelectedGroupProgressIndex;
 
 //Arrays
 @property NSMutableArray *arraySelectedGroupCardData;
 @property NSMutableArray *arraySelectedGroupDeviceTokens;
-
-//Data
-@property NSData *myData;
 
 @end

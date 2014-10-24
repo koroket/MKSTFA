@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="10w-ke-JC6">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6206.8" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="10w-ke-JC6">
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
-        <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <deployment defaultVersion="1792" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7026.1"/>
+        <capability name="Constraints with attributes relative to the layout margin" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Swiping-->
@@ -155,7 +154,7 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Address" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bw4-hA-JWp">
-                                <rect key="frame" x="426" y="433" width="150" height="115"/>
+                                <rect key="frame" x="275" y="433" width="300.5" height="115"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="200" id="Aaz-nq-XeB"/>
                                     <constraint firstAttribute="width" constant="300" id="EZv-xu-gs3"/>
@@ -164,7 +163,6 @@
                                     <constraint firstAttribute="height" constant="78" id="aFD-vK-XZQ"/>
                                     <constraint firstAttribute="height" constant="370.5" id="cuR-hj-qvv"/>
                                     <constraint firstAttribute="height" constant="78" id="erb-sY-1Ug"/>
-                                    <constraint firstAttribute="width" constant="150" id="iTU-9g-ZnI"/>
                                     <constraint firstAttribute="width" constant="208" id="jJc-7k-bYa"/>
                                     <constraint firstAttribute="height" constant="250" id="qnX-cX-vlt"/>
                                     <constraint firstAttribute="height" constant="220" id="rik-cO-R6w"/>
@@ -175,7 +173,6 @@
                                 <variation key="default">
                                     <mask key="constraints">
                                         <exclude reference="Aaz-nq-XeB"/>
-                                        <exclude reference="EZv-xu-gs3"/>
                                         <exclude reference="GNN-Ld-zAb"/>
                                         <exclude reference="RIk-pp-JoR"/>
                                         <exclude reference="aFD-vK-XZQ"/>
@@ -257,12 +254,6 @@
                                 <exclude reference="MVS-7b-fOD"/>
                                 <exclude reference="eZL-0x-59R"/>
                                 <exclude reference="w4s-fa-2xv"/>
-                                <exclude reference="31b-pj-T3B"/>
-                                <exclude reference="8i5-1P-T73"/>
-                                <exclude reference="DTi-EX-Mf1"/>
-                                <exclude reference="U3r-nA-qQl"/>
-                                <exclude reference="Ubs-Z2-gC4"/>
-                                <exclude reference="brY-Mt-tD5"/>
                                 <exclude reference="3Jn-M4-oXF"/>
                                 <exclude reference="44b-tn-lhE"/>
                                 <exclude reference="57V-fF-Oxj"/>
@@ -286,6 +277,12 @@
                                 <exclude reference="wnI-vR-vTm"/>
                                 <exclude reference="xyW-0V-WPF"/>
                                 <exclude reference="zld-JD-AGB"/>
+                                <exclude reference="31b-pj-T3B"/>
+                                <exclude reference="8i5-1P-T73"/>
+                                <exclude reference="DTi-EX-Mf1"/>
+                                <exclude reference="U3r-nA-qQl"/>
+                                <exclude reference="Ubs-Z2-gC4"/>
+                                <exclude reference="brY-Mt-tD5"/>
                             </mask>
                         </variation>
                     </view>
@@ -319,137 +316,102 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7WC-37-pAI">
-                                <rect key="frame" x="203" y="137" width="92" height="68"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="80" id="3zf-Z7-eZK"/>
-                                    <constraint firstAttribute="width" constant="80" id="5oY-hZ-bJ4"/>
-                                    <constraint firstAttribute="height" constant="68" id="exT-6J-0dF"/>
-                                </constraints>
-                                <state key="normal" title="Restaurants" image="Restaurants">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zfk-MT-vuZ">
+                                <rect key="frame" x="369" y="161" width="44" height="30"/>
+                                <state key="normal" title="Drinks">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="nt7-VA-Qwm" kind="show" id="6Yz-2N-uBp"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7WC-37-pAI">
+                                <rect key="frame" x="187" y="161" width="83" height="30"/>
+                                <state key="normal" title="Restaurants">
                                     <color key="titleColor" red="0.20392156862745098" green="0.59607843137254901" blue="0.85882352941176465" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="3zf-Z7-eZK"/>
-                                        <exclude reference="5oY-hZ-bJ4"/>
-                                    </mask>
-                                </variation>
                                 <connections>
-                                    <segue destination="nt7-VA-Qwm" kind="show" identifier="Restaurants" id="8Zc-sb-szq"/>
+                                    <segue destination="nt7-VA-Qwm" kind="show" identifier="restaurant" id="8Zc-sb-szq"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yTv-OW-7jc">
-                                <rect key="frame" x="338" y="214" width="60" height="98"/>
-                                <state key="normal" title="NightLife" image="nightLife">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yTv-OW-7jc">
+                                <rect key="frame" x="351" y="199" width="62" height="30"/>
+                                <state key="normal" title="NightLife">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="nt7-VA-Qwm" kind="show" identifier="NightLife" id="zoP-sj-B50"/>
+                                    <segue destination="nt7-VA-Qwm" kind="show" id="zoP-sj-B50"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xwr-H9-KCI">
-                                <rect key="frame" x="203" y="308" width="91" height="88"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="88" id="Zvh-X9-JFd"/>
-                                </constraints>
-                                <state key="normal" title="Coffee &amp; Tea" image="CoffeeAndTea">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l1C-mx-hR7">
+                                <rect key="frame" x="187" y="275" width="133" height="30"/>
+                                <state key="normal" title="Breakfast &amp; Brunch">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="nt7-VA-Qwm" kind="show" id="V0X-vF-kO5"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xwr-H9-KCI">
+                                <rect key="frame" x="187" y="237" width="87" height="30"/>
+                                <state key="normal" title="Coffee &amp; Tea">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <segue destination="nt7-VA-Qwm" kind="show" id="3Wg-Dg-pEm"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mcB-aQ-m8P">
-                                <rect key="frame" x="203" y="207" width="90" height="113"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="90" id="mvq-Of-Shl"/>
-                                </constraints>
-                                <state key="normal" title="Quick Eats" image="snacks">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mcB-aQ-m8P">
+                                <rect key="frame" x="187" y="199" width="75" height="30"/>
+                                <state key="normal" title="Quick Eats">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="nt7-VA-Qwm" kind="show" identifier="QuickEats" id="I0m-ZO-eUe"/>
+                                    <segue destination="nt7-VA-Qwm" kind="show" id="I0m-ZO-eUe"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Search For...." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MMx-m3-hfq">
-                                <rect key="frame" x="203" y="94" width="196" height="41"/>
+                                <rect key="frame" x="203" y="94" width="195.5" height="41"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="41" id="R0m-Hn-p1z"/>
-                                    <constraint firstAttribute="width" constant="196" id="Vzv-KZ-dCv"/>
+                                    <constraint firstAttribute="width" constant="195.5" id="1AS-0U-sPb"/>
+                                    <constraint firstAttribute="height" constant="41" id="dRv-Jo-Mpn"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="34"/>
                                 <color key="textColor" red="0.90588235294117647" green="0.29803921568627451" blue="0.23529411764705882" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zfk-MT-vuZ">
-                                <rect key="frame" x="338" y="136" width="60" height="69"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="60" id="9Vc-La-Kzy"/>
-                                </constraints>
-                                <state key="normal" title="Drinks" image="Drinks">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <segue destination="nt7-VA-Qwm" kind="show" identifier="Drinks" id="6Yz-2N-uBp"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="mcB-aQ-m8P" firstAttribute="top" secondItem="MMx-m3-hfq" secondAttribute="bottom" constant="72" id="1J6-Sd-eF0"/>
                             <constraint firstAttribute="centerX" secondItem="mcB-aQ-m8P" secondAttribute="centerX" constant="75.5" id="3tO-BL-4qD"/>
-                            <constraint firstItem="Zfk-MT-vuZ" firstAttribute="top" secondItem="7WC-37-pAI" secondAttribute="top" constant="-1" id="BLW-Vn-SMo"/>
-                            <constraint firstItem="Zfk-MT-vuZ" firstAttribute="trailing" secondItem="yTv-OW-7jc" secondAttribute="trailing" id="EC5-TG-oE0"/>
-                            <constraint firstItem="mcB-aQ-m8P" firstAttribute="leading" secondItem="xwr-H9-KCI" secondAttribute="leading" id="EWy-qY-3N8"/>
+                            <constraint firstItem="l1C-mx-hR7" firstAttribute="top" secondItem="xwr-H9-KCI" secondAttribute="bottom" constant="8" id="6g6-4H-3lH"/>
+                            <constraint firstAttribute="centerX" secondItem="MMx-m3-hfq" secondAttribute="centerX" id="7M0-5E-QaS"/>
+                            <constraint firstAttribute="centerX" secondItem="l1C-mx-hR7" secondAttribute="centerX" constant="46.5" id="Av1-b7-Ale"/>
                             <constraint firstItem="7WC-37-pAI" firstAttribute="top" secondItem="MMx-m3-hfq" secondAttribute="bottom" constant="26" id="H9d-Pe-Vr8"/>
-                            <constraint firstItem="7WC-37-pAI" firstAttribute="firstBaseline" secondItem="Zfk-MT-vuZ" secondAttribute="firstBaseline" constant="1" id="I8l-x4-AYz"/>
-                            <constraint firstItem="7WC-37-pAI" firstAttribute="top" secondItem="MMx-m3-hfq" secondAttribute="bottom" constant="2" id="J5J-Ek-5kQ"/>
-                            <constraint firstItem="7WC-37-pAI" firstAttribute="centerY" secondItem="Zfk-MT-vuZ" secondAttribute="centerY" id="Mmk-oj-dQx"/>
                             <constraint firstAttribute="centerX" secondItem="Zfk-MT-vuZ" secondAttribute="centerX" constant="-91" id="N57-CC-jPG"/>
                             <constraint firstAttribute="centerY" secondItem="MMx-m3-hfq" secondAttribute="centerY" constant="207.5" id="Oga-hL-Vbz"/>
                             <constraint firstAttribute="centerX" secondItem="7WC-37-pAI" secondAttribute="centerX" constant="71.5" id="Pcq-ys-lWo"/>
-                            <constraint firstItem="MMx-m3-hfq" firstAttribute="top" secondItem="nOs-ge-3Gl" secondAttribute="bottom" constant="30" id="QTi-vY-MX3"/>
                             <constraint firstItem="yTv-OW-7jc" firstAttribute="top" secondItem="Zfk-MT-vuZ" secondAttribute="bottom" constant="8" id="Stf-7q-v2i"/>
                             <constraint firstItem="mcB-aQ-m8P" firstAttribute="top" secondItem="7WC-37-pAI" secondAttribute="bottom" constant="8" id="TP2-OB-At9"/>
                             <constraint firstItem="7WC-37-pAI" firstAttribute="leading" secondItem="Tdc-2D-kef" secondAttribute="leadingMargin" id="YG2-62-SPf"/>
-                            <constraint firstItem="mcB-aQ-m8P" firstAttribute="leading" secondItem="7WC-37-pAI" secondAttribute="leading" id="YVf-Q3-beV"/>
-                            <constraint firstItem="MMx-m3-hfq" firstAttribute="leading" secondItem="Tdc-2D-kef" secondAttribute="leading" constant="203" id="Ykc-h6-1Zz"/>
-                            <constraint firstItem="yTv-OW-7jc" firstAttribute="leading" secondItem="xwr-H9-KCI" secondAttribute="trailing" constant="44" id="asR-dp-Zuz"/>
+                            <constraint firstAttribute="centerX" secondItem="xwr-H9-KCI" secondAttribute="centerX" constant="69.5" id="evR-95-Kw5"/>
                             <constraint firstAttribute="centerX" secondItem="yTv-OW-7jc" secondAttribute="centerX" constant="-82" id="jwF-xG-eGw"/>
-                            <constraint firstItem="yTv-OW-7jc" firstAttribute="top" secondItem="Zfk-MT-vuZ" secondAttribute="bottom" constant="9" id="n66-LH-BnK"/>
-                            <constraint firstItem="xwr-H9-KCI" firstAttribute="top" secondItem="mcB-aQ-m8P" secondAttribute="bottom" constant="296" id="oBl-Nv-80v"/>
-                            <constraint firstItem="Zfk-MT-vuZ" firstAttribute="leading" secondItem="yTv-OW-7jc" secondAttribute="leading" id="ups-Fx-fa8"/>
-                            <constraint firstItem="Ggw-Oe-5Mb" firstAttribute="top" secondItem="mcB-aQ-m8P" secondAttribute="bottom" constant="236" id="uuL-UK-0vh"/>
+                            <constraint firstItem="xwr-H9-KCI" firstAttribute="top" secondItem="mcB-aQ-m8P" secondAttribute="bottom" constant="8" id="oBl-Nv-80v"/>
+                            <constraint firstItem="MMx-m3-hfq" firstAttribute="top" secondItem="nOs-ge-3Gl" secondAttribute="bottom" constant="30" id="pk9-8k-196"/>
                             <constraint firstItem="Zfk-MT-vuZ" firstAttribute="top" secondItem="MMx-m3-hfq" secondAttribute="bottom" constant="26" id="vfo-cE-Rd5"/>
-                            <constraint firstItem="Zfk-MT-vuZ" firstAttribute="baseline" secondItem="7WC-37-pAI" secondAttribute="baseline" constant="-1" id="vlx-QI-dtX"/>
-                            <constraint firstItem="xwr-H9-KCI" firstAttribute="centerX" secondItem="mcB-aQ-m8P" secondAttribute="centerX" id="vrl-Fy-uv2"/>
-                            <constraint firstItem="Ggw-Oe-5Mb" firstAttribute="top" secondItem="xwr-H9-KCI" secondAttribute="bottom" constant="160" id="wC8-Oc-yaE"/>
-                            <constraint firstItem="Zfk-MT-vuZ" firstAttribute="leading" secondItem="7WC-37-pAI" secondAttribute="trailing" constant="43" id="z2Y-6y-aZc"/>
-                            <constraint firstItem="7WC-37-pAI" firstAttribute="leading" secondItem="MMx-m3-hfq" secondAttribute="leading" id="zkz-fH-ETp"/>
-                            <constraint firstItem="mcB-aQ-m8P" firstAttribute="bottom" secondItem="yTv-OW-7jc" secondAttribute="bottom" constant="8" id="zyW-pT-W0g"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
                                 <exclude reference="Oga-hL-Vbz"/>
-                                <exclude reference="H9d-Pe-Vr8"/>
-                                <exclude reference="Mmk-oj-dQx"/>
-                                <exclude reference="Pcq-ys-lWo"/>
                                 <exclude reference="YG2-62-SPf"/>
-                                <exclude reference="3tO-BL-4qD"/>
-                                <exclude reference="TP2-OB-At9"/>
-                                <exclude reference="N57-CC-jPG"/>
-                                <exclude reference="vfo-cE-Rd5"/>
-                                <exclude reference="oBl-Nv-80v"/>
-                                <exclude reference="Stf-7q-v2i"/>
-                                <exclude reference="jwF-xG-eGw"/>
                             </mask>
                         </variation>
                     </view>
                     <toolbarItems/>
                     <navigationItem key="navigationItem" title="Search" id="Umg-ls-L5n"/>
                     <connections>
+                        <outlet property="buttonBreakfastBrunch" destination="l1C-mx-hR7" id="DZH-f0-Hfu"/>
                         <outlet property="buttonCoffeeTea" destination="xwr-H9-KCI" id="LYG-RI-JXr"/>
                         <outlet property="buttonDrinks" destination="Zfk-MT-vuZ" id="efw-Dy-RNd"/>
                         <outlet property="buttonNightLife" destination="yTv-OW-7jc" id="xPr-uU-WF5"/>
@@ -503,12 +465,12 @@
         <scene sceneID="46v-Xq-Kwb">
             <objects>
                 <tableViewController storyboardIdentifier="TableView" id="wuR-fK-ud5" userLabel="Friend Table" customClass="GroupTableViewController" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="1" sectionFooterHeight="1" id="k9n-Z6-nbA">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="126" sectionHeaderHeight="1" sectionFooterHeight="1" id="k9n-Z6-nbA">
                         <rect key="frame" x="0.0" y="64" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" id="aOM-Bl-9md" customClass="TDBadgedCell">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="Cell" rowHeight="126" id="aOM-Bl-9md" customClass="TDBadgedCell">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="aOM-Bl-9md" id="LUq-ek-peA">
                                     <autoresizingMask key="autoresizingMask"/>
@@ -680,14 +642,9 @@
         </scene>
     </scenes>
     <resources>
-        <image name="CoffeeAndTea" width="512" height="512"/>
-        <image name="Drinks" width="512" height="512"/>
-        <image name="Restaurants" width="512" height="368"/>
         <image name="User-Group-128" width="128" height="128"/>
-        <image name="nightLife" width="512" height="639"/>
-        <image name="snacks" width="512" height="512"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="zoP-sj-B50"/>
+        <segue reference="8Zc-sb-szq"/>
     </inferredMetricsTieBreakers>
 </document>
