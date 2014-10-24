@@ -41,13 +41,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
-    self.myGroups = [NSMutableArray array];
-    self.numOfPeople = [NSMutableArray array];
-    self.myOwners = [NSMutableArray array];
-    self.myOwnerIds = [NSMutableArray array];
-    self.myDBIds = [NSMutableArray array];
-    self.myGroupIndex = [NSMutableArray array];
+    NSLog(@"GroupTableLoaded");
     [self.tableView addPullToRefreshWithActionHandler:^
     {
         [self getRequests];
@@ -59,15 +53,28 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
+        NSLog(@"GroupTableWillAppear");
+    self.myGroups = [NSMutableArray array];
+    self.numOfPeople = [NSMutableArray array];
+    self.myOwners = [NSMutableArray array];
+    self.myOwnerIds = [NSMutableArray array];
+    self.myDBIds = [NSMutableArray array];
+    self.myGroupIndex = [NSMutableArray array];
+    
     self.view.userInteractionEnabled = false;
     [self.navigationController setNavigationBarHidden:YES animated:YES];
     [self getRequests];
+    NSLog(@"GroupWillAppearFinished");
 
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
+    [super viewDidAppear:animated];
+    NSLog(@"GroupTableDidAppear");
     [self.tableView reloadData];
+    
+
 }
 
 #pragma message "remove empty methods"
@@ -99,6 +106,9 @@
     [NetworkCommunication sharedManager].intSelectedGroupNumberOfPeople =[(NSNumber*)self.numOfPeople[indexPath.row] intValue];
     
     [NetworkCommunication sharedManager].stringCurrentDB = self.myDBIds[indexPath.row];
+    
+    [NetworkCommunication sharedManager].intSelectedGroupProgressIndex = [(NSNumber*)self.myGroupIndex[indexPath.row] intValue];
+    
     // URL
     #pragma message "Backend Access should be moved into separate class"
     NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/groups/%@",
@@ -136,6 +146,13 @@
               //Set the singleton array equal to all of the fetched card data from Yelp
               [NetworkCommunication sharedManager].arraySelectedGroupCardData = fetchedData[@"Objects"];
               
+              NSMutableArray* tempArray = [NSMutableArray array];
+              for(int i = [NetworkCommunication sharedManager].intSelectedGroupProgressIndex;i<[NetworkCommunication sharedManager].arraySelectedGroupCardData.count;i++)
+              {
+                  [tempArray addObject:[NetworkCommunication sharedManager].arraySelectedGroupCardData[i]];
+              }
+              [NetworkCommunication sharedManager].arraySelectedGroupCardData = tempArray;
+
               //Set this array equal to the Device tokens from all of the users in the selected group
               [NetworkCommunication sharedManager].arraySelectedGroupDeviceTokens = fetchedData[@"Tokens"];
               
@@ -182,7 +199,7 @@
              
              //NSString *userImageURL = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large", [FBuser objectID]];
              
-             NSString *userImageURL = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large", [self.myOwnerIds objectAtIndex:self.myOwners.count-1-indexPath.row]];
+             NSString *userImageURL = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large", [self.myOwnerIds objectAtIndex:indexPath.row]];
              
              cell.imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:userImageURL]]];
              [self.tableView reloadData];
@@ -191,8 +208,8 @@
      }];
     
     //Code to display badge that appears next to the group
-    cell.textLabel.text = [NSString stringWithFormat:@"%@'s Group Event",[self.myOwners objectAtIndex:self.myOwners.count-1-indexPath.row]];
-    cell.badgeString = [NSString stringWithFormat:@"%@",[self.myGroupIndex objectAtIndex:self.myOwners.count-1-indexPath.row]];
+    cell.textLabel.text = [NSString stringWithFormat:@"%@'s Group Event",[self.myOwners objectAtIndex:indexPath.row]];
+    cell.badgeString = [NSString stringWithFormat:@"%@",[self.myGroupIndex objectAtIndex:indexPath.row]];
     cell.badgeColor = [UIColor colorWithRed:0.792 green:0.197 blue:0.219 alpha:1.000];
     cell.badge.radius = 9;
     cell.badge.fontSize = 18;
@@ -618,8 +635,8 @@
     {
         DraggableBackground *controller = [segue destinationViewController];
         #pragma message "You should add a comment to explain why you calculate the index like this 'self.myGroups.count-1-myIndex'"
-        controller.groupID = [self.myGroups objectAtIndex:self.myGroups.count-1-myIndex];
-        controller.numOfPeople = (int)[self.numOfPeople objectAtIndex:self.myGroups.count-1-myIndex];
+        controller.groupID = [self.myGroups objectAtIndex:myIndex];
+
     }
 }
 

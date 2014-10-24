@@ -27,10 +27,12 @@
 @property NSString *stringSelectedGroupID;
 @property NSString *stringYelpSearchTerm;
 @property NSString *stringYelpLocation;
+@property NSString *stringCurrentDB;
 
 //integers
 @property int intSelectedGroupNumberOfPeople;
 @property int intYelpNumberOfLocations;
+@property int intSelectedGroupProgressIndex;
 
 //Arrays
 @property NSMutableArray *arraySelectedGroupCardData;

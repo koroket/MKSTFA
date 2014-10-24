@@ -151,7 +151,7 @@
     [self.mapView setRegion:region animated:YES];
     
     // Singleton
-    [NetworkCommunication sharedManager].stringYelpLocation = [NSString stringWithFormat:(@"%@"), currentLocation];
+    [NetworkCommunication sharedManager].stringYelpLocation = [NSString stringWithFormat:(@"%f,%f"), currentLocation.coordinate.latitude, currentLocation.coordinate.longitude];
 }
 
 
