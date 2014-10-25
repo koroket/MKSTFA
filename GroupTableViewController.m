@@ -23,7 +23,7 @@
 @property (nonatomic,strong) NSMutableArray* myOwnerIds;
 @property (nonatomic,strong) NSMutableArray* myDBIds;
 @property (nonatomic,strong) NSMutableArray* myGroupIndex;
-
+@property (nonatomic,strong) NSMutableArray* myImages;
 @end
 
 @implementation GroupTableViewController
@@ -54,12 +54,7 @@
 {
     [super viewWillAppear:animated];
         NSLog(@"GroupTableWillAppear");
-    self.myGroups = [NSMutableArray array];
-    self.numOfPeople = [NSMutableArray array];
-    self.myOwners = [NSMutableArray array];
-    self.myOwnerIds = [NSMutableArray array];
-    self.myDBIds = [NSMutableArray array];
-    self.myGroupIndex = [NSMutableArray array];
+
     
     self.view.userInteractionEnabled = false;
     [self.navigationController setNavigationBarHidden:YES animated:YES];
@@ -184,6 +179,22 @@
     TDBadgedCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
 
     //Facebook connection used for profile picture
+    cell.imageView.image = self.myImages[indexPath.row];
+    NSLog(@"hi");
+    
+    //Code to display badge that appears next to the group
+    cell.textLabel.text = [NSString stringWithFormat:@"%@'s Group Event",[self.myOwners objectAtIndex:indexPath.row]];
+    cell.badgeString = [NSString stringWithFormat:@"%@",[self.myGroupIndex objectAtIndex:indexPath.row]];
+    cell.badgeColor = [UIColor colorWithRed:0.792 green:0.197 blue:0.219 alpha:1.000];
+    cell.badge.radius = 9;
+    cell.badge.fontSize = 18;
+    
+    return cell;
+}
+
+
+-(void)downloadImages
+{
     [[FBRequest requestForMe] startWithCompletionHandler:^(FBRequestConnection *connection,
                                                            NSDictionary<FBGraphUser> *FBuser,
                                                            NSError *error)
@@ -199,26 +210,29 @@
              
              //NSString *userImageURL = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large", [FBuser objectID]];
              
-             NSString *userImageURL = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large", [self.myOwnerIds objectAtIndex:indexPath.row]];
-             
-             cell.imageView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:userImageURL]]];
+             //dispatch_async(dispatch_get_global_queue(0, 0), ^{
+             for(int i = 0;i<self.myOwnerIds.count;i++)
+             {
+                 NSString *userImageURL = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large", [self.myOwnerIds objectAtIndex:i]];
+                 UIImage *tempImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:userImageURL]]];
+                 [self.myImages addObject:tempImage];
+             }
              [self.tableView reloadData];
+             [self.tableView.pullToRefreshView stopAnimating];
+             
+             self.view.userInteractionEnabled = true;
+             [self.navigationController setNavigationBarHidden:NO animated:YES];
+             [MBProgressHUD hideHUDForView:self.view animated:YES];
+             //dispatch_async(dispatch_get_main_queue(), ^{
+
+             //});
+             //});
+             
              
          }
      }];
-    
-    //Code to display badge that appears next to the group
-    cell.textLabel.text = [NSString stringWithFormat:@"%@'s Group Event",[self.myOwners objectAtIndex:indexPath.row]];
-    cell.badgeString = [NSString stringWithFormat:@"%@",[self.myGroupIndex objectAtIndex:indexPath.row]];
-    cell.badgeColor = [UIColor colorWithRed:0.792 green:0.197 blue:0.219 alpha:1.000];
-    cell.badge.radius = 9;
-    cell.badge.fontSize = 18;
-    
-    return cell;
+
 }
-
-
-
 #pragma mark - Heroku
 /**
  * --------------------------------------------------------------------------
@@ -239,6 +253,13 @@
                          whatDictionary:nil
                               withBlock:^(void)
      {
+         self.myGroups = [NSMutableArray array];
+         self.numOfPeople = [NSMutableArray array];
+         self.myOwners = [NSMutableArray array];
+         self.myOwnerIds = [NSMutableArray array];
+         self.myDBIds = [NSMutableArray array];
+         self.myGroupIndex = [NSMutableArray array];
+         self.myImages = [NSMutableArray array];
          
          NSArray *fetchedData = [NSJSONSerialization JSONObjectWithData:sharedCommunication.myData options:0 error:nil];
          self.myGroups = [NSMutableArray array];
@@ -255,12 +276,8 @@
              [self.myGroupIndex addObject:data1[@"currentIndex"]];
          }
          
-         [self.tableView reloadData];
-         [self.tableView.pullToRefreshView stopAnimating];
-         
-         self.view.userInteractionEnabled = true;
-         [self.navigationController setNavigationBarHidden:NO animated:YES];
-         [MBProgressHUD hideHUDForView:self.view animated:YES];
+         [self downloadImages];
+
      }];
     
 }
@@ -343,58 +360,6 @@
          }];//Data Task Block
         [dataTask resume];
 
-}
-
-#pragma message "This method name should be more descriptive"
-- (void)yesWith:(int)index andUrl:(NSString *)tempUrl
-{
-    #pragma message "Backend Access should be moved into separate class"
-    NSString *fixedUrl =
-        [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/groups/%@/%d", tempUrl, index];
-    // 1
-    NSURL *url = [NSURL URLWithString:fixedUrl];
-    // 1
-
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
-                                                           cachePolicy:NSURLRequestUseProtocolCachePolicy
-                                                       timeoutInterval:30.0];
-    [request setHTTPMethod:@"PUT"];
-
-    NSURLSession *urlSession = [NSURLSession sharedSession];
-
-    NSURLSessionDataTask *dataTask =
-        [urlSession dataTaskWithRequest:request
-                      completionHandler:^(NSData *data,
-                                          NSURLResponse *response,
-                                          NSError *error)
-    {
-
-      NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-      NSInteger responseStatusCode = [httpResponse statusCode];
-
-      if (responseStatusCode == 200 && data)
-      {
-          dispatch_async(dispatch_get_main_queue(), ^(void)
-          {
-              NSDictionary *fetchedData =
-                  [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-              NSNumber *a = fetchedData[@"agree"];
-              int t = [a intValue];
-              if (t == 3)
-              {
-                  [self performSegueWithIdentifier:@"Done" sender:self];
-              }
-          });
-
-          // do something with this data
-          // if you want to update UI, do it on main queue
-      }
-      else
-      {
-          // error handling
-      }
-    }];
-    [dataTask resume];
 }
 
 - (void)deleteGroup:(NSString *)pplid with:(NSString *)myId

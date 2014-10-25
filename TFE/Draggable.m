@@ -55,14 +55,17 @@
         [self addGestureRecognizer:panGestureRecognizer];
         
         
-        overlayView = [[OverlayView alloc]initWithFrame:CGRectMake(self.frame.size.width/2-100, 0, 100, 100)];
-        overlayView.alpha = 0;
-        [self addSubview:overlayView];
+
     }
     return self;
 }
 
-
+-(void)createOverLay
+{
+    overlayView = [[OverlayView alloc]initWithFrame:CGRectMake(self.frame.size.width/2-100, 0, 100, 100)];
+    overlayView.alpha = 0;
+    [self addSubview:overlayView];
+}
 -(void)setupView
 {
     self.layer.cornerRadius = 4;
@@ -147,8 +150,8 @@
     {
         overlayView.mode = GGOverlayViewModeLeft;
     }
-    
-    overlayView.alpha = MIN(fabsf(distance)/100, 0.4);
+    NSLog(@"%f",distance);
+    overlayView.alpha = fabsf(distance)/100;
 }
 
 //%%% called when the card is let go

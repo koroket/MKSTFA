@@ -20,6 +20,7 @@
 
 -(void)leftClickAction;
 -(void)rightClickAction;
+-(void)createOverLay;
 
 @property (weak) id <DraggableDelegate> delegate;
 
