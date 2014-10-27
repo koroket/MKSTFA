@@ -7,11 +7,13 @@
 //
 
 #import "AppDelegate.h"
+#import "DraggableBackground.h"
+#import "NetworkCommunication.h"
+#import "FBLogInViewController.h"
+
 #import <FacebookSDK/FacebookSDK.h>
 #import <Pushbots/Pushbots.h>
-#import "DraggableBackground.h"
-#import "HerokuCommunication.h"
-#import "FBLogInViewController.h"
+
 @interface AppDelegate ()
 
 @end
@@ -39,8 +41,6 @@
 didReceiveRemoteNotification:(NSDictionary *)userInfo
 fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 {
-    
-
     NSDictionary *tempDictionary = userInfo;
     if([@"message" isEqualToString:tempDictionary[@"type"]])
     {
@@ -50,6 +50,7 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
     {
         [self addMessageFromRemoteNotification:userInfo updateUI:YES];
     }
+    
 }
 
 - (void)addMessageFromRemoteNotification:(NSDictionary*)userInfo

@@ -15,7 +15,7 @@
 {
 	self = [super initWithFrame:frame];
 	if (self) {
-		self.backgroundColor = [UIColor whiteColor];
+		self.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.0];
 		imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"noButton"]];
 		[self addSubview:imageView];
 	}

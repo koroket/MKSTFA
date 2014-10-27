@@ -14,9 +14,9 @@
 
 @interface LocationFinderViewController () <CLLocationManagerDelegate>
 
+@property (weak, nonatomic) IBOutlet UITextField *textFieldLocation;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *buttonDone;
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
-@property (weak, nonatomic) IBOutlet UITextField *textFieldLocation;
 @property (weak, nonatomic) IBOutlet UILabel *address;
 
 - (IBAction)buttonCurrentLocation:(UIButton *)sender;
@@ -39,6 +39,38 @@
  * --------------------------------------------------------------------------
  */
 
+/*
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    NSLog(@"current Location: %@", currentLocation);
+
+    
+    // Map View Stuff
+    CLLocationCoordinate2D location = CLLocationCoordinate2DMake(currentLocation.coordinate.latitude,
+                                                                 currentLocation.coordinate.longitude);
+    
+    MKCoordinateSpan span = MKCoordinateSpanMake(0.02, 0.02);
+    
+    MKCoordinateRegion region = MKCoordinateRegionMake(location, span);
+    
+    [self.mapView setRegion:region animated:YES];
+    
+    // Singleton
+    [NetworkCommunication sharedManager].stringYelpLocation = [NSString stringWithFormat:(@"%f,%f"),
+                                                               currentLocation.coordinate.latitude,
+                                                               currentLocation.coordinate.longitude];
+    
+    // Sets the pin
+    MKPointAnnotation *annotation = [[MKPointAnnotation alloc] init];
+    
+    [annotation setCoordinate:_mapView.centerCoordinate];
+    [annotation setTitle:@"Title"]; //You can set the subtitle too
+    [self.mapView addAnnotation:annotation];
+}
+*/
+ 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -52,11 +84,12 @@
     manager.desiredAccuracy = kCLLocationAccuracyBest;
 }
 
+
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
     
-    [manager requestWhenInUseAuthorization];
+    //[manager requestWhenInUseAuthorization];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -74,6 +107,8 @@
 - (IBAction)buttonCurrentLocation:(UIButton *)sender
 {
     [manager startUpdatingLocation];
+    
+    
 }
 
 - (IBAction)buttonStopUpdatingLocation:(UIButton *)sender
@@ -143,15 +178,24 @@
         }
         
     }];
-    
     // Map View Stuff
-    CLLocationCoordinate2D location = CLLocationCoordinate2DMake(currentLocation.coordinate.latitude, currentLocation.coordinate.longitude);
-    MKCoordinateSpan span = MKCoordinateSpanMake(0.2, 0.2);
+    CLLocationCoordinate2D location = CLLocationCoordinate2DMake(currentLocation.coordinate.latitude,
+                                                                 currentLocation.coordinate.longitude);
+    MKCoordinateSpan span = MKCoordinateSpanMake(0.02, 0.02);
     MKCoordinateRegion region = MKCoordinateRegionMake(location, span);
     [self.mapView setRegion:region animated:YES];
     
     // Singleton
-    [NetworkCommunication sharedManager].stringYelpLocation = [NSString stringWithFormat:(@"%f,%f"), currentLocation.coordinate.latitude, currentLocation.coordinate.longitude];
+    [NetworkCommunication sharedManager].stringYelpLocation = [NSString stringWithFormat:(@"%f,%f"),
+                                                               currentLocation.coordinate.latitude,
+                                                               currentLocation.coordinate.longitude];
+    
+    [NetworkCommunication sharedManager].stringCurrentLatitude = [NSString stringWithFormat:(@"%f"),
+                                                                    currentLocation.coordinate.latitude];
+    
+    [NetworkCommunication sharedManager].stringCurrentLongitude = [NSString stringWithFormat:(@"%f"),
+                                                               currentLocation.coordinate.longitude];
+    
 }
 
 

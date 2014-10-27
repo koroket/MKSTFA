@@ -8,7 +8,7 @@
 #pragma message "Is this class written by you? If not you should include a copyright header"
 
 #import "DraggableBackground.h"
-#import "HerokuCommunication.h"
+#import "NetworkCommunication.h"
 #import "AMSmoothAlertView.h"
 #import "MBProgressHUD.h"
 
@@ -85,8 +85,16 @@ static const int MAX_BUFFER_SIZE = 2; //%%% max number of cards loaded at any gi
 {
     [super viewDidAppear:animated];
     [self loadCards];
+    [self createOverLaysMain];
 
     [MBProgressHUD hideHUDForView:self.view animated:YES];
+}
+-(void)createOverLaysMain
+{
+    for(int i = 0; i<self.allCards.count;i++)
+    {
+        [self.allCards[i] createOverLay];
+    }
 }
 //%%% sets up the extra buttons on the screen
 -(void)setupView

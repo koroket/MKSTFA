@@ -7,7 +7,7 @@
 //
 
 #import "YelpCommunication.h"
-#import "HerokuCommunication.h"
+#import "NetworkCommunication.h"
 
 
 @interface YelpCommunication ()
@@ -66,8 +66,8 @@
         //URL
         NSString *fixedURL = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/yelp/%@/%@/%d",
                               @"PaloAlto",
-                              [HerokuCommunication sharedManager].stringYelpSearchTerm,
-                              [HerokuCommunication sharedManager].intYelpNumberOfLocations
+                              [NetworkCommunication sharedManager].stringYelpSearchTerm,
+                              [NetworkCommunication sharedManager].intYelpNumberOfLocations
                               ];
         NSURL *url = [NSURL URLWithString:fixedURL];
         //Request
@@ -121,7 +121,7 @@
                         
                         //Dictionary Handling
                         //Device tokens
-                        [self.dictionary setValue:self.myTokens forKey:@"Tokens"];
+                        //[self.dictionary setValue:self.myTokens forKey:@"Tokens"];
                         //Sets DONE
                         [self.dictionary setValue:@(-1) forKey:@"Done"];
                         //Sets the business count
@@ -131,7 +131,7 @@
                         //Sets the decision objects
                         [self.dictionary setValue:decisionObjects forKey:@"Objects"];
                         //Creates the group
-                        [self createNewGroup];
+                        //[self createNewGroup];
                     });
                  //where to stick dispatch to main queue
              }

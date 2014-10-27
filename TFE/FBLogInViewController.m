@@ -7,7 +7,7 @@
 //
 
 #import "FBLogInViewController.h"
-#import "HerokuCommunication.h"
+#import "NetworkCommunication.h"
 
 @interface FBLogInViewController ()
 @property(weak, nonatomic) IBOutlet FBLoginView *loginView;
@@ -54,8 +54,16 @@
             //Fetch the profile picture from facebook
             NSString *userImageURL = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large", [FBUser objectID]];
             
-            //set the UIImageView's Image = to the fetched fbook pic
-            self.profilePictureView.image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:userImageURL]]];
+            dispatch_async(dispatch_get_global_queue(0, 0), ^
+            {
+                UIImage *tempImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:userImageURL]]];
+                dispatch_async(dispatch_get_main_queue(), ^
+                {
+                    self.profilePictureView.image = tempImage;
+                    //self.profilePictureView.image =
+                });
+            });
+
         }
     }];
     self.nameLabel.text = user.name;
@@ -63,8 +71,6 @@
     //call the singleton for string data
     [NetworkCommunication sharedManager].stringFBUserId = user.objectID;
     [NetworkCommunication sharedManager].stringFBUserName = user.name;
-
-    
 }
 
 - (void)loginViewShowingLoggedInUser:(FBLoginView *)loginView

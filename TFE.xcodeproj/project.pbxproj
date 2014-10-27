@@ -42,8 +42,6 @@
 		D5AB92A819D60B1A001FB2A7 /* FBLogInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D5AB92A719D60B1A001FB2A7 /* FBLogInViewController.m */; };
 		D5AB92AB19D60D51001FB2A7 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5AB92AA19D60D51001FB2A7 /* FacebookSDK.framework */; };
 		D5AB92B119D6251C001FB2A7 /* GroupTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D5AB92B019D6251C001FB2A7 /* GroupTableViewController.m */; };
-		D5E2C5CC19FAEBFF007D4B98 /* YelpCommunication.m in Sources */ = {isa = PBXBuildFile; fileRef = D5E2C5CB19FAEBFF007D4B98 /* YelpCommunication.m */; };
-		D5E2C5CF19FAEC1C007D4B98 /* FacebookCommunication.m in Sources */ = {isa = PBXBuildFile; fileRef = D5E2C5CE19FAEC1C007D4B98 /* FacebookCommunication.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -111,10 +109,6 @@
 		D5AB92AA19D60D51001FB2A7 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = ../../Documents/FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
 		D5AB92AF19D6251C001FB2A7 /* GroupTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GroupTableViewController.h; path = ../GroupTableViewController.h; sourceTree = "<group>"; };
 		D5AB92B019D6251C001FB2A7 /* GroupTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GroupTableViewController.m; path = ../GroupTableViewController.m; sourceTree = "<group>"; };
-		D5E2C5CA19FAEBFF007D4B98 /* YelpCommunication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YelpCommunication.h; sourceTree = "<group>"; };
-		D5E2C5CB19FAEBFF007D4B98 /* YelpCommunication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YelpCommunication.m; sourceTree = "<group>"; };
-		D5E2C5CD19FAEC1C007D4B98 /* FacebookCommunication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FacebookCommunication.h; sourceTree = "<group>"; };
-		D5E2C5CE19FAEC1C007D4B98 /* FacebookCommunication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FacebookCommunication.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -217,10 +211,6 @@
 			children = (
 				62B2177419ECF4D900834EBA /* NetworkCommunication.h */,
 				62B2177319ECF4D900834EBA /* NetworkCommunication.m */,
-				D5E2C5CD19FAEC1C007D4B98 /* FacebookCommunication.h */,
-				D5E2C5CE19FAEC1C007D4B98 /* FacebookCommunication.m */,
-				D5E2C5CA19FAEBFF007D4B98 /* YelpCommunication.h */,
-				D5E2C5CB19FAEBFF007D4B98 /* YelpCommunication.m */,
 			);
 			name = Singleton;
 			path = ..;
@@ -371,11 +361,11 @@
 				TargetAttributes = {
 					D5AB927719D60565001FB2A7 = {
 						CreatedOnToolsVersion = 6.0.1;
-						DevelopmentTeam = 8V8HUCA3M9;
+						DevelopmentTeam = 6TK8Q4KD6G;
 					};
 					D5AB929319D60565001FB2A7 = {
 						CreatedOnToolsVersion = 6.0.1;
-						DevelopmentTeam = 8V8HUCA3M9;
+						DevelopmentTeam = 6TK8Q4KD6G;
 						TestTargetID = D5AB927719D60565001FB2A7;
 					};
 				};
@@ -460,11 +450,9 @@
 			files = (
 				D5551DFD19DA1D600017790D /* ViewController.m in Sources */,
 				D5551DF419DA1ACB0017790D /* Draggable.m in Sources */,
-				D5E2C5CF19FAEC1C007D4B98 /* FacebookCommunication.m in Sources */,
 				D5AB928119D60565001FB2A7 /* AppDelegate.m in Sources */,
 				D5AB927E19D60565001FB2A7 /* main.m in Sources */,
 				625CD5FF19D9D51400A5D41E /* FriendTableViewController.m in Sources */,
-				D5E2C5CC19FAEBFF007D4B98 /* YelpCommunication.m in Sources */,
 				62B2177519ECF4D900834EBA /* NetworkCommunication.m in Sources */,
 				D5AB92A819D60B1A001FB2A7 /* FBLogInViewController.m in Sources */,
 				D5AB928419D60565001FB2A7 /* TFE.xcdatamodeld in Sources */,

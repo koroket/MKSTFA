@@ -96,7 +96,7 @@
         else
         {
           // error handling
-          NSLog(@"gucci");
+          NSLog(@"ERROR HEROKU");
         }
     }];
 
@@ -177,7 +177,7 @@
          else
          {
              // error handling
-             NSLog(@"gucci");
+             NSLog(@"ERROR SEND NOTIFICATION");
          }
          dispatch_async(dispatch_get_main_queue(), ^
             {
