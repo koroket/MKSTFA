@@ -41,4 +41,7 @@
 @property NSMutableArray *arraySelectedGroupCardData;
 @property NSMutableArray *arraySelectedGroupDeviceTokens;
 
+//Booleans
+@property BOOL boolDebug;
+
 @end

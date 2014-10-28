@@ -14,8 +14,12 @@
 @property(weak, nonatomic) IBOutlet UILabel *statusLabel;
 @property(weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *profilePictureView;
+@property (weak, nonatomic) IBOutlet UILabel *labelDebug;
+
+- (IBAction)buttonDebug:(id)sender;
 
 @end
+
 
 @implementation FBLogInViewController
 
@@ -29,6 +33,10 @@
 {
   [super viewDidLoad];
   // Do any additional setup after loading the view.
+    
+    [NetworkCommunication sharedManager].boolDebug = false;
+    _labelDebug.text = @"Off";
+   
   self.loginView.readPermissions = @[ @"public_profile", @"email", @"user_friends" ];
 }
 
@@ -226,7 +234,23 @@
  * Navigation
  * --------------------------------------------------------------------------
  */
-- (void)prepareForSegue:(UIStoryboardSegue *)segue 
+
+- (IBAction)buttonDebug:(id)sender
+{
+    if ([NetworkCommunication sharedManager].boolDebug == true)
+    {
+        [NetworkCommunication sharedManager].boolDebug = false;
+        _labelDebug.text = @"Off";
+    }
+    else if ([NetworkCommunication sharedManager].boolDebug == false)
+    {
+        [NetworkCommunication sharedManager].boolDebug = true;
+        _labelDebug.text = @"On";
+
+    }
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue
                  sender:(id)sender
 {
 //    if ([self.statusLabel.text  isEqual: @"You're not logged in!"])
@@ -235,5 +259,6 @@
 //    }
     
 }
+
 
 @end

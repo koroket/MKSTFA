@@ -328,7 +328,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="nt7-VA-Qwm" kind="show" id="6Yz-2N-uBp"/>
+                                    <segue destination="nt7-VA-Qwm" kind="show" identifier="Drinks" id="6Yz-2N-uBp"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7WC-37-pAI">
@@ -342,7 +342,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="nt7-VA-Qwm" kind="show" identifier="restaurant" id="8Zc-sb-szq"/>
+                                    <segue destination="nt7-VA-Qwm" kind="show" identifier="Restaurants" id="8Zc-sb-szq"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yTv-OW-7jc">
@@ -355,7 +355,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="nt7-VA-Qwm" kind="show" id="zoP-sj-B50"/>
+                                    <segue destination="nt7-VA-Qwm" kind="show" identifier="NightLife" id="zoP-sj-B50"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xwr-H9-KCI">
@@ -368,7 +368,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="nt7-VA-Qwm" kind="show" id="3Wg-Dg-pEm"/>
+                                    <segue destination="nt7-VA-Qwm" kind="show" identifier="CoffeeTea" id="3Wg-Dg-pEm"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mcB-aQ-m8P">
@@ -381,11 +381,11 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="nt7-VA-Qwm" kind="show" id="I0m-ZO-eUe"/>
+                                    <segue destination="nt7-VA-Qwm" kind="show" identifier="QuicksEats" id="I0m-ZO-eUe"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Search For...." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MMx-m3-hfq">
-                                <rect key="frame" x="203" y="94" width="196" height="41"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Search For...." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MMx-m3-hfq">
+                                <rect key="frame" x="202" y="94" width="196" height="41"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="195.5" id="1AS-0U-sPb"/>
                                     <constraint firstAttribute="height" constant="41" id="dRv-Jo-Mpn"/>
@@ -630,6 +630,25 @@
                                     <outlet property="delegate" destination="2yF-yU-JQ1" id="9wN-fl-awg"/>
                                 </connections>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3XB-Dy-76P">
+                                <rect key="frame" x="222" y="385" width="157" height="48"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="157" id="zKO-o9-CGE"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                <state key="normal" title="Debug?">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="buttonDebug:" destination="2yF-yU-JQ1" eventType="touchDown" id="IEs-8K-hMR"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Debug Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="krc-Z5-6G4">
+                                <rect key="frame" x="251" y="436" width="98" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -644,8 +663,12 @@
                             <constraint firstItem="dhz-Sa-67K" firstAttribute="top" secondItem="xql-tF-3ih" secondAttribute="bottom" constant="8" id="aMd-U0-fuV"/>
                             <constraint firstItem="cLY-L0-A9W" firstAttribute="top" secondItem="dhz-Sa-67K" secondAttribute="bottom" constant="136" id="c4V-DG-SfN"/>
                             <constraint firstItem="XgZ-pg-eYC" firstAttribute="top" secondItem="xql-tF-3ih" secondAttribute="bottom" constant="8" id="dwd-1O-wLm"/>
+                            <constraint firstItem="krc-Z5-6G4" firstAttribute="top" secondItem="3XB-Dy-76P" secondAttribute="bottom" constant="3" id="jt5-sC-UXw"/>
+                            <constraint firstAttribute="centerX" secondItem="3XB-Dy-76P" secondAttribute="centerX" id="nTf-bF-5fn"/>
                             <constraint firstAttribute="trailingMargin" secondItem="xql-tF-3ih" secondAttribute="trailing" constant="246" id="o30-nQ-BPR"/>
+                            <constraint firstAttribute="centerY" secondItem="3XB-Dy-76P" secondAttribute="centerY" constant="-109" id="pIY-dx-TFd"/>
                             <constraint firstItem="xql-tF-3ih" firstAttribute="top" secondItem="BH9-wa-wZr" secondAttribute="bottom" constant="83" id="q3H-Ru-rsW"/>
+                            <constraint firstItem="krc-Z5-6G4" firstAttribute="centerX" secondItem="3XB-Dy-76P" secondAttribute="centerX" id="qs3-7i-dyw"/>
                             <constraint firstItem="xql-tF-3ih" firstAttribute="leading" secondItem="SrJ-Xe-7jZ" secondAttribute="leadingMargin" constant="184" id="rg2-u9-87N"/>
                             <constraint firstAttribute="centerX" secondItem="XgZ-pg-eYC" secondAttribute="centerX" constant="45" id="smB-ol-M6h"/>
                             <constraint firstItem="dhz-Sa-67K" firstAttribute="leading" secondItem="XgZ-pg-eYC" secondAttribute="trailing" constant="8" id="uhN-2D-6tJ"/>
@@ -680,6 +703,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="labelDebug" destination="krc-Z5-6G4" id="SFP-ly-0iR"/>
                         <outlet property="loginView" destination="cLY-L0-A9W" id="N6i-sl-urd"/>
                         <outlet property="nameLabel" destination="dhz-Sa-67K" id="2Sn-qv-Mmw"/>
                         <outlet property="profilePictureView" destination="XgZ-pg-eYC" id="jL4-3N-3WP"/>
@@ -720,6 +744,6 @@
         <image name="snacks" width="512" height="512"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="8Zc-sb-szq"/>
+        <segue reference="3Wg-Dg-pEm"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -39,40 +39,41 @@
  * --------------------------------------------------------------------------
  */
 
-/*
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    
-    NSLog(@"current Location: %@", currentLocation);
+//- (void)viewDidLoad
+//{
+//    [super viewDidLoad];
+//    
+//    NSLog(@"current Location: %@", currentLocation);
+//
+//    
+//    // Map View Stuff
+//    CLLocationCoordinate2D location = CLLocationCoordinate2DMake(currentLocation.coordinate.latitude,
+//                                                                 currentLocation.coordinate.longitude);
+//    
+//    MKCoordinateSpan span = MKCoordinateSpanMake(0.02, 0.02);
+//    
+//    MKCoordinateRegion region = MKCoordinateRegionMake(location, span);
+//    
+//    [self.mapView setRegion:region animated:YES];
+//    
+//    // Singleton
+//    [NetworkCommunication sharedManager].stringYelpLocation = [NSString stringWithFormat:(@"%f,%f"),
+//                                                               currentLocation.coordinate.latitude,
+//                                                               currentLocation.coordinate.longitude];
+//    
+//    // Sets the pin
+//    MKPointAnnotation *annotation = [[MKPointAnnotation alloc] init];
+//    
+//    [annotation setCoordinate:_mapView.centerCoordinate];
+//    [annotation setTitle:@"Title"]; //You can set the subtitle too
+//    [self.mapView addAnnotation:annotation];
+//}
 
-    
-    // Map View Stuff
-    CLLocationCoordinate2D location = CLLocationCoordinate2DMake(currentLocation.coordinate.latitude,
-                                                                 currentLocation.coordinate.longitude);
-    
-    MKCoordinateSpan span = MKCoordinateSpanMake(0.02, 0.02);
-    
-    MKCoordinateRegion region = MKCoordinateRegionMake(location, span);
-    
-    [self.mapView setRegion:region animated:YES];
-    
-    // Singleton
-    [NetworkCommunication sharedManager].stringYelpLocation = [NSString stringWithFormat:(@"%f,%f"),
-                                                               currentLocation.coordinate.latitude,
-                                                               currentLocation.coordinate.longitude];
-    
-    // Sets the pin
-    MKPointAnnotation *annotation = [[MKPointAnnotation alloc] init];
-    
-    [annotation setCoordinate:_mapView.centerCoordinate];
-    [annotation setTitle:@"Title"]; //You can set the subtitle too
-    [self.mapView addAnnotation:annotation];
-}
-*/
  
 - (void)viewDidLoad
 {
+    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"LocationFinder - viewDidLoad - Start");}
+
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
@@ -82,19 +83,18 @@
     
     manager.delegate = self;
     manager.desiredAccuracy = kCLLocationAccuracyBest;
-}
-
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
     
-    //[manager requestWhenInUseAuthorization];
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
+    if (currentLocation == nil)
+    {
+        [manager requestWhenInUseAuthorization];
+        [manager startUpdatingLocation];
+    }
+    else
+    {
+        [manager stopUpdatingLocation];
+    }
+    
+    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"LocationFinder - viewDidLoad - Finished");}
 }
 
 #pragma mark - button
@@ -107,22 +107,12 @@
 - (IBAction)buttonCurrentLocation:(UIButton *)sender
 {
     [manager startUpdatingLocation];
-    
-    
 }
 
 - (IBAction)buttonStopUpdatingLocation:(UIButton *)sender
 {
-    // Sets the pin
-    MKPointAnnotation *annotation = [[MKPointAnnotation alloc] init];
-    [annotation setCoordinate:currentLocation.coordinate];
-    [annotation setTitle:@"Title"]; //You can set the subtitle too
-    [self.mapView addAnnotation:annotation];
-    
     [manager stopUpdatingLocation];
 }
-
-
 
 #pragma mark - locations
 /**
@@ -149,6 +139,8 @@
     didUpdateToLocation:(CLLocation *)newLocation
            fromLocation:(CLLocation *)oldLocation
 {
+    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"LocationFinder - didUpdateToLocation - Start");}
+
     NSLog(@"Location: %@", newLocation);
     
     currentLocation = newLocation;
@@ -185,6 +177,12 @@
     MKCoordinateRegion region = MKCoordinateRegionMake(location, span);
     [self.mapView setRegion:region animated:YES];
     
+    // Sets the pin
+    MKPointAnnotation *annotation = [[MKPointAnnotation alloc] init];
+    [annotation setCoordinate:currentLocation.coordinate];
+    [annotation setTitle:@"Title"]; //You can set the subtitle too
+    [self.mapView addAnnotation:annotation];
+    
     // Singleton
     [NetworkCommunication sharedManager].stringYelpLocation = [NSString stringWithFormat:(@"%f,%f"),
                                                                currentLocation.coordinate.latitude,
@@ -196,6 +194,9 @@
     [NetworkCommunication sharedManager].stringCurrentLongitude = [NSString stringWithFormat:(@"%f"),
                                                                currentLocation.coordinate.longitude];
     
+    [manager stopUpdatingLocation];
+    
+    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"LocationFinder - didUpdateToLocation - Finished");}
 }
 
 
@@ -203,19 +204,25 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue
                  sender:(id)sender
 {
+    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"LocationFinder - prepareForSegue - Start");}
+
     if ([segue.identifier isEqualToString:@"Save"])
     {
         
     }
     
+    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"LocationFinder - prepareForSegue - Finished");}
 }
 
 - (IBAction)unwind:(id)sender
 {
+    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"LocationFinder - unwind - Start");}
+
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.mode = MBProgressHUDModeIndeterminate;
     hud.labelText = @"Loading";
     
+    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"LocationFinder - unwind - Finished");}
 }
 
 @end

@@ -41,6 +41,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    if ([NetworkCommunication sharedManager].boolDebug == true) {
+        NSLog(@"FriendTable - viewDidLoad - Start");
+    }
     [self loadFromFacebook];
     
     // Uncomment the following line to preserve selection between presentations.
@@ -49,12 +52,18 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
+    if ([NetworkCommunication sharedManager].boolDebug == true) {
+        NSLog(@"FriendTable - viewDidLoad - Finsihed");
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    NSLog(@"Friend Table - viewWillAppear - Start");
+    if ([NetworkCommunication sharedManager].boolDebug == true) {
+        NSLog(@"FriendTable - viewWillAppear - Start");
+    }
+
     [self.tableView reloadData];
     
     [self.selectedFriends addObject:[NetworkCommunication sharedManager].stringFBUserId];
@@ -63,7 +72,9 @@
     hud.mode = MBProgressHUDModeIndeterminate;
     hud.labelText = @"Loading Friends";
     
-    NSLog(@"Friend Table - viewWillAppear - Finished");
+    if ([NetworkCommunication sharedManager].boolDebug == true) {
+        NSLog(@"FriendTable - viewWillAppear - Finished");
+    }
 
 }
 
@@ -72,14 +83,18 @@
  */
 -(void)collectTokens
 {
+    if ([NetworkCommunication sharedManager].boolDebug == true) {
     NSLog(@"Friend Table - collectTokens - Start");
+    }
 
     for(int i = 0; i < self.selectedFriends.count; i++)
     {
         [self getTokens:self.selectedFriends[i]];
     }
     
-    NSLog(@"Friend Table - viewWillAppear - Finished");
+    if ([NetworkCommunication sharedManager].boolDebug == true) {
+    NSLog(@"Friend Table - CollectTokens - Finished");
+    }
 }
 
 #pragma mark - Table view data source
@@ -92,32 +107,42 @@
 - (NSInteger)tableView:(UITableView *)tableView
  numberOfRowsInSection:(NSInteger)section
 {
-    
+    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"FriendTable - numberOfRowsInSection - Start");}
+
     // Return the number of rows in the section.
     return [self.myFriends count];
+    
+    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"FriendTable - numberOfRowsInSection - Finished");}
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"FriendTable - cellForRowAtIndexPath - Start");}
+    
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
-    
     cell.textLabel.text = self.myFriends[indexPath.row];
-    
-    
     return cell;
+    
+    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"FriendTable - cellForRowAtIndexPath - Finished");}
 }
 
 - (void)tableView:(UITableView *)tableView
 commitEditingStyle:(UITableViewCellEditingStyle)editingStyle
 forRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"FriendTable - commitEditingStyle - Start");}
+    
     [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    
+    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"FriendTable - commitEditingStyle - Finished");}
 }
 
 - (void)tableView:(UITableView *)tableView
 didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"FriendTable - didSelectRowAtIndexPath - Start");}
+    
 #pragma message "You should consider checking against the list of friendIDs to see if this row is already selected. Checking against the acessoryType of a cell isn't a very elegant solution"
     if ([tableView cellForRowAtIndexPath:indexPath].accessoryType == UITableViewCellAccessoryCheckmark)
     {
@@ -129,7 +154,13 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         [tableView cellForRowAtIndexPath:indexPath].accessoryType = UITableViewCellAccessoryCheckmark;
         [self.selectedFriends addObject:[self.friendIds objectAtIndex:indexPath.row]];
     }
-    NSLog(@"These are the selected friends %@", self.selectedFriends);
+    
+    
+    
+    if ([NetworkCommunication sharedManager].boolDebug == true) {
+        NSLog(@"These are the selected friends %@", self.selectedFriends);
+        NSLog(@"FriendTable - didSelectRowAtIndexPath - Finished");
+    }
 }
 
 #pragma mark - Heroku Server Communication
@@ -146,6 +177,8 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
  */
 -(void)getTokens:(NSString*)userid
 {
+    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"FriendTable - getTokens - Start");}
+    
     //URL
     NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/token/%@token",
                           userid];
@@ -201,6 +234,8 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
             });
      }];
     [dataTask resume];
+    
+    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"FriendTable - getTokens - Finished");}
 }
 
 /**
@@ -211,6 +246,8 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
  */
 - (void)sendNotification:(NSString*)tempToken
 {
+    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"FriendTable - sendNotification - Start");}
+
     //URL
     NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/token/push/%@/%@",
                           tempToken,
@@ -254,11 +291,18 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
             });
      }];
     [dataTask resume];
+    
+    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"FriendTable - sendNotification - Finished");}
 }
+
 -(NSString*)stringfix:(NSString*) str
 {
+    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"FriendTable - stringfix - Start");}
+
     NSString* temp = [str stringByReplacingOccurrencesOfString:@" "
                                                     withString:@"_"];
+    
+    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"FriendTable - stringfix - Finished");}
     return temp;
 }
 
@@ -274,6 +318,8 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
  */
 - (void)loadFromFacebook
 {
+    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"FriendTable - loadFromFacebook - Start");}
+
     self.dictionary = [NSMutableDictionary dictionary];
     self.myFriends = [NSMutableArray array];
     self.friendIds = [NSMutableArray array];
@@ -308,6 +354,8 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
          
      }];//FBrequest block
     
+    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"FriendTable - loadFromFacebook - Finished");}
+
 }//load
 
 /**
@@ -317,6 +365,8 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
  */
 - (void)sendNewGroupsWithGroupCode:(NSString *)code
 {
+    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"FriendTable - sendNewGroupsWithGroupCode - Start");}
+
     for (int i = 0; i < self.selectedFriends.count; i++)
     {
         //URL
@@ -375,6 +425,8 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
             NSLog(@"Cannot connect to server");
         }
     }
+    
+    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"FriendTable - sendNewGroupsWithGroupCode - Finished");}
 }
 
 /**
@@ -383,6 +435,8 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 #pragma message "Also this method should probably not be part of this ViewController and instead should be moved into a backend access class"
 - (void)createNewGroup
 {
+    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"FriendTable - createNewGroup - Start");}
+
     //URL
     NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/groups"];
     NSURL *url = [NSURL URLWithString:fixedUrl];
@@ -433,6 +487,8 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     {
         NSLog(@"Cannot connect to server");
     }
+    
+    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"FriendTable - createNewGroup - Finished");}
 }
 
 #pragma mark - Yelp Server Communication
@@ -444,7 +500,8 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 
 - (void)getYelp
 {
-    NSLog(@"Friend Table - getYelp - Start");
+    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"FriendTable - getYelp - Start");}
+
     
     if (self.selectedFriends.count > 1)
     {
@@ -452,7 +509,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         NSString *fixedURL = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/yelp/%@/%@/%@/%d",
                               [NetworkCommunication sharedManager].stringCurrentLatitude,
                               [NetworkCommunication sharedManager].stringCurrentLongitude,
-                              @"food",
+                              [NetworkCommunication sharedManager].stringYelpSearchTerm,
                               [NetworkCommunication sharedManager].intYelpNumberOfLocations
                               ];
         NSURL *url = [NSURL URLWithString:fixedURL];
@@ -524,17 +581,18 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
              else
              {
                  // error handling
-                 NSLog(@"Friend Table - getYelp - Error - Yelp Failed");
+                 NSLog(@"ERROR - Yelp Failed");
              }
          }];//Data Task Block
         [dataTask resume];
     }
     else
     {
-        NSLog(@"Friend Table - getYelp - Error - You didnt select any friends");
+        NSLog(@"ERROR - You didnt select any friends");
 
     }
-    NSLog(@"Friend Table - getYelp - Finished");
+    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"FriendTable - getYelp - Finished");}
+
 }
 
 #pragma mark - Navigation
@@ -547,6 +605,8 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 - (void)prepareForSegue:(UIStoryboardSegue *)segue
                  sender:(id)sender
 {
+    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"FriendTable - prepareForSeque - Start");}
+
     if ([segue.identifier isEqualToString:@"Details"])
     {
         
@@ -555,6 +615,8 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     {
         [MBProgressHUD hideHUDForView:self.view animated:YES];
     }
+    
+    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"FriendTable - prepareForSeque - Finished");}
 }
 
 - (IBAction)unwindToSelfViewController:(UIStoryboardSegue *)unwindSegue
@@ -564,11 +626,14 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 
 - (IBAction)unwind:(id)sender
 {
+    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"FriendTable - unwind - Start");}
+
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.mode = MBProgressHUDModeIndeterminate;
     NSLog(@"Friend Table - unwind - Loading");
     [self collectTokens];
     
+    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"FriendTable - unwind - Finished");}
 }
 
 @end

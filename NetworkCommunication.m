@@ -63,6 +63,8 @@
      whatDictionary:(NSDictionary*)dictionaryID
           withBlock:(void (^)())blockName
 {
+    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"NetworkCommunication - HerokuRequests - Start");}
+
     //param 1 - URL
     _HerokuURL = @"http://young-sierra-7245.herokuapp.com/";
     
@@ -96,7 +98,7 @@
         else
         {
           // error handling
-          NSLog(@"ERROR HEROKU");
+          NSLog(@"ERROR: Heroku");
         }
     }];
 
@@ -118,6 +120,8 @@
     // Data Task Block
     
     [dataTask resume];
+    
+    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"NetworkCommunication - HerokuRequests - Finished");}
 }
 
 /**

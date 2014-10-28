@@ -43,19 +43,27 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    if ([NetworkCommunication sharedManager].boolDebug == true) {
     NSLog(@"GroupTable - ViewDidLoad - Start");
+    }
+    
     [self.tableView addPullToRefreshWithActionHandler:^
     {
         [self getRequests];
     }];
     
-    
+    if ([NetworkCommunication sharedManager].boolDebug == true) {
+    NSLog(@"GroupTable - ViewDidLoad - Finished");
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    NSLog(@"GroupTable - ViewWillAppear - Start");
+    if ([NetworkCommunication sharedManager].boolDebug == true) {
+        NSLog(@"GroupTable - ViewWillAppear - Start");
+    }
     
     self.myGroups = [NSMutableArray array];
     self.numberOfPeople = [NSMutableArray array];
@@ -67,17 +75,27 @@
     [self.navigationController setNavigationBarHidden:YES animated:YES];
     [self getRequests];
     
-    NSLog(@"GroupTable - ViewWillAppear - Finished");
+    if ([NetworkCommunication sharedManager].boolDebug == true) {
+        NSLog(@"GroupTable - ViewWillAppear - Finished");
+    }
+
 
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    NSLog(@"GroupTableDidAppear");
+    if ([NetworkCommunication sharedManager].boolDebug == true) {
+        NSLog(@"GroupTable - ViewDidAppear- Start");
+    }
+    
+    
     [self.tableView reloadData];
     
-
+    
+    if ([NetworkCommunication sharedManager].boolDebug == true) {
+        NSLog(@"GroupTable - ViewDidAppear - Finished");
+    }
 }
 
 #pragma mark - Table view data source
@@ -87,8 +105,11 @@
  * --------------------------------------------------------------------------
  */
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)tableView:(UITableView *)tableView
+didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - didSelectRowAtIndexPath - Start");}
+
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
     hud.mode = MBProgressHUDModeIndeterminate;
@@ -159,24 +180,37 @@
         }
         }]; // Data Task Block
     [dataTask resume];
+
+    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - didSelectRowAtIndexPath - Finished");}
 }
 
 - (NSInteger)tableView:(UITableView *)tableView
  numberOfRowsInSection:(NSInteger)section
 {
-    // Return the number of rows in the section.
+    if ([NetworkCommunication sharedManager].boolDebug == true) {
+        NSLog(@"GroupTable - numberOfRowsInSection - Start");
+        NSLog(@"GroupTable - numberOfRowsInSection - Finished");
+    }
+    if(self.myImages.count==0)
+    {
+        return 0;
+    }
+    else
+    {
     return self.myGroups.count;
+    }
+
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    TDBadgedCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - cellForRowAtIndexPath - Start");}
 
+    TDBadgedCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+    
     //Facebook connection used for profile picture
     cell.imageView.image = self.myImages[indexPath.row];
-    
-    NSLog(@"Cell For Row at Index Path");
     
     //Code to display badge that appears next to the group
     cell.textLabel.text = [NSString stringWithFormat:@"%@'s Group Event",[self.myOwners objectAtIndex:indexPath.row]];
@@ -185,12 +219,16 @@
     cell.badge.radius = 9;
     cell.badge.fontSize = 18;
     
+    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - cellForRowAtIndexPath - Finished");}
     return cell;
 }
 
 
 -(void)downloadImages
 {
+    if ([NetworkCommunication sharedManager].boolDebug == true) {
+        NSLog(@"GroupTable - downloadImages - Start");
+    }
     [[FBRequest requestForMe] startWithCompletionHandler:^(FBRequestConnection *connection,
                                                            NSDictionary<FBGraphUser> *FBuser,
                                                            NSError *error)
@@ -217,6 +255,10 @@
              [MBProgressHUD hideHUDForView:self.view animated:YES];
          }
      }];
+    if ([NetworkCommunication sharedManager].boolDebug == true) {
+        NSLog(@"GroupTable - downloadImages - Finished");
+
+    }
 }
 #pragma mark - Heroku
 /**
@@ -227,6 +269,9 @@
 
 - (void)getRequests
 {
+    if ([NetworkCommunication sharedManager].boolDebug == true) {
+        NSLog(@"GroupTable - getRequests - Start");
+    }
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
     hud.mode = MBProgressHUDModeIndeterminate;
@@ -264,90 +309,108 @@
          }
          [self downloadImages];
      }];
+    if ([NetworkCommunication sharedManager].boolDebug == true) {
+        NSLog(@"GroupTable - getRequests - Finished");
+    }
 }
 
 #pragma message "bad method name because it is very similar to UITableView's reloadData method"
 - (IBAction)reloadData:(id)sender
 {
+    if ([NetworkCommunication sharedManager].boolDebug == true) {
+        NSLog(@"GroupTable - reloadData - Start");
+    }
+    
     //[self getGoogle];
     [self resetEverything];
     //[self yesWith:3 andUrl:@"543482c59b6f750200271e81"];
+    
+    if ([NetworkCommunication sharedManager].boolDebug == true) {
+        NSLog(@"GroupTable - reloadData - Finshed");
+    }
 }
 
 #pragma message "message name does not contain enough information. Pretty sure you are not downloading google ;)"
 - (void)getGoogle
 {
+    if ([NetworkCommunication sharedManager].boolDebug == true) {
+        NSLog(@"GroupTable - getGoogle - Start");
+    }
+    //URL
+    NSString *fixedURL = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/google/food"];
+    NSURL *url = [NSURL URLWithString:fixedURL];
     
-
-        
-        //URL
-        NSString *fixedURL = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/google/food"];
-        NSURL *url = [NSURL URLWithString:fixedURL];
-        
-        //Request
-        NSMutableURLRequest *request =
-        [NSMutableURLRequest requestWithURL:url
-                                cachePolicy:NSURLRequestUseProtocolCachePolicy
-                            timeoutInterval:30.0];
-        [request setHTTPMethod:@"GET"];
-        
-        //Session
-        NSURLSession *urlSession = [NSURLSession sharedSession];
-        
-        //Data Task
-        NSURLSessionDataTask *dataTask =
-        [urlSession dataTaskWithRequest:request
-                      completionHandler:^(NSData *data,
-                                          NSURLResponse *response,
-                                          NSError *error)
+    //Request
+    NSMutableURLRequest *request =
+    [NSMutableURLRequest requestWithURL:url
+                            cachePolicy:NSURLRequestUseProtocolCachePolicy
+                        timeoutInterval:30.0];
+    [request setHTTPMethod:@"GET"];
+    
+    //Session
+    NSURLSession *urlSession = [NSURLSession sharedSession];
+    
+    //Data Task
+    NSURLSessionDataTask *dataTask =
+    [urlSession dataTaskWithRequest:request
+                  completionHandler:^(NSData *data,
+                                      NSURLResponse *response,
+                                      NSError *error)
+     {
+         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+         
+         NSInteger responseStatusCode = [httpResponse statusCode];
+         
+         if (responseStatusCode == 200 && data)
          {
-             NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+             dispatch_async(dispatch_get_main_queue(), ^(void)
+                            {
+                                
+                                // Creates local data for yelp info
+                                NSDictionary *fetchedData = [NSJSONSerialization JSONObjectWithData:data
+                                                                                            options:0
+                                                                                              error:nil];
+                                NSLog(@"%@",fetchedData);
+                                
+                                NSArray *myArray = [NSArray array];
+                                
+                                myArray = fetchedData;
+                                
+                                NSDictionary *place1 = myArray[0];
+                                
+                                NSArray* photos = place1[@"photos"];
+                                NSLog(@"%@",photos);
+                                // Creates array of empty replies
+                                NSLog(@"sup");
+
+                                
+                                //Dictionary Handling
+                                //Device tokens
+
+                            });
              
-             NSInteger responseStatusCode = [httpResponse statusCode];
+             //where to stick dispatch to main queue
              
-             if (responseStatusCode == 200 && data)
-             {
-                 dispatch_async(dispatch_get_main_queue(), ^(void)
-                                {
-                                    
-                                    // Creates local data for yelp info
-                                    NSDictionary *fetchedData = [NSJSONSerialization JSONObjectWithData:data
-                                                                                                options:0
-                                                                                                  error:nil];
-                                    NSLog(@"%@",fetchedData);
-                                    
-                                    NSArray *myArray = [NSArray array];
-                                    
-                                    myArray = fetchedData;
-                                    
-                                    NSDictionary *place1 = myArray[0];
-                                    
-                                    NSArray* photos = place1[@"photos"];
-                                    NSLog(@"%@",photos);
-                                    // Creates array of empty replies
-                                    NSLog(@"sup");
-
-                                    
-                                    //Dictionary Handling
-                                    //Device tokens
-
-                                });
-                 
-                 //where to stick dispatch to main queue
-                 
-             }
-             else
-             {
-                 // error handling
-                 NSLog(@"ERROR GET GOOGLE");
-             }
-         }];//Data Task Block
-        [dataTask resume];
-
+         }
+         else
+         {
+             // error handling
+             NSLog(@"ERROR: GroupTable - getGoogle");
+         }
+     }];//Data Task Block
+    [dataTask resume];
+    
+    if ([NetworkCommunication sharedManager].boolDebug == true) {
+        NSLog(@"GroupTable - getGoogle - Finished");
+    }
 }
 
 - (void)deleteGroup:(NSString *)pplid with:(NSString *)myId
 {
+    if ([NetworkCommunication sharedManager].boolDebug == true) {
+        NSLog(@"GroupTable - deleteGroup - Start");
+    }
+    
     //URL
     #pragma message "Backend Access should be moved into separate class"
     NSString *fixedUrl =
@@ -392,10 +455,18 @@
         }
     }];
     [dataTask resume];
+    
+    if ([NetworkCommunication sharedManager].boolDebug == true) {
+        NSLog(@"GroupTable - deleteGroup - Finished");
+    }
 }
 
 - (void)deleteIndividualGroup:(NSString *)str
 {
+    if ([NetworkCommunication sharedManager].boolDebug == true) {
+        NSLog(@"GroupTable - deleteIndividualGroup - Start");
+    }
+    
     //URL
     #pragma message "Backend Access should be moved into separate class"
     NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/groups/%@", str];
@@ -436,15 +507,23 @@
       }
     }];//Data Task Block
     [dataTask resume];
+    
+    if ([NetworkCommunication sharedManager].boolDebug == true) {
+        NSLog(@"GroupTable - deleteIndividualGroup - Finished");
+    }
 }
 
 - (void)resetGroups
 {
+    if ([NetworkCommunication sharedManager].boolDebug == true) {
+        NSLog(@"GroupTable - resetGroups - Start");
+    }
+
     //URL
     #pragma message "Backend Access should be moved into separate class"
     NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/groups"];
     NSURL *url = [NSURL URLWithString:fixedUrl];
-    
+
     //Request
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
                                                            cachePolicy:NSURLRequestUseProtocolCachePolicy
@@ -490,15 +569,23 @@
       else
       {
           // error handling
-          NSLog(@"ERROR RESET GROUPS");
+          NSLog(@"ERROR: GroupTable - resetGroups");
       }
-  }]; //Data Task Block
-    
+    }]; //Data Task Block
+
     [dataTask resume];
+
+    if ([NetworkCommunication sharedManager].boolDebug == true) {
+        NSLog(@"GroupTable - resetGroups - Finished");
+    }
 }
 
 - (void)resetPeople:(NSString *)pplid
 {
+    if ([NetworkCommunication sharedManager].boolDebug == true) {
+        NSLog(@"GroupTable - resetPeople - Start");
+    }
+    
     //URL
     #pragma message "Backend Access should be moved into separate class"
     NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/ppl/%@groups", pplid];
@@ -550,11 +637,16 @@
       }
     }];
     [dataTask resume];
+    
+    if ([NetworkCommunication sharedManager].boolDebug == true) {
+        NSLog(@"GroupTable - resetPeople - Finished");
+    }
 }
 
 #pragma message "Is this method only used for testing purposes? If so, please add a comment"
 - (void)resetEverything
 {
+    //for debug only
     [self resetGroups];
     [self resetPeople:@"10204805165711346"];
     [self resetPeople:@"10153248739313289"];
@@ -575,6 +667,9 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
+    if ([NetworkCommunication sharedManager].boolDebug == true) {
+        NSLog(@"GroupTable - prepareForSegue - Start");
+    }
     if ([segue.identifier isEqualToString:@"AddGroup"])
     {
         FriendTableViewController *controller = [segue destinationViewController];
@@ -586,6 +681,9 @@
         #pragma message "You should add a comment to explain why you calculate the index like this 'self.myGroups.count-1-myIndex'"
         controller.groupID = [self.myGroups objectAtIndex:myIndex];
 
+    }
+    if ([NetworkCommunication sharedManager].boolDebug == true) {
+        NSLog(@"GroupTable - prepareForSegue - Finished");
     }
 }
 
