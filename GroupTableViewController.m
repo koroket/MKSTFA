@@ -20,6 +20,7 @@
 
 @interface GroupTableViewController ()
 
+<<<<<<< HEAD
 @property (nonatomic,strong) NSMutableArray* myOwners;
 @property (nonatomic,strong) NSMutableArray* myOwnerIds;
 @property (nonatomic,strong) NSMutableArray* myDBIds;
@@ -27,6 +28,11 @@
 @property (nonatomic,strong) NSMutableArray* myImages;
 
 - (IBAction)reloadData:(id)sender;
+=======
+- (IBAction)reloadData:(id)sender;
+- (IBAction)logOutPressed:(id)sender;
+
+>>>>>>> b856ec9785f1f23948af9fb0d4076785dcc5318a
 
 @end
 
@@ -34,6 +40,8 @@
 @implementation GroupTableViewController
 {
     int myIndex;
+    int counter;
+    bool isTableLoading;
 }
 
 #pragma mark - init
@@ -46,19 +54,36 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
+    [NetworkCommunication sharedManager].controllerCurrentGroup = self;
     
+<<<<<<< HEAD
     if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - ViewDidLoad - Start");}
+=======
+    [self.navigationItem setHidesBackButton:YES animated:YES];
+    if ([NetworkCommunication sharedManager].boolDebug == true) {
+    NSLog(@"GroupTable - ViewDidLoad - Start");
+    }
+>>>>>>> b856ec9785f1f23948af9fb0d4076785dcc5318a
     
     [self.tableView addPullToRefreshWithActionHandler:^
     {
-        [self getRequests];
+        [self tableWillReload];
     }];
+<<<<<<< HEAD
     
     if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - ViewDidLoad - Finished");}
+=======
+
+    if ([NetworkCommunication sharedManager].boolDebug == true) {
+    NSLog(@"GroupTable - ViewDidLoad - Finished");
+    }
+>>>>>>> b856ec9785f1f23948af9fb0d4076785dcc5318a
 }
 
-- (void)viewWillAppear:(BOOL)animated
+-(void)tableWillReload
 {
+<<<<<<< HEAD
     [super viewWillAppear:animated];
     if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - ViewWillAppear - Start");}
     
@@ -73,17 +98,37 @@
     [self getRequests];
     
     if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - ViewWillAppear - Finished");}
+=======
+    if(!isTableLoading)
+    {
+        isTableLoading = true;
+        self.view.userInteractionEnabled = false;
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        hud.mode = MBProgressHUDModeIndeterminate;
+        hud.labelText = @"Loading Groups";
+        [[NetworkCommunication sharedManager] getRequests];
+    }
+>>>>>>> b856ec9785f1f23948af9fb0d4076785dcc5318a
 }
-
-- (void)viewDidAppear:(BOOL)animated
+-(void)tableDidReload
 {
+<<<<<<< HEAD
     [super viewDidAppear:animated];
     if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - ViewDidAppear- Start");}
     
     [self.tableView reloadData];
     
     if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - ViewDidAppear - Finished");}
+=======
+    
+    [self.tableView reloadData];
+    self.view.userInteractionEnabled = true;
+    [self.tableView.pullToRefreshView stopAnimating];
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+    isTableLoading = false;
+>>>>>>> b856ec9785f1f23948af9fb0d4076785dcc5318a
 }
+
 
 #pragma mark - Table view data source
 /**
@@ -91,6 +136,10 @@
  * Table View Data Source
  * --------------------------------------------------------------------------
  */
+-(void)dataSuccessfullyReceived
+{
+    [self.tableView reloadData];
+}
 
 - (void)tableView:(UITableView *)tableView
 didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -105,16 +154,16 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     myIndex = indexPath.row;
     
     //Set the singleton string equal to selected group ID
-    [NetworkCommunication sharedManager].stringSelectedGroupID = [self.myGroups objectAtIndex:indexPath.row];
+    [NetworkCommunication sharedManager].stringSelectedGroupID = ((Group*)[NetworkCommunication sharedManager].arrayOfGroups[indexPath.row]).groupID;
     //and the number of users in the selected group
-    [NetworkCommunication sharedManager].intSelectedGroupNumberOfPeople =[(NSNumber*)self.numberOfPeople[indexPath.row] intValue];
-    [NetworkCommunication sharedManager].stringCurrentDB = self.myDBIds[indexPath.row];
-    [NetworkCommunication sharedManager].intSelectedGroupProgressIndex = [(NSNumber*)self.myGroupIndex[indexPath.row] intValue];
+    [NetworkCommunication sharedManager].intSelectedGroupNumberOfPeople =[(NSNumber*)((Group*)[NetworkCommunication sharedManager].arrayOfGroups[indexPath.row]).numberOfPeople intValue];
+    [NetworkCommunication sharedManager].stringCurrentDB = ((Group*)[NetworkCommunication sharedManager].arrayOfGroups[indexPath.row]).dbID;
+    [NetworkCommunication sharedManager].intSelectedGroupProgressIndex = [(NSNumber*)((Group*)[NetworkCommunication sharedManager].arrayOfGroups[indexPath.row]).groupIndex intValue];
     
     // URL
     #pragma message "Backend Access should be moved into separate class"
     NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/groups/%@",
-                                                    [self.myGroups objectAtIndex:indexPath.row]];
+                                                    ((Group*)[NetworkCommunication sharedManager].arrayOfGroups[indexPath.row]).groupID];
     NSURL *url = [NSURL URLWithString:fixedUrl];
     // Request
     NSMutableURLRequest *request =
@@ -174,6 +223,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 - (NSInteger)tableView:(UITableView *)tableView
  numberOfRowsInSection:(NSInteger)section
 {
+<<<<<<< HEAD
     if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - numberOfRowsInSection - Start");}
     
     if(self.myImages.count==0)
@@ -187,6 +237,16 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         return self.myGroups.count;
     }
     
+=======
+    if ([NetworkCommunication sharedManager].boolDebug == true) {
+        NSLog(@"GroupTable - numberOfRowsInSection - Start");
+        NSLog(@"GroupTable - numberOfRowsInSection - Finished");
+    }
+
+    return [NetworkCommunication sharedManager].arrayOfGroups.count;
+    
+
+>>>>>>> b856ec9785f1f23948af9fb0d4076785dcc5318a
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView
@@ -197,11 +257,11 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     TDBadgedCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
     
     //Facebook connection used for profile picture
-    cell.imageView.image = self.myImages[indexPath.row];
+    cell.imageView.image = ((Group*)[NetworkCommunication sharedManager].arrayOfGroups[indexPath.row]).imageID;
     
     //Code to display badge that appears next to the group
-    cell.textLabel.text = [NSString stringWithFormat:@"%@'s Group Event",[self.myOwners objectAtIndex:indexPath.row]];
-    cell.badgeString = [NSString stringWithFormat:@"%@",[self.myGroupIndex objectAtIndex:indexPath.row]];
+    cell.textLabel.text = [NSString stringWithFormat:@"%@'s Group Event",((Group*)[NetworkCommunication sharedManager].arrayOfGroups[indexPath.row]).ownerName];
+    cell.badgeString = [NSString stringWithFormat:@"%@",((Group*)[NetworkCommunication sharedManager].arrayOfGroups[indexPath.row]).groupIndex];
     cell.badgeColor = [UIColor colorWithRed:0.792 green:0.197 blue:0.219 alpha:1.000];
     cell.badge.radius = 9;
     cell.badge.fontSize = 18;
@@ -209,6 +269,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - cellForRowAtIndexPath - Finished");}
     return cell;
 }
+<<<<<<< HEAD
 
 #pragma mark - Heroku
 /**
@@ -262,6 +323,8 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - getRequests - Finished");}
 }
 
+=======
+>>>>>>> b856ec9785f1f23948af9fb0d4076785dcc5318a
 #pragma message "bad method name because it is very similar to UITableView's reloadData method"
 - (IBAction)reloadData:(id)sender
 {
@@ -272,6 +335,16 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     //[self yesWith:3 andUrl:@"543482c59b6f750200271e81"];
     
     if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - reloadData - Finshed");}
+}
+
+- (IBAction)logOutPressed:(id)sender {
+    if (FBSession.activeSession.isOpen)
+    {
+        [FBSession.activeSession closeAndClearTokenInformation];
+        [self performSegueWithIdentifier:@"logout" sender:self];
+        [NetworkCommunication sharedManager].controllerCurrentGroup = nil;
+    }
+    
 }
 
 #pragma message "message name does not contain enough information. Pretty sure you are not downloading google ;)"
@@ -413,8 +486,12 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
                   [NSJSONSerialization JSONObjectWithData:data
                                                   options:0
                                                     error:nil];
+<<<<<<< HEAD
               self.myGroups = [NSMutableArray array];
               
+=======
+              //self.myGroups = [NSMutableArray array];
+>>>>>>> b856ec9785f1f23948af9fb0d4076785dcc5318a
               for (int i = 0; i < fetchedData.count; i++)
               {
                   NSDictionary *data1 = [fetchedData objectAtIndex:i];
@@ -495,7 +572,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - resetPeople - Finished");}
 }
 
-#pragma message "Is this method only used for testing purposes? If so, please add a comment"
+//Only for testing purposes
 - (void)resetEverything
 {
     //for debug only
@@ -616,6 +693,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 - (IBAction)unwindToFriendTableViewController:(UIStoryboardSegue *)unwindSegue
 {
     
+    [self tableWillReload];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -630,8 +708,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     else if ([segue.identifier isEqualToString:@"Swipe"])
     {
         DraggableBackground *controller = [segue destinationViewController];
-        #pragma message "You should add a comment to explain why you calculate the index like this 'self.myGroups.count-1-myIndex'"
-        controller.groupID = [self.myGroups objectAtIndex:myIndex];
+        controller.groupID = ((Group*)[NetworkCommunication sharedManager].arrayOfGroups[myIndex]).groupID;
 
     }
     

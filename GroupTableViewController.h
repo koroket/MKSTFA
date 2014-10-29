@@ -10,7 +10,8 @@
 
 @interface GroupTableViewController : UITableViewController
 
-@property (nonatomic, strong) NSMutableArray *myGroups;
-@property (nonatomic, strong) NSMutableArray *numberOfPeople;
-
+@property (nonatomic,assign) bool didLoadForFirstTime;
+-(void)dataSuccessfullyReceived;
+-(void)tableDidReload;
 @end
+

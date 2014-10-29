@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		6223D78F19F594B5004A2900 /* SwipeCardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6223D78E19F594B5004A2900 /* SwipeCardView.xib */; };
+		624C8FD61A01099C00EA3A4F /* MainHomeControllerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 624C8FD51A01099C00EA3A4F /* MainHomeControllerViewController.m */; };
 		625CD5FC19D9D1C500A5D41E /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 625CD5FB19D9D1C500A5D41E /* FacebookSDK.framework */; };
 		625CD5FF19D9D51400A5D41E /* FriendTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 625CD5FE19D9D51400A5D41E /* FriendTableViewController.m */; };
 		629003F219E0D00D00AD9A0A /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 629003F119E0D00D00AD9A0A /* CoreLocation.framework */; };
@@ -32,7 +33,6 @@
 		D5551DF419DA1ACB0017790D /* Draggable.m in Sources */ = {isa = PBXBuildFile; fileRef = D5551DF319DA1ACB0017790D /* Draggable.m */; };
 		D5551DF719DA1AE10017790D /* DraggableBackground.m in Sources */ = {isa = PBXBuildFile; fileRef = D5551DF619DA1AE10017790D /* DraggableBackground.m */; };
 		D5551DFA19DA1B030017790D /* OverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = D5551DF919DA1B030017790D /* OverlayView.m */; };
-		D5551DFD19DA1D600017790D /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D5551DFB19DA1D600017790D /* ViewController.m */; };
 		D56B38EA19F7230500C4A508 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D56B38E919F7230500C4A508 /* MapKit.framework */; };
 		D5AB927E19D60565001FB2A7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D5AB927D19D60565001FB2A7 /* main.m */; };
 		D5AB928119D60565001FB2A7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D5AB928019D60565001FB2A7 /* AppDelegate.m */; };
@@ -58,6 +58,8 @@
 		21C9859A86047793629D1B7D /* Pods-TFE.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TFE.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TFE/Pods-TFE.debug.xcconfig"; sourceTree = "<group>"; };
 		3397E0B71DC9DA88BBC9F51F /* Pods-TFE.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TFE.release.xcconfig"; path = "Pods/Target Support Files/Pods-TFE/Pods-TFE.release.xcconfig"; sourceTree = "<group>"; };
 		6223D78E19F594B5004A2900 /* SwipeCardView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SwipeCardView.xib; path = ../SwipeCardView.xib; sourceTree = "<group>"; };
+		624C8FD41A01099C00EA3A4F /* MainHomeControllerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainHomeControllerViewController.h; sourceTree = "<group>"; };
+		624C8FD51A01099C00EA3A4F /* MainHomeControllerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainHomeControllerViewController.m; sourceTree = "<group>"; };
 		625CD5FB19D9D1C500A5D41E /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		625CD5FD19D9D51400A5D41E /* FriendTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendTableViewController.h; sourceTree = "<group>"; };
 		625CD5FE19D9D51400A5D41E /* FriendTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendTableViewController.m; sourceTree = "<group>"; };
@@ -90,8 +92,6 @@
 		D5551DF619DA1AE10017790D /* DraggableBackground.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DraggableBackground.m; sourceTree = "<group>"; };
 		D5551DF819DA1B030017790D /* OverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OverlayView.h; sourceTree = "<group>"; };
 		D5551DF919DA1B030017790D /* OverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OverlayView.m; sourceTree = "<group>"; };
-		D5551DFB19DA1D600017790D /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		D5551DFC19DA1D600017790D /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		D56B38E919F7230500C4A508 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		D5AB927819D60565001FB2A7 /* TFE.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TFE.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D5AB927C19D60565001FB2A7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -240,10 +240,10 @@
 			isa = PBXGroup;
 			children = (
 				62BD81CD19E12F3E00813045 /* Main.storyboard */,
+				624C8FD41A01099C00EA3A4F /* MainHomeControllerViewController.h */,
+				624C8FD51A01099C00EA3A4F /* MainHomeControllerViewController.m */,
 				D5AB927F19D60565001FB2A7 /* AppDelegate.h */,
 				D5AB928019D60565001FB2A7 /* AppDelegate.m */,
-				D5551DFC19DA1D600017790D /* ViewController.h */,
-				D5551DFB19DA1D600017790D /* ViewController.m */,
 				D5551DE819D9EA400017790D /* Group.h */,
 				D5551DE919D9EA400017790D /* Group.m */,
 				D518EE3819F5CFB800329A05 /* Search */,
@@ -448,7 +448,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D5551DFD19DA1D600017790D /* ViewController.m in Sources */,
+				624C8FD61A01099C00EA3A4F /* MainHomeControllerViewController.m in Sources */,
 				D5551DF419DA1ACB0017790D /* Draggable.m in Sources */,
 				D5AB928119D60565001FB2A7 /* AppDelegate.m in Sources */,
 				D5AB927E19D60565001FB2A7 /* main.m in Sources */,

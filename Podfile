@@ -8,6 +8,7 @@ pod 'MBProgressHUD', '~> 0.8'
 pod 'SVPullToRefresh', :git => 'https://github.com/samvermette/SVPullToRefresh', :commit => 'a5f9dfee86'
 pod 'AMSmoothAlert', '~> 1.0'
 pod 'TDBadgedCell', '~> 2.5.2.1'
+pod 'MMDrawerController', '~> 0.5.7'
 end
 
 target 'TFETests' do

@@ -8,6 +8,7 @@
 
 #import "NetworkCommunication.h"
 #import "YelpCommunication.h"
+#import "Group.h"
 
 @interface NetworkCommunication ()
 
@@ -18,7 +19,7 @@
 
 @implementation NetworkCommunication
 {
-    
+    int counter;
 }
 
 #pragma mark - init
@@ -101,23 +102,6 @@
           NSLog(@"ERROR: Heroku");
         }
     }];
-
-    //param 3 - Dictionary
-    
-    /*
-    NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:
-                                  code,
-                                  @"groupID",
-                                  nil];
-    */
-    
-    //Error handling
-    // NSError *error = nil;
-    //NSData conversion
-    /*NSData *data = [NSJSONSerialization dataWithJSONObject:dictionaryID
-                                                    options:kNilOptions
-                                                      error:&error];*/
-    // Data Task Block
     
     [dataTask resume];
     
@@ -191,14 +175,139 @@
     [dataTask resume];
 }
 
-- (void) postMethods
+- (void)getRequests
 {
+    if ([NetworkCommunication sharedManager].boolDebug == true) {
+        NSLog(@"GroupTable - getRequests - Start");
+    }
+
     
+    NetworkCommunication *sharedCommunication = [NetworkCommunication alloc];
+    [sharedCommunication serverRequests: [NSString stringWithFormat:@"ppl/%@groups", [NetworkCommunication sharedManager].stringFBUserId]
+                                   type:@"GET"
+                         whatDictionary:nil
+                              withBlock:^(void)
+     {
+
+         self.arrayOfGroups = [NSMutableArray array];
+
+         
+         NSArray *fetchedData = [NSJSONSerialization JSONObjectWithData:sharedCommunication.myData
+                                                                options:0
+                                                                  error:nil];
+         for (int i = 0; i < fetchedData.count; i++)
+         {
+             Group* newGroup = [[Group alloc] init];
+             
+             NSDictionary *data1 = [fetchedData objectAtIndex:i];
+             
+             newGroup.groupID = data1[@"groupID"];
+             newGroup.numberOfPeople = data1[@"number"];
+             newGroup.ownerName = data1[@"owner"];
+             newGroup.ownerID = data1[@"ownerID"];
+             newGroup.dbID = data1[@"_id"];
+             newGroup.groupIndex = data1[@"currentIndex"];
+             [self.arrayOfGroups addObject:newGroup];
+         }
+         [self downloadImages];
+     }];
+    if ([NetworkCommunication sharedManager].boolDebug == true) {
+        NSLog(@"GroupTable - getRequests - Finished");
+    }
+}
+-(void)downloadImages
+{
+    for(int i = 0;i<self.arrayOfGroups.count;i++)
+    {
+        counter = 0;
+        dispatch_async(dispatch_get_global_queue(0, 0), ^
+                       {
+                           NSString *userImageURL = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large",((Group*)self.arrayOfGroups[i]).ownerID];
+                           UIImage *tempImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:userImageURL]]];
+                           ((Group*)self.arrayOfGroups[i]).imageID = tempImage;
+                           counter++;
+                           dispatch_async(dispatch_get_main_queue(), ^
+                                          {
+                                              if(counter==self.arrayOfGroups.count)
+                                              {
+                                                  if([NetworkCommunication sharedManager].controllerCurrentGroup==nil)
+                                                  {
+                                                      [self.controllerCurrentLogin performSegueWithIdentifier:@"loggedin" sender:self.controllerCurrentLogin];
+                                                  }
+                                                  else
+                                                  {
+                                                      [[NetworkCommunication sharedManager].controllerCurrentGroup tableDidReload];
+                                                  }
+                                              }
+                                          });
+                       });
+    }
+    if(self.arrayOfGroups.count==0)
+    {
+        if([NetworkCommunication sharedManager].controllerCurrentGroup==nil)
+        {
+            [self.controllerCurrentLogin performSegueWithIdentifier:@"loggedin" sender:self.controllerCurrentLogin];
+        }
+        else
+        {
+            [[NetworkCommunication sharedManager].controllerCurrentGroup tableDidReload];
+        }
+    }
 }
 
-- (void) deleteMethods
+- (void)linkDeviceToken
 {
-    
+    //URL
+    NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/token/%@token",
+                          [NetworkCommunication sharedManager].stringFBUserId];
+    NSURL *url = [NSURL URLWithString:fixedUrl];
+    //Session
+    NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:config];
+    //Request
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    request.HTTPMethod = @"POST";
+    //Dictionary
+    NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:
+                                [NetworkCommunication sharedManager].stringDeviceToken,
+                                @"token",
+                                nil];
+    //errorHandling
+    NSError *error = nil;
+    NSData *data = [NSJSONSerialization dataWithJSONObject:dictionary
+                                                   options:kNilOptions
+                                                     error:&error];
+    if (!error)
+    {
+        //Upload
+        NSURLSessionUploadTask *uploadTask =
+        [session uploadTaskWithRequest:request
+                              fromData:data
+                     completionHandler:^(NSData *data,
+                                         NSURLResponse *response,
+                                         NSError *error)
+         {
+             NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+             NSInteger responseStatusCode = [httpResponse statusCode];
+             if (responseStatusCode == 200 && data)
+             {
+                 dispatch_async(dispatch_get_main_queue(), ^(void)
+                                {
+                                    NSArray *fetchedData = [NSJSONSerialization JSONObjectWithData:data
+                                                                                           options:0
+                                                                                             error:nil];
+                                    NSDictionary *data1 = [fetchedData objectAtIndex:0];
+                                    
+                                });
+             }
+         }];
+        [uploadTask resume];
+        NSLog(@"Connected to server");
+    }
+    else
+    {
+        NSLog(@"Cannot connect to server");
+    }
 }
-
 @end
