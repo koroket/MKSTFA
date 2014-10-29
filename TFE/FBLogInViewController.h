@@ -6,9 +6,7 @@
 //  Copyright (c) 2014 SoloBando Enterprises. All rights reserved.
 //
 
-#import "ViewController.h"
 #import <FacebookSDK/FacebookSDK.h>
 
-@interface FBLogInViewController : ViewController <FBLoginViewDelegate>
--(void)linkDeviceToken;
+@interface FBLogInViewController : UIViewController <FBLoginViewDelegate>
 @end

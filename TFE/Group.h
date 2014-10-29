@@ -7,11 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import <UIKit/UIKit.h>
 @interface Group : NSObject
 
-@property (nonatomic, strong) NSMutableArray *friendsInGroup;
-#pragma message "use strong instead of retain"
-@property (nonatomic, retain) NSString *name;
+@property NSString *groupID;
+@property NSNumber *numberOfPeople;
+@property NSString *ownerName;
+@property NSString *ownerID;
+@property NSString *dbID;
+@property NSString *groupIndex;
+@property UIImage *imageID;
 
 @end

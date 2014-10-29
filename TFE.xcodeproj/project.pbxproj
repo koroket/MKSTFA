@@ -32,7 +32,6 @@
 		D5551DF419DA1ACB0017790D /* Draggable.m in Sources */ = {isa = PBXBuildFile; fileRef = D5551DF319DA1ACB0017790D /* Draggable.m */; };
 		D5551DF719DA1AE10017790D /* DraggableBackground.m in Sources */ = {isa = PBXBuildFile; fileRef = D5551DF619DA1AE10017790D /* DraggableBackground.m */; };
 		D5551DFA19DA1B030017790D /* OverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = D5551DF919DA1B030017790D /* OverlayView.m */; };
-		D5551DFD19DA1D600017790D /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D5551DFB19DA1D600017790D /* ViewController.m */; };
 		D56B38EA19F7230500C4A508 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D56B38E919F7230500C4A508 /* MapKit.framework */; };
 		D5AB927E19D60565001FB2A7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D5AB927D19D60565001FB2A7 /* main.m */; };
 		D5AB928119D60565001FB2A7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D5AB928019D60565001FB2A7 /* AppDelegate.m */; };
@@ -90,8 +89,6 @@
 		D5551DF619DA1AE10017790D /* DraggableBackground.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DraggableBackground.m; sourceTree = "<group>"; };
 		D5551DF819DA1B030017790D /* OverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OverlayView.h; sourceTree = "<group>"; };
 		D5551DF919DA1B030017790D /* OverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OverlayView.m; sourceTree = "<group>"; };
-		D5551DFB19DA1D600017790D /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		D5551DFC19DA1D600017790D /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		D56B38E919F7230500C4A508 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		D5AB927819D60565001FB2A7 /* TFE.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TFE.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D5AB927C19D60565001FB2A7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -242,8 +239,6 @@
 				62BD81CD19E12F3E00813045 /* Main.storyboard */,
 				D5AB927F19D60565001FB2A7 /* AppDelegate.h */,
 				D5AB928019D60565001FB2A7 /* AppDelegate.m */,
-				D5551DFC19DA1D600017790D /* ViewController.h */,
-				D5551DFB19DA1D600017790D /* ViewController.m */,
 				D5551DE819D9EA400017790D /* Group.h */,
 				D5551DE919D9EA400017790D /* Group.m */,
 				D518EE3819F5CFB800329A05 /* Search */,
@@ -448,7 +443,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D5551DFD19DA1D600017790D /* ViewController.m in Sources */,
 				D5551DF419DA1ACB0017790D /* Draggable.m in Sources */,
 				D5AB928119D60565001FB2A7 /* AppDelegate.m in Sources */,
 				D5AB927E19D60565001FB2A7 /* main.m in Sources */,

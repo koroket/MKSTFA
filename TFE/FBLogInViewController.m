@@ -8,6 +8,7 @@
 
 #import "FBLogInViewController.h"
 #import "NetworkCommunication.h"
+#import "GroupTableViewController.h"
 
 @interface FBLogInViewController ()
 @property(weak, nonatomic) IBOutlet FBLoginView *loginView;
@@ -15,6 +16,7 @@
 @property(weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *profilePictureView;
 @property (weak, nonatomic) IBOutlet UILabel *labelDebug;
+@property (strong, nonatomic) IBOutlet UIImageView *splashScreen;
 
 - (IBAction)buttonDebug:(id)sender;
 
@@ -32,6 +34,8 @@
 - (void)viewDidLoad
 {
   [super viewDidLoad];
+  [self.navigationController setNavigationBarHidden:YES animated:YES];
+  [NetworkCommunication sharedManager].controllerCurrentLogin = self;
   // Do any additional setup after loading the view.
     
     [NetworkCommunication sharedManager].boolDebug = false;
@@ -71,6 +75,7 @@
                     //self.profilePictureView.image =
                 });
             });
+            
 
         }
     }];
@@ -79,32 +84,25 @@
     //call the singleton for string data
     [NetworkCommunication sharedManager].stringFBUserId = user.objectID;
     [NetworkCommunication sharedManager].stringFBUserName = user.name;
+
 }
 
 - (void)loginViewShowingLoggedInUser:(FBLoginView *)loginView
 {
-  /*
-   * NSLog(userid);
-
-   * NSString *storyboardName = @"Main";
-   * UIStoryboard *storyboard = [UIStoryboard storyboardWithName:storyboardName
-   * bundle:nil];
-   
-   * UIViewController *vc = [storyboard
-   * instantiateViewControllerWithIdentifier:@"TableView"];
-   * [[self navigationController] pushViewController:vc animated:YES];
-   * [self presentViewController:vc animated:YES completion:nil];
-   */
-  
+    [[NetworkCommunication sharedManager] getRequests];
+    if([NetworkCommunication sharedManager].stringDeviceToken!=nil)
+    {
+        [[NetworkCommunication sharedManager] linkDeviceToken];
+    }
     self.statusLabel.text = @"You're logged in as";
 
 }
 
 - (void)loginViewShowingLoggedOutUser:(FBLoginView *)loginView
 {
-  // self.profilePictureView.profileID = nil;
   self.nameLabel.text = @"";
   self.statusLabel.text = @"You're not logged in!";
+  [self.splashScreen removeFromSuperview];
 }
 
 /**
@@ -171,63 +169,6 @@
                       otherButtonTitles:nil] show];
   }
 }
-
-- (void)linkDeviceToken
-{
-    //URL
-    NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/token/%@token",
-                          [NetworkCommunication sharedManager].stringFBUserId];
-    NSURL *url = [NSURL URLWithString:fixedUrl];
-    //Session
-    NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
-    NSURLSession *session = [NSURLSession sessionWithConfiguration:config];
-    //Request
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    request.HTTPMethod = @"POST";
-    //Dictionary
-    NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:
-                                [NetworkCommunication sharedManager].stringDeviceToken,
-                                @"token",
-                                nil];
-    //errorHandling
-    NSError *error = nil;
-    NSData *data = [NSJSONSerialization dataWithJSONObject:dictionary
-                                                   options:kNilOptions
-                                                     error:&error];
-    if (!error)
-    {
-        //Upload
-        NSURLSessionUploadTask *uploadTask =
-        [session uploadTaskWithRequest:request
-                              fromData:data
-                     completionHandler:^(NSData *data,
-                                         NSURLResponse *response,
-                                         NSError *error)
-        {
-             NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-             NSInteger responseStatusCode = [httpResponse statusCode];
-             if (responseStatusCode == 200 && data)
-             {
-                 dispatch_async(dispatch_get_main_queue(), ^(void)
-                {
-                    NSArray *fetchedData = [NSJSONSerialization JSONObjectWithData:data
-                                                                           options:0
-                                                                             error:nil];
-                    NSDictionary *data1 = [fetchedData objectAtIndex:0];
-                    [self performSegueWithIdentifier:@"LoggedIn" sender:self];
-                });
-             }
-         }];
-        [uploadTask resume];
-        NSLog(@"Connected to server");
-    }
-    else
-    {
-        NSLog(@"Cannot connect to server");
-    }
-}
-
 #pragma mark - Navigation
 /**
  * --------------------------------------------------------------------------
@@ -259,6 +200,8 @@
 //    }
     
 }
-
-
+- (IBAction)unwindSegueUserLoggedOut:(UIStoryboardSegue *)unwindSegue
+{
+    
+}
 @end

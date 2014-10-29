@@ -7,7 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "FBLogInViewController.h"
+#import "GroupTableViewController.h"
 @interface NetworkCommunication : NSObject
 
 @property NSString *HerokuURL;
@@ -19,6 +20,8 @@
                   type:(NSString *)requestID
         whatDictionary:(NSDictionary*)dictionaryID
              withBlock:(void (^)())blockName;
+-(void)getRequests;
+-(void)linkDeviceToken;
 
 //Strings
 @property NSString *stringFBUserId;
@@ -40,8 +43,14 @@
 //Arrays
 @property NSMutableArray *arraySelectedGroupCardData;
 @property NSMutableArray *arraySelectedGroupDeviceTokens;
+//Arrays-group
+@property (nonatomic,strong) NSMutableArray* arrayOfGroups;
 
+//Controllers
+@property FBLogInViewController *controllerCurrentLogin;
+@property GroupTableViewController *controllerCurrentGroup;
 //Booleans
 @property BOOL boolDebug;
+@property BOOL initialLoading;
 
 @end

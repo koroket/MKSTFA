@@ -72,11 +72,12 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
     
     //call to singleton for fixed string
     [NetworkCommunication sharedManager].stringDeviceToken = fixedString;
-#pragma message "Accessing a view controller over its index within a tab bar controller is not nice and should be avoided, you should consider movin the 'linkDeviceToken' method to a different class"
-    UINavigationController *navigationController = (UINavigationController*)_window.rootViewController;
-    FBLogInViewController *chatViewController =
-    (FBLogInViewController*)[navigationController.viewControllers  objectAtIndex:0];
-    [chatViewController linkDeviceToken];
+    if([NetworkCommunication sharedManager].stringFBUserId!=nil)
+    {
+        [[NetworkCommunication sharedManager] linkDeviceToken];
+    }
+    
+
 }
 
 - (void)application:(UIApplication*)application
