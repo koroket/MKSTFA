@@ -532,7 +532,7 @@
         <!--Group Table-->
         <scene sceneID="46v-Xq-Kwb">
             <objects>
-                <tableViewController storyboardIdentifier="TableView" id="wuR-fK-ud5" userLabel="Group Table" customClass="GroupTableViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="GroupTable" id="wuR-fK-ud5" userLabel="Group Table" customClass="GroupTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="126" sectionHeaderHeight="1" sectionFooterHeight="1" id="k9n-Z6-nbA">
                         <rect key="frame" x="0.0" y="64" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -586,6 +586,24 @@
                 <exit id="Q7W-WH-sTe" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1538" y="-561"/>
+        </scene>
+        <!--Main Home Controller View Controller-->
+        <scene sceneID="lDm-QB-hz0">
+            <objects>
+                <viewController id="yVD-vu-szs" customClass="MainHomeControllerViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="mIu-Fd-oSk"/>
+                        <viewControllerLayoutGuide type="bottom" id="enm-gN-a5I"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="r0y-rn-SeY">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="T9g-ki-GBR" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-109" y="-281"/>
         </scene>
         <!--Logout-->
         <scene sceneID="kPM-ko-Gm8">
@@ -656,8 +674,8 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="BeetTorrent" translatesAutoresizingMaskIntoConstraints="NO" id="kBO-v2-7hC">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" image="BeetTorrent" translatesAutoresizingMaskIntoConstraints="NO" id="kBO-v2-7hC">
+                                <rect key="frame" x="0.0" y="511" width="600" height="600"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -731,11 +749,12 @@
                         <outlet property="profilePictureView" destination="XgZ-pg-eYC" id="jL4-3N-3WP"/>
                         <outlet property="splashScreen" destination="kBO-v2-7hC" id="Hbz-9e-8Tt"/>
                         <outlet property="statusLabel" destination="xql-tF-3ih" id="g9f-5p-HHw"/>
+                        <segue destination="yVD-vu-szs" kind="show" identifier="loggedin2" id="3ZL-IS-8fk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1Nq-Aa-cP5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="833" y="-561"/>
+            <point key="canvasLocation" x="863" y="-577"/>
         </scene>
         <!--Splash Screen View Controller-->
         <scene sceneID="080-QB-QtM">
@@ -803,7 +822,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="B9u-YU-mFQ"/>
-        <segue reference="YEJ-1Z-xhK"/>
+        <segue reference="O87-Du-E9u"/>
         <segue reference="3Wg-Dg-pEm"/>
     </inferredMetricsTieBreakers>
 </document>

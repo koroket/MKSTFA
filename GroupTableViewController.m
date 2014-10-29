@@ -19,18 +19,18 @@
 #import <FacebookSDK/FacebookSDK.h>
 
 @interface GroupTableViewController ()
-#pragma message "Properties should be declared before methods"
+
 - (IBAction)reloadData:(id)sender;
 - (IBAction)logOutPressed:(id)sender;
 
 
-//@property (nonatomic,strong) NSMutableArray* arrayOfGroups;
 @end
 
 @implementation GroupTableViewController
 {
     int myIndex;
     int counter;
+    bool isTableLoading;
 }
 
 #pragma mark - init
@@ -55,45 +55,34 @@
     {
         [self tableWillReload];
     }];
-    
+
     if ([NetworkCommunication sharedManager].boolDebug == true) {
     NSLog(@"GroupTable - ViewDidLoad - Finished");
     }
 }
+
 -(void)tableWillReload
 {
-    self.view.userInteractionEnabled = false;
-    [self.navigationController setNavigationBarHidden:YES animated:YES];
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    hud.mode = MBProgressHUDModeIndeterminate;
-    hud.labelText = @"Loading Friends";
-    [[NetworkCommunication sharedManager] getRequests];
+    if(!isTableLoading)
+    {
+        isTableLoading = true;
+        self.view.userInteractionEnabled = false;
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        hud.mode = MBProgressHUDModeIndeterminate;
+        hud.labelText = @"Loading Groups";
+        [[NetworkCommunication sharedManager] getRequests];
+    }
 }
 -(void)tableDidReload
 {
     
     [self.tableView reloadData];
-    [self.tableView.pullToRefreshView stopAnimating];
     self.view.userInteractionEnabled = true;
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
+    [self.tableView.pullToRefreshView stopAnimating];
     [MBProgressHUD hideHUDForView:self.view animated:YES];
+    isTableLoading = false;
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    if ([NetworkCommunication sharedManager].boolDebug == true) {
-        NSLog(@"GroupTable - ViewDidAppear- Start");
-    }
-    
-    
-   // [self.tableView reloadData];
-    
-    
-    if ([NetworkCommunication sharedManager].boolDebug == true) {
-        NSLog(@"GroupTable - ViewDidAppear - Finished");
-    }
-}
 
 #pragma mark - Table view data source
 /**
@@ -104,13 +93,8 @@
 -(void)dataSuccessfullyReceived
 {
     [self.tableView reloadData];
-
-
-//    self.view.userInteractionEnabled = true;
-//    [self.navigationController setNavigationBarHidden:NO animated:YES];
-//    [self.tableView.pullToRefreshView stopAnimating];
-//    [MBProgressHUD hideHUDForView:self.view animated:YES];
 }
+
 - (void)tableView:(UITableView *)tableView
 didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -223,87 +207,6 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - cellForRowAtIndexPath - Finished");}
     return cell;
 }
-//
-//
-//-(void)downloadImages
-//{
-//             for(int i = 0;i<self.arrayOfGroups.count;i++)
-//             {
-//                 counter = 0;
-//                 dispatch_async(dispatch_get_global_queue(0, 0), ^
-//                                {
-//                                        NSString *userImageURL = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large",((Group*)self.arrayOfGroups[i]).ownerID];
-//                                        UIImage *tempImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:userImageURL]]];
-//                                        ((Group*)self.arrayOfGroups[i]).imageID = tempImage;
-//                                        counter++;
-//                                    dispatch_async(dispatch_get_main_queue(), ^
-//                                    {
-//                                        if(counter==self.arrayOfGroups.count)
-//                                        {
-//                                            [self.tableView reloadData];
-//                                            [self.tableView.pullToRefreshView stopAnimating];
-//                                            self.view.userInteractionEnabled = true;
-//                                            [self.navigationController setNavigationBarHidden:NO animated:YES];
-//                                            [MBProgressHUD hideHUDForView:self.view animated:YES];
-//                                        }
-//                                    });
-//                                });
-//             }
-//}
-#pragma mark - Heroku
-/**
- * --------------------------------------------------------------------------
- * Heroku
- * --------------------------------------------------------------------------
- */
-//
-//- (void)getRequests
-//{
-//    if ([NetworkCommunication sharedManager].boolDebug == true) {
-//        NSLog(@"GroupTable - getRequests - Start");
-//    }
-//    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-//    
-//    hud.mode = MBProgressHUDModeIndeterminate;
-//    hud.labelText = @"Loading";
-//    
-//    NetworkCommunication *sharedCommunication = [NetworkCommunication alloc];
-//    [sharedCommunication serverRequests: [NSString stringWithFormat:@"ppl/%@groups", [NetworkCommunication sharedManager].stringFBUserId]
-//                                   type:@"GET"
-//                         whatDictionary:nil
-//                              withBlock:^(void)
-//     {
-//
-//         self.arrayOfGroups = [NSMutableArray array];
-//         
-//         NSArray *fetchedData = [NSJSONSerialization JSONObjectWithData:sharedCommunication.myData
-//                                                                options:0
-//                                                                  error:nil];
-//
-//         
-//         for (int i = 0; i < fetchedData.count; i++)
-//         {
-//             Group* newGroup = [[Group alloc] init];
-//             
-//             NSDictionary *data1 = [fetchedData objectAtIndex:i];
-//             
-//             newGroup.groupID = data1[@"groupID"];
-//             newGroup.numberOfPeople = data1[@"number"];
-//             newGroup.ownerName = data1[@"owner"];
-//             newGroup.ownerID = data1[@"ownerID"];
-//             newGroup.dbID = data1[@"_id"];
-//             newGroup.groupIndex = data1[@"currentIndex"];
-//             [self.arrayOfGroups addObject:newGroup];
-//             
-//
-//         }
-//         [self downloadImages];
-//     }];
-//    if ([NetworkCommunication sharedManager].boolDebug == true) {
-//        NSLog(@"GroupTable - getRequests - Finished");
-//    }
-//}
-
 #pragma message "bad method name because it is very similar to UITableView's reloadData method"
 - (IBAction)reloadData:(id)sender
 {
@@ -643,7 +546,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     }
 }
 
-#pragma message "Is this method only used for testing purposes? If so, please add a comment"
+//Only for testing purposes
 - (void)resetEverything
 {
     //for debug only
@@ -663,6 +566,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 - (IBAction)unwindToFriendTableViewController:(UIStoryboardSegue *)unwindSegue
 {
     
+    [self tableWillReload];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -678,7 +582,6 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     else if ([segue.identifier isEqualToString:@"Swipe"])
     {
         DraggableBackground *controller = [segue destinationViewController];
-        #pragma message "You should add a comment to explain why you calculate the index like this 'self.myGroups.count-1-myIndex'"
         controller.groupID = ((Group*)[NetworkCommunication sharedManager].arrayOfGroups[myIndex]).groupID;
 
     }

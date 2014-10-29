@@ -242,6 +242,17 @@
                                           });
                        });
     }
+    if(self.arrayOfGroups.count==0)
+    {
+        if([NetworkCommunication sharedManager].controllerCurrentGroup==nil)
+        {
+            [self.controllerCurrentLogin performSegueWithIdentifier:@"loggedin" sender:self.controllerCurrentLogin];
+        }
+        else
+        {
+            [[NetworkCommunication sharedManager].controllerCurrentGroup tableDidReload];
+        }
+    }
 }
 
 - (void)linkDeviceToken

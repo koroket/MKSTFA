@@ -14,3 +14,4 @@
 -(void)dataSuccessfullyReceived;
 -(void)tableDidReload;
 @end
+

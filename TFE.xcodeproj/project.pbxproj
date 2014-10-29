@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		6223D78F19F594B5004A2900 /* SwipeCardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6223D78E19F594B5004A2900 /* SwipeCardView.xib */; };
+		624C8FD61A01099C00EA3A4F /* MainHomeControllerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 624C8FD51A01099C00EA3A4F /* MainHomeControllerViewController.m */; };
 		625CD5FC19D9D1C500A5D41E /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 625CD5FB19D9D1C500A5D41E /* FacebookSDK.framework */; };
 		625CD5FF19D9D51400A5D41E /* FriendTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 625CD5FE19D9D51400A5D41E /* FriendTableViewController.m */; };
 		629003F219E0D00D00AD9A0A /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 629003F119E0D00D00AD9A0A /* CoreLocation.framework */; };
@@ -57,6 +58,8 @@
 		21C9859A86047793629D1B7D /* Pods-TFE.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TFE.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TFE/Pods-TFE.debug.xcconfig"; sourceTree = "<group>"; };
 		3397E0B71DC9DA88BBC9F51F /* Pods-TFE.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TFE.release.xcconfig"; path = "Pods/Target Support Files/Pods-TFE/Pods-TFE.release.xcconfig"; sourceTree = "<group>"; };
 		6223D78E19F594B5004A2900 /* SwipeCardView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SwipeCardView.xib; path = ../SwipeCardView.xib; sourceTree = "<group>"; };
+		624C8FD41A01099C00EA3A4F /* MainHomeControllerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainHomeControllerViewController.h; sourceTree = "<group>"; };
+		624C8FD51A01099C00EA3A4F /* MainHomeControllerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainHomeControllerViewController.m; sourceTree = "<group>"; };
 		625CD5FB19D9D1C500A5D41E /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		625CD5FD19D9D51400A5D41E /* FriendTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendTableViewController.h; sourceTree = "<group>"; };
 		625CD5FE19D9D51400A5D41E /* FriendTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendTableViewController.m; sourceTree = "<group>"; };
@@ -237,6 +240,8 @@
 			isa = PBXGroup;
 			children = (
 				62BD81CD19E12F3E00813045 /* Main.storyboard */,
+				624C8FD41A01099C00EA3A4F /* MainHomeControllerViewController.h */,
+				624C8FD51A01099C00EA3A4F /* MainHomeControllerViewController.m */,
 				D5AB927F19D60565001FB2A7 /* AppDelegate.h */,
 				D5AB928019D60565001FB2A7 /* AppDelegate.m */,
 				D5551DE819D9EA400017790D /* Group.h */,
@@ -443,6 +448,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				624C8FD61A01099C00EA3A4F /* MainHomeControllerViewController.m in Sources */,
 				D5551DF419DA1ACB0017790D /* Draggable.m in Sources */,
 				D5AB928119D60565001FB2A7 /* AppDelegate.m in Sources */,
 				D5AB927E19D60565001FB2A7 /* main.m in Sources */,
