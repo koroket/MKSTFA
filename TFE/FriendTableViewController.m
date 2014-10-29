@@ -14,17 +14,17 @@
 
 #import <FacebookSDK/FacebookSDK.h>
 
-@interface FriendTableViewController ()
 
+@interface FriendTableViewController ()
 @property(nonatomic, strong) NSMutableArray *myFriends;
 @property(nonatomic, strong) NSMutableArray *friendIds;
+@property(nonatomic, strong) NSMutableArray *myTokens;
 @property(nonatomic, strong) NSMutableArray *selectedFriends;
 @property(nonatomic, strong) NSMutableDictionary *dictionary;
-@property(nonatomic,strong) NSMutableArray *myTokens;
 
 - (IBAction)unwind:(id)sender;
-
 @end
+
 
 @implementation FriendTableViewController
 {
@@ -218,7 +218,6 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
                         [self getYelp];
                     }
                 });
-             
              // do something with this data
              // if you want to update UI, do it on main queue
          }
@@ -252,13 +251,15 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/token/push/%@/%@",
                           tempToken,
                           [self stringfix:[NetworkCommunication sharedManager].stringFBUserName]];
-    
+
     NSURL *url = [NSURL URLWithString:fixedUrl];
-    
+
+    //Request
     NSMutableURLRequest *request =
     [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
     [request setHTTPMethod:@"GET"];
-    
+
+    //Session
     NSURLSession *urlSession = [NSURLSession sharedSession];
     NSURLSessionDataTask *dataTask =
     [urlSession dataTaskWithRequest:request
@@ -276,7 +277,6 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
                 {
                     
                 });
-             
              // do something with this data
              // if you want to update UI, do it on main queue
          }
@@ -291,7 +291,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
             });
      }];
     [dataTask resume];
-    
+
     if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"FriendTable - sendNotification - Finished");}
 }
 
@@ -343,20 +343,18 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
              [self.friendIds addObject:[dic objectForKey:@"id"]];
              
              
-         }//for
+         }
          
          dispatch_async(dispatch_get_main_queue(), ^(void)
             {
                 [self.tableView reloadData];
                 [MBProgressHUD hideHUDForView:self.view animated:YES];
-                
             }); //main queue dispatch
-         
      }];//FBrequest block
     
     if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"FriendTable - loadFromFacebook - Finished");}
 
-}//load
+}
 
 /**
  *  After a group is created, send push notifications to other members of group
@@ -425,7 +423,6 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
             NSLog(@"Cannot connect to server");
         }
     }
-    
     if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"FriendTable - sendNewGroupsWithGroupCode - Finished");}
 }
 
@@ -592,7 +589,6 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 
     }
     if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"FriendTable - getYelp - Finished");}
-
 }
 
 #pragma mark - Navigation

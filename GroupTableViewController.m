@@ -19,14 +19,17 @@
 #import <FacebookSDK/FacebookSDK.h>
 
 @interface GroupTableViewController ()
-#pragma message "Properties should be declared before methods"
-- (IBAction)reloadData:(id)sender;
+
 @property (nonatomic,strong) NSMutableArray* myOwners;
 @property (nonatomic,strong) NSMutableArray* myOwnerIds;
 @property (nonatomic,strong) NSMutableArray* myDBIds;
 @property (nonatomic,strong) NSMutableArray* myGroupIndex;
 @property (nonatomic,strong) NSMutableArray* myImages;
+
+- (IBAction)reloadData:(id)sender;
+
 @end
+
 
 @implementation GroupTableViewController
 {
@@ -44,26 +47,20 @@
 {
     [super viewDidLoad];
     
-    if ([NetworkCommunication sharedManager].boolDebug == true) {
-    NSLog(@"GroupTable - ViewDidLoad - Start");
-    }
+    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - ViewDidLoad - Start");}
     
     [self.tableView addPullToRefreshWithActionHandler:^
     {
         [self getRequests];
     }];
     
-    if ([NetworkCommunication sharedManager].boolDebug == true) {
-    NSLog(@"GroupTable - ViewDidLoad - Finished");
-    }
+    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - ViewDidLoad - Finished");}
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    if ([NetworkCommunication sharedManager].boolDebug == true) {
-        NSLog(@"GroupTable - ViewWillAppear - Start");
-    }
+    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - ViewWillAppear - Start");}
     
     self.myGroups = [NSMutableArray array];
     self.numberOfPeople = [NSMutableArray array];
@@ -75,27 +72,17 @@
     [self.navigationController setNavigationBarHidden:YES animated:YES];
     [self getRequests];
     
-    if ([NetworkCommunication sharedManager].boolDebug == true) {
-        NSLog(@"GroupTable - ViewWillAppear - Finished");
-    }
-
-
+    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - ViewWillAppear - Finished");}
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    if ([NetworkCommunication sharedManager].boolDebug == true) {
-        NSLog(@"GroupTable - ViewDidAppear- Start");
-    }
-    
+    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - ViewDidAppear- Start");}
     
     [self.tableView reloadData];
     
-    
-    if ([NetworkCommunication sharedManager].boolDebug == true) {
-        NSLog(@"GroupTable - ViewDidAppear - Finished");
-    }
+    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - ViewDidAppear - Finished");}
 }
 
 #pragma mark - Table view data source
@@ -187,19 +174,19 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 - (NSInteger)tableView:(UITableView *)tableView
  numberOfRowsInSection:(NSInteger)section
 {
-    if ([NetworkCommunication sharedManager].boolDebug == true) {
-        NSLog(@"GroupTable - numberOfRowsInSection - Start");
-        NSLog(@"GroupTable - numberOfRowsInSection - Finished");
-    }
+    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - numberOfRowsInSection - Start");}
+    
     if(self.myImages.count==0)
     {
+        if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - numberOfRowsInSection - Finished");}
         return 0;
     }
     else
     {
-    return self.myGroups.count;
+        if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - numberOfRowsInSection - Finished");}
+        return self.myGroups.count;
     }
-
+    
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView
@@ -223,43 +210,6 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     return cell;
 }
 
-
--(void)downloadImages
-{
-    if ([NetworkCommunication sharedManager].boolDebug == true) {
-        NSLog(@"GroupTable - downloadImages - Start");
-    }
-    [[FBRequest requestForMe] startWithCompletionHandler:^(FBRequestConnection *connection,
-                                                           NSDictionary<FBGraphUser> *FBuser,
-                                                           NSError *error)
-     {
-         if (error)
-         {
-             // Handle error
-             NSLog(@"Error: download Images");
-         }
-         else
-         {
-             //NSString *userName = [FBuser name];
-             //NSString *userImageURL = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large", [FBuser objectID]];
-             for(int i = 0;i<self.myOwnerIds.count;i++)
-             {
-                 NSString *userImageURL = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large", [self.myOwnerIds objectAtIndex:i]];
-                 UIImage *tempImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:userImageURL]]];
-                 [self.myImages addObject:tempImage];
-             }
-             [self.tableView reloadData];
-             [self.tableView.pullToRefreshView stopAnimating];
-             self.view.userInteractionEnabled = true;
-             [self.navigationController setNavigationBarHidden:NO animated:YES];
-             [MBProgressHUD hideHUDForView:self.view animated:YES];
-         }
-     }];
-    if ([NetworkCommunication sharedManager].boolDebug == true) {
-        NSLog(@"GroupTable - downloadImages - Finished");
-
-    }
-}
 #pragma mark - Heroku
 /**
  * --------------------------------------------------------------------------
@@ -269,9 +219,8 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 
 - (void)getRequests
 {
-    if ([NetworkCommunication sharedManager].boolDebug == true) {
-        NSLog(@"GroupTable - getRequests - Start");
-    }
+    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - getRequests - Start");}
+    
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     
     hud.mode = MBProgressHUDModeIndeterminate;
@@ -309,107 +258,28 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
          }
          [self downloadImages];
      }];
-    if ([NetworkCommunication sharedManager].boolDebug == true) {
-        NSLog(@"GroupTable - getRequests - Finished");
-    }
+    
+    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - getRequests - Finished");}
 }
 
 #pragma message "bad method name because it is very similar to UITableView's reloadData method"
 - (IBAction)reloadData:(id)sender
 {
-    if ([NetworkCommunication sharedManager].boolDebug == true) {
-        NSLog(@"GroupTable - reloadData - Start");
-    }
+    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - reloadData - Start");}
     
     //[self getGoogle];
     [self resetEverything];
     //[self yesWith:3 andUrl:@"543482c59b6f750200271e81"];
     
-    if ([NetworkCommunication sharedManager].boolDebug == true) {
-        NSLog(@"GroupTable - reloadData - Finshed");
-    }
+    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - reloadData - Finshed");}
 }
 
 #pragma message "message name does not contain enough information. Pretty sure you are not downloading google ;)"
-- (void)getGoogle
+
+- (void)deleteGroup:(NSString *)pplid
+               with:(NSString *)myId
 {
-    if ([NetworkCommunication sharedManager].boolDebug == true) {
-        NSLog(@"GroupTable - getGoogle - Start");
-    }
-    //URL
-    NSString *fixedURL = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/google/food"];
-    NSURL *url = [NSURL URLWithString:fixedURL];
-    
-    //Request
-    NSMutableURLRequest *request =
-    [NSMutableURLRequest requestWithURL:url
-                            cachePolicy:NSURLRequestUseProtocolCachePolicy
-                        timeoutInterval:30.0];
-    [request setHTTPMethod:@"GET"];
-    
-    //Session
-    NSURLSession *urlSession = [NSURLSession sharedSession];
-    
-    //Data Task
-    NSURLSessionDataTask *dataTask =
-    [urlSession dataTaskWithRequest:request
-                  completionHandler:^(NSData *data,
-                                      NSURLResponse *response,
-                                      NSError *error)
-     {
-         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-         
-         NSInteger responseStatusCode = [httpResponse statusCode];
-         
-         if (responseStatusCode == 200 && data)
-         {
-             dispatch_async(dispatch_get_main_queue(), ^(void)
-                            {
-                                
-                                // Creates local data for yelp info
-                                NSDictionary *fetchedData = [NSJSONSerialization JSONObjectWithData:data
-                                                                                            options:0
-                                                                                              error:nil];
-                                NSLog(@"%@",fetchedData);
-                                
-                                NSArray *myArray = [NSArray array];
-                                
-                                myArray = fetchedData;
-                                
-                                NSDictionary *place1 = myArray[0];
-                                
-                                NSArray* photos = place1[@"photos"];
-                                NSLog(@"%@",photos);
-                                // Creates array of empty replies
-                                NSLog(@"sup");
-
-                                
-                                //Dictionary Handling
-                                //Device tokens
-
-                            });
-             
-             //where to stick dispatch to main queue
-             
-         }
-         else
-         {
-             // error handling
-             NSLog(@"ERROR: GroupTable - getGoogle");
-         }
-     }];//Data Task Block
-    [dataTask resume];
-    
-    if ([NetworkCommunication sharedManager].boolDebug == true) {
-        NSLog(@"GroupTable - getGoogle - Finished");
-    }
-}
-
-- (void)deleteGroup:(NSString *)pplid with:(NSString *)myId
-{
-    if ([NetworkCommunication sharedManager].boolDebug == true) {
-        NSLog(@"GroupTable - deleteGroup - Start");
-    }
+    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - deleteGroup - Start");}
     
     //URL
     #pragma message "Backend Access should be moved into separate class"
@@ -456,16 +326,12 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     }];
     [dataTask resume];
     
-    if ([NetworkCommunication sharedManager].boolDebug == true) {
-        NSLog(@"GroupTable - deleteGroup - Finished");
-    }
+    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - deleteGroup - Finished");}
 }
 
 - (void)deleteIndividualGroup:(NSString *)str
 {
-    if ([NetworkCommunication sharedManager].boolDebug == true) {
-        NSLog(@"GroupTable - deleteIndividualGroup - Start");
-    }
+    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - deleteIndividualGroup - Start");}
     
     //URL
     #pragma message "Backend Access should be moved into separate class"
@@ -508,16 +374,12 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     }];//Data Task Block
     [dataTask resume];
     
-    if ([NetworkCommunication sharedManager].boolDebug == true) {
-        NSLog(@"GroupTable - deleteIndividualGroup - Finished");
-    }
+    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - deleteIndividualGroup - Finished");}
 }
 
 - (void)resetGroups
 {
-    if ([NetworkCommunication sharedManager].boolDebug == true) {
-        NSLog(@"GroupTable - resetGroups - Start");
-    }
+    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - resetGroups - Start");}
 
     //URL
     #pragma message "Backend Access should be moved into separate class"
@@ -540,7 +402,6 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
                                           NSURLResponse *response,
                                           NSError *error)
     {
-
       NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
       NSInteger responseStatusCode = [httpResponse statusCode];
 
@@ -553,16 +414,14 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
                                                   options:0
                                                     error:nil];
               self.myGroups = [NSMutableArray array];
+              
               for (int i = 0; i < fetchedData.count; i++)
               {
                   NSDictionary *data1 = [fetchedData objectAtIndex:i];
-
                   [self deleteIndividualGroup:data1[@"_id"]];
               }
-
               [self.tableView reloadData];
           });
-
           // do something with this data
           // if you want to update UI, do it on main queue
       }
@@ -572,19 +431,14 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
           NSLog(@"ERROR: GroupTable - resetGroups");
       }
     }]; //Data Task Block
-
     [dataTask resume];
-
-    if ([NetworkCommunication sharedManager].boolDebug == true) {
-        NSLog(@"GroupTable - resetGroups - Finished");
-    }
+    
+    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - resetGroups - Finished");}
 }
 
 - (void)resetPeople:(NSString *)pplid
 {
-    if ([NetworkCommunication sharedManager].boolDebug == true) {
-        NSLog(@"GroupTable - resetPeople - Start");
-    }
+    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - resetPeople - Start");}
     
     //URL
     #pragma message "Backend Access should be moved into separate class"
@@ -638,9 +492,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     }];
     [dataTask resume];
     
-    if ([NetworkCommunication sharedManager].boolDebug == true) {
-        NSLog(@"GroupTable - resetPeople - Finished");
-    }
+    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - resetPeople - Finished");}
 }
 
 #pragma message "Is this method only used for testing purposes? If so, please add a comment"
@@ -651,6 +503,107 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     [self resetPeople:@"10204805165711346"];
     [self resetPeople:@"10153248739313289"];
     [self resetPeople:@"10202657658737811"];
+}
+
+#pragma mark - Google
+/**
+ * --------------------------------------------------------------------------
+ * Google
+ * --------------------------------------------------------------------------
+ */
+
+- (void)getGoogle
+{
+    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - getGoogle - Start");}
+    
+    //URL
+    NSString *fixedURL = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/google/food"];
+    NSURL *url = [NSURL URLWithString:fixedURL];
+    
+    //Request
+    NSMutableURLRequest *request =
+    [NSMutableURLRequest requestWithURL:url
+                            cachePolicy:NSURLRequestUseProtocolCachePolicy
+                        timeoutInterval:30.0];
+    [request setHTTPMethod:@"GET"];
+    
+    //Session
+    NSURLSession *urlSession = [NSURLSession sharedSession];
+    
+    //Data Task
+    NSURLSessionDataTask *dataTask =
+    [urlSession dataTaskWithRequest:request
+                  completionHandler:^(NSData *data,
+                                      NSURLResponse *response,
+                                      NSError *error)
+     {
+         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+         NSInteger responseStatusCode = [httpResponse statusCode];
+         if (responseStatusCode == 200 && data)
+         {
+             dispatch_async(dispatch_get_main_queue(), ^(void)
+                {
+                    // Creates local data for yelp info
+                    NSDictionary *fetchedData = [NSJSONSerialization JSONObjectWithData:data
+                                                                                options:0
+                                                                                  error:nil];
+                    NSLog(@"%@",fetchedData);
+                    NSArray *myArray = [NSArray array];
+                    myArray = fetchedData;
+                    NSDictionary *place1 = myArray[0];
+                    NSArray* photos = place1[@"photos"];
+                    NSLog(@"%@",photos);
+                });
+             //where to stick dispatch to main queue
+         }
+         else
+         {
+             // error handling
+             NSLog(@"ERROR: GroupTable - getGoogle");
+         }
+     }];//Data Task Block
+    [dataTask resume];
+    
+    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - getGoogle - Finished");}
+}
+
+#pragma mark - Facebook
+/**
+ * --------------------------------------------------------------------------
+ * Facebook
+ * --------------------------------------------------------------------------
+ */
+
+-(void)downloadImages
+{
+    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - downloadImages - Start");}
+    [[FBRequest requestForMe] startWithCompletionHandler:^(FBRequestConnection *connection,
+                                                           NSDictionary<FBGraphUser> *FBuser,
+                                                           NSError *error)
+     {
+         if (error)
+         {
+             // Handle error
+             NSLog(@"Error: download Images");
+         }
+         else
+         {
+             //NSString *userName = [FBuser name];
+             //NSString *userImageURL = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large", [FBuser objectID]];
+             for(int i = 0;i<self.myOwnerIds.count;i++)
+             {
+                 NSString *userImageURL = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large", [self.myOwnerIds objectAtIndex:i]];
+                 UIImage *tempImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:userImageURL]]];
+                 [self.myImages addObject:tempImage];
+             }
+             [self.tableView reloadData];
+             [self.tableView.pullToRefreshView stopAnimating];
+             self.view.userInteractionEnabled = true;
+             [self.navigationController setNavigationBarHidden:NO animated:YES];
+             [MBProgressHUD hideHUDForView:self.view animated:YES];
+         }
+     }];
+    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - downloadImages - Finished");}
 }
 
 #pragma mark - Navigation
@@ -667,9 +620,8 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([NetworkCommunication sharedManager].boolDebug == true) {
-        NSLog(@"GroupTable - prepareForSegue - Start");
-    }
+    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - prepareForSegue - Start");}
+    
     if ([segue.identifier isEqualToString:@"AddGroup"])
     {
         FriendTableViewController *controller = [segue destinationViewController];
@@ -682,9 +634,8 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         controller.groupID = [self.myGroups objectAtIndex:myIndex];
 
     }
-    if ([NetworkCommunication sharedManager].boolDebug == true) {
-        NSLog(@"GroupTable - prepareForSegue - Finished");
-    }
+    
+    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - prepareForSegue - Finished");}
 }
 
 @end
