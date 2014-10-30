@@ -47,7 +47,7 @@
 @property (nonatomic,strong) NSMutableArray* arrayOfGroups;
 
 //Controllers
-@property FBLogInViewController *controllerCurrentLogin;
+@property FBLogInViewController  *controllerCurrentLogin;
 @property GroupTableViewController *controllerCurrentGroup;
 //Booleans
 @property BOOL boolDebug;

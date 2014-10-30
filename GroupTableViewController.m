@@ -216,6 +216,9 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 
     TDBadgedCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
     
+    
+    cell.backgroundView = [[UIImageView alloc] initWithImage:[ ((Group*)[NetworkCommunication sharedManager].arrayOfGroups[indexPath.row]).imageID stretchableImageWithLeftCapWidth:0.0 topCapHeight:5.0] ];
+    cell.backgroundView.alpha = .2;
     //Facebook connection used for profile picture
     cell.imageView.image = ((Group*)[NetworkCommunication sharedManager].arrayOfGroups[indexPath.row]).imageID;
     

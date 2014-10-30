@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		6223D78F19F594B5004A2900 /* SwipeCardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6223D78E19F594B5004A2900 /* SwipeCardView.xib */; };
 		624C8FD61A01099C00EA3A4F /* MainHomeControllerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 624C8FD51A01099C00EA3A4F /* MainHomeControllerViewController.m */; };
+		624C8FD81A022E6F00EA3A4F /* TableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 624C8FD71A022E6F00EA3A4F /* TableViewCell.xib */; };
 		625CD5FC19D9D1C500A5D41E /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 625CD5FB19D9D1C500A5D41E /* FacebookSDK.framework */; };
 		625CD5FF19D9D51400A5D41E /* FriendTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 625CD5FE19D9D51400A5D41E /* FriendTableViewController.m */; };
 		629003F219E0D00D00AD9A0A /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 629003F119E0D00D00AD9A0A /* CoreLocation.framework */; };
@@ -60,6 +61,7 @@
 		6223D78E19F594B5004A2900 /* SwipeCardView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SwipeCardView.xib; path = ../SwipeCardView.xib; sourceTree = "<group>"; };
 		624C8FD41A01099C00EA3A4F /* MainHomeControllerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainHomeControllerViewController.h; sourceTree = "<group>"; };
 		624C8FD51A01099C00EA3A4F /* MainHomeControllerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainHomeControllerViewController.m; sourceTree = "<group>"; };
+		624C8FD71A022E6F00EA3A4F /* TableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TableViewCell.xib; sourceTree = "<group>"; };
 		625CD5FB19D9D1C500A5D41E /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		625CD5FD19D9D51400A5D41E /* FriendTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendTableViewController.h; sourceTree = "<group>"; };
 		625CD5FE19D9D51400A5D41E /* FriendTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendTableViewController.m; sourceTree = "<group>"; };
@@ -196,6 +198,7 @@
 			isa = PBXGroup;
 			children = (
 				6223D78E19F594B5004A2900 /* SwipeCardView.xib */,
+				624C8FD71A022E6F00EA3A4F /* TableViewCell.xib */,
 				D5551DF219DA1ACB0017790D /* Draggable.h */,
 				D5551DF319DA1ACB0017790D /* Draggable.m */,
 				D5551DF519DA1AE10017790D /* DraggableBackground.h */,
@@ -395,6 +398,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D5AB928C19D60565001FB2A7 /* Images.xcassets in Resources */,
+				624C8FD81A022E6F00EA3A4F /* TableViewCell.xib in Resources */,
 				62BD81CF19E12F3E00813045 /* Main.storyboard in Resources */,
 				62B2177219EBC2EB00834EBA /* Pushbots.plist in Resources */,
 				6223D78F19F594B5004A2900 /* SwipeCardView.xib in Resources */,
