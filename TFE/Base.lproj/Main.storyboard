@@ -512,7 +512,13 @@
                             <outlet property="delegate" destination="OjU-NI-juH" id="1zH-Gd-d18"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Invite Friends" id="bOV-nE-Cl0"/>
+                    <navigationItem key="navigationItem" title="Invite Friends" id="bOV-nE-Cl0">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="zy1-8g-a6d">
+                            <connections>
+                                <action selector="unwind:" destination="OjU-NI-juH" id="AWc-Z7-ctv"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <segue destination="CAL-bQ-3tP" kind="unwind" identifier="Unwind" unwindAction="unwindToFriendTableViewController:" id="W7W-mX-PzW"/>
