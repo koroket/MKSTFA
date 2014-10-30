@@ -20,7 +20,6 @@
 
 @interface GroupTableViewController ()
 
-<<<<<<< HEAD
 @property (nonatomic,strong) NSMutableArray* myOwners;
 @property (nonatomic,strong) NSMutableArray* myOwnerIds;
 @property (nonatomic,strong) NSMutableArray* myDBIds;
@@ -28,11 +27,8 @@
 @property (nonatomic,strong) NSMutableArray* myImages;
 
 - (IBAction)reloadData:(id)sender;
-=======
 - (IBAction)reloadData:(id)sender;
 - (IBAction)logOutPressed:(id)sender;
-
->>>>>>> b856ec9785f1f23948af9fb0d4076785dcc5318a
 
 @end
 
@@ -57,48 +53,34 @@
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     [NetworkCommunication sharedManager].controllerCurrentGroup = self;
     
-<<<<<<< HEAD
     if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - ViewDidLoad - Start");}
-=======
+
     [self.navigationItem setHidesBackButton:YES animated:YES];
-    if ([NetworkCommunication sharedManager].boolDebug == true) {
-    NSLog(@"GroupTable - ViewDidLoad - Start");
-    }
->>>>>>> b856ec9785f1f23948af9fb0d4076785dcc5318a
+
     
     [self.tableView addPullToRefreshWithActionHandler:^
     {
         [self tableWillReload];
     }];
-<<<<<<< HEAD
     
     if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - ViewDidLoad - Finished");}
-=======
-
-    if ([NetworkCommunication sharedManager].boolDebug == true) {
-    NSLog(@"GroupTable - ViewDidLoad - Finished");
-    }
->>>>>>> b856ec9785f1f23948af9fb0d4076785dcc5318a
 }
 
 -(void)tableWillReload
 {
-<<<<<<< HEAD
-    [super viewWillAppear:animated];
+    //[super viewWillAppear:animated];
     if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - ViewWillAppear - Start");}
     
-    self.myGroups = [NSMutableArray array];
-    self.numberOfPeople = [NSMutableArray array];
     self.myOwners = [NSMutableArray array];
     self.myOwnerIds = [NSMutableArray array];
     self.myDBIds = [NSMutableArray array];
     self.myGroupIndex = [NSMutableArray array];
     self.view.userInteractionEnabled = false;
     [self.navigationController setNavigationBarHidden:YES animated:YES];
-    [self getRequests];
+    //[self getRequests];
     
     if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - ViewWillAppear - Finished");}
-=======
+
     if(!isTableLoading)
     {
         isTableLoading = true;
@@ -108,25 +90,22 @@
         hud.labelText = @"Loading Groups";
         [[NetworkCommunication sharedManager] getRequests];
     }
->>>>>>> b856ec9785f1f23948af9fb0d4076785dcc5318a
 }
+
 -(void)tableDidReload
 {
-<<<<<<< HEAD
-    [super viewDidAppear:animated];
+    //[super viewDidAppear:animated];
     if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - ViewDidAppear- Start");}
     
     [self.tableView reloadData];
-    
-    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - ViewDidAppear - Finished");}
-=======
     
     [self.tableView reloadData];
     self.view.userInteractionEnabled = true;
     [self.tableView.pullToRefreshView stopAnimating];
     [MBProgressHUD hideHUDForView:self.view animated:YES];
     isTableLoading = false;
->>>>>>> b856ec9785f1f23948af9fb0d4076785dcc5318a
+    
+    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - ViewDidAppear - Finished");}
 }
 
 
@@ -216,37 +195,18 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         }
         }]; // Data Task Block
     [dataTask resume];
-
     if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - didSelectRowAtIndexPath - Finished");}
 }
 
 - (NSInteger)tableView:(UITableView *)tableView
  numberOfRowsInSection:(NSInteger)section
 {
-<<<<<<< HEAD
-    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - numberOfRowsInSection - Start");}
-    
-    if(self.myImages.count==0)
-    {
-        if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - numberOfRowsInSection - Finished");}
-        return 0;
-    }
-    else
-    {
-        if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - numberOfRowsInSection - Finished");}
-        return self.myGroups.count;
-    }
-    
-=======
     if ([NetworkCommunication sharedManager].boolDebug == true) {
         NSLog(@"GroupTable - numberOfRowsInSection - Start");
         NSLog(@"GroupTable - numberOfRowsInSection - Finished");
     }
 
     return [NetworkCommunication sharedManager].arrayOfGroups.count;
-    
-
->>>>>>> b856ec9785f1f23948af9fb0d4076785dcc5318a
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView
@@ -269,62 +229,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - cellForRowAtIndexPath - Finished");}
     return cell;
 }
-<<<<<<< HEAD
 
-#pragma mark - Heroku
-/**
- * --------------------------------------------------------------------------
- * Heroku
- * --------------------------------------------------------------------------
- */
-
-- (void)getRequests
-{
-    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - getRequests - Start");}
-    
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    
-    hud.mode = MBProgressHUDModeIndeterminate;
-    hud.labelText = @"Loading";
-    
-    NetworkCommunication *sharedCommunication = [NetworkCommunication alloc];
-    [sharedCommunication serverRequests: [NSString stringWithFormat:@"ppl/%@groups", [NetworkCommunication sharedManager].stringFBUserId]
-                                   type:@"GET"
-                         whatDictionary:nil
-                              withBlock:^(void)
-     {
-         self.myGroups = [NSMutableArray array];
-         self.numberOfPeople = [NSMutableArray array];
-         self.myOwners = [NSMutableArray array];
-         self.myOwnerIds = [NSMutableArray array];
-         self.myDBIds = [NSMutableArray array];
-         self.myGroupIndex = [NSMutableArray array];
-         self.myImages = [NSMutableArray array];
-         
-         NSArray *fetchedData = [NSJSONSerialization JSONObjectWithData:sharedCommunication.myData
-                                                                options:0
-                                                                  error:nil];
-         self.myGroups = [NSMutableArray array];
-         
-         for (int i = 0; i < fetchedData.count; i++)
-         {
-             NSDictionary *data1 = [fetchedData objectAtIndex:i];
-             [self.myGroups addObject:data1[@"groupID"]];
-             
-             [self.numberOfPeople addObject:data1[@"number"]];
-             [self.myOwners addObject:data1[@"owner"]];
-             [self.myOwnerIds addObject:data1[@"ownerID"]];
-             [self.myDBIds addObject:data1[@"_id"]];
-             [self.myGroupIndex addObject:data1[@"currentIndex"]];
-         }
-         [self downloadImages];
-     }];
-    
-    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - getRequests - Finished");}
-}
-
-=======
->>>>>>> b856ec9785f1f23948af9fb0d4076785dcc5318a
 #pragma message "bad method name because it is very similar to UITableView's reloadData method"
 - (IBAction)reloadData:(id)sender
 {
@@ -348,7 +253,6 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 }
 
 #pragma message "message name does not contain enough information. Pretty sure you are not downloading google ;)"
-
 - (void)deleteGroup:(NSString *)pplid
                with:(NSString *)myId
 {
@@ -486,12 +390,8 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
                   [NSJSONSerialization JSONObjectWithData:data
                                                   options:0
                                                     error:nil];
-<<<<<<< HEAD
-              self.myGroups = [NSMutableArray array];
-              
-=======
+
               //self.myGroups = [NSMutableArray array];
->>>>>>> b856ec9785f1f23948af9fb0d4076785dcc5318a
               for (int i = 0; i < fetchedData.count; i++)
               {
                   NSDictionary *data1 = [fetchedData objectAtIndex:i];
