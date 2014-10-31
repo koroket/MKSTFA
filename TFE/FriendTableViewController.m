@@ -76,7 +76,6 @@
 
 }
 
-
 #pragma mark - Table view data source
 /**
  * --------------------------------------------------------------------------
@@ -133,8 +132,6 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     }
 }
 
-
-
 #pragma mark - FaceBook Server Communication
 /**
  * --------------------------------------------------------------------------
@@ -187,77 +184,75 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 
 }
 
-#pragma mark - FaceBook Server Communication
+#pragma mark - Heroku Server Communication
 /**
  * --------------------------------------------------------------------------
  * Heroku
  * --------------------------------------------------------------------------
  */
+
 - (void)createGroup
 {
+    //URL
+    NSString *fixedURL = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/yelp/%@/%@/%@/%d/%@",
+                          [NetworkCommunication sharedManager].stringCurrentLatitude,
+                          [NetworkCommunication sharedManager].stringCurrentLongitude,
+                          [NetworkCommunication sharedManager].stringYelpSearchTerm,
+                          [NetworkCommunication sharedManager].intYelpNumberOfLocations,
+                          [NetworkCommunication sharedManager].stringFBUserId
+                          ];
+    NSURL *url = [NSURL URLWithString:fixedURL];
 
-
-
-
-        //URL
-        NSString *fixedURL = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/yelp/%@/%@/%@/%d/%@",
-                              [NetworkCommunication sharedManager].stringCurrentLatitude,
-                              [NetworkCommunication sharedManager].stringCurrentLongitude,
-                              [NetworkCommunication sharedManager].stringYelpSearchTerm,
-                              [NetworkCommunication sharedManager].intYelpNumberOfLocations,
-                              [NetworkCommunication sharedManager].stringFBUserId
-                              ];
-        NSURL *url = [NSURL URLWithString:fixedURL];
-
-        //Session
-        NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
-        NSURLSession *session = [NSURLSession sessionWithConfiguration:config];
-        //Request
-        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
-        [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-        request.HTTPMethod = @"POST";
-        //Dictionary
+    //Session
+    NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:config];
+    
+    //Request
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    request.HTTPMethod = @"POST";
+    
+    //Dictionary
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
     [dictionary setValue:self.selectedFriends forKey:@"friends"];
     [dictionary setValue:[NetworkCommunication sharedManager].stringFBUserName forKey:@"myName"];
-    //errorHandlign
-        NSError *error = nil;
-        NSData *data = [NSJSONSerialization dataWithJSONObject:dictionary
-                                                       options:kNilOptions
-                                                         error:&error];
-        if (!error)
-        {
-            //Upload
-            NSURLSessionUploadTask *uploadTask =
-            [session uploadTaskWithRequest:request
-                                  fromData:data
-                         completionHandler:^(NSData *data,
-                                             NSURLResponse *response,
-                                             NSError *error)
-             {
-                 NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-                 NSInteger responseStatusCode = [httpResponse statusCode];
-                 if (responseStatusCode == 200 && data)
-                 {
-                     dispatch_async(dispatch_get_main_queue(), ^(void)
-                                    {
-                                        [self performSegueWithIdentifier:@"Unwind" sender:self];
-                                    });//Dispatch main queue block
-                 }//if
-                 else
-                 {
-                     NSLog(@"Sending to individuals failed");
-                 }
-             }];//upload task Block
-            [uploadTask resume];
-            NSLog(@"Connected to server");
-        }
-        else
-        {
-            NSLog(@"Cannot connect to server");
-        }
     
-
+    //Error Handling
+    NSError *error = nil;
+    NSData *data = [NSJSONSerialization dataWithJSONObject:dictionary
+                                                   options:kNilOptions
+                                                     error:&error];
+    if (!error)
+    {
+        //Upload
+        NSURLSessionUploadTask *uploadTask =
+        [session uploadTaskWithRequest:request
+                              fromData:data
+                     completionHandler:^(NSData *data,
+                                         NSURLResponse *response,
+                                         NSError *error)
+         {
+             NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+             NSInteger responseStatusCode = [httpResponse statusCode];
+             if (responseStatusCode == 200 && data)
+             {
+                 dispatch_async(dispatch_get_main_queue(), ^(void)
+                    {
+                        [self performSegueWithIdentifier:@"Unwind" sender:self];
+                    });//Dispatch main queue block
+             }//if
+             else
+             {
+                 NSLog(@"Sending to individuals failed");
+             }
+         }];//upload task Block
+        [uploadTask resume];
+        NSLog(@"Connected to server");
+    }
+    else
+    {
+        NSLog(@"Cannot connect to server");
+    }
 }
 
 
@@ -284,6 +279,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     
     if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"FriendTable - prepareForSeque - Finished");}
 }
+
 - (IBAction)unwind:(id)sender
 {
     if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"FriendTable - unwind - Start");}

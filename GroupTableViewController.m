@@ -50,10 +50,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - ViewDidLoad - Start");}
+
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     [NetworkCommunication sharedManager].controllerCurrentGroup = self;
     
-    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - ViewDidLoad - Start");}
 
     [self.navigationItem setHidesBackButton:YES animated:YES];
 
@@ -76,7 +77,7 @@
     self.myDBIds = [NSMutableArray array];
     self.myGroupIndex = [NSMutableArray array];
     self.view.userInteractionEnabled = false;
-    [self.navigationController setNavigationBarHidden:YES animated:YES];
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
     //[self getRequests];
     
     if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - ViewWillAppear - Finished");}

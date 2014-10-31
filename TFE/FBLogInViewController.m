@@ -65,7 +65,6 @@
         else {
             //Fetch the profile picture from facebook
             NSString *userImageURL = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large", [FBUser objectID]];
-            
             dispatch_async(dispatch_get_global_queue(0, 0), ^
             {
                 UIImage *tempImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:userImageURL]]];
@@ -75,8 +74,6 @@
                     //self.profilePictureView.image =
                 });
             });
-            
-
         }
     }];
     self.nameLabel.text = user.name;
@@ -94,14 +91,14 @@
     {
         [[NetworkCommunication sharedManager] linkDeviceToken];
     }
-    self.statusLabel.text = @"You're logged in as";
+    self.statusLabel.text = @"You are logged in as";
 
 }
 
 - (void)loginViewShowingLoggedOutUser:(FBLoginView *)loginView
 {
   self.nameLabel.text = @"";
-  self.statusLabel.text = @"You're not logged in!";
+  self.statusLabel.text = @"You are not logged in!";
   [self.splashScreen removeFromSuperview];
 }
 

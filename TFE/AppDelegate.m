@@ -20,23 +20,24 @@
 
 @implementation AppDelegate
 
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
     [FBLoginView class];
     [Pushbots getInstance];
     NSDictionary * userInfo = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+    
     if(userInfo)
     {
         // Notification Message
         NSString* notificationMsg = [userInfo valueForKey:@"message"];
         // Custom Field
         NSString* title = [userInfo valueForKey:@"title"];
-        NSLog(@"Notification Msg is %@ and Custom field title = %@", notificationMsg , title);
+        NSLog(@"Notification Msg is %@ and Custom field title = %@", notificationMsg, title);
     }
     return YES;
 }
+
 -(void)application:(UIApplication *)application
 didReceiveRemoteNotification:(NSDictionary *)userInfo
 fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
@@ -50,16 +51,13 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
     {
         [self addMessageFromRemoteNotification:userInfo updateUI:YES];
     }
-    
 }
 
 - (void)addMessageFromRemoteNotification:(NSDictionary*)userInfo
                                 updateUI:(BOOL)updateUI
 {
     UINavigationController *navigationController = (UINavigationController*)_window.rootViewController;
-    DraggableBackground *chatViewController =
-    (DraggableBackground*)[navigationController.viewControllers  objectAtIndex:2];
-    
+    DraggableBackground *chatViewController = (DraggableBackground*)[navigationController.viewControllers objectAtIndex:2];
     [chatViewController showCompletion: userInfo];
 }
 
@@ -67,7 +65,6 @@ fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
 {
     NSString* mytoken = [NSString stringWithFormat:@"%@",deviceToken];
-    
     NSString* fixedString = [[[mytoken stringByReplacingOccurrencesOfString:@"<" withString:@""] stringByReplacingOccurrencesOfString:@">" withString:@""] stringByReplacingOccurrencesOfString:@" " withString:@""];
     
     //call to singleton for fixed string
@@ -76,8 +73,6 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
     {
         [[NetworkCommunication sharedManager] linkDeviceToken];
     }
-    
-
 }
 
 - (void)application:(UIApplication*)application
@@ -131,6 +126,9 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    
+    // Logs 'install' and 'app activate' App Events.
+    [FBAppEvents activateApp];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -140,7 +138,28 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
     [self saveContext];
 }
 
+#pragma mark - Facebook Server Communication
+/**
+ * --------------------------------------------------------------------------
+ * Facebook
+ * --------------------------------------------------------------------------
+ */
+
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication
+         annotation:(id)annotation
+{
+    // attempt to extract a token from the url
+    return [FBAppCall handleOpenURL:url sourceApplication:sourceApplication];
+}
+
 #pragma mark - Core Data stack
+/**
+ * --------------------------------------------------------------------------
+ * Core Data Stack
+ * --------------------------------------------------------------------------
+ */
 
 @synthesize managedObjectContext = _managedObjectContext;
 @synthesize managedObjectModel = _managedObjectModel;
@@ -173,7 +192,6 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
     }
     
     // Create the coordinator and store
-    
     _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
     NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"TFE.sqlite"];
     NSError *error = nil;
@@ -191,7 +209,6 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
         abort();
     }
-    
     return _persistentStoreCoordinator;
 }
 
@@ -214,6 +231,11 @@ clickedButtonAtIndex:(NSInteger)buttonIndex
 }
 
 #pragma mark - Core Data Saving support
+/**
+ * --------------------------------------------------------------------------
+ * Core Data
+ * --------------------------------------------------------------------------
+ */
 
 - (void)saveContext
 {

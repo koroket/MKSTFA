@@ -117,7 +117,7 @@
             </objects>
             <point key="canvasLocation" x="1538" y="154"/>
         </scene>
-        <!--Set Search Location-->
+        <!--Find Stuff Near...-->
         <scene sceneID="SqU-W1-ejf">
             <objects>
                 <viewController id="nt7-VA-Qwm" customClass="LocationFinderViewController" sceneMemberID="viewController">
@@ -289,7 +289,7 @@
                         </variation>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="Set Search Location" id="RXS-3v-RDr">
+                    <navigationItem key="navigationItem" title="Find Stuff Near..." id="RXS-3v-RDr">
                         <barButtonItem key="rightBarButtonItem" image="checkMark.png" id="WVb-ka-zMa">
                             <connections>
                                 <segue destination="OjU-NI-juH" kind="show" identifier="Save" id="Bw4-Hh-bGp"/>
@@ -306,7 +306,7 @@
             </objects>
             <point key="canvasLocation" x="2887" y="-561"/>
         </scene>
-        <!--Search-->
+        <!--Search For...-->
         <scene sceneID="Igj-w5-6JS">
             <objects>
                 <viewController id="Zpp-af-TU2" customClass="SearchSettingViewController" sceneMemberID="viewController">
@@ -583,7 +583,7 @@
                         </variation>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="Search" id="Umg-ls-L5n"/>
+                    <navigationItem key="navigationItem" title="Search For..." id="Umg-ls-L5n"/>
                     <connections>
                         <outlet property="buttonCoffeeTea" destination="xwr-H9-KCI" id="LYG-RI-JXr"/>
                         <outlet property="buttonDrinks" destination="Zfk-MT-vuZ" id="efw-Dy-RNd"/>
@@ -658,9 +658,10 @@
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="hAa-lB-cQY">
                         <nil key="title"/>
-                        <barButtonItem key="leftBarButtonItem" title="Logout" id="Gcm-ma-Cd2">
+                        <barButtonItem key="leftBarButtonItem" title="Logout" id="LTO-Fy-2eC">
                             <connections>
-                                <action selector="logOutPressed:" destination="wuR-fK-ud5" id="07U-bu-1fc"/>
+                                <action selector="logOutPressed:" destination="wuR-fK-ud5" id="2eD-kW-emM"/>
+                                <segue destination="2yF-yU-JQ1" kind="show" id="FPS-PO-fEZ"/>
                             </connections>
                         </barButtonItem>
                         <button key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="4hG-6U-naT">
@@ -674,7 +675,7 @@
                             </connections>
                         </button>
                         <barButtonItem key="rightBarButtonItem" image="AddNewGroupIcon" id="PIn-0a-pKT">
-                            <inset key="imageInsets" minX="78" minY="37" maxX="0.0" maxY="37"/>
+                            <inset key="imageInsets" minX="65" minY="30" maxX="0.0" maxY="30"/>
                             <connections>
                                 <segue destination="Zpp-af-TU2" kind="show" id="25Q-cW-lWE"/>
                             </connections>
@@ -710,7 +711,7 @@
             </objects>
             <point key="canvasLocation" x="863" y="154"/>
         </scene>
-        <!--Logout-->
+        <!--Facebook-->
         <scene sceneID="kPM-ko-Gm8">
             <objects>
                 <viewController id="2yF-yU-JQ1" customClass="FBLogInViewController" sceneMemberID="viewController">
@@ -802,12 +803,13 @@
                             <constraint firstItem="cLY-L0-A9W" firstAttribute="top" secondItem="dhz-Sa-67K" secondAttribute="bottom" constant="136" id="c4V-DG-SfN"/>
                             <constraint firstItem="hK5-85-KNQ" firstAttribute="top" secondItem="kBO-v2-7hC" secondAttribute="bottom" id="drz-TE-rqA"/>
                             <constraint firstItem="XgZ-pg-eYC" firstAttribute="top" secondItem="xql-tF-3ih" secondAttribute="bottom" constant="8" id="dwd-1O-wLm"/>
+                            <constraint firstItem="3XB-Dy-76P" firstAttribute="top" secondItem="cLY-L0-A9W" secondAttribute="bottom" constant="32" id="ejS-6R-1Y7"/>
                             <constraint firstAttribute="centerY" secondItem="kBO-v2-7hC" secondAttribute="centerY" id="gev-po-mg4"/>
                             <constraint firstItem="krc-Z5-6G4" firstAttribute="top" secondItem="3XB-Dy-76P" secondAttribute="bottom" constant="3" id="jt5-sC-UXw"/>
                             <constraint firstAttribute="centerX" secondItem="3XB-Dy-76P" secondAttribute="centerX" id="nTf-bF-5fn"/>
                             <constraint firstAttribute="trailingMargin" secondItem="xql-tF-3ih" secondAttribute="trailing" constant="246" id="o30-nQ-BPR"/>
                             <constraint firstAttribute="centerY" secondItem="3XB-Dy-76P" secondAttribute="centerY" constant="-109" id="pIY-dx-TFd"/>
-                            <constraint firstItem="xql-tF-3ih" firstAttribute="top" secondItem="BH9-wa-wZr" secondAttribute="bottom" constant="83" id="q3H-Ru-rsW"/>
+                            <constraint firstItem="xql-tF-3ih" firstAttribute="top" secondItem="BH9-wa-wZr" secondAttribute="bottom" constant="127" id="q3H-Ru-rsW"/>
                             <constraint firstItem="krc-Z5-6G4" firstAttribute="centerX" secondItem="3XB-Dy-76P" secondAttribute="centerX" id="qs3-7i-dyw"/>
                             <constraint firstItem="xql-tF-3ih" firstAttribute="leading" secondItem="SrJ-Xe-7jZ" secondAttribute="leadingMargin" constant="184" id="rg2-u9-87N"/>
                             <constraint firstAttribute="centerX" secondItem="XgZ-pg-eYC" secondAttribute="centerX" constant="45" id="smB-ol-M6h"/>
@@ -839,7 +841,7 @@
                             </mask>
                         </variation>
                     </view>
-                    <navigationItem key="navigationItem" title="Logout" id="6b2-DR-fde">
+                    <navigationItem key="navigationItem" title="Facebook" id="6b2-DR-fde">
                         <barButtonItem key="rightBarButtonItem" image="User-Group-128" id="v8r-V7-ptg">
                             <inset key="imageInsets" minX="90" minY="45" maxX="0.0" maxY="45"/>
                             <connections>
@@ -927,7 +929,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="B9u-YU-mFQ"/>
-        <segue reference="YEJ-1Z-xhK"/>
+        <segue reference="FPS-PO-fEZ"/>
         <segue reference="3Wg-Dg-pEm"/>
     </inferredMetricsTieBreakers>
 </document>
