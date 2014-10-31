@@ -52,6 +52,7 @@
     [super viewDidLoad];
     if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - ViewDidLoad - Start");}
 
+#pragma message "Why does NetworkCommunication need to know about this class?"
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     [NetworkCommunication sharedManager].controllerCurrentGroup = self;
     
@@ -84,6 +85,7 @@
 
     if(!isTableLoading)
     {
+#pragma message "use YES/NO instead ot true/false"
         isTableLoading = true;
         self.view.userInteractionEnabled = false;
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -99,7 +101,7 @@
     if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - ViewDidAppear- Start");}
     
     [self.tableView reloadData];
-    
+#pragma message "duplicate reloadData call?"
     [self.tableView reloadData];
     self.view.userInteractionEnabled = true;
     [self.tableView.pullToRefreshView stopAnimating];
@@ -136,6 +138,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     //Set the singleton string equal to selected group ID
     [NetworkCommunication sharedManager].stringSelectedGroupID = ((Group*)[NetworkCommunication sharedManager].arrayOfGroups[indexPath.row]).groupID;
     //and the number of users in the selected group
+#pragma message "how about a convenience function on the NetworkCommunication class that does this line for you?"
     [NetworkCommunication sharedManager].intSelectedGroupNumberOfPeople =[(NSNumber*)((Group*)[NetworkCommunication sharedManager].arrayOfGroups[indexPath.row]).numberOfPeople intValue];
     [NetworkCommunication sharedManager].stringCurrentDB = ((Group*)[NetworkCommunication sharedManager].arrayOfGroups[indexPath.row]).dbID;
     [NetworkCommunication sharedManager].intSelectedGroupProgressIndex = [(NSNumber*)((Group*)[NetworkCommunication sharedManager].arrayOfGroups[indexPath.row]).groupIndex intValue];

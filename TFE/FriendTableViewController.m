@@ -103,6 +103,7 @@
     cell.textLabel.text = self.myFriends[indexPath.row];
     return cell;
     
+#pragma message "Why so many debug messages?; Why does the NetworkCommunication determine if debug messages should be displayed or not?" 
     if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"FriendTable - cellForRowAtIndexPath - Finished");}
 }
 
