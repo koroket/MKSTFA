@@ -16,6 +16,7 @@
 @property(weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *profilePictureView;
 @property (weak, nonatomic) IBOutlet UILabel *labelDebug;
+#pragma message "IBOutlet connections are typically weak"
 @property (strong, nonatomic) IBOutlet UIImageView *splashScreen;
 
 - (IBAction)buttonDebug:(id)sender;
@@ -35,6 +36,7 @@
 {
   [super viewDidLoad];
   [self.navigationController setNavigationBarHidden:YES animated:YES];
+#pragma message "Why does to the network communication need to know about this class? If that's actually necessary, add a comment"
   [NetworkCommunication sharedManager].controllerCurrentLogin = self;
   // Do any additional setup after loading the view.
     
@@ -65,6 +67,7 @@
         else {
             //Fetch the profile picture from facebook
             NSString *userImageURL = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large", [FBUser objectID]];
+#pragma message "use DISPATCH_QUEUE_PRIORITY_DEFAULT instead of 0 for the first parameter for better sematics"
             dispatch_async(dispatch_get_global_queue(0, 0), ^
             {
                 UIImage *tempImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:userImageURL]]];

@@ -53,6 +53,7 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue
                  sender:(id)sender
 {
+#pragma message "Use YES instead of true"
     if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"SearchSetting - prepareForSegue - Start");}
 
     if ([segue.identifier isEqualToString:@"Restaurants"])

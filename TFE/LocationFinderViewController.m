@@ -72,6 +72,7 @@
  
 - (void)viewDidLoad
 {
+#pragma message "Use YES instead of true"
     if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"LocationFinder - viewDidLoad - Start");}
 
     [super viewDidLoad];
@@ -139,6 +140,8 @@
     didUpdateToLocation:(CLLocation *)newLocation
            fromLocation:(CLLocation *)oldLocation
 {
+#pragma message "Use YES instead of true"
+
     if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"LocationFinder - didUpdateToLocation - Start");}
 
     NSLog(@"Location: %@", newLocation);
@@ -184,6 +187,7 @@
     [self.mapView addAnnotation:annotation];
     
     // Singleton
+#pragma message "Why are you storing GeoLocations as strings? It would be nicer to store them with their actual type and let the NetworkCommunication class translate them into strings before talking to the server"
     [NetworkCommunication sharedManager].stringYelpLocation = [NSString stringWithFormat:(@"%f,%f"),
                                                                currentLocation.coordinate.latitude,
                                                                currentLocation.coordinate.longitude];
@@ -216,6 +220,7 @@
 
 - (IBAction)unwind:(id)sender
 {
+#pragma message "Instead of repeating the following line again and again it would be nicer to define a helper function that gets called with a string; that would allow you to change the behavior of that funtion in one single place"
     if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"LocationFinder - unwind - Start");}
 
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
