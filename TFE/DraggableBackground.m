@@ -99,13 +99,14 @@ static const int MAX_BUFFER_SIZE = 2; //%%% max number of cards loaded at any gi
 //%%% sets up the extra buttons on the screen
 -(void)setupView
 {
-   self.view.backgroundColor = [UIColor colorWithRed:.92 green:.93 blue:.95 alpha:1]; //the gray background colors
+    self.view.backgroundColor = [UIColor colorWithRed:.8 green:.8 blue:.8 alpha:1]; //the gray background colors
+    
     menuButton = [[UIButton alloc]initWithFrame:CGRectMake(17, 34, 22, 15)];
     [menuButton setImage:[UIImage imageNamed:@"menuButton"] forState:UIControlStateNormal];
+    
     messageButton = [[UIButton alloc]initWithFrame:CGRectMake(284, 34, 18, 18)];
     [messageButton setImage:[UIImage imageNamed:@"messageButton"] forState:UIControlStateNormal];
-
-
+    
     [xButton setImage:[UIImage imageNamed:@"xButton"] forState:UIControlStateNormal];
     
     [checkButton setImage:[UIImage imageNamed:@"checkButton"] forState:UIControlStateNormal];

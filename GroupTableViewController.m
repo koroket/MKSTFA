@@ -27,7 +27,6 @@
 @property (nonatomic,strong) NSMutableArray* myImages;
 
 - (IBAction)reloadData:(id)sender;
-- (IBAction)reloadData:(id)sender;
 - (IBAction)logOutPressed:(id)sender;
 
 @end
@@ -52,8 +51,12 @@
     [super viewDidLoad];
     if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - ViewDidLoad - Start");}
 
-#pragma message "Why does NetworkCommunication need to know about this class?"
+    
+    
+//#pragma message "Why does NetworkCommunication need to know about this class?"
     [self.navigationController setNavigationBarHidden:NO animated:YES];
+    self.navigationController.navigationBar.barTintColor= [UIColor colorWithRed:155/255.0 green:89/255.0 blue:182/255.0 alpha:1];
+
     [NetworkCommunication sharedManager].controllerCurrentGroup = self;
     
 
@@ -85,7 +88,7 @@
 
     if(!isTableLoading)
     {
-#pragma message "use YES/NO instead ot true/false"
+//#pragma message "use YES/NO instead ot true/false"
         isTableLoading = true;
         self.view.userInteractionEnabled = false;
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -101,7 +104,7 @@
     if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - ViewDidAppear- Start");}
     
     [self.tableView reloadData];
-#pragma message "duplicate reloadData call?"
+//#pragma message "duplicate reloadData call?"
     [self.tableView reloadData];
     self.view.userInteractionEnabled = true;
     [self.tableView.pullToRefreshView stopAnimating];
@@ -138,13 +141,13 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     //Set the singleton string equal to selected group ID
     [NetworkCommunication sharedManager].stringSelectedGroupID = ((Group*)[NetworkCommunication sharedManager].arrayOfGroups[indexPath.row]).groupID;
     //and the number of users in the selected group
-#pragma message "how about a convenience function on the NetworkCommunication class that does this line for you?"
+//#pragma message "how about a convenience function on the NetworkCommunication class that does this line for you?"
     [NetworkCommunication sharedManager].intSelectedGroupNumberOfPeople =[(NSNumber*)((Group*)[NetworkCommunication sharedManager].arrayOfGroups[indexPath.row]).numberOfPeople intValue];
     [NetworkCommunication sharedManager].stringCurrentDB = ((Group*)[NetworkCommunication sharedManager].arrayOfGroups[indexPath.row]).dbID;
     [NetworkCommunication sharedManager].intSelectedGroupProgressIndex = [(NSNumber*)((Group*)[NetworkCommunication sharedManager].arrayOfGroups[indexPath.row]).groupIndex intValue];
     
     // URL
-    #pragma message "Backend Access should be moved into separate class"
+    //#pragma message "Backend Access should be moved into separate class"
     NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/groups/%@",
                                                     ((Group*)[NetworkCommunication sharedManager].arrayOfGroups[indexPath.row]).groupID];
     NSURL *url = [NSURL URLWithString:fixedUrl];
@@ -237,6 +240,13 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     return cell;
 }
 
+#pragma mark - Heroku Communication
+/**
+ * --------------------------------------------------------------------------
+ *  Heroku
+ * --------------------------------------------------------------------------
+ */
+
 #pragma message "bad method name because it is very similar to UITableView's reloadData method"
 - (IBAction)reloadData:(id)sender
 {
@@ -259,36 +269,26 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     
 }
 
-#pragma message "message name does not contain enough information. Pretty sure you are not downloading google ;)"
+
+
 - (void)deleteGroup:(NSString *)pplid
                with:(NSString *)myId
 {
     if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - deleteGroup - Start");}
-    
     //URL
-    #pragma message "Backend Access should be moved into separate class"
-    NSString *fixedUrl =
-        [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/ppl/%@groups/%@", pplid, myId];
+    NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/ppl/%@groups/%@", pplid, myId];
     NSURL *url = [NSURL URLWithString:fixedUrl];
     
     //Request
-    NSMutableURLRequest *request =
-        [NSMutableURLRequest requestWithURL:url
-                                cachePolicy:NSURLRequestUseProtocolCachePolicy
-                            timeoutInterval:30.0];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
     [request setHTTPMethod:@"DELETE"];
 
     //Session
     NSURLSession *urlSession = [NSURLSession sharedSession];
 
     //Data Task Block
-    NSURLSessionDataTask *dataTask =
-        [urlSession dataTaskWithRequest:request
-                      completionHandler:^(NSData *data,
-                                          NSURLResponse *response,
-                                          NSError *error)
+    NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error)
     {
-
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
         NSInteger responseStatusCode = [httpResponse statusCode];
 
@@ -506,9 +506,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     
     //Request
     NSMutableURLRequest *request =
-    [NSMutableURLRequest requestWithURL:url
-                            cachePolicy:NSURLRequestUseProtocolCachePolicy
-                        timeoutInterval:30.0];
+    [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
     [request setHTTPMethod:@"GET"];
     
     //Session
@@ -516,28 +514,23 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     
     //Data Task
     NSURLSessionDataTask *dataTask =
-    [urlSession dataTaskWithRequest:request
-                  completionHandler:^(NSData *data,
-                                      NSURLResponse *response,
-                                      NSError *error)
+    [urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error)
      {
          NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
          NSInteger responseStatusCode = [httpResponse statusCode];
          if (responseStatusCode == 200 && data)
          {
              dispatch_async(dispatch_get_main_queue(), ^(void)
-                {
-                    // Creates local data for yelp info
-                    NSDictionary *fetchedData = [NSJSONSerialization JSONObjectWithData:data
-                                                                                options:0
-                                                                                  error:nil];
-                    NSLog(@"%@",fetchedData);
-                    NSArray *myArray = [NSArray array];
-                    myArray = fetchedData;
-                    NSDictionary *place1 = myArray[0];
-                    NSArray* photos = place1[@"photos"];
-                    NSLog(@"%@",photos);
-                });
+             {
+                 // Creates local data for yelp info
+                 NSDictionary *fetchedData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                 NSLog(@"%@",fetchedData);
+                 NSArray *myArray = [NSArray array];
+                 myArray = fetchedData;
+                 NSDictionary *place1 = myArray[0];
+                 NSArray* photos = place1[@"photos"];
+                 NSLog(@"%@",photos);
+             });
              //where to stick dispatch to main queue
          }
          else
@@ -561,9 +554,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 -(void)downloadImages
 {
     if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - downloadImages - Start");}
-    [[FBRequest requestForMe] startWithCompletionHandler:^(FBRequestConnection *connection,
-                                                           NSDictionary<FBGraphUser> *FBuser,
-                                                           NSError *error)
+    [[FBRequest requestForMe] startWithCompletionHandler:^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *FBuser, NSError *error)
      {
          if (error)
          {
@@ -606,19 +597,16 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - prepareForSegue - Start");}
-    
     if ([segue.identifier isEqualToString:@"AddGroup"])
     {
-        FriendTableViewController *controller = [segue destinationViewController];
-        controller.parent = self;
+//        FriendTableViewController *controller = [segue destinationViewController];
+//        controller.parent = self;
     }
     else if ([segue.identifier isEqualToString:@"Swipe"])
     {
         DraggableBackground *controller = [segue destinationViewController];
         controller.groupID = ((Group*)[NetworkCommunication sharedManager].arrayOfGroups[myIndex]).groupID;
-
     }
-    
     if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - prepareForSegue - Finished");}
 }
 

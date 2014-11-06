@@ -19,6 +19,13 @@
 @property (weak, nonatomic) IBOutlet UIButton *buttonDrinks;
 @property (weak, nonatomic) IBOutlet UIButton *buttonNightLife;
 
+//switches
+@property (weak, nonatomic) IBOutlet UISwitch *switchRestaurants;
+@property (weak, nonatomic) IBOutlet UISwitch *switchQuickEats;
+@property (weak, nonatomic) IBOutlet UISwitch *switchDrinks;
+@property (weak, nonatomic) IBOutlet UISwitch *switchNightlife;
+@property (weak, nonatomic) IBOutlet UISwitch *switchCoffee;
+
 @end
 
 @implementation SearchSettingViewController
@@ -53,31 +60,30 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue
                  sender:(id)sender
 {
-#pragma message "Use YES instead of true"
-    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"SearchSetting - prepareForSegue - Start");}
-
-    if ([segue.identifier isEqualToString:@"Restaurants"])
+    if ([segue.identifier isEqualToString:@"Next"] == YES)
     {
-        [NetworkCommunication sharedManager].stringYelpSearchTerm = @"Restaurants";
-    } else if ([segue.identifier isEqualToString:@"QuickEats"])
-    {
-        [NetworkCommunication sharedManager].stringYelpSearchTerm = @"QuickEats";
-    } else if ([segue.identifier isEqualToString:@"CoffeeTea"])
-    {
-        [NetworkCommunication sharedManager].stringYelpSearchTerm = @"CoffeeTea";
-    } else if ([segue.identifier isEqualToString:@"BreakfastBrunch"])
-    {
-        [NetworkCommunication sharedManager].stringYelpSearchTerm = @"BreakfastBrunch";
-    } else if ([segue.identifier isEqualToString:@"Drinks"])
-    {
-        [NetworkCommunication sharedManager].stringYelpSearchTerm = @"Drinks";
-    } else if ([segue.identifier isEqualToString:@"NightLife"])
-    {
-        [NetworkCommunication sharedManager].stringYelpSearchTerm = @"NightLife";
+        if (_switchRestaurants.on == YES)
+        {
+            [NetworkCommunication sharedManager].stringYelpSearchTerm = @"Restaurants";
+        }
+        else if (_switchQuickEats.on == YES)
+        {
+            [NetworkCommunication sharedManager].stringYelpSearchTerm = @"QuickEats";
+        }
+        else if (_switchDrinks.on == YES)
+        {
+            [NetworkCommunication sharedManager].stringYelpSearchTerm = @"Drinks";
+        }
+        else if (_switchCoffee.on == YES)
+        {
+            [NetworkCommunication sharedManager].stringYelpSearchTerm = @"BreakfastBrunch";
+        }
+        else if (_switchNightlife.on == YES)
+        {
+            [NetworkCommunication sharedManager].stringYelpSearchTerm = @"NightLife";
+        }
     }
     [NetworkCommunication sharedManager].intYelpNumberOfLocations = 20;
-    
-    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"SearchSetting - prepareForSegue - Finished");}
 }
 
 @end

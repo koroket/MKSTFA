@@ -150,7 +150,7 @@
     {
         overlayView.mode = GGOverlayViewModeLeft;
     }
-    NSLog(@"%f",distance);
+    //NSLog(@"%f",distance);
     overlayView.alpha = fabsf(distance)/100;
 }
 

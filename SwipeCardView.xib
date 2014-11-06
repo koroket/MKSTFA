@@ -23,7 +23,43 @@
                     <constraints>
                         <constraint firstAttribute="height" constant="30" id="xOD-if-8iN"/>
                     </constraints>
-                    <fontDescription key="fontDescription" name="Menlo-Regular" family="Menlo" pointSize="20"/>
+                    <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="20"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="***** (10)" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zwS-9g-W4r">
+                    <rect key="frame" x="16" y="516" width="219" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="30" id="dAh-cb-RUn"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="20"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="$$$" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="884-N0-Zan">
+                    <rect key="frame" x="265" y="516" width="87" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="30" id="BW1-Vy-uas"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="20"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="1.2 miles away - 15 blocks" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1Pb-TW-a0q">
+                    <rect key="frame" x="118" y="554" width="245" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="30" id="6gY-xu-kgd"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="20"/>
+                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Closes at 9pm - In 1 hr" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NMV-tL-vs1">
+                    <rect key="frame" x="120" y="592" width="240" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="30" id="HvV-aK-04Z"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="20"/>
                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                     <nil key="highlightedColor"/>
                 </label>
@@ -52,5 +88,15 @@
             </connections>
             <point key="canvasLocation" x="304" y="380"/>
         </view>
+        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Yelp Rating" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3TE-8b-m2k">
+            <rect key="frame" x="0.0" y="0.0" width="212" height="30"/>
+            <constraints>
+                <constraint firstAttribute="height" constant="30" id="mm4-mA-mf1"/>
+            </constraints>
+            <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="20"/>
+            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+            <nil key="highlightedColor"/>
+            <point key="canvasLocation" x="385" y="785"/>
+        </label>
     </objects>
 </document>

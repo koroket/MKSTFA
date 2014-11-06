@@ -39,10 +39,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    if ([NetworkCommunication sharedManager].boolDebug == true) {
-        NSLog(@"FriendTable - viewDidLoad - Start");
-    }
     [self loadFromFacebook];
+    
+    //[[UINavigationBar appearance] setTitleTextAttributes: [NSDictionary dictionaryWithObjectsAndKeys: [UIColor whiteColor],NSForegroundColorAttributeName, [NSValue valueWithUIOffset:UIOffsetMake(0, -1)], NSForegroundColorAttributeName, [UIFont fontWithName:@"Avenir" size:21], NSFontAttributeName, nil]];
+                                                                     
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -50,17 +50,13 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
-    if ([NetworkCommunication sharedManager].boolDebug == true) {
-        NSLog(@"FriendTable - viewDidLoad - Finsihed");
-    }
+    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"FriendTable - viewDidLoad - Finsihed");}
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    if ([NetworkCommunication sharedManager].boolDebug == true) {
-        NSLog(@"FriendTable - viewWillAppear - Start");
-    }
+    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"FriendTable - viewWillAppear - Start");}
 
     [self.tableView reloadData];
     
@@ -70,9 +66,6 @@
     hud.mode = MBProgressHUDModeIndeterminate;
     hud.labelText = @"Loading Friends";
     
-    if ([NetworkCommunication sharedManager].boolDebug == true) {
-        NSLog(@"FriendTable - viewWillAppear - Finished");
-    }
 
 }
 
@@ -86,33 +79,25 @@
 - (NSInteger)tableView:(UITableView *)tableView
  numberOfRowsInSection:(NSInteger)section
 {
-    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"FriendTable - numberOfRowsInSection - Start");}
 
     // Return the number of rows in the section.
-    return [self.myFriends count];
     
-    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"FriendTable - numberOfRowsInSection - Finished");}
+    return [self.myFriends count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"FriendTable - cellForRowAtIndexPath - Start");}
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
     cell.textLabel.text = self.myFriends[indexPath.row];
     return cell;
-    
-#pragma message "Why so many debug messages?; Why does the NetworkCommunication determine if debug messages should be displayed or not?" 
-    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"FriendTable - cellForRowAtIndexPath - Finished");}
 }
 
 
 - (void)tableView:(UITableView *)tableView
 didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"FriendTable - didSelectRowAtIndexPath - Start");}
-    
 #pragma message "You should consider checking against the list of friendIDs to see if this row is already selected. Checking against the acessoryType of a cell isn't a very elegant solution"
     if ([tableView cellForRowAtIndexPath:indexPath].accessoryType == UITableViewCellAccessoryCheckmark)
     {
@@ -125,11 +110,8 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         [self.selectedFriends addObject:[self.friendIds objectAtIndex:indexPath.row]];
     }
     
-    
-    
     if ([NetworkCommunication sharedManager].boolDebug == true) {
         NSLog(@"These are the selected friends %@", self.selectedFriends);
-        NSLog(@"FriendTable - didSelectRowAtIndexPath - Finished");
     }
 }
 
@@ -145,44 +127,29 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
  */
 - (void)loadFromFacebook
 {
-    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"FriendTable - loadFromFacebook - Start");}
-
 
     self.myFriends = [NSMutableArray array];
     self.friendIds = [NSMutableArray array];
     self.selectedFriends = [NSMutableArray array];
-
     
-    [FBRequestConnection startWithGraphPath:@"/me/friends"
-                                 parameters:nil
-                                 HTTPMethod:@"GET"
-                          completionHandler:^(FBRequestConnection *connection,
-                                              id result,
-                                              NSError *error)
-     {
+    [FBRequestConnection startWithGraphPath:@"/me/friends" parameters:nil HTTPMethod:@"GET" completionHandler:^(FBRequestConnection *connection, id result, NSError *error)
+    {
          //dictionary
          NSDictionary *resultDictionary = (NSDictionary *)result;
          NSArray *data = [resultDictionary objectForKey:@"data"];
-         
+
          for (NSDictionary *dic in data)
          {
              [self.myFriends addObject:[dic objectForKey:@"name"]];
              [self.friendIds addObject:[dic objectForKey:@"id"]];
-             
-             
          }//for
          
          dispatch_async(dispatch_get_main_queue(), ^(void)
-            {
-                [self.tableView reloadData];
-                [MBProgressHUD hideHUDForView:self.view animated:YES];
-                
-            }); //main queue dispatch
-         
-     }];//FBrequest block
-    
-    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"FriendTable - loadFromFacebook - Finished");}
-
+         {
+             [self.tableView reloadData];
+             [MBProgressHUD hideHUDForView:self.view animated:YES];
+         }); //main queue dispatch
+    }]; //FBrequest block
 }
 
 #pragma mark - Heroku Server Communication
@@ -220,28 +187,21 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     
     //Error Handling
     NSError *error = nil;
-    NSData *data = [NSJSONSerialization dataWithJSONObject:dictionary
-                                                   options:kNilOptions
-                                                     error:&error];
+    NSData *data = [NSJSONSerialization dataWithJSONObject:dictionary options:kNilOptions error:&error];
     if (!error)
     {
         //Upload
-        NSURLSessionUploadTask *uploadTask =
-        [session uploadTaskWithRequest:request
-                              fromData:data
-                     completionHandler:^(NSData *data,
-                                         NSURLResponse *response,
-                                         NSError *error)
+        NSURLSessionUploadTask *uploadTask = [session uploadTaskWithRequest:request fromData:data completionHandler:^(NSData *data, NSURLResponse *response, NSError *error)
          {
              NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
              NSInteger responseStatusCode = [httpResponse statusCode];
              if (responseStatusCode == 200 && data)
              {
                  dispatch_async(dispatch_get_main_queue(), ^(void)
-                    {
-                        [self performSegueWithIdentifier:@"Unwind" sender:self];
-                    });//Dispatch main queue block
-             }//if
+                 {
+                     [self performSegueWithIdentifier:@"Unwind" sender:self];
+                 });//Dispatch main queue block
+             }
              else
              {
                  NSLog(@"Sending to individuals failed");
@@ -267,8 +227,6 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 - (void)prepareForSegue:(UIStoryboardSegue *)segue
                  sender:(id)sender
 {
-    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"FriendTable - prepareForSeque - Start");}
-
     if ([segue.identifier isEqualToString:@"Details"])
     {
         
@@ -277,20 +235,13 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     {
         [MBProgressHUD hideHUDForView:self.view animated:YES];
     }
-    
-    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"FriendTable - prepareForSeque - Finished");}
 }
 
 - (IBAction)unwind:(id)sender
 {
-    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"FriendTable - unwind - Start");}
-
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.mode = MBProgressHUDModeIndeterminate;
-    NSLog(@"Friend Table - unwind - Loading");
     [self createGroup];
-    
-    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"FriendTable - unwind - Finished");}
 }
 
 @end

@@ -35,6 +35,7 @@
         NSString* title = [userInfo valueForKey:@"title"];
         NSLog(@"Notification Msg is %@ and Custom field title = %@", notificationMsg, title);
     }
+        
     return YES;
 }
 

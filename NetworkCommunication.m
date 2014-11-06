@@ -76,15 +76,10 @@
     NSURLSession *urlSession = [NSURLSession sharedSession];
     
     //param 2 - Request
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
-                                                           cachePolicy:NSURLRequestUseProtocolCachePolicy
-                                                       timeoutInterval:30.0];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
     [request setHTTPMethod:requestID];
     
-    NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request
-                                                   completionHandler: ^void (NSData *data,
-                                                                             NSURLResponse *response,
-                                                                             NSError *error)
+    NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler: ^void (NSData *data,NSURLResponse *response, NSError *error)
     {
         self.myData = data;
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
@@ -99,7 +94,7 @@
         else
         {
           // error handling
-          NSLog(@"ERROR: Heroku");
+          NSLog(@"NetworkCommunication - HerokuRequests - ERROR: Heroku (are you connected to the internet?");
         }
     }];
     
@@ -117,8 +112,7 @@
  */
 -(NSString*)stringfix:(NSString*) str
 {
-    NSString* temp = [str stringByReplacingOccurrencesOfString:@" "
-                                                    withString:@"_"];
+    NSString* temp = [str stringByReplacingOccurrencesOfString:@" " withString:@"_"];
     return temp;
 }
 
@@ -131,9 +125,7 @@
 - (void)sendNotification:(NSString*)tempToken
 {
     //URL
-    NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/token/push/%@/%@",
-                          tempToken,
-                          [self stringfix:[NetworkCommunication sharedManager].stringFBUserName]];
+    NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/token/push/%@/%@", tempToken, [self stringfix:[NetworkCommunication sharedManager].stringFBUserName]];
     
     NSURL *url = [NSURL URLWithString:fixedUrl];
     
@@ -143,34 +135,30 @@
     
     NSURLSession *urlSession = [NSURLSession sharedSession];
     NSURLSessionDataTask *dataTask =
-    [urlSession dataTaskWithRequest:request
-                  completionHandler:^(NSData *data,
-                                      NSURLResponse *response,
-                                      NSError *error)
-     {
+    [urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error)
+    {
+        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+        NSInteger responseStatusCode = [httpResponse statusCode];
          
-         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-         NSInteger responseStatusCode = [httpResponse statusCode];
-         
-         if (responseStatusCode == 200 && data)
-         {
-             dispatch_async(dispatch_get_main_queue(), ^(void)
-                {
+        if (responseStatusCode == 200 && data)
+        {
+            dispatch_async(dispatch_get_main_queue(), ^(void)
+            {
                     
-                });
+            });
              
              // do something with this data
              // if you want to update UI, do it on main queue
-         }
-         else
-         {
-             // error handling
-             NSLog(@"ERROR SEND NOTIFICATION");
-         }
-         dispatch_async(dispatch_get_main_queue(), ^
-            {
+        }
+        else
+        {
+            // error handling
+            NSLog(@"GroupTable - getRequests - ERROR SEND NOTIFICATION");
+        }
+        dispatch_async(dispatch_get_main_queue(), ^
+        {
                 
-            });
+        });
      }];
     [dataTask resume];
 }
@@ -180,25 +168,14 @@
     if ([NetworkCommunication sharedManager].boolDebug == true) {
         NSLog(@"GroupTable - getRequests - Start");
     }
-
-    
     NetworkCommunication *sharedCommunication = [NetworkCommunication alloc];
-    [sharedCommunication serverRequests: [NSString stringWithFormat:@"ppl/%@groups", [NetworkCommunication sharedManager].stringFBUserId]
-                                   type:@"GET"
-                         whatDictionary:nil
-                              withBlock:^(void)
+    [sharedCommunication serverRequests: [NSString stringWithFormat:@"ppl/%@groups", [NetworkCommunication sharedManager].stringFBUserId] type:@"GET"whatDictionary:nil withBlock:^(void)
      {
-
          self.arrayOfGroups = [NSMutableArray array];
-
-         
-         NSArray *fetchedData = [NSJSONSerialization JSONObjectWithData:sharedCommunication.myData
-                                                                options:0
-                                                                  error:nil];
+         NSArray *fetchedData = [NSJSONSerialization JSONObjectWithData:sharedCommunication.myData options:0 error:nil];
          for (int i = 0; i < fetchedData.count; i++)
          {
              Group* newGroup = [[Group alloc] init];
-             
              NSDictionary *data1 = [fetchedData objectAtIndex:i];
              
              newGroup.groupID = data1[@"groupID"];
@@ -207,44 +184,47 @@
              newGroup.ownerID = data1[@"ownerID"];
              newGroup.dbID = data1[@"_id"];
              newGroup.groupIndex = data1[@"currentIndex"];
+             
              [self.arrayOfGroups addObject:newGroup];
          }
          [self downloadImages];
      }];
-    if ([NetworkCommunication sharedManager].boolDebug == true) {
+    if ([NetworkCommunication sharedManager].boolDebug == true)
+    {
         NSLog(@"GroupTable - getRequests - Finished");
     }
 }
+
 -(void)downloadImages
 {
-    for(int i = 0;i<self.arrayOfGroups.count;i++)
+    for(int i = 0; i < self.arrayOfGroups.count; i++)
     {
         counter = 0;
         dispatch_async(dispatch_get_global_queue(0, 0), ^
-                       {
-                           NSString *userImageURL = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large",((Group*)self.arrayOfGroups[i]).ownerID];
-                           UIImage *tempImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:userImageURL]]];
-                           ((Group*)self.arrayOfGroups[i]).imageID = tempImage;
-                           counter++;
-                           dispatch_async(dispatch_get_main_queue(), ^
-                                          {
-                                              if(counter==self.arrayOfGroups.count)
-                                              {
-                                                  if([NetworkCommunication sharedManager].controllerCurrentGroup==nil)
-                                                  {
-                                                      [self.controllerCurrentLogin performSegueWithIdentifier:@"loggedin" sender:self.controllerCurrentLogin];
-                                                  }
-                                                  else
-                                                  {
-                                                      [[NetworkCommunication sharedManager].controllerCurrentGroup tableDidReload];
-                                                  }
-                                              }
-                                          });
-                       });
+        {
+            NSString *userImageURL = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large",((Group*)self.arrayOfGroups[i]).ownerID];
+            UIImage *tempImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:userImageURL]]];
+            ((Group*)self.arrayOfGroups[i]).imageID = tempImage;
+            counter++;
+            dispatch_async(dispatch_get_main_queue(), ^
+            {
+              if(counter==self.arrayOfGroups.count)
+              {
+                  if([NetworkCommunication sharedManager].controllerCurrentGroup == nil)
+                  {
+                      [self.controllerCurrentLogin performSegueWithIdentifier:@"loggedin" sender:self.controllerCurrentLogin];
+                  }
+                  else
+                  {
+                      [[NetworkCommunication sharedManager].controllerCurrentGroup tableDidReload];
+                  }
+              }
+            });
+        });
     }
     if(self.arrayOfGroups.count==0)
     {
-        if([NetworkCommunication sharedManager].controllerCurrentGroup==nil)
+        if([NetworkCommunication sharedManager].controllerCurrentGroup == nil)
         {
             [self.controllerCurrentLogin performSegueWithIdentifier:@"loggedin" sender:self.controllerCurrentLogin];
         }
@@ -258,8 +238,7 @@
 - (void)linkDeviceToken
 {
     //URL
-    NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/token/%@token",
-                          [NetworkCommunication sharedManager].stringFBUserId];
+    NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/token/%@token", [NetworkCommunication sharedManager].stringFBUserId];
     NSURL *url = [NSURL URLWithString:fixedUrl];
     //Session
     NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
@@ -269,37 +248,25 @@
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     request.HTTPMethod = @"POST";
     //Dictionary
-    NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:
-                                [NetworkCommunication sharedManager].stringDeviceToken,
-                                @"token",
-                                nil];
+    NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys: [NetworkCommunication sharedManager].stringDeviceToken, @"token", nil];
     //errorHandling
     NSError *error = nil;
-    NSData *data = [NSJSONSerialization dataWithJSONObject:dictionary
-                                                   options:kNilOptions
-                                                     error:&error];
+    NSData *data = [NSJSONSerialization dataWithJSONObject:dictionary options:kNilOptions error:&error];
     if (!error)
     {
         //Upload
         NSURLSessionUploadTask *uploadTask =
-        [session uploadTaskWithRequest:request
-                              fromData:data
-                     completionHandler:^(NSData *data,
-                                         NSURLResponse *response,
-                                         NSError *error)
+        [session uploadTaskWithRequest:request fromData:data completionHandler:^(NSData *data, NSURLResponse *response, NSError *error)
          {
              NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
              NSInteger responseStatusCode = [httpResponse statusCode];
              if (responseStatusCode == 200 && data)
              {
                  dispatch_async(dispatch_get_main_queue(), ^(void)
-                                {
-                                    NSArray *fetchedData = [NSJSONSerialization JSONObjectWithData:data
-                                                                                           options:0
-                                                                                             error:nil];
-                                    NSDictionary *data1 = [fetchedData objectAtIndex:0];
-                                    
-                                });
+                 {
+                    NSArray *fetchedData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                    NSDictionary *data1 = [fetchedData objectAtIndex:0];
+                 });
              }
          }];
         [uploadTask resume];
