@@ -20,6 +20,7 @@
 @implementation NetworkCommunication
 {
     int counter;
+    int numOfPicsToDownload;
 }
 
 #pragma mark - init
@@ -181,7 +182,7 @@
         NSLog(@"GroupTable - getRequests - Start");
     }
 
-    
+#pragma message "this is weird... use self instead"
     NetworkCommunication *sharedCommunication = [NetworkCommunication alloc];
     [sharedCommunication serverRequests: [NSString stringWithFormat:@"ppl/%@groups", [NetworkCommunication sharedManager].stringFBUserId]
                                    type:@"GET"
@@ -190,7 +191,7 @@
      {
 
          self.arrayOfGroups = [NSMutableArray array];
-
+         
          
          NSArray *fetchedData = [NSJSONSerialization JSONObjectWithData:sharedCommunication.myData
                                                                 options:0
@@ -201,12 +202,14 @@
              
              NSDictionary *data1 = [fetchedData objectAtIndex:i];
              
+             newGroup.friendPics = [NSMutableArray array];
              newGroup.groupID = data1[@"groupID"];
              newGroup.numberOfPeople = data1[@"number"];
              newGroup.ownerName = data1[@"owner"];
              newGroup.ownerID = data1[@"ownerID"];
              newGroup.dbID = data1[@"_id"];
              newGroup.groupIndex = data1[@"currentIndex"];
+             newGroup.friendIDs = data1[@"friendID"];
              [self.arrayOfGroups addObject:newGroup];
          }
          [self downloadImages];
@@ -217,19 +220,35 @@
 }
 -(void)downloadImages
 {
+    numOfPicsToDownload = 0;
+    for(int i = 0; i<self.arrayOfGroups.count;i++)
+    {
+        if(((Group*)self.arrayOfGroups[i]).friendIDs.count<4)
+        {
+            numOfPicsToDownload+=((Group*)self.arrayOfGroups[i]).friendIDs.count-1;
+        }
+        else
+        {
+            numOfPicsToDownload+=3;
+        }
+    }
+    numOfPicsToDownload+=self.arrayOfGroups.count;
+    
+    counter = 0;
     for(int i = 0;i<self.arrayOfGroups.count;i++)
     {
-        counter = 0;
         dispatch_async(dispatch_get_global_queue(0, 0), ^
                        {
                            NSString *userImageURL = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large",((Group*)self.arrayOfGroups[i]).ownerID];
                            UIImage *tempImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:userImageURL]]];
                            ((Group*)self.arrayOfGroups[i]).imageID = tempImage;
                            counter++;
-                           dispatch_async(dispatch_get_main_queue(), ^
-                                          {
-                                              if(counter==self.arrayOfGroups.count)
+                           NSLog(@"%d",counter);
+                           if(counter==numOfPicsToDownload)
+                           {
+                               dispatch_async(dispatch_get_main_queue(), ^
                                               {
+                                                  
                                                   if([NetworkCommunication sharedManager].controllerCurrentGroup==nil)
                                                   {
                                                       [self.controllerCurrentLogin performSegueWithIdentifier:@"loggedin" sender:self.controllerCurrentLogin];
@@ -238,9 +257,44 @@
                                                   {
                                                       [[NetworkCommunication sharedManager].controllerCurrentGroup tableDidReload];
                                                   }
-                                              }
-                                          });
+                                                  
+                                              });
+                           }
+
                        });
+    }
+    for(int i = 0; i<self.arrayOfGroups.count;i++)
+    {
+        
+        int j = 1;
+        while(j<((Group*)self.arrayOfGroups[i]).friendIDs.count&&j<3)
+        {
+            dispatch_async(dispatch_get_global_queue(0, 0), ^
+                           {
+                               NSString *userImageURL = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large",((Group*)self.arrayOfGroups[i]).friendIDs[j]];
+                               UIImage *tempImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:userImageURL]]];
+                               [((Group*)self.arrayOfGroups[i]).friendPics addObject:tempImage];
+                               counter++;
+                               NSLog(@"%d",counter);
+                               if(counter==numOfPicsToDownload)
+                               {
+                                   dispatch_async(dispatch_get_main_queue(), ^
+                                                  {
+                                                      
+                                                      if([NetworkCommunication sharedManager].controllerCurrentGroup==nil)
+                                                      {
+                                                          [self.controllerCurrentLogin performSegueWithIdentifier:@"loggedin" sender:self.controllerCurrentLogin];
+                                                      }
+                                                      else
+                                                      {
+                                                          [[NetworkCommunication sharedManager].controllerCurrentGroup tableDidReload];
+                                                      }
+                                                      
+                                                  });
+                               }
+                           });
+            j++;
+        }
     }
     if(self.arrayOfGroups.count==0)
     {

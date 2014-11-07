@@ -31,6 +31,9 @@
 @property (nonatomic, strong)UIPanGestureRecognizer *panGestureRecognizer;
 
 @property (nonatomic,strong)OverlayView* overlayView;
+@property (strong, nonatomic) IBOutlet UILabel *distance;
+@property (strong, nonatomic) IBOutlet UILabel *rating;
+@property (strong, nonatomic) IBOutlet UILabel *categories;
 
 @property (strong, nonatomic) IBOutlet UILabel *information;
 

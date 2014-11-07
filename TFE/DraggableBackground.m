@@ -48,8 +48,10 @@ static const int MAX_BUFFER_SIZE = 2; //%%% max number of cards loaded at any gi
 
 -(void)viewDidLoad
 {
+
     [super viewDidLoad];
     if (self) {
+            self.offset = 0;
         exampleCardLabels = [NetworkCommunication sharedManager].arraySelectedGroupCardData;
         loadedCards = [[NSMutableArray alloc] init];
         allCards = [[NSMutableArray alloc] init];
@@ -61,13 +63,6 @@ static const int MAX_BUFFER_SIZE = 2; //%%% max number of cards loaded at any gi
         {
             Draggable* newCard = [self createDraggableWithDataAtIndex:i];
             [allCards addObject:newCard];
-            
-            if (i<numLoadedCardsCap)
-            {
-                //%%% adds a small number of cards to be loaded
-                [loadedCards addObject:newCard];
-            }
-            NSLog(@"%d",i);
         }
         
         [self setupView];
@@ -142,6 +137,35 @@ static const int MAX_BUFFER_SIZE = 2; //%%% max number of cards loaded at any gi
         
         
     }
+    if(tempoaryDict[@"rating"]!=nil)
+    {
+        NSNumber *k = tempoaryDict[@"rating"];
+        draggable.rating.text  = [NSString stringWithFormat:@"%.1f Rating",[k doubleValue]];
+
+    }
+    if(tempoaryDict[@"distance"]!=nil)
+    {
+        
+        NSNumber *k = tempoaryDict[@"distance"];
+        double meters = [k doubleValue];
+        double miles = meters/1600.0;
+        
+        draggable.distance.text  = [NSString stringWithFormat:@"%.1f mi",miles];
+        
+    }
+    if(tempoaryDict[@"Category"]!=nil)
+    {
+        NSArray *cats = tempoaryDict[@"Category"];
+        NSString* catsString = @"";
+        for(int i = 0; i < cats.count;i++)
+        {
+            catsString = [NSString stringWithFormat:@"%@ %@",catsString,cats[i]];
+        }
+
+        draggable.categories.text  = catsString;
+        
+        
+    }
     draggable.delegate = self;
     return draggable;
 }
@@ -206,12 +230,10 @@ static const int MAX_BUFFER_SIZE = 2; //%%% max number of cards loaded at any gi
 // This should be customized with your own action
 -(void)cardSwipedRight:(UIView *)card
 {
-    //do whatever you want with the card that was swiped
-    //    DraggableView *c = (DraggableView *)card;
-    
+
     currentCardIndex++;
     
-    [self yesWith:currentCardIndex andUrl: [NetworkCommunication sharedManager].stringSelectedGroupID];
+   // [self yesWith:currentCardIndex andUrl: [NetworkCommunication sharedManager].stringSelectedGroupID];
     
     [loadedCards removeObjectAtIndex:0]; //%%% card was swiped, so it's no longer a "loaded card"
     
@@ -252,128 +274,119 @@ static const int MAX_BUFFER_SIZE = 2; //%%% max number of cards loaded at any gi
     [dragView leftClickAction];
 }
 
--(void)checkForGroupAgreement
+///**
+// *  Handles what happens when you say yes to a card
+// *
+// *  @param index - the array index of the card
+// *  @param groupID - The unique ID of the group
+// */
+//-(void)yesWith:(int)index andUrl:(NSString*) groupID
+//{
+//    #pragma message "Backend Code should be in separate class. Is this a duplicate of the other 'yesWith:...' method?"
+//    //URL
+//    NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/groups/%@/%d/%@/%@groups/%d",
+//                          groupID,
+//                          index+[NetworkCommunication sharedManager].intSelectedGroupProgressIndex,
+//                          [NetworkCommunication sharedManager].stringCurrentDB,
+//                          [NetworkCommunication sharedManager].stringFBUserId,
+//                          [NetworkCommunication sharedManager].intSelectedGroupNumberOfPeople];
+//    NSURL *url = [NSURL URLWithString:fixedUrl];
+//    
+//    //Request
+//    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
+//                                                           cachePolicy:NSURLRequestUseProtocolCachePolicy
+//                                                       timeoutInterval:30.0];
+//    [request setHTTPMethod:@"PUT"];
+//
+//    //Session
+//    NSURLSession *urlSession = [NSURLSession sharedSession];
+//    
+//    //Data Task Block
+//    NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request
+//                                                   completionHandler:^(NSData *data,
+//                                                                       NSURLResponse *response,
+//                                                                       NSError *error)
+//    {
+//        NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
+//        NSInteger responseStatusCode = [httpResponse statusCode];
+//        
+//        if (responseStatusCode == 200 && data)
+//        {
+//            dispatch_async(dispatch_get_main_queue(), ^(void)
+//            {
+//
+//                NSMutableDictionary* dictionaryHerokuResponses = [NSJSONSerialization JSONObjectWithData:data
+//                                                                           options:0
+//                                                                             error:nil];
+//                NSLog(@"%@",dictionaryHerokuResponses);
+//                
+//                NSNumber *t = dictionaryHerokuResponses[@"NumberOfReplies"];
+//
+//
+//            });
+//            // do something with this data
+//            // if you want to update UI, do it on main queue
+//        }
+//        else
+//        {
+//            // error handling
+//        }
+//    }];
+//    [dataTask resume];
+//}
+-(void)getMoreYelp
 {
-
-}
-
-/**
- *  Handles what happens when you say yes to a card
- *
- *  @param index - the array index of the card
- *  @param groupID - The unique ID of the group
- */
--(void)yesWith:(int)index andUrl:(NSString*) groupID
-{
-    #pragma message "Backend Code should be in separate class. Is this a duplicate of the other 'yesWith:...' method?"
-    //URL
-    NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/groups/%@/%d/%@/%@groups/%d",
-                          groupID,
-                          index+[NetworkCommunication sharedManager].intSelectedGroupProgressIndex,
-                          [NetworkCommunication sharedManager].stringCurrentDB,
-                          [NetworkCommunication sharedManager].stringFBUserId,
-                          [NetworkCommunication sharedManager].intSelectedGroupNumberOfPeople];
-    NSURL *url = [NSURL URLWithString:fixedUrl];
-    
-    //Request
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
-                                                           cachePolicy:NSURLRequestUseProtocolCachePolicy
-                                                       timeoutInterval:30.0];
-    [request setHTTPMethod:@"PUT"];
-
-    //Session
+    NSString *fixedURL = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/yelp/%@/%@/%@/%d",
+                          [NetworkCommunication sharedManager].stringCurrentLatitude,
+                          [NetworkCommunication sharedManager].stringCurrentLongitude,
+                          @"restaurants",
+                          self.offset
+                          ];
+    NSURL *url = [NSURL URLWithString:fixedURL];
+    // Request
+    NSMutableURLRequest *request =
+    [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
+    // Request type
+    [request setHTTPMethod:@"GET"];
+    // Session
     NSURLSession *urlSession = [NSURLSession sharedSession];
-    
-    //Data Task Block
-    NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request
-                                                   completionHandler:^(NSData *data,
-                                                                       NSURLResponse *response,
-                                                                       NSError *error)
-    {
-        NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
-        NSInteger responseStatusCode = [httpResponse statusCode];
-        
-        if (responseStatusCode == 200 && data)
-        {
-            dispatch_async(dispatch_get_main_queue(), ^(void)
-            {
-
-                NSMutableDictionary* dictionaryHerokuResponses = [NSJSONSerialization JSONObjectWithData:data
-                                                                           options:0
-                                                                             error:nil];
-                NSLog(@"%@",dictionaryHerokuResponses);
-                
-                NSNumber *t = dictionaryHerokuResponses[@"NumberOfReplies"];
-
-
-            });
-            // do something with this data
-            // if you want to update UI, do it on main queue
-        }
-        else
-        {
-            // error handling
-        }
-    }];
+    // Data Task Block
+    NSURLSessionDataTask *dataTask =
+    [urlSession dataTaskWithRequest:request
+                  completionHandler:^(NSData *data,
+                                      NSURLResponse *response,
+                                      NSError *error)
+     {
+         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+         NSInteger responseStatusCode = [httpResponse statusCode];
+         
+         if (responseStatusCode == 200 && data)
+         {
+             dispatch_async(dispatch_get_main_queue(), ^(void)
+                            {
+                                NSArray*fetchedData = [NSJSONSerialization JSONObjectWithData:data
+                                                                                            options:0
+                                                                                              error:nil];
+                                self.offset +=20;
+                                exampleCardLabels = [fetchedData mutableCopy];
+                                for (int i = 0; i<20; i++)
+                                {
+                                    Draggable* newCard = [self createDraggableWithDataAtIndex:i];
+                                    [allCards addObject:newCard];
+                                }
+                                
+                            }); // Main Queue dispatch block
+             
+             // do something with this data
+             // if you want to update UI, do it on main queue
+         }
+         else
+         {
+             // error handling
+         }
+     }]; // Data Task Block
     [dataTask resume];
 }
-
--(void)finalWith:(int)index andUrl:(NSString*) tempUrl
-{
-    //URL
-    NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/groups/%@/%d/finished",
-                          tempUrl,
-                          index+[NetworkCommunication sharedManager].intSelectedGroupProgressIndex];
-    NSURL *url = [NSURL URLWithString:fixedUrl];
-    
-    //Request
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
-                                                           cachePolicy:NSURLRequestUseProtocolCachePolicy
-                                                       timeoutInterval:30.0];
-    [request setHTTPMethod:@"PUT"];
-    
-    //Session
-    NSURLSession *urlSession = [NSURLSession sharedSession];
-    
-    //Data Task Block
-    NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request
-                                                   completionHandler:^(NSData *data,
-                                                                       NSURLResponse *response,
-                                                                       NSError *error)
-    {
-        NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
-        NSInteger responseStatusCode = [httpResponse statusCode];
-        
-        if (responseStatusCode == 200 && data)
-        {
-            dispatch_async(dispatch_get_main_queue(), ^(void)
-            {
-                NSMutableDictionary* hhh = [NSJSONSerialization JSONObjectWithData:data
-                                                                           options:0
-                                                                             error:nil];
-                NSNumber *t = hhh[@"NumberOfReplies"];
-                if ([t intValue] == [NetworkCommunication sharedManager].intSelectedGroupNumberOfPeople)
-                {
-                    //[self performSegueWithIdentifier:@"Done" sender:self];
-                }
-                else
-                {
-                    NSLog(@"No Match Yet%d",[NetworkCommunication sharedManager].intSelectedGroupNumberOfPeople);
-                }
-            });
-            
-            // do something with this data
-            // if you want to update UI, do it on main queue
-        }
-        else
-        {
-            // error handling
-        }
-    }];
-    [dataTask resume];
-    
-}
-
 -(void)showCompletion:(NSDictionary*)dict
 {
     AMSmoothAlertView *alert = [[AMSmoothAlertView alloc]initDropAlertWithTitle:@"Match Found!" andText:dict[@"Name"] andCancelButton:YES forAlertType:AlertSuccess];

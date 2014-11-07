@@ -20,7 +20,7 @@
 @property (retain,nonatomic)NSMutableArray* allCards; //%%% the labels the cards
 @property (nonatomic, strong)NSArray* restaurants;
 @property (strong, nonatomic) IBOutlet UIView *viewContainer;
-
+@property (nonatomic,assign) int offset;
 //strings
 @property (nonatomic,strong) NSString* groupID;
 

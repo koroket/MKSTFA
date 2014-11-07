@@ -9,6 +9,7 @@ pod 'SVPullToRefresh', :git => 'https://github.com/samvermette/SVPullToRefresh',
 pod 'AMSmoothAlert', '~> 1.0'
 pod 'TDBadgedCell', '~> 2.5.2.1'
 pod 'MMDrawerController', '~> 0.5.7'
+pod "MDCSwipeToChoose"
 end
 
 target 'TFETests' do
