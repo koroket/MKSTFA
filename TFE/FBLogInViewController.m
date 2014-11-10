@@ -11,16 +11,16 @@
 #import "GroupTableViewController.h"
 
 @interface FBLogInViewController ()
-@property(weak, nonatomic) IBOutlet FBLoginView *loginView;
-@property(weak, nonatomic) IBOutlet UILabel *statusLabel;
-@property(weak, nonatomic) IBOutlet UILabel *nameLabel;
+@property (weak, nonatomic) IBOutlet FBLoginView *loginView;
+@property (weak, nonatomic) IBOutlet UILabel *statusLabel;
+@property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *profilePictureView;
 @property (weak, nonatomic) IBOutlet UILabel *labelDebug;
+
 #pragma message "IBOutlet connections are typically weak"
 @property (strong, nonatomic) IBOutlet UIImageView *splashScreen;
 
 - (IBAction)buttonDebug:(id)sender;
-
 @end
 
 
@@ -34,16 +34,20 @@
  */
 - (void)viewDidLoad
 {
-  [super viewDidLoad];
-  [self.navigationController setNavigationBarHidden:YES animated:YES];
-#pragma message "Why does to the network communication need to know about this class? If that's actually necessary, add a comment"
-  [NetworkCommunication sharedManager].controllerCurrentLogin = self;
-  // Do any additional setup after loading the view.
+    [super viewDidLoad];
+
+    [self.splashScreen removeFromSuperview];
+    
+//    [self.navigationController setNavigationBarHidden:YES animated:YES];
+
+    // Necessary
+    [NetworkCommunication sharedManager].controllerCurrentLogin = self;
+    // Do any additional setup after loading the view.
     
     [NetworkCommunication sharedManager].boolDebug = false;
     _labelDebug.text = @"Off";
-   
-  self.loginView.readPermissions = @[ @"public_profile", @"email", @"user_friends" ];
+
+    self.loginView.readPermissions = @[ @"public_profile", @"email", @"user_friends" ];
 }
 
 #pragma mark - FaceBook Server Communication
@@ -55,19 +59,18 @@
 - (void)loginViewFetchedUserInfo:(FBLoginView *)loginView
                     user:(id<FBGraphUser>)user
 {
-    [[FBRequest requestForMe] startWithCompletionHandler:^(FBRequestConnection *connection,
-                                                           NSDictionary<FBGraphUser> *FBUser,
-                                                           NSError *error)
+    [[FBRequest requestForMe] startWithCompletionHandler:^(FBRequestConnection *connection,NSDictionary<FBGraphUser> *FBUser, NSError *error)
     {
         if (error)
         {
             // Handle error
         }
-        
-        else {
+        else
+        {
             //Fetch the profile picture from facebook
             NSString *userImageURL = [NSString stringWithFormat:@"https://graph.facebook.com/%@/picture?type=large", [FBUser objectID]];
-#pragma message "use DISPATCH_QUEUE_PRIORITY_DEFAULT instead of 0 for the first parameter for better sematics"
+
+    #pragma message "use DISPATCH_QUEUE_PRIORITY_DEFAULT instead of 0 for the first parameter for better sematics"
             dispatch_async(dispatch_get_global_queue(0, 0), ^
             {
                 UIImage *tempImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:userImageURL]]];
@@ -79,23 +82,23 @@
             });
         }
     }];
+    
     self.nameLabel.text = user.name;
     
     //call the singleton for string data
     [NetworkCommunication sharedManager].stringFBUserId = user.objectID;
     [NetworkCommunication sharedManager].stringFBUserName = user.name;
-
 }
 
 - (void)loginViewShowingLoggedInUser:(FBLoginView *)loginView
 {
-    [[NetworkCommunication sharedManager] getRequests];
-    if([NetworkCommunication sharedManager].stringDeviceToken!=nil)
+    //[[NetworkCommunication sharedManager] getRequests];
+    if([NetworkCommunication sharedManager].stringDeviceToken != nil)
     {
         [[NetworkCommunication sharedManager] linkDeviceToken];
     }
     self.statusLabel.text = @"You are logged in as";
-
+    
 }
 
 - (void)loginViewShowingLoggedOutUser:(FBLoginView *)loginView
@@ -169,6 +172,7 @@
                       otherButtonTitles:nil] show];
   }
 }
+
 #pragma mark - Navigation
 /**
  * --------------------------------------------------------------------------
@@ -176,32 +180,19 @@
  * --------------------------------------------------------------------------
  */
 
-- (IBAction)buttonDebug:(id)sender
-{
-    if ([NetworkCommunication sharedManager].boolDebug == true)
-    {
-        [NetworkCommunication sharedManager].boolDebug = false;
-        _labelDebug.text = @"Off";
-    }
-    else if ([NetworkCommunication sharedManager].boolDebug == false)
-    {
-        [NetworkCommunication sharedManager].boolDebug = true;
-        _labelDebug.text = @"On";
-
-    }
-}
-
 - (void)prepareForSegue:(UIStoryboardSegue *)segue
                  sender:(id)sender
 {
-//    if ([self.statusLabel.text  isEqual: @"You're not logged in!"])
-//    {
-//        
-//    }
+    if ([segue.identifier isEqualToString:@"SaveLocation"])
+    {
+        
+    }
     
 }
+
 - (IBAction)unwindSegueUserLoggedOut:(UIStoryboardSegue *)unwindSegue
 {
     
 }
+
 @end

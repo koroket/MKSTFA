@@ -50,13 +50,11 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
-    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"FriendTable - viewDidLoad - Finsihed");}
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"FriendTable - viewWillAppear - Start");}
 
     [self.tableView reloadData];
     
@@ -65,8 +63,6 @@
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.mode = MBProgressHUDModeIndeterminate;
     hud.labelText = @"Loading Friends";
-    
-
 }
 
 #pragma mark - Table view data source
@@ -122,9 +118,6 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
  * --------------------------------------------------------------------------
  */
 
-/**
- *  Load any information necessary from facebook
- */
 - (void)loadFromFacebook
 {
 
@@ -216,7 +209,6 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     }
 }
 
-
 #pragma mark - Navigation
 /**
  * --------------------------------------------------------------------------
@@ -237,7 +229,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     }
 }
 
-- (IBAction)unwind:(id)sender
+- (IBAction)unwindToGroupViewController:(UIStoryboardSegue *)segue
 {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.mode = MBProgressHUDModeIndeterminate;
@@ -245,3 +237,5 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 }
 
 @end
+
+

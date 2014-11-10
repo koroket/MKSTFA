@@ -20,7 +20,8 @@
 
 @implementation AppDelegate
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+- (BOOL)application:(UIApplication *)application
+didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
     [FBLoginView class];
@@ -31,11 +32,11 @@
     {
         // Notification Message
         NSString* notificationMsg = [userInfo valueForKey:@"message"];
+        
         // Custom Field
         NSString* title = [userInfo valueForKey:@"title"];
         NSLog(@"Notification Msg is %@ and Custom field title = %@", notificationMsg, title);
     }
-        
     return YES;
 }
 

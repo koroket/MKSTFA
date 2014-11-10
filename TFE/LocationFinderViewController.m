@@ -9,6 +9,7 @@
 #import "LocationFinderViewController.h"
 #import "MBProgressHUD.h"
 #import "NetworkCommunication.h"
+
 #import <CoreLocation/CoreLocation.h>
 #import <MapKit/MapKit.h>
 
@@ -40,10 +41,12 @@
  */
 - (void)viewDidLoad
 {
-    #pragma message "Use YES instead of true"
+#pragma message "Use YES instead of true"
     
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    self.navigationItem.leftBarButtonItem.image = [UIImage imageNamed:@"checkMark.png"];
     
     //LocationManager stuff
     manager = [[CLLocationManager alloc] init];
@@ -132,6 +135,7 @@
         }
         
     }];
+    
     // Map View Stuff
     CLLocationCoordinate2D location = CLLocationCoordinate2DMake(currentLocation.coordinate.latitude, currentLocation.coordinate.longitude);
     MKCoordinateSpan span = MKCoordinateSpanMake(0.02, 0.02);
@@ -150,11 +154,9 @@
                                                                currentLocation.coordinate.latitude,
                                                                currentLocation.coordinate.longitude];
     
-    [NetworkCommunication sharedManager].stringCurrentLatitude = [NSString stringWithFormat:(@"%f"),
-                                                                  currentLocation.coordinate.latitude];
+    [NetworkCommunication sharedManager].stringCurrentLatitude = [NSString stringWithFormat:(@"%f"), currentLocation.coordinate.latitude];
     
-    [NetworkCommunication sharedManager].stringCurrentLongitude = [NSString stringWithFormat:(@"%f"),
-                                                                   currentLocation.coordinate.longitude];
+    [NetworkCommunication sharedManager].stringCurrentLongitude = [NSString stringWithFormat:(@"%f"), currentLocation.coordinate.longitude];
     
     [manager stopUpdatingLocation];
     
@@ -165,15 +167,13 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue
                  sender:(id)sender
 {
-
-    if ([segue.identifier isEqualToString:@"Save"])
+    if ([segue.identifier isEqualToString:@"SaveLocation"])
     {
         
     }
-    
 }
 
-- (IBAction)unwind:(id)sender
+- (IBAction)unwindToSearchSettings:(UIStoryboardSegue *)unwindSegue
 {
 #pragma message "Instead of repeating the following line again and again it would be nicer to define a helper function that gets called with a string; that would allow you to change the behavior of that funtion in one single place"
 
@@ -181,6 +181,7 @@
     hud.mode = MBProgressHUDModeIndeterminate;
     hud.labelText = @"Loading";
     
+    UIViewController* sourceViewController = unwindSegue.sourceViewController;
 }
 
 @end

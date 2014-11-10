@@ -12,6 +12,8 @@
 #import "AMSmoothAlertView.h"
 #import "MBProgressHUD.h"
 
+#import <CoreLocation/CoreLocation.h>
+
 @implementation DraggableBackground
 {
     //Integers
@@ -26,7 +28,6 @@
     IBOutlet UIButton *checkButton;
     UIButton* menuButton;
     UIButton* messageButton;
-   
 }
 
 - (IBAction)good:(id)sender
@@ -39,30 +40,58 @@
     [self swipeLeft];
 }
 
+#pragma mark - init
+/**
+ * --------------------------------------------------------------------------
+ * Init
+ * --------------------------------------------------------------------------
+ */
+
 //this makes it so only two cards are loaded at a time to
 //avoid performance and memory costs
 static const int MAX_BUFFER_SIZE = 2; //%%% max number of cards loaded at any given time, must be greater than 1
-
 @synthesize exampleCardLabels; //%%% all the labels I'm using as example data at the moment
 @synthesize allCards;//%%% all the cards
 
 -(void)viewDidLoad
 {
     [super viewDidLoad];
-    if (self) {
+    
+    if ([NetworkCommunication sharedManager].stringYelpSearchTerm == nil)
+    {
+        [NetworkCommunication sharedManager].stringYelpSearchTerm = @"Restaurants";
+    }
+    else if ([NetworkCommunication sharedManager].stringYelpLocation == nil)
+    {
+        NSInteger latitude = 37.454018;
+        NSInteger longitude = 122.138427;
+        
+        [NetworkCommunication sharedManager].stringYelpLocation = [NSString stringWithFormat:(@"%ld,%ld"), (long)latitude, (long)longitude];
+    
+        [NetworkCommunication sharedManager].stringCurrentLatitude = [NSString stringWithFormat:(@"%ld"), (long)latitude];
+    
+        [NetworkCommunication sharedManager].stringCurrentLongitude = [NSString stringWithFormat:(@"%ld"), (long)longitude];
+    }
+    //Code for Nav Bar Colors
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:155/255.0 green:89/255.0 blue:182/255.0 alpha:1];
+    
+    //Code to load the array that holds the data for the cards
+    if (self)
+    {
         exampleCardLabels = [NetworkCommunication sharedManager].arraySelectedGroupCardData;
         loadedCards = [[NSMutableArray alloc] init];
         allCards = [[NSMutableArray alloc] init];
         cardsLoadedIndex = 0;
         currentCardIndex = -1;
-        NSInteger numLoadedCardsCap =(([exampleCardLabels count] > MAX_BUFFER_SIZE)?MAX_BUFFER_SIZE:[exampleCardLabels count]);
+        NSInteger numLoadedCardsCap =(([exampleCardLabels count] > MAX_BUFFER_SIZE) ? MAX_BUFFER_SIZE:[exampleCardLabels count]);
         
-        for (int i = 0; i<[exampleCardLabels count]; i++)
+        for (int i = 0; i < [exampleCardLabels count]; i++)
         {
             Draggable* newCard = [self createDraggableWithDataAtIndex:i];
             [allCards addObject:newCard];
             
-            if (i<numLoadedCardsCap)
+            if (i < numLoadedCardsCap)
             {
                 //%%% adds a small number of cards to be loaded
                 [loadedCards addObject:newCard];
@@ -73,7 +102,6 @@ static const int MAX_BUFFER_SIZE = 2; //%%% max number of cards loaded at any gi
         [self setupView];
 
         //%%% if the buffer size is greater than the data size, there will be an array error, so this makes sure that doesn't happen
-        
         //%%% loops through the exampleCardsLabels array to create a card for each label.  This should be customized by removing "exampleCardLabels" with your own array of data
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         
@@ -81,39 +109,48 @@ static const int MAX_BUFFER_SIZE = 2; //%%% max number of cards loaded at any gi
         hud.labelText = @"Loading";
     }
 }
+
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    
+    //Code for cards
     [self loadCards];
     [self createOverLaysMain];
 
+    //Code for Progress HUD
     [MBProgressHUD hideHUDForView:self.view animated:YES];
 }
+
 -(void)createOverLaysMain
 {
+    //Code for loading the cards
     for(int i = 0; i<self.allCards.count;i++)
     {
         [self.allCards[i] createOverLay];
     }
 }
+
 //%%% sets up the extra buttons on the screen
 -(void)setupView
 {
-    self.view.backgroundColor = [UIColor colorWithRed:.8 green:.8 blue:.8 alpha:1]; //the gray background colors
+    //the gray background colors
+    self.view.backgroundColor = [UIColor colorWithRed:.8 green:.8 blue:.8 alpha:1];
     
+    //Menu Colors
     menuButton = [[UIButton alloc]initWithFrame:CGRectMake(17, 34, 22, 15)];
     [menuButton setImage:[UIImage imageNamed:@"menuButton"] forState:UIControlStateNormal];
     
+    //message colors
     messageButton = [[UIButton alloc]initWithFrame:CGRectMake(284, 34, 18, 18)];
     [messageButton setImage:[UIImage imageNamed:@"messageButton"] forState:UIControlStateNormal];
     
     [xButton setImage:[UIImage imageNamed:@"xButton"] forState:UIControlStateNormal];
-    
     [checkButton setImage:[UIImage imageNamed:@"checkButton"] forState:UIControlStateNormal];
 
+    //Add Individual subviews for menu buttons
     [self.view addSubview:menuButton];
     [self.view addSubview:messageButton];
-
 }
 
 // Perform on background queue
@@ -122,14 +159,14 @@ static const int MAX_BUFFER_SIZE = 2; //%%% max number of cards loaded at any gi
 // to get rid of it (eg: if you are building cards from data from the internet)
 -(Draggable *)createDraggableWithDataAtIndex:(NSInteger)index
 {
+    
     Draggable *draggable = [[[NSBundle mainBundle] loadNibNamed:@"SwipeCardView" owner:self options:nil] objectAtIndex:0];
-    //    Draggable *draggable = [[Draggable alloc]initWithFrame:CGRectMake((self.view.frame.size.width - CARD_WIDTH)/2, (self.view.frame.size.height - CARD_HEIGHT)/2, CARD_WIDTH, CARD_HEIGHT)];
+//    Draggable *draggable = [[Draggable alloc]initWithFrame:CGRectMake((self.view.frame.size.width - CARD_WIDTH)/2, (self.view.frame.size.height - CARD_HEIGHT)/2, CARD_WIDTH, CARD_HEIGHT)];
     
     NSDictionary *tempoaryDict = [exampleCardLabels objectAtIndex:index];
     draggable.information.text = tempoaryDict[@"Name"]; //%%% placeholder for card-specific information
     if(tempoaryDict[@"ImageURL"]!=nil)
     {
-        
         NSString* newString = tempoaryDict[@"ImageURL"];
         
         NSString* new2String = [newString stringByReplacingOccurrencesOfString:@"/ms.jpg" withString:@"/o.jpg"];
@@ -226,7 +263,6 @@ static const int MAX_BUFFER_SIZE = 2; //%%% max number of cards loaded at any gi
         
         [self.view insertSubview:[loadedCards objectAtIndex:(MAX_BUFFER_SIZE-1)] belowSubview:[loadedCards objectAtIndex:(MAX_BUFFER_SIZE-2)]];
     }
-    
 }
 
 //%%% when you hit the right button, this is called and substitutes the swipe
@@ -277,19 +313,14 @@ static const int MAX_BUFFER_SIZE = 2; //%%% max number of cards loaded at any gi
     NSURL *url = [NSURL URLWithString:fixedUrl];
     
     //Request
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
-                                                           cachePolicy:NSURLRequestUseProtocolCachePolicy
-                                                       timeoutInterval:30.0];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
     [request setHTTPMethod:@"PUT"];
 
     //Session
     NSURLSession *urlSession = [NSURLSession sharedSession];
     
     //Data Task Block
-    NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request
-                                                   completionHandler:^(NSData *data,
-                                                                       NSURLResponse *response,
-                                                                       NSError *error)
+    NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error)
     {
         NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
         NSInteger responseStatusCode = [httpResponse statusCode];
@@ -299,10 +330,9 @@ static const int MAX_BUFFER_SIZE = 2; //%%% max number of cards loaded at any gi
             dispatch_async(dispatch_get_main_queue(), ^(void)
             {
 
-                NSMutableDictionary* dictionaryHerokuResponses = [NSJSONSerialization JSONObjectWithData:data
-                                                                           options:0
-                                                                             error:nil];
-                NSLog(@"%@",dictionaryHerokuResponses);
+                NSMutableDictionary* dictionaryHerokuResponses = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                
+                NSLog(@"Draggable - yesWith:index andUrl:groupID %@", dictionaryHerokuResponses);
                 
                 NSNumber *t = dictionaryHerokuResponses[@"NumberOfReplies"];
 
@@ -319,28 +349,22 @@ static const int MAX_BUFFER_SIZE = 2; //%%% max number of cards loaded at any gi
     [dataTask resume];
 }
 
--(void)finalWith:(int)index andUrl:(NSString*) tempUrl
+-(void)finalWith:(int)index
+          andUrl:(NSString*) tempUrl
 {
     //URL
-    NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/groups/%@/%d/finished",
-                          tempUrl,
-                          index+[NetworkCommunication sharedManager].intSelectedGroupProgressIndex];
+    NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/groups/%@/%d/finished", tempUrl, index+[NetworkCommunication sharedManager].intSelectedGroupProgressIndex];
     NSURL *url = [NSURL URLWithString:fixedUrl];
     
     //Request
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
-                                                           cachePolicy:NSURLRequestUseProtocolCachePolicy
-                                                       timeoutInterval:30.0];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
     [request setHTTPMethod:@"PUT"];
     
     //Session
     NSURLSession *urlSession = [NSURLSession sharedSession];
     
     //Data Task Block
-    NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request
-                                                   completionHandler:^(NSData *data,
-                                                                       NSURLResponse *response,
-                                                                       NSError *error)
+    NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error)
     {
         NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
         NSInteger responseStatusCode = [httpResponse statusCode];
@@ -349,10 +373,9 @@ static const int MAX_BUFFER_SIZE = 2; //%%% max number of cards loaded at any gi
         {
             dispatch_async(dispatch_get_main_queue(), ^(void)
             {
-                NSMutableDictionary* hhh = [NSJSONSerialization JSONObjectWithData:data
-                                                                           options:0
-                                                                             error:nil];
-                NSNumber *t = hhh[@"NumberOfReplies"];
+                NSMutableDictionary* dictionaryOfReplies = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                NSNumber *t = dictionaryOfReplies[@"NumberOfReplies"];
+                
                 if ([t intValue] == [NetworkCommunication sharedManager].intSelectedGroupNumberOfPeople)
                 {
                     //[self performSegueWithIdentifier:@"Done" sender:self];
@@ -372,13 +395,32 @@ static const int MAX_BUFFER_SIZE = 2; //%%% max number of cards loaded at any gi
         }
     }];
     [dataTask resume];
-    
 }
 
 -(void)showCompletion:(NSDictionary*)dict
 {
     AMSmoothAlertView *alert = [[AMSmoothAlertView alloc]initDropAlertWithTitle:@"Match Found!" andText:dict[@"Name"] andCancelButton:YES forAlertType:AlertSuccess];
     [alert show];
+}
+
+#pragma mark - Navigation
+/**
+ * --------------------------------------------------------------------------
+ * Navigation
+ * --------------------------------------------------------------------------
+ */
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue
+                 sender:(id)sender
+{
+    if ([segue.identifier isEqualToString:@"ToGroupTable"])
+    {
+        
+    }
+    else if ([segue.identifier isEqualToString:@"ToSettings"])
+    {
+        
+    }
 }
 
 @end

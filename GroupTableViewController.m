@@ -49,32 +49,23 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - ViewDidLoad - Start");}
 
-    
-    
-//#pragma message "Why does NetworkCommunication need to know about this class?"
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     self.navigationController.navigationBar.barTintColor= [UIColor colorWithRed:155/255.0 green:89/255.0 blue:182/255.0 alpha:1];
 
     [NetworkCommunication sharedManager].controllerCurrentGroup = self;
-    
 
-    [self.navigationItem setHidesBackButton:YES animated:YES];
+    [self.navigationItem setHidesBackButton:NO animated:YES];
 
-    
     [self.tableView addPullToRefreshWithActionHandler:^
     {
         [self tableWillReload];
     }];
-    
-    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - ViewDidLoad - Finished");}
 }
 
 -(void)tableWillReload
 {
     //[super viewWillAppear:animated];
-    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - ViewWillAppear - Start");}
     
     self.myOwners = [NSMutableArray array];
     self.myOwnerIds = [NSMutableArray array];
@@ -84,8 +75,6 @@
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     //[self getRequests];
     
-    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - ViewWillAppear - Finished");}
-
     if(!isTableLoading)
     {
 //#pragma message "use YES/NO instead ot true/false"
@@ -247,16 +236,13 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
  * --------------------------------------------------------------------------
  */
 
-#pragma message "bad method name because it is very similar to UITableView's reloadData method"
 - (IBAction)reloadData:(id)sender
 {
-    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - reloadData - Start");}
     
     //[self getGoogle];
     [self resetEverything];
     //[self yesWith:3 andUrl:@"543482c59b6f750200271e81"];
     
-    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - reloadData - Finshed");}
 }
 
 - (IBAction)logOutPressed:(id)sender {
@@ -274,7 +260,6 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 - (void)deleteGroup:(NSString *)pplid
                with:(NSString *)myId
 {
-    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - deleteGroup - Start");}
     //URL
     NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/ppl/%@groups/%@", pplid, myId];
     NSURL *url = [NSURL URLWithString:fixedUrl];
@@ -309,16 +294,12 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         }
     }];
     [dataTask resume];
-    
-    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - deleteGroup - Finished");}
 }
 
 - (void)deleteIndividualGroup:(NSString *)str
 {
-    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - deleteIndividualGroup - Start");}
     
     //URL
-    #pragma message "Backend Access should be moved into separate class"
     NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/groups/%@", str];
     NSURL *url = [NSURL URLWithString:fixedUrl];
     
@@ -332,11 +313,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     NSURLSession *urlSession = [NSURLSession sharedSession];
 
     //Data Task Block
-    NSURLSessionDataTask *dataTask =
-        [urlSession dataTaskWithRequest:request
-                      completionHandler:^(NSData *data,
-                                          NSURLResponse *response,
-                                          NSError *error)
+    NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error)
     {
       NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
       NSInteger responseStatusCode = [httpResponse statusCode];
@@ -357,34 +334,23 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
       }
     }];//Data Task Block
     [dataTask resume];
-    
-    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - deleteIndividualGroup - Finished");}
 }
 
 - (void)resetGroups
 {
-    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - resetGroups - Start");}
-
     //URL
-    #pragma message "Backend Access should be moved into separate class"
     NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/groups"];
     NSURL *url = [NSURL URLWithString:fixedUrl];
 
     //Request
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
-                                                           cachePolicy:NSURLRequestUseProtocolCachePolicy
-                                                       timeoutInterval:30.0];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
     [request setHTTPMethod:@"GET"];
 
     //Session
     NSURLSession *urlSession = [NSURLSession sharedSession];
 
     //Data Task Block
-    NSURLSessionDataTask *dataTask =
-        [urlSession dataTaskWithRequest:request
-                      completionHandler:^(NSData *data,
-                                          NSURLResponse *response,
-                                          NSError *error)
+    NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error)
     {
       NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
       NSInteger responseStatusCode = [httpResponse statusCode];
@@ -394,9 +360,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
           dispatch_async(dispatch_get_main_queue(), ^(void)
           {
               NSArray *fetchedData =
-                  [NSJSONSerialization JSONObjectWithData:data
-                                                  options:0
-                                                    error:nil];
+                  [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
 
               //self.myGroups = [NSMutableArray array];
               for (int i = 0; i < fetchedData.count; i++)
@@ -416,16 +380,11 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
       }
     }]; //Data Task Block
     [dataTask resume];
-    
-    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - resetGroups - Finished");}
 }
 
 - (void)resetPeople:(NSString *)pplid
 {
-    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - resetPeople - Start");}
-    
     //URL
-    #pragma message "Backend Access should be moved into separate class"
     NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/ppl/%@groups", pplid];
     NSURL *url = [NSURL URLWithString:fixedUrl];
 
@@ -439,10 +398,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 
     //Data Task Block
     NSURLSessionDataTask *dataTask =
-        [urlSession dataTaskWithRequest:request
-                      completionHandler:^(NSData *data,
-                                          NSURLResponse *response,
-                                          NSError *error)
+        [urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error)
     {
       NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
       NSInteger responseStatusCode = [httpResponse statusCode];
@@ -451,10 +407,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
       {
           dispatch_async(dispatch_get_main_queue(), ^(void)
           {
-              NSArray *fetchedData =
-                  [NSJSONSerialization JSONObjectWithData:data
-                                                  options:0
-                                                    error:nil];
+              NSArray *fetchedData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
 
               for (int i = 0; i < fetchedData.count; i++)
               {
@@ -475,8 +428,6 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
       }
     }];
     [dataTask resume];
-    
-    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - resetPeople - Finished");}
 }
 
 //Only for testing purposes
@@ -498,7 +449,6 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 
 - (void)getGoogle
 {
-    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - getGoogle - Start");}
     
     //URL
     NSString *fixedURL = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/google/food"];
@@ -541,7 +491,6 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
      }];//Data Task Block
     [dataTask resume];
     
-    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - getGoogle - Finished");}
 }
 
 #pragma mark - Facebook
@@ -553,7 +502,6 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 
 -(void)downloadImages
 {
-    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - downloadImages - Start");}
     [[FBRequest requestForMe] startWithCompletionHandler:^(FBRequestConnection *connection, NSDictionary<FBGraphUser> *FBuser, NSError *error)
      {
          if (error)
@@ -578,7 +526,6 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
              [MBProgressHUD hideHUDForView:self.view animated:YES];
          }
      }];
-    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - downloadImages - Finished");}
 }
 
 #pragma mark - Navigation
@@ -588,26 +535,36 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
  * --------------------------------------------------------------------------
  */
 
-- (IBAction)unwindToFriendTableViewController:(UIStoryboardSegue *)unwindSegue
-{
-    
-    [self tableWillReload];
-}
+
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - prepareForSegue - Start");}
+
     if ([segue.identifier isEqualToString:@"AddGroup"])
     {
 //        FriendTableViewController *controller = [segue destinationViewController];
 //        controller.parent = self;
     }
-    else if ([segue.identifier isEqualToString:@"Swipe"])
+    else if ([segue.identifier isEqualToString:@"ToSwiping"])
     {
         DraggableBackground *controller = [segue destinationViewController];
         controller.groupID = ((Group*)[NetworkCommunication sharedManager].arrayOfGroups[myIndex]).groupID;
     }
-    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - prepareForSegue - Finished");}
+    else if ([segue.identifier isEqualToString:@"BackToSwiping"])
+    {
+        
+    }
+    
+}
+
+- (IBAction)unwindToFriendTableViewController:(UIStoryboardSegue *)unwindSegue
+{
+    [self tableWillReload];
+}
+
+- (IBAction)unwindToSwiping:(UIStoryboardSegue *)unwindSegue
+{
+    
 }
 
 @end

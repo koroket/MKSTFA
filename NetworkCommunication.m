@@ -165,9 +165,7 @@
 
 - (void)getRequests
 {
-    if ([NetworkCommunication sharedManager].boolDebug == true) {
-        NSLog(@"GroupTable - getRequests - Start");
-    }
+
     NetworkCommunication *sharedCommunication = [NetworkCommunication alloc];
     [sharedCommunication serverRequests: [NSString stringWithFormat:@"ppl/%@groups", [NetworkCommunication sharedManager].stringFBUserId] type:@"GET"whatDictionary:nil withBlock:^(void)
      {
@@ -189,10 +187,6 @@
          }
          [self downloadImages];
      }];
-    if ([NetworkCommunication sharedManager].boolDebug == true)
-    {
-        NSLog(@"GroupTable - getRequests - Finished");
-    }
 }
 
 -(void)downloadImages
