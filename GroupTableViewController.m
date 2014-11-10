@@ -14,7 +14,6 @@
 #import "NetworkCommunication.h"
 #import "UIScrollView+SVPullToRefresh.h"
 #import "TDBadgedCell.h"
-
 #import <Foundation/Foundation.h>
 #import <FacebookSDK/FacebookSDK.h>
 
@@ -210,20 +209,32 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - cellForRowAtIndexPath - Start");}
 
-    TDBadgedCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
     
+    UIView *backgroundView = (UIImageView *)[cell viewWithTag:10];
+    backgroundView.clipsToBounds = YES;
+    backgroundView.layer.cornerRadius = backgroundView.frame.size.height/2.0;
+    backgroundView.layer.borderWidth = 2;
+//    cell.backgroundView = [[UIImageView alloc] initWithImage:[ ((Group*)[NetworkCommunication sharedManager].arrayOfGroups[indexPath.row]).imageID stretchableImageWithLeftCapWidth:0.0 topCapHeight:5.0] ];
+//    cell.backgroundView.alpha = .2;
     
-    cell.backgroundView = [[UIImageView alloc] initWithImage:[ ((Group*)[NetworkCommunication sharedManager].arrayOfGroups[indexPath.row]).imageID stretchableImageWithLeftCapWidth:0.0 topCapHeight:5.0] ];
-    cell.backgroundView.alpha = .2;
+    UIImageView *firstImageView = (UIImageView *)[cell viewWithTag:5];
+    firstImageView.image = ((Group*)[NetworkCommunication sharedManager].arrayOfGroups[indexPath.row]).imageID;
+    
+    for(int i = 0; i < ((Group*)[NetworkCommunication sharedManager].arrayOfGroups[indexPath.row]).friendPics.count;i++)
+    {
+        UIImageView *nextImageView = (UIImageView *)[cell viewWithTag:6+i];
+        nextImageView.image = ((Group*)[NetworkCommunication sharedManager].arrayOfGroups[indexPath.row]).friendPics[i];
+    }
     //Facebook connection used for profile picture
-    cell.imageView.image = ((Group*)[NetworkCommunication sharedManager].arrayOfGroups[indexPath.row]).imageID;
-    
-    //Code to display badge that appears next to the group
-    cell.textLabel.text = [NSString stringWithFormat:@"%@'s Group Event",((Group*)[NetworkCommunication sharedManager].arrayOfGroups[indexPath.row]).ownerName];
-    cell.badgeString = [NSString stringWithFormat:@"%@",((Group*)[NetworkCommunication sharedManager].arrayOfGroups[indexPath.row]).groupIndex];
-    cell.badgeColor = [UIColor colorWithRed:0.792 green:0.197 blue:0.219 alpha:1.000];
-    cell.badge.radius = 9;
-    cell.badge.fontSize = 18;
+//    cell.imageView.image = ((Group*)[NetworkCommunication sharedManager].arrayOfGroups[indexPath.row]).imageID;
+//    
+//    //Code to display badge that appears next to the group
+//    cell.textLabel.text = [NSString stringWithFormat:@"%@'s Group Event",((Group*)[NetworkCommunication sharedManager].arrayOfGroups[indexPath.row]).ownerName];
+//    cell.badgeString = [NSString stringWithFormat:@"%@",((Group*)[NetworkCommunication sharedManager].arrayOfGroups[indexPath.row]).groupIndex];
+//    cell.badgeColor = [UIColor colorWithRed:0.792 green:0.197 blue:0.219 alpha:1.000];
+//    cell.badge.radius = 9;
+//    cell.badge.fontSize = 18;
     
     if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"GroupTable - cellForRowAtIndexPath - Finished");}
     return cell;

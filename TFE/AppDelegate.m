@@ -80,7 +80,12 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData*)deviceToken
 - (void)application:(UIApplication*)application
 didFailToRegisterForRemoteNotificationsWithError:(NSError*)error
 {
+      [NetworkCommunication sharedManager].stringDeviceToken = @"fail";
     NSLog(@"Failed to get token, error: %@", error);
+    if([NetworkCommunication sharedManager].stringFBUserId!=nil)
+    {
+        [[NetworkCommunication sharedManager] linkDeviceToken];
+    }
 }
 
 - (void)onReceivePushNotification:(NSDictionary *) pushDict andPayload:(NSDictionary *)payload

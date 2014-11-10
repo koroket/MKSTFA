@@ -17,5 +17,7 @@
 @property NSString *dbID;
 @property NSString *groupIndex;
 @property UIImage *imageID;
+@property NSArray *friendIDs;
+@property NSMutableArray *friendPics;
 
 @end

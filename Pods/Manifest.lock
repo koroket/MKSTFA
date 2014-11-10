@@ -3,6 +3,7 @@ PODS:
     - GPUImage
   - GPUImage (0.1.6)
   - MBProgressHUD (0.9)
+  - MDCSwipeToChoose (0.2.1)
   - MMDrawerController (0.5.7):
     - MMDrawerController/Core
     - MMDrawerController/MMDrawerBarButtonItem
@@ -21,6 +22,7 @@ PODS:
 DEPENDENCIES:
   - AMSmoothAlert (~> 1.0)
   - MBProgressHUD (~> 0.8)
+  - MDCSwipeToChoose
   - MMDrawerController (~> 0.5.7)
   - SVPullToRefresh (from `https://github.com/samvermette/SVPullToRefresh`, commit `a5f9dfee86`)
   - TDBadgedCell (~> 2.5.2.1)
@@ -34,6 +36,7 @@ SPEC CHECKSUMS:
   AMSmoothAlert: 1b4bf6688b698a606a963c336b5060490f4d3db2
   GPUImage: cecb0830bb9428f50192042e3c7b53810f51388e
   MBProgressHUD: 2038dbcf3dce73215abed6001657043d53aa79a8
+  MDCSwipeToChoose: 54f7b1675eff182cdc46c582360c7fca4c766a67
   MMDrawerController: c3ab7a318ddc7e2bcd133139c3161af08c6e1197
   SVPullToRefresh: 61a0e4bd12bd6f8e3465909810b0fbeb1a28d5f2
   TDBadgedCell: dce5feab0caa3c255aed36327012674a1b65e650
