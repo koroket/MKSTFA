@@ -46,31 +46,31 @@
     
     // Get the stored data before the view loads
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [[NSUserDefaults standardUserDefaults] setObject:valueToSave forKey:@"preferenceName"];
+    //[[NSUserDefaults standardUserDefaults] setObject:valueToSave forKey:@"preferenceName"];
 
     
     
-    if ([defaults stringForKey:[@"Restaurants"]] == @"Restaurants")
-    {
-        _switchRestaurants.on = YES;
-    }
-    else if ([defaults stringForKey:@"QuickEats"])
-    {
-        _switchQuickEats.on = YES;
-    }
-    else if ([defaults stringForKey:@"Drinks"])
-    {
-        _switchDrinks.on = YES;
-    }
-    else if ([defaults stringForKey:@"BreakfastBrunch"])
-    {
-        _switchCoffee.on = YES;
-    }
-    else if ([defaults stringForKey:@"NightLife"])
-    {
-        _switchNightlife.on = YES;
-    }
-    
+//    if ([defaults stringForKey:[@"Restaurants"]] == @"Restaurants")
+//    {
+//        _switchRestaurants.on = YES;
+//    }
+//    else if ([defaults stringForKey:@"QuickEats"])
+//    {
+//        _switchQuickEats.on = YES;
+//    }
+//    else if ([defaults stringForKey:@"Drinks"])
+//    {
+//        _switchDrinks.on = YES;
+//    }
+//    else if ([defaults stringForKey:@"BreakfastBrunch"])
+//    {
+//        _switchCoffee.on = YES;
+//    }
+//    else if ([defaults stringForKey:@"NightLife"])
+//    {
+//        _switchNightlife.on = YES;
+//    }
+//    
     
 }
 
