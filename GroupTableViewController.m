@@ -49,8 +49,7 @@
 {
     [super viewDidLoad];
 
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
-    self.navigationController.navigationBar.barTintColor= [UIColor colorWithRed:155/255.0 green:89/255.0 blue:182/255.0 alpha:1];
+
 
     [NetworkCommunication sharedManager].controllerCurrentGroup = self;
 

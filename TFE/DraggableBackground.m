@@ -48,8 +48,11 @@ static const int MAX_BUFFER_SIZE = 2; //%%% max number of cards loaded at any gi
 
 -(void)viewDidLoad
 {
-
     [super viewDidLoad];
+    
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
+    self.navigationController.navigationBar.barTintColor= [UIColor colorWithRed:155/255.0 green:89/255.0 blue:182/255.0 alpha:1];
+    
     if (self) {
             self.offset = 0;
         exampleCardLabels = [NetworkCommunication sharedManager].arraySelectedGroupCardData;

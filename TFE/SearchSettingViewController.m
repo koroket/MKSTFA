@@ -38,30 +38,39 @@
  * --------------------------------------------------------------------------
  */
 
+
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    if ([NetworkCommunication sharedManager].stringYelpSearchTerm == @"Restaurants")
+    // Get the stored data before the view loads
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [[NSUserDefaults standardUserDefaults] setObject:valueToSave forKey:@"preferenceName"];
+
+    
+    
+    if ([defaults stringForKey:[@"Restaurants"]] == @"Restaurants")
     {
         _switchRestaurants.on = YES;
     }
-    else if ([NetworkCommunication sharedManager].stringYelpSearchTerm == @"QuickEats")
+    else if ([defaults stringForKey:@"QuickEats"])
     {
-        _switchRestaurants.on = YES;
+        _switchQuickEats.on = YES;
     }
-    else if ([NetworkCommunication sharedManager].stringYelpSearchTerm == @"Drinks")
+    else if ([defaults stringForKey:@"Drinks"])
     {
-        _switchRestaurants.on = YES;
+        _switchDrinks.on = YES;
     }
-    else if ([NetworkCommunication sharedManager].stringYelpSearchTerm == @"BreakfastBrunch")
+    else if ([defaults stringForKey:@"BreakfastBrunch"])
     {
-        _switchRestaurants.on = YES;
+        _switchCoffee.on = YES;
     }
-    else if ([NetworkCommunication sharedManager].stringYelpSearchTerm == @"NightLife")
+    else if ([defaults stringForKey:@"NightLife"])
     {
-        _switchRestaurants.on = YES;
+        _switchNightlife.on = YES;
     }
+    
     
 }
 
@@ -69,6 +78,37 @@
 {
     [super viewDidAppear:animated];
     
+}
+
+- (void)saveContent
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *yelpSearchTerm = @"";
+
+
+    if (_switchRestaurants.on == YES)
+    {
+        yelpSearchTerm = @"Restaurants";
+    }
+    else if (_switchQuickEats.on == YES)
+    {
+        yelpSearchTerm = @"QuickEats";
+    }
+    else if (_switchDrinks.on == YES)
+    {
+        yelpSearchTerm = @"Drinks";
+    }
+    else if (_switchCoffee.on == YES)
+    {
+        yelpSearchTerm = @"Coffee";
+    }
+    else if (_switchNightlife.on == YES)
+    {
+        yelpSearchTerm = @"NightLife";
+    }
+    
+    [defaults setObject:yelpSearchTerm forKey:@"YelpSearchTerm"];
+    [defaults synchronize];
 }
 
 #pragma mark - Navigation
@@ -84,53 +124,12 @@
 {
     if ([segue.identifier isEqualToString:@"ToMapView"] == YES)
     {
-        if (_switchRestaurants.on == YES)
-        {
-            [NetworkCommunication sharedManager].stringYelpSearchTerm = @"Restaurants";
-        }
-        else if (_switchQuickEats.on == YES)
-        {
-            [NetworkCommunication sharedManager].stringYelpSearchTerm = @"QuickEats";
-        }
-        else if (_switchDrinks.on == YES)
-        {
-            [NetworkCommunication sharedManager].stringYelpSearchTerm = @"Drinks";
-        }
-        else if (_switchCoffee.on == YES)
-        {
-            [NetworkCommunication sharedManager].stringYelpSearchTerm = @"BreakfastBrunch";
-        }
-        else if (_switchNightlife.on == YES)
-        {
-            [NetworkCommunication sharedManager].stringYelpSearchTerm = @"NightLife";
-        }
+        [self saveContent];
     }
-    [NetworkCommunication sharedManager].intYelpNumberOfLocations = 20;
 }
 
 - (IBAction)unwindSegueToSwiping:(UIStoryboardSegue *)unwindSegue
 {
-    if (_switchRestaurants.on == YES)
-    {
-        [NetworkCommunication sharedManager].stringYelpSearchTerm = @"Restaurants";
-    }
-    else if (_switchQuickEats.on == YES)
-    {
-        [NetworkCommunication sharedManager].stringYelpSearchTerm = @"QuickEats";
-    }
-    else if (_switchDrinks.on == YES)
-    {
-        [NetworkCommunication sharedManager].stringYelpSearchTerm = @"Drinks";
-    }
-    else if (_switchCoffee.on == YES)
-    {
-        [NetworkCommunication sharedManager].stringYelpSearchTerm = @"BreakfastBrunch";
-    }
-    else if (_switchNightlife.on == YES)
-    {
-        [NetworkCommunication sharedManager].stringYelpSearchTerm = @"NightLife";
-    }
-
     //UIViewController* sourceViewController = unwindSegue.sourceViewController;
     UIViewController *sourceViewController = unwindSegue.sourceViewController;
     UIViewController *destinationViewController = unwindSegue.destinationViewController;
@@ -150,12 +149,12 @@
     [UIView animateWithDuration:0.5
                           delay:0.0
                         options:UIViewAnimationOptionCurveEaseInOut
-                     animations:^{
+                     animations:^ {
                          // Grow!
                          destinationViewController.view.transform = CGAffineTransformMakeScale(1.0, 1.0);
                          destinationViewController.view.center = originalCenter;
                      }
-                     completion:^(BOOL finished){
+                     completion:^(BOOL finished) {
                          [destinationViewController.view removeFromSuperview]; // remove from temp super view
                          [sourceViewController presentViewController:destinationViewController animated:NO completion:NULL]; // present VC
                      }];
