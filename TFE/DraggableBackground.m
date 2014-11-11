@@ -383,6 +383,7 @@ static const int MAX_BUFFER_SIZE = 2; //%%% max number of cards loaded at any gi
                                 NSArray*fetchedData = [NSJSONSerialization JSONObjectWithData:data
                                                                                             options:0
                                                                                               error:nil];
+#pragma message "You are using this for preloading, right?; You should add some comments"
                                 self.offset +=20;
                                 exampleCardLabels = [fetchedData mutableCopy];
                                 for (int i = 0; i<20; i++)
