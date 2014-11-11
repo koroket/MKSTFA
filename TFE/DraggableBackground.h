@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CoreLocation/CoreLocation.h>
 #import "Draggable.h"
 
-@interface DraggableBackground : UIViewController <DraggableDelegate>
+@interface DraggableBackground : UIViewController <DraggableDelegate, CLLocationManagerDelegate>
 
 //methods called in DraggableBackground
 -(void)cardSwipedLeft:(UIView *)card;

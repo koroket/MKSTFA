@@ -23,40 +23,74 @@
 //
 
 #import "ChoosePersonViewController.h"
+#import "NetworkCommunication.h"
 #import <MDCSwipeToChoose/MDCSwipeToChoose.h>
+#import <CoreLocation/CoreLocation.h>
 
 static const CGFloat ChoosePersonButtonHorizontalPadding = 80.f;
 static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
 
-@interface ChoosePersonViewController ()
+@interface ChoosePersonViewController () <CLLocationManagerDelegate>
 {
     bool gettingMoreCards;
 }
+
 @property (nonatomic, strong)NSMutableArray *cards;
+
 @end
 
+
 @implementation ChoosePersonViewController
+{
+    //Location Management
+    CLLocationManager *manager;
+    CLGeocoder *geocoder;
+    CLPlacemark *placemark;
+    CLLocation *currentLocation;
+}
 
 #pragma mark - Object Lifecycle
 
-
-
-#pragma mark - UIViewController Overrides
-
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     self.cards = [NSMutableArray array];
-
+    
+    [self.navigationController setNavigationBarHidden:NO animated:YES];
+    self.navigationController.navigationBar.barTintColor= [UIColor colorWithRed:155/255.0 green:89/255.0 blue:182/255.0 alpha:1];
+    
+    //LocationManager stuff
+    manager = [[CLLocationManager alloc] init];
+    geocoder = [[CLGeocoder alloc] init];
+    
+    manager.delegate = self;
+    manager.desiredAccuracy = kCLLocationAccuracyBest;
+    
+    if (currentLocation == nil)
+    {
+        [manager requestWhenInUseAuthorization];
+        [manager startUpdatingLocation];
+    }
+    else
+    {
+        [manager stopUpdatingLocation];
+    }
+    
+    
     // Display the first ChoosePersonView in front. Users can swipe to indicate
     // whether they like or dislike the person displayed.
-
+    
 }
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-        [self getMoreYelp];
+    [self getMoreYelp];
     
 }
+
+
+#pragma mark - UIViewController Overrides
+
 -(void)setUp
 {
     self.frontCardView = [self popPersonViewWithFrame:[self backCardViewFrame]];
@@ -337,10 +371,57 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
      }]; // Data Task Block
     [dataTask resume];
 }
+
 -(NSString*)priceFix:(NSString*) str
 {
     NSString* tempStr = [str stringByReplacingOccurrencesOfString:@" " withString:@""];
     tempStr = [tempStr stringByReplacingOccurrencesOfString:@"\n" withString:@""];
     return tempStr;
 }
+
+#pragma mark - locations
+/**
+ * --------------------------------------------------------------------------
+ * Locations
+ * --------------------------------------------------------------------------
+ */
+
+- (void)locationManager:(CLLocationManager *)manager
+    didUpdateToLocation:(CLLocation *)newLocation
+           fromLocation:(CLLocation *)oldLocation
+{
+    
+    NSLog(@"Location: %@", newLocation);
+    currentLocation = newLocation;
+    if (currentLocation != nil)
+    {
+        //self.textFieldLocation.text = [NSString stringWithFormat:@" ";
+    }
+    
+    [geocoder reverseGeocodeLocation:currentLocation completionHandler:^(NSArray *placemarks, NSError *error)
+     {
+         if (error == nil && [placemarks count] > 0)
+         {
+         }
+         else
+         {
+             NSLog(@"%@",error.debugDescription);
+         }
+         
+     }];
+    
+    // Singleton
+#pragma message "Why are you storing GeoLocations as strings? It would be nicer to store them with their actual type and let the NetworkCommunication class translate them into strings before talking to the server"
+    [NetworkCommunication sharedManager].stringYelpLocation = [NSString stringWithFormat:(@"%f,%f"),
+                                                               currentLocation.coordinate.latitude,
+                                                               currentLocation.coordinate.longitude];
+    
+    [NetworkCommunication sharedManager].stringCurrentLatitude = [NSString stringWithFormat:(@"%f"), currentLocation.coordinate.latitude];
+    
+    [NetworkCommunication sharedManager].stringCurrentLongitude = [NSString stringWithFormat:(@"%f"), currentLocation.coordinate.longitude];
+    
+    [manager stopUpdatingLocation];
+    
+}
+
 @end

@@ -12,6 +12,12 @@
 #import "AMSmoothAlertView.h"
 #import "MBProgressHUD.h"
 
+#import <CoreLocation/CoreLocation.h>
+
+@interface DraggableBackground () <CLLocationManagerDelegate>
+
+@end
+
 @implementation DraggableBackground
 {
     //Integers
@@ -26,7 +32,8 @@
     IBOutlet UIButton *checkButton;
     UIButton* menuButton;
     UIButton* messageButton;
-   
+    
+    
 }
 
 - (IBAction)good:(id)sender
@@ -50,10 +57,10 @@ static const int MAX_BUFFER_SIZE = 2; //%%% max number of cards loaded at any gi
 {
     [super viewDidLoad];
     
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
-    self.navigationController.navigationBar.barTintColor= [UIColor colorWithRed:155/255.0 green:89/255.0 blue:182/255.0 alpha:1];
+
     
-    if (self) {
+    if (self)
+    {
             self.offset = 0;
         exampleCardLabels = [NetworkCommunication sharedManager].arraySelectedGroupCardData;
         loadedCards = [[NSMutableArray alloc] init];
@@ -78,7 +85,10 @@ static const int MAX_BUFFER_SIZE = 2; //%%% max number of cards loaded at any gi
         hud.mode = MBProgressHUDModeIndeterminate;
         hud.labelText = @"Loading";
     }
+    
+
 }
+
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
@@ -87,6 +97,7 @@ static const int MAX_BUFFER_SIZE = 2; //%%% max number of cards loaded at any gi
 
     [MBProgressHUD hideHUDForView:self.view animated:YES];
 }
+
 -(void)createOverLaysMain
 {
     for(int i = 0; i<self.allCards.count;i++)
@@ -94,6 +105,7 @@ static const int MAX_BUFFER_SIZE = 2; //%%% max number of cards loaded at any gi
         [self.allCards[i] createOverLay];
     }
 }
+
 //%%% sets up the extra buttons on the screen
 -(void)setupView
 {
@@ -337,6 +349,7 @@ static const int MAX_BUFFER_SIZE = 2; //%%% max number of cards loaded at any gi
 //    }];
 //    [dataTask resume];
 //}
+
 -(void)getMoreYelp
 {
     NSString *fixedURL = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/yelp/%@/%@/%@/%d",
@@ -390,11 +403,15 @@ static const int MAX_BUFFER_SIZE = 2; //%%% max number of cards loaded at any gi
      }]; // Data Task Block
     [dataTask resume];
 }
+
 -(void)showCompletion:(NSDictionary*)dict
 {
     AMSmoothAlertView *alert = [[AMSmoothAlertView alloc]initDropAlertWithTitle:@"Match Found!" andText:dict[@"Name"] andCancelButton:YES forAlertType:AlertSuccess];
     [alert show];
 }
+
+
+
 
 @end
 
