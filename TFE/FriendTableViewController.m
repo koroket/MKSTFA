@@ -20,6 +20,7 @@
 @property(nonatomic, strong) NSMutableArray *friendIds;
 @property(nonatomic, strong) NSMutableArray *selectedFriends;
 
+- (IBAction)buttonAddGroup:(id)sender;
 - (IBAction)unwind:(id)sender;
 
 @end
@@ -154,6 +155,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 
 - (void)createGroup
 {
+    [NetworkCommunication sharedManager].intYelpNumberOfLocations = 20;
     //URL
     NSString *fixedURL = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/yelp/%@/%@/%@/%d/%@",
                           [NetworkCommunication sharedManager].stringCurrentLatitude,
@@ -215,6 +217,18 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
  * Navigation
  * --------------------------------------------------------------------------
  */
+- (IBAction)buttonAddGroup:(id)sender
+{
+    [NetworkCommunication sharedManager].stringYelpSearchTerm = @"Restaurants";
+    [NetworkCommunication sharedManager].stringCurrentLatitude = @"37.763264";
+    [NetworkCommunication sharedManager].stringCurrentLongitude = @"-122.401379";
+    
+    
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.mode = MBProgressHUDModeIndeterminate;
+    [self createGroup];
+}
+
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue
                  sender:(id)sender
@@ -231,10 +245,9 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 
 - (IBAction)unwindToGroupViewController:(UIStoryboardSegue *)segue
 {
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    hud.mode = MBProgressHUDModeIndeterminate;
-    [self createGroup];
+    
 }
+
 
 @end
 

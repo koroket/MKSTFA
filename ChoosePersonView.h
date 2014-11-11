@@ -24,8 +24,10 @@
 
 #import <UIKit/UIKit.h>
 #import <MDCSwipeToChoose/MDCSwipeToChoose.h>
+#import <CoreLocation/CoreLocation.h>
 
-@interface ChoosePersonView : MDCSwipeToChooseView
+
+@interface ChoosePersonView : MDCSwipeToChooseView <CLLocationManagerDelegate>
 
 
 @property (strong, nonatomic) IBOutlet UILabel *distance;

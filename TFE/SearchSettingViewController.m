@@ -30,6 +30,9 @@
 @end
 
 @implementation SearchSettingViewController
+{
+    UIButton *currentOnButton;
+}
 
 #pragma mark - init
 /**
@@ -45,33 +48,43 @@
     [super viewDidLoad];
     
     // Get the stored data before the view loads
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    //NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
     //[[NSUserDefaults standardUserDefaults] setObject:valueToSave forKey:@"preferenceName"];
-
     
+    [_switchRestaurants addTarget:self action:@selector(setState:) forControlEvents:UIControlEventValueChanged];
+      [_switchQuickEats addTarget:self action:@selector(setState:) forControlEvents:UIControlEventValueChanged];
+         [_switchDrinks addTarget:self action:@selector(setState:) forControlEvents:UIControlEventValueChanged];
+      [_switchNightlife addTarget:self action:@selector(setState:) forControlEvents:UIControlEventValueChanged];
+         [_switchCoffee addTarget:self action:@selector(setState:) forControlEvents:UIControlEventValueChanged];
     
-//    if ([defaults stringForKey:[@"Restaurants"]] == @"Restaurants")
-//    {
-//        _switchRestaurants.on = YES;
-//    }
-//    else if ([defaults stringForKey:@"QuickEats"])
-//    {
-//        _switchQuickEats.on = YES;
-//    }
-//    else if ([defaults stringForKey:@"Drinks"])
-//    {
-//        _switchDrinks.on = YES;
-//    }
-//    else if ([defaults stringForKey:@"BreakfastBrunch"])
-//    {
-//        _switchCoffee.on = YES;
-//    }
-//    else if ([defaults stringForKey:@"NightLife"])
-//    {
-//        _switchNightlife.on = YES;
-//    }
-//    
+    if([[NSUserDefaults standardUserDefaults] stringForKey:@"Search"] == nil)
+    {
+        //handle nil here
+    }
     
+    if ([[[NSUserDefaults standardUserDefaults] stringForKey:@"Search"]  isEqual: @"Restaurants"])
+    {
+        _switchRestaurants.on = YES;
+    }
+    else if ([[[NSUserDefaults standardUserDefaults] stringForKey:@"Search"]  isEqual: @"QuickEats"])
+    {
+        _switchQuickEats.on = YES;
+    }
+    else if ([[[NSUserDefaults standardUserDefaults] stringForKey:@"Search"]  isEqual: @"Drinks"])
+    {
+        _switchDrinks.on = YES;
+    }
+    else if ([[[NSUserDefaults standardUserDefaults] stringForKey:@"Search"]  isEqual: @"Coffee"])
+    {
+        _switchCoffee.on = YES;
+    }
+    else if ([[[NSUserDefaults standardUserDefaults] stringForKey:@"Search"]  isEqual: @"NightLife"])
+    {
+        _switchNightlife.on = YES;
+    }
+    
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -80,35 +93,40 @@
     
 }
 
+- (void)setState:(id)sender
+{
+//    if (_switchRestaurants.on == YES)
+//    {
+//        [[NSUserDefaults standardUserDefaults] setObject:@"Restaurants" forKey:@"Search"];
+//    }
+//    else if (_switchQuickEats.on == YES)
+//    {
+//        yelpSearchTerm = @"QuickEats";
+//    }
+//    else if (_switchDrinks.on == YES)
+//    {
+//        yelpSearchTerm = @"Drinks";
+//    }
+//    else if (_switchCoffee.on == YES)
+//    {
+//        yelpSearchTerm = @"Coffee";
+//    }
+//    else if (_switchNightlife.on == YES)
+//    {
+//        yelpSearchTerm = @"NightLife";
+//    }
+    
+    //[[NSUserDefaults standardUserDefaults] setObject:yelpSearchTerm forKey:@"YelpSearchTerm"];
+    
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
 - (void)saveContent
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString *yelpSearchTerm = @"";
 
 
-    if (_switchRestaurants.on == YES)
-    {
-        yelpSearchTerm = @"Restaurants";
-    }
-    else if (_switchQuickEats.on == YES)
-    {
-        yelpSearchTerm = @"QuickEats";
-    }
-    else if (_switchDrinks.on == YES)
-    {
-        yelpSearchTerm = @"Drinks";
-    }
-    else if (_switchCoffee.on == YES)
-    {
-        yelpSearchTerm = @"Coffee";
-    }
-    else if (_switchNightlife.on == YES)
-    {
-        yelpSearchTerm = @"NightLife";
-    }
-    
-    [defaults setObject:yelpSearchTerm forKey:@"YelpSearchTerm"];
-    [defaults synchronize];
 }
 
 #pragma mark - Navigation
