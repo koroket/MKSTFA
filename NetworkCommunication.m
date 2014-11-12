@@ -19,6 +19,7 @@
 
 @implementation NetworkCommunication
 {
+#pragma message "Use NSInteger instead of int"
     int counter;
     int numOfPicsToDownload;
 }
@@ -223,6 +224,7 @@
     numOfPicsToDownload = 0;
     for(int i = 0; i<self.arrayOfGroups.count;i++)
     {
+#pragma message "You shouldn't use 'magic numbers' all numbers should be declared as constants"
         if(((Group*)self.arrayOfGroups[i]).friendIDs.count<4)
         {
             numOfPicsToDownload+=((Group*)self.arrayOfGroups[i]).friendIDs.count-1;
@@ -280,7 +282,7 @@
                                {
                                    dispatch_async(dispatch_get_main_queue(), ^
                                                   {
-                                                      
+
                                                       if([NetworkCommunication sharedManager].controllerCurrentGroup==nil)
                                                       {
                                                           [self.controllerCurrentLogin performSegueWithIdentifier:@"loggedin" sender:self.controllerCurrentLogin];
