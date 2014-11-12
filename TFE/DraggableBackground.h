@@ -16,16 +16,20 @@
 -(void)cardSwipedLeft:(UIView *)card;
 -(void)cardSwipedRight:(UIView *)card;
 -(void)showCompletion:(NSDictionary*)dict;
+
+//viewContainers
+@property (strong, nonatomic) IBOutlet UIView *viewContainer;
+
 //arrays
 @property (retain,nonatomic)NSMutableArray* exampleCardLabels; //%%% the labels the cards
 @property (retain,nonatomic)NSMutableArray* allCards; //%%% the labels the cards
 @property (nonatomic, strong)NSArray* restaurants;
-@property (strong, nonatomic) IBOutlet UIView *viewContainer;
-@property (nonatomic,assign) int offset;
+
 //strings
 @property (nonatomic,strong) NSString* groupID;
 
 //ints
 @property (nonatomic,assign) int numOfPeople;
+@property (nonatomic,assign) int offset;
 
 @end

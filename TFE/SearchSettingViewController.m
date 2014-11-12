@@ -58,6 +58,7 @@
       [_switchNightlife addTarget:self action:@selector(setState:) forControlEvents:UIControlEventValueChanged];
          [_switchCoffee addTarget:self action:@selector(setState:) forControlEvents:UIControlEventValueChanged];
     
+    
     if([[NSUserDefaults standardUserDefaults] stringForKey:@"Search"] == nil)
     {
         //handle nil here
@@ -87,46 +88,32 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    
-}
-
 - (void)setState:(id)sender
 {
-//    if (_switchRestaurants.on == YES)
-//    {
-//        [[NSUserDefaults standardUserDefaults] setObject:@"Restaurants" forKey:@"Search"];
-//    }
-//    else if (_switchQuickEats.on == YES)
-//    {
-//        yelpSearchTerm = @"QuickEats";
-//    }
-//    else if (_switchDrinks.on == YES)
-//    {
-//        yelpSearchTerm = @"Drinks";
-//    }
-//    else if (_switchCoffee.on == YES)
-//    {
-//        yelpSearchTerm = @"Coffee";
-//    }
-//    else if (_switchNightlife.on == YES)
-//    {
-//        yelpSearchTerm = @"NightLife";
-//    }
+    if (_switchRestaurants.on == YES)
+    {
+        [[NSUserDefaults standardUserDefaults] setObject:@"Restaurants" forKey:@"Search"];
+    }
+    else if (_switchQuickEats.on == YES)
+    {
+        [[NSUserDefaults standardUserDefaults] setObject:@"QuickEats" forKey:@"Search"];
+    }
+    else if (_switchDrinks.on == YES)
+    {
+        [[NSUserDefaults standardUserDefaults] setObject:@"Drinks" forKey:@"Search"];
+    }
+    else if (_switchCoffee.on == YES)
+    {
+        [[NSUserDefaults standardUserDefaults] setObject:@"Coffee" forKey:@"Search"];
+    }
+    else if (_switchNightlife.on == YES)
+    {
+        [[NSUserDefaults standardUserDefaults] setObject:@"NightLife" forKey:@"Search"];
+    }
     
     //[[NSUserDefaults standardUserDefaults] setObject:yelpSearchTerm forKey:@"YelpSearchTerm"];
     
     [[NSUserDefaults standardUserDefaults] synchronize];
-}
-
-- (void)saveContent
-{
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSString *yelpSearchTerm = @"";
-
-
 }
 
 #pragma mark - Navigation
@@ -142,7 +129,6 @@
 {
     if ([segue.identifier isEqualToString:@"ToMapView"] == YES)
     {
-        [self saveContent];
     }
 }
 

@@ -24,6 +24,7 @@
 
 #import "ChoosePersonViewController.h"
 #import "NetworkCommunication.h"
+
 #import <MDCSwipeToChoose/MDCSwipeToChoose.h>
 #import <CoreLocation/CoreLocation.h>
 
@@ -56,8 +57,8 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
     [super viewDidLoad];
     self.cards = [NSMutableArray array];
     
-    [self.navigationController setNavigationBarHidden:NO animated:YES];
-    self.navigationController.navigationBar.barTintColor= [UIColor colorWithRed:155/255.0 green:89/255.0 blue:182/255.0 alpha:1];
+//    [self.navigationController setNavigationBarHidden:NO animated:YES];
+//    self.navigationController.navigationBar.barTintColor= [UIColor colorWithRed:155/255.0 green:89/255.0 blue:182/255.0 alpha:1];
     
     //LocationManager stuff
     manager = [[CLLocationManager alloc] init];
@@ -395,7 +396,7 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
     currentLocation = newLocation;
     if (currentLocation != nil)
     {
-        //self.textFieldLocation.text = [NSString stringWithFormat:@" ";
+
     }
     
     [geocoder reverseGeocodeLocation:currentLocation completionHandler:^(NSArray *placemarks, NSError *error)
@@ -421,7 +422,6 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
     [NetworkCommunication sharedManager].stringCurrentLongitude = [NSString stringWithFormat:(@"%f"), currentLocation.coordinate.longitude];
     
     [manager stopUpdatingLocation];
-    
 }
 
 @end
