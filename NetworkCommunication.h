@@ -47,6 +47,7 @@
 @property (nonatomic,strong) NSMutableArray* arrayOfGroups;
 
 //Controllers
+#pragma message "It's pretty bad design when the NetworkSingleton has a reference to ViewControllers, can you come up with a better solution?"
 @property FBLogInViewController  *controllerCurrentLogin;
 @property GroupTableViewController *controllerCurrentGroup;
 //Booleans

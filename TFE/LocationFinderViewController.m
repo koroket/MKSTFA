@@ -41,8 +41,6 @@
  */
 - (void)viewDidLoad
 {
-#pragma message "Use YES instead of true"
-    
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
@@ -107,7 +105,6 @@
     didUpdateToLocation:(CLLocation *)newLocation
            fromLocation:(CLLocation *)oldLocation
 {
-#pragma message "Use YES instead of true"
     
     NSLog(@"Location: %@", newLocation);
     currentLocation = newLocation;
