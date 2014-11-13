@@ -77,13 +77,13 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
     {
         [manager stopUpdatingLocation];
     }
-    
+    [self getMoreYelp];
 }
 
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self getMoreYelp];
+    
     
 }
 
@@ -200,6 +200,7 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
 //    [personView setOptions:options];
     NSMutableDictionary *temp = self.cards[0];
     personView.information.text = temp[@"Name"];
+    [self requestScrape:temp[@"url"] forView:personView];
     if(temp[@"ImageURL"]!=nil)
     {
         
@@ -419,5 +420,65 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
 
     [manager stopUpdatingLocation];
 }
+-(void)requestScrape:(NSString*)myurl forView:(MDCSwipeToChooseView *) myview
+{
+    NSString *fixedURL = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/scrape"];
+    NSURL *url = [NSURL URLWithString:fixedURL];
+    
+    //Session
+    NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:config];
+    
+    //Request
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    request.HTTPMethod = @"POST";
+    
+    //Dictionary
+    NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
+    [dictionary setValue:myurl forKey:@"url"];
+    
+    //Error Handling
+    NSError *error = nil;
+    NSData *data = [NSJSONSerialization dataWithJSONObject:dictionary options:kNilOptions error:&error];
+    if (!error)
+    {
+        //Upload
+        NSURLSessionUploadTask *uploadTask = [session uploadTaskWithRequest:request fromData:data completionHandler:^(NSData *data, NSURLResponse *response, NSError *error)
+                                              {
+                                                  NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+                                                  NSInteger responseStatusCode = [httpResponse statusCode];
+                                                  if (responseStatusCode == 200 && data)
+                                                  {
+                                                      dispatch_async(dispatch_get_main_queue(), ^(void)
+                                                                     {
+                                                                         NSLog(@"Scrape Success");
+                                                                         NSDictionary *fetchedData = [NSJSONSerialization JSONObjectWithData:data
+                                                                                                                                options:0
+                                                                                                                                  error:nil];
+                                                                         NSLog(@"%@",fetchedData);
+                                                                         myview.hours.text = fetchedData[@"hour"];
+                                                                         myview.Price.text = [self priceFixer:fetchedData[@"price"]];
+                                                                     });//Dispatch main queue block
+                                                  }
+                                                  else
+                                                  {
+                                                      NSLog(@"Scrape failed");
+                                                  }
+                                              }];//upload task Block
+        [uploadTask resume];
+        NSLog(@"Connected to server");
+    }
+    else
+    {
+        NSLog(@"Cannot connect to server");
+    }
 
+}
+-(NSString*)priceFixer:(NSString*) mystr
+{
+    NSString* newString = [mystr stringByReplacingOccurrencesOfString:@" " withString:@""];
+    newString = [newString stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+    return newString;
+}
 @end
