@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		6223D78F19F594B5004A2900 /* SwipeCardView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6223D78E19F594B5004A2900 /* SwipeCardView.xib */; };
+		62518C741A14A96700CBBCE2 /* Card.m in Sources */ = {isa = PBXBuildFile; fileRef = 62518C731A14A96700CBBCE2 /* Card.m */; };
+		62518C771A14ABD200CBBCE2 /* SavedCardsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 62518C761A14ABD200CBBCE2 /* SavedCardsTableViewController.m */; };
 		62528DD71A0BF50100EF4CB4 /* ChoosePersonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 62528DD31A0BF50000EF4CB4 /* ChoosePersonView.m */; };
 		62528DD81A0BF50100EF4CB4 /* ChoosePersonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 62528DD51A0BF50100EF4CB4 /* ChoosePersonViewController.m */; };
 		625CD5FC19D9D1C500A5D41E /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 625CD5FB19D9D1C500A5D41E /* FacebookSDK.framework */; };
@@ -60,6 +62,10 @@
 		21C9859A86047793629D1B7D /* Pods-TFE.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TFE.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TFE/Pods-TFE.debug.xcconfig"; sourceTree = "<group>"; };
 		3397E0B71DC9DA88BBC9F51F /* Pods-TFE.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TFE.release.xcconfig"; path = "Pods/Target Support Files/Pods-TFE/Pods-TFE.release.xcconfig"; sourceTree = "<group>"; };
 		6223D78E19F594B5004A2900 /* SwipeCardView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SwipeCardView.xib; path = ../SwipeCardView.xib; sourceTree = "<group>"; };
+		62518C721A14A96700CBBCE2 /* Card.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Card.h; sourceTree = "<group>"; };
+		62518C731A14A96700CBBCE2 /* Card.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Card.m; sourceTree = "<group>"; };
+		62518C751A14ABD200CBBCE2 /* SavedCardsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SavedCardsTableViewController.h; sourceTree = "<group>"; };
+		62518C761A14ABD200CBBCE2 /* SavedCardsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SavedCardsTableViewController.m; sourceTree = "<group>"; };
 		62528DD21A0BF50000EF4CB4 /* ChoosePersonView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChoosePersonView.h; path = ../ChoosePersonView.h; sourceTree = "<group>"; };
 		62528DD31A0BF50000EF4CB4 /* ChoosePersonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ChoosePersonView.m; path = ../ChoosePersonView.m; sourceTree = "<group>"; };
 		62528DD41A0BF50000EF4CB4 /* ChoosePersonViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ChoosePersonViewController.h; path = ../ChoosePersonViewController.h; sourceTree = "<group>"; };
@@ -231,6 +237,8 @@
 		D5AB926F19D60565001FB2A7 = {
 			isa = PBXGroup;
 			children = (
+				62518C721A14A96700CBBCE2 /* Card.h */,
+				62518C731A14A96700CBBCE2 /* Card.m */,
 				D5AB92A419D60AA0001FB2A7 /* Frameworks */,
 				D5AB927A19D60565001FB2A7 /* TFE */,
 				D5AB929719D60565001FB2A7 /* TFETests */,
@@ -256,6 +264,8 @@
 				D5AB928019D60565001FB2A7 /* AppDelegate.m */,
 				D5551DE819D9EA400017790D /* Group.h */,
 				D5551DE919D9EA400017790D /* Group.m */,
+				62518C751A14ABD200CBBCE2 /* SavedCardsTableViewController.h */,
+				62518C761A14ABD200CBBCE2 /* SavedCardsTableViewController.m */,
 				D518EE3819F5CFB800329A05 /* Settings */,
 				D5551DED19DA071D0017790D /* Login */,
 				D5551DEB19DA06E00017790D /* FriendTable */,
@@ -459,9 +469,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				62528DD71A0BF50100EF4CB4 /* ChoosePersonView.m in Sources */,
+				62518C771A14ABD200CBBCE2 /* SavedCardsTableViewController.m in Sources */,
 				D5551DF419DA1ACB0017790D /* Draggable.m in Sources */,
 				D5AB928119D60565001FB2A7 /* AppDelegate.m in Sources */,
 				D5996B0F1A12B4BC003049F3 /* SettingsViewController.m in Sources */,
+				62518C741A14A96700CBBCE2 /* Card.m in Sources */,
 				D5AB927E19D60565001FB2A7 /* main.m in Sources */,
 				625CD5FF19D9D51400A5D41E /* FriendTableViewController.m in Sources */,
 				62B2177519ECF4D900834EBA /* NetworkCommunication.m in Sources */,

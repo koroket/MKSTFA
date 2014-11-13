@@ -24,10 +24,10 @@
 
 #import "ChoosePersonViewController.h"
 #import "NetworkCommunication.h"
-
+#import "Card.h"
 #import <MDCSwipeToChoose/MDCSwipeToChoose.h>
 #import <CoreLocation/CoreLocation.h>
-
+#import "AppDelegate.h"
 static const CGFloat ChoosePersonButtonHorizontalPadding = 80.f;
 static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
 
@@ -119,15 +119,51 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
 }
 
 // This is called then a user swipes the view fully left or right.
-- (void)view:(UIView *)view wasChosenWithDirection:(MDCSwipeDirection)direction
+- (void)view:(MDCSwipeToChooseView *)view wasChosenWithDirection:(MDCSwipeDirection)direction
 {
     // MDCSwipeToChooseView shows "NOPE" on swipes to the left,
     // and "LIKED" on swipes to the right.
     
     if (direction == MDCSwipeDirectionLeft)
     {
-
+        NSLog(@"No");
     } else {
+        NSLog(@"Yes");
+        NSManagedObjectContext *context = ((AppDelegate *)[UIApplication sharedApplication].delegate).managedObjectContext;
+        
+        NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Card" inManagedObjectContext:context];
+        
+        
+        Card *newCard = [[Card alloc] initWithEntity:entityDescription insertIntoManagedObjectContext:context];
+        
+        
+        [newCard setValue:view.information.text forKey:@"name"];
+        [newCard setValue:view.Price.text forKey:@"price"];
+        [newCard setValue:view.distance.text forKey:@"distance"];
+        [newCard setValue:view.rating.text forKey:@"rating"];
+        [newCard setValue:view.hours.text forKey:@"hours"];
+        [newCard setValue:view.categories.text forKey:@"categories"];
+        
+        NSData *imageData = UIImagePNGRepresentation(view.imageView.image);
+        [newCard setValue:imageData forKey:@"image"];
+
+        
+        
+//        NSData *imageData = UIImagePNGRepresentation(view.imageView.image);
+//        
+//        [newCard setValue:imageData forKey:@"image"];
+        
+        NSError *error = nil;
+        
+        if (![context save:&error]) {
+            NSLog(@"Unable to save managed object context.");
+            NSLog(@"%@, %@", error, error.localizedDescription);
+        }
+        else
+        {
+            NSLog(@"Saved");
+            
+        }
 
     }
 
