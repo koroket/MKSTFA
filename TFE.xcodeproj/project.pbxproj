@@ -191,6 +191,7 @@
 		D5551DEC19DA06F70017790D /* GroupTable */ = {
 			isa = PBXGroup;
 			children = (
+				D5551DEB19DA06E00017790D /* FriendTable */,
 				D5AB92AF19D6251C001FB2A7 /* GroupTableViewController.h */,
 				D5AB92B019D6251C001FB2A7 /* GroupTableViewController.m */,
 			);
@@ -266,12 +267,11 @@
 				D5551DE919D9EA400017790D /* Group.m */,
 				62518C751A14ABD200CBBCE2 /* SavedCardsTableViewController.h */,
 				62518C761A14ABD200CBBCE2 /* SavedCardsTableViewController.m */,
-				D518EE3819F5CFB800329A05 /* Settings */,
 				D5551DED19DA071D0017790D /* Login */,
-				D5551DEB19DA06E00017790D /* FriendTable */,
-				D5551DEC19DA06F70017790D /* GroupTable */,
 				D5551DF119DA1A920017790D /* Swiping */,
+				D518EE3819F5CFB800329A05 /* Settings */,
 				D599940A19EDA8870098802B /* Singleton */,
+				D5551DEC19DA06F70017790D /* GroupTable */,
 				D5AB928B19D60565001FB2A7 /* Images.xcassets */,
 				D5AB928D19D60565001FB2A7 /* LaunchScreen.xib */,
 				D5AB928219D60565001FB2A7 /* TFE.xcdatamodeld */,
