@@ -415,6 +415,7 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
     //Save current location to NSUserDefaults
     [[NSUserDefaults standardUserDefaults] setObject:@(currentLocation.coordinate.latitude) forKey:@"User Location Latitude"];
     [[NSUserDefaults standardUserDefaults] setObject:@(currentLocation.coordinate.longitude) forKey:@"User Location Longitude"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 
     [manager stopUpdatingLocation];
 }
