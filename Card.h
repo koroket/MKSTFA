@@ -19,5 +19,5 @@
 @property (nonatomic, retain) NSString * categories;
 @property (nonatomic, retain) NSString * distance;
 @property (nonatomic, retain) NSString * price;
-
+@property (nonatomic, retain) NSString * bizid;
 @end

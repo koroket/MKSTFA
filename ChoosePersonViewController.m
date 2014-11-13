@@ -52,7 +52,33 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
 }
 
 #pragma mark - Object Lifecycle
-
+- (id)initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    
+    if (self) {
+        NSManagedObjectContext *context = ((AppDelegate *)[UIApplication sharedApplication].delegate).managedObjectContext;
+        
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+        
+        NSEntityDescription *entity = [NSEntityDescription entityForName:@"Card" inManagedObjectContext:context];
+        [fetchRequest setEntity:entity];
+        
+        NSError *error = nil;
+        NSArray* temp = [context executeFetchRequest:fetchRequest error:&error];
+        self.coreDataCards = temp;
+        
+        if (error) {
+            NSLog(@"Unable to execute fetch request.");
+            NSLog(@"%@, %@", error, error.localizedDescription);
+            
+        } else {
+            NSLog(@"%@", self.coreDataCards);
+        }
+        
+    }
+    
+    return self;
+}
 - (void)viewDidLoad
 {
     // Display the first ChoosePersonView in front. Users can swipe to indicate
@@ -136,7 +162,7 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
         
         Card *newCard = [[Card alloc] initWithEntity:entityDescription insertIntoManagedObjectContext:context];
         
-        
+        [newCard setValue:view.bizid forKey:@"bizid"];
         [newCard setValue:view.information.text forKey:@"name"];
         [newCard setValue:view.Price.text forKey:@"price"];
         [newCard setValue:view.distance.text forKey:@"distance"];
@@ -208,10 +234,20 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
 
 - (MDCSwipeToChooseView *)popPersonViewWithFrame:(CGRect)frame
 {
+
+
+    
+    while(self.cards>0&&[self bizExists:((NSMutableDictionary*)self.cards[0])[@"id"]])
+    {
+        [self.cards removeObjectAtIndex:0];
+    }
+    
     if ([self.cards count] == 0) {
         return nil;
     }
 
+    NSMutableDictionary *temp = self.cards[0];
+    
     // UIView+MDCSwipeToChoose and MDCSwipeToChooseView are heavily customizable.
     // Each take an "options" argument. Here, we specify the view controller as
     // a delegate, and provide a custom callback that moves the back card view
@@ -234,8 +270,10 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
    
 //    personView.frame = self.viewContainer.frame;
 //    [personView setOptions:options];
-    NSMutableDictionary *temp = self.cards[0];
+
+    
     personView.information.text = temp[@"Name"];
+    personView.bizid = temp[@"id"];
     [self requestScrape:temp[@"url"] forView:personView];
     if(temp[@"ImageURL"]!=nil)
     {
@@ -510,6 +548,24 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
         NSLog(@"Cannot connect to server");
     }
 
+}
+-(BOOL)bizExists:(NSString*)bizid
+{
+    NSFetchRequest *fetch = [NSFetchRequest fetchRequestWithEntityName:@"Card"];
+    
+
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"bizid = %@", bizid];
+    [fetch setPredicate:predicate];
+    
+    NSError *error = nil;
+    NSArray *results = [((AppDelegate *)[UIApplication sharedApplication].delegate).managedObjectContext executeFetchRequest:fetch error:&error];
+    if(results.count>0) {
+        NSLog(@"duplicate");
+        return true;
+    } else {
+        NSLog(@"new");
+        return false;
+    }
 }
 -(NSString*)priceFixer:(NSString*) mystr
 {
