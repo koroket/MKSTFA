@@ -217,8 +217,6 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 //    cell.backgroundView = [[UIImageView alloc] initWithImage:[ ((Group*)[NetworkCommunication sharedManager].arrayOfGroups[indexPath.row]).imageID stretchableImageWithLeftCapWidth:0.0 topCapHeight:5.0] ];
 //    cell.backgroundView.alpha = .2;
     
-#pragma message "Instead of using viewWithTag it would be nicer to create a subclass for this tableView and use properties of that subclass to access the individual views"
-    
     UIImageView *firstImageView = (UIImageView *)[cell viewWithTag:5];
     firstImageView.image = ((Group*)[NetworkCommunication sharedManager].arrayOfGroups[indexPath.row]).imageID;
     

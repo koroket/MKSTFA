@@ -9,7 +9,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" restorationIdentifier="SwipeCardView" id="iN0-l3-epB" customClass="MDCSwipeToChooseView">
-            <rect key="frame" x="0.0" y="0.0" width="480" height="668"/>
+            <rect key="frame" x="0.0" y="0.0" width="480" height="638"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Place's Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qUr-j8-VFk">
@@ -55,7 +55,7 @@
                     </variation>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No data" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NMV-tL-vs1">
-                    <rect key="frame" x="2" y="624" width="72.5" height="27.5"/>
+                    <rect key="frame" x="2" y="588" width="72.5" height="27.5"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="30" id="HvV-aK-04Z"/>
                     </constraints>
@@ -69,7 +69,7 @@
                     </variation>
                 </label>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Categories" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Hzy-wu-6xD">
-                    <rect key="frame" x="0.0" y="588" width="97.5" height="27.5"/>
+                    <rect key="frame" x="0.0" y="552" width="97.5" height="27.5"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="30" id="A5Y-5J-0wm"/>
                     </constraints>
@@ -102,6 +102,24 @@
                         </mask>
                     </variation>
                 </label>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ULI-lF-MAg">
+                    <rect key="frame" x="174" y="588" width="34" height="30"/>
+                    <state key="normal" title="Pass">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4oY-Hn-7Jr">
+                    <rect key="frame" x="216" y="588" width="48" height="30"/>
+                    <state key="normal" title="Shuffle">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V7N-LY-1wm">
+                    <rect key="frame" x="272" y="588" width="34" height="30"/>
+                    <state key="normal" title="Save">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                </button>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
@@ -115,7 +133,7 @@
                 <constraint firstItem="qUr-j8-VFk" firstAttribute="leading" secondItem="rcA-Ki-gWb" secondAttribute="leading" id="KWE-jG-hTW"/>
                 <constraint firstItem="qUr-j8-VFk" firstAttribute="top" secondItem="rcA-Ki-gWb" secondAttribute="bottom" constant="8" id="Q1z-HU-2h6"/>
                 <constraint firstItem="qUr-j8-VFk" firstAttribute="leading" secondItem="Hzy-wu-6xD" secondAttribute="trailing" constant="-117" id="QPA-hg-Mf2"/>
-                <constraint firstItem="Hzy-wu-6xD" firstAttribute="top" secondItem="1Pb-TW-a0q" secondAttribute="bottom" constant="38.5" id="TyA-6E-jxh"/>
+                <constraint firstItem="Hzy-wu-6xD" firstAttribute="top" secondItem="1Pb-TW-a0q" secondAttribute="bottom" constant="2.5" id="TyA-6E-jxh"/>
                 <constraint firstItem="rcA-Ki-gWb" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="VfT-NP-BsL"/>
                 <constraint firstItem="qUr-j8-VFk" firstAttribute="leading" secondItem="1Pb-TW-a0q" secondAttribute="leading" id="ZZd-hz-F3M"/>
                 <constraint firstItem="Hzy-wu-6xD" firstAttribute="leading" secondItem="1Pb-TW-a0q" secondAttribute="trailing" constant="-58.5" id="a5B-Ph-mc6"/>
@@ -164,7 +182,7 @@
                 <outlet property="information" destination="qUr-j8-VFk" id="P29-B8-wHg"/>
                 <outlet property="rating" destination="zwS-9g-W4r" id="F1g-Xr-RGE"/>
             </connections>
-            <point key="canvasLocation" x="321" y="-340"/>
+            <point key="canvasLocation" x="320" y="-350"/>
         </view>
         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Yelp Rating" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3TE-8b-m2k">
             <rect key="frame" x="0.0" y="0.0" width="212" height="30"/>

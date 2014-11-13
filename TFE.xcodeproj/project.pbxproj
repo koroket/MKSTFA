@@ -171,10 +171,6 @@
 			children = (
 				62BD81D019E17A6800813045 /* SearchSettingViewController.h */,
 				62BD81D119E17A6800813045 /* SearchSettingViewController.m */,
-				D5996B0D1A12B4BC003049F3 /* SettingsViewController.h */,
-				D5996B0E1A12B4BC003049F3 /* SettingsViewController.m */,
-				D518EE3519F5CFAF00329A05 /* LocationFinderViewController.h */,
-				D518EE3619F5CFAF00329A05 /* LocationFinderViewController.m */,
 			);
 			name = Settings;
 			sourceTree = "<group>";
@@ -191,7 +187,6 @@
 		D5551DEC19DA06F70017790D /* GroupTable */ = {
 			isa = PBXGroup;
 			children = (
-				D5551DEB19DA06E00017790D /* FriendTable */,
 				D5AB92AF19D6251C001FB2A7 /* GroupTableViewController.h */,
 				D5AB92B019D6251C001FB2A7 /* GroupTableViewController.m */,
 			);
@@ -215,12 +210,6 @@
 				62528DD31A0BF50000EF4CB4 /* ChoosePersonView.m */,
 				62528DD41A0BF50000EF4CB4 /* ChoosePersonViewController.h */,
 				62528DD51A0BF50100EF4CB4 /* ChoosePersonViewController.m */,
-				D5551DF219DA1ACB0017790D /* Draggable.h */,
-				D5551DF319DA1ACB0017790D /* Draggable.m */,
-				D5551DF519DA1AE10017790D /* DraggableBackground.h */,
-				D5551DF619DA1AE10017790D /* DraggableBackground.m */,
-				D5551DF819DA1B030017790D /* OverlayView.h */,
-				D5551DF919DA1B030017790D /* OverlayView.m */,
 			);
 			name = Swiping;
 			sourceTree = "<group>";
@@ -260,6 +249,7 @@
 		D5AB927A19D60565001FB2A7 /* TFE */ = {
 			isa = PBXGroup;
 			children = (
+				D5BF78D71A15773300E63AA1 /* Unused */,
 				62BD81CD19E12F3E00813045 /* Main.storyboard */,
 				D5AB927F19D60565001FB2A7 /* AppDelegate.h */,
 				D5AB928019D60565001FB2A7 /* AppDelegate.m */,
@@ -271,6 +261,7 @@
 				D5551DF119DA1A920017790D /* Swiping */,
 				D518EE3819F5CFB800329A05 /* Settings */,
 				D599940A19EDA8870098802B /* Singleton */,
+				D5551DEB19DA06E00017790D /* FriendTable */,
 				D5551DEC19DA06F70017790D /* GroupTable */,
 				D5AB928B19D60565001FB2A7 /* Images.xcassets */,
 				D5AB928D19D60565001FB2A7 /* LaunchScreen.xib */,
@@ -328,6 +319,23 @@
 				82D787F848FB445131EEE608 /* libPods-TFE.a */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D5BF78D71A15773300E63AA1 /* Unused */ = {
+			isa = PBXGroup;
+			children = (
+				D5551DF219DA1ACB0017790D /* Draggable.h */,
+				D5551DF319DA1ACB0017790D /* Draggable.m */,
+				D5551DF519DA1AE10017790D /* DraggableBackground.h */,
+				D5551DF619DA1AE10017790D /* DraggableBackground.m */,
+				D5551DF819DA1B030017790D /* OverlayView.h */,
+				D5551DF919DA1B030017790D /* OverlayView.m */,
+				D5996B0D1A12B4BC003049F3 /* SettingsViewController.h */,
+				D5996B0E1A12B4BC003049F3 /* SettingsViewController.m */,
+				D518EE3519F5CFAF00329A05 /* LocationFinderViewController.h */,
+				D518EE3619F5CFAF00329A05 /* LocationFinderViewController.m */,
+			);
+			name = Unused;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
