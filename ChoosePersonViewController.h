@@ -31,4 +31,5 @@
 @property (nonatomic, strong) MDCSwipeToChooseView *frontCardView;
 @property (nonatomic, strong) MDCSwipeToChooseView *backCardView;
 @property (nonatomic, assign) int offset;
+@property (nonatomic, strong) NSArray* coreDataCards;
 @end
