@@ -63,7 +63,7 @@
     }
     
     //initialize picker data
-    _pickerData = @[@"Card Search Options",@"Restaurants", @"Quick Eats", @"Bars", @"NightLife", @"Coffee & Breakfast"];
+    _pickerData = @[@"Restaurants", @"Quick Eats", @"Bars", @"NightLife", @"Coffee & Breakfast"];
     self.pickerView.dataSource = self;
     self.pickerView.delegate = self;
 }
@@ -101,8 +101,10 @@ numberOfRowsInComponent:(NSInteger)component
       didSelectRow:(NSInteger)row
        inComponent:(NSInteger)component
 {
-    [NetworkCommunication sharedManager].stringYelpSearchTerm = _pickerData[row];
-    //[[NSUserDefaults standardUserDefaults] objectForKey:@"Search Setting"] = _pickerData[row];
+    //[NetworkCommunication sharedManager].stringYelpSearchTerm = _pickerData[row];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:_pickerData[row] forKey:@"Search Setting"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
     
     NSLog(@"The current selection is %@",_pickerData[row]);
 }
@@ -138,7 +140,7 @@ numberOfRowsInComponent:(NSInteger)component
          
      }];
     
-    //currentLocation = [[NSUserDefaults standardUserDefaults] objectForKey:@"User Location"];
+    
     
     // Map View Stuff
     CLLocationCoordinate2D location = CLLocationCoordinate2DMake(currentLocation.coordinate.latitude, currentLocation.coordinate.longitude);
@@ -153,13 +155,20 @@ numberOfRowsInComponent:(NSInteger)component
     [self.mapView addAnnotation:annotation];
     
     // NSUserDefaults
-    [NetworkCommunication sharedManager].stringYelpLocation = [NSString stringWithFormat:(@"%f,%f"),
-                                                               currentLocation.coordinate.latitude,
-                                                               currentLocation.coordinate.longitude];
     
-    [NetworkCommunication sharedManager].stringCurrentLatitude = [NSString stringWithFormat:(@"%f"), currentLocation.coordinate.latitude];
+    //currentLocation = [[NSUserDefaults standardUserDefaults] objectForKey:@"User Location"];
     
-    [NetworkCommunication sharedManager].stringCurrentLongitude = [NSString stringWithFormat:(@"%f"), currentLocation.coordinate.longitude];
+    [[NSUserDefaults standardUserDefaults] setObject:currentLocation forKey:@"User Location"];
+
+    
+    
+//    [NetworkCommunication sharedManager].stringYelpLocation = [NSString stringWithFormat:(@"%f,%f"),
+//                                                               currentLocation.coordinate.latitude,
+//                                                               currentLocation.coordinate.longitude];
+//    
+//    [NetworkCommunication sharedManager].stringCurrentLatitude = [NSString stringWithFormat:(@"%f"), currentLocation.coordinate.latitude];
+//    
+//    [NetworkCommunication sharedManager].stringCurrentLongitude = [NSString stringWithFormat:(@"%f"), currentLocation.coordinate.longitude];
     
     [manager stopUpdatingLocation];
     

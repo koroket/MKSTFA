@@ -35,6 +35,7 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
 {
     bool gettingMoreCards;
 }
+@property (weak, nonatomic) IBOutlet UIView *cardView;
 
 @property (nonatomic, strong)NSMutableArray *cards;
 
@@ -54,6 +55,8 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
 
 - (void)viewDidLoad
 {
+    // Display the first ChoosePersonView in front. Users can swipe to indicate
+    // whether they like or dislike the person displayed.
     [super viewDidLoad];
     self.cards = [NSMutableArray array];
     
@@ -63,10 +66,8 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
     //LocationManager stuff
     manager = [[CLLocationManager alloc] init];
     geocoder = [[CLGeocoder alloc] init];
-    
     manager.delegate = self;
     manager.desiredAccuracy = kCLLocationAccuracyBest;
-    
     if (currentLocation == nil)
     {
         [manager requestWhenInUseAuthorization];
@@ -77,11 +78,8 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
         [manager stopUpdatingLocation];
     }
     
-    
-    // Display the first ChoosePersonView in front. Users can swipe to indicate
-    // whether they like or dislike the person displayed.
-    
 }
+
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
@@ -96,13 +94,13 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
 {
     self.frontCardView = [self popPersonViewWithFrame:[self backCardViewFrame]];
     self.frontCardView.frame = self.viewContainer.frame;
-    [self.viewContainer addSubview:self.frontCardView];
+    [self.cardView addSubview:self.frontCardView];
     
     // Display the second ChoosePersonView in back. This view controller uses
     // the MDCSwipeToChooseDelegate protocol methods to update the front and
     // back views after each user swipe.
     self.backCardView = [self popPersonViewWithFrame:[self backCardViewFrame]];
-    [self.viewContainer insertSubview:self.backCardView belowSubview:self.frontCardView];
+    [self.cardView insertSubview:self.backCardView belowSubview:self.frontCardView];
     
     // Add buttons to programmatically swipe the view left or right.
     // See the `nopeFrontCardView` and `likeFrontCardView` methods.
@@ -115,16 +113,19 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
 #pragma mark - MDCSwipeToChooseDelegate Protocol Methods
 
 // This is called when a user didn't fully swipe left or right.
-- (void)viewDidCancelSwipe:(UIView *)view {
+- (void)viewDidCancelSwipe:(UIView *)view
+{
 
 }
 
 // This is called then a user swipes the view fully left or right.
-- (void)view:(UIView *)view wasChosenWithDirection:(MDCSwipeDirection)direction {
+- (void)view:(UIView *)view wasChosenWithDirection:(MDCSwipeDirection)direction
+{
     // MDCSwipeToChooseView shows "NOPE" on swipes to the left,
     // and "LIKED" on swipes to the right.
     
-    if (direction == MDCSwipeDirectionLeft) {
+    if (direction == MDCSwipeDirectionLeft)
+    {
 
     } else {
 
@@ -135,11 +136,12 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
     // MDCSwipeOptions class). Since the front card view is gone, we
     // move the back card to the front, and create a new back card.
     self.frontCardView = self.backCardView;
-    if ((self.backCardView = [self popPersonViewWithFrame:[self backCardViewFrame]])) {
+    if ((self.backCardView = [self popPersonViewWithFrame:[self backCardViewFrame]]))
+    {
         // Fade the back card into view.
         self.backCardView.alpha = 0.f;
         self.backCardView.frame = self.viewContainer.frame;
-        [self.viewContainer insertSubview:self.backCardView belowSubview:self.frontCardView];
+        [self.cardView insertSubview:self.backCardView belowSubview:self.frontCardView];
         
         [UIView animateWithDuration:0.5
                               delay:0.0
@@ -158,7 +160,8 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
 
 #pragma mark - Internal Methods
 
-- (void)setFrontCardView:(MDCSwipeToChooseView *)frontCardView {
+- (void)setFrontCardView:(MDCSwipeToChooseView *)frontCardView
+{
     // Keep track of the person currently being chosen.
     // Quick and dirty, just for the purposes of this sample app.
     _frontCardView = frontCardView;
@@ -167,7 +170,8 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
 }
 
 
-- (MDCSwipeToChooseView *)popPersonViewWithFrame:(CGRect)frame {
+- (MDCSwipeToChooseView *)popPersonViewWithFrame:(CGRect)frame
+{
     if ([self.cards count] == 0) {
         return nil;
     }
@@ -189,7 +193,7 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
 //    ChoosePersonView *personView = [[ChoosePersonView alloc] initWithFrame:frame
 //                                                                    person:self.people[0]
 //                                                                   options:options];
-    MDCSwipeToChooseView *personView = [[MDCSwipeToChooseView alloc] initWithFrame:frame
+    MDCSwipeToChooseView *personView = [[MDCSwipeToChooseView alloc] initWithFrame:self.cardView.frame
                                                                    options:options];
    
 //    personView.frame = self.viewContainer.frame;
@@ -259,20 +263,23 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
 
 #pragma mark View Contruction
 
-- (CGRect)frontCardViewFrame {
+- (CGRect)frontCardViewFrame
+{
     return self.viewContainer.frame;
 }
 
-- (CGRect)backCardViewFrame {
+- (CGRect)backCardViewFrame
+{
     return self.viewContainer.frame;
 }
 
 // Create and add the "nope" button.
-- (void)constructNopeButton {
+- (void)constructNopeButton
+{
     UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     UIImage *image = [UIImage imageNamed:@"nope"];
-    button.frame = CGRectMake(ChoosePersonButtonHorizontalPadding,
-                              CGRectGetMaxY(self.backCardView.frame) + ChoosePersonButtonVerticalPadding,
+    button.frame = CGRectMake(CGRectGetMinX(self.cardView.frame),
+                              CGRectGetMaxY(self.cardView.frame) + ChoosePersonButtonVerticalPadding,
                               image.size.width,
                               image.size.height);
     [button setImage:image forState:UIControlStateNormal];
@@ -283,15 +290,16 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
     [button addTarget:self
                action:@selector(nopeFrontCardView)
      forControlEvents:UIControlEventTouchUpInside];
-    [self.viewContainer addSubview:button];
+    [self.cardView addSubview:button];
 }
 
 // Create and add the "like" button.
-- (void)constructLikedButton {
+- (void)constructLikedButton
+{
     UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     UIImage *image = [UIImage imageNamed:@"liked"];
-    button.frame = CGRectMake(CGRectGetMaxX(self.view.frame) - image.size.width - ChoosePersonButtonHorizontalPadding,
-                              CGRectGetMaxY(self.backCardView.frame) + ChoosePersonButtonVerticalPadding,
+    button.frame = CGRectMake(CGRectGetMaxX(self.cardView.frame) - image.size.width - ChoosePersonButtonHorizontalPadding,
+                              CGRectGetMaxY(self.cardView.frame) + ChoosePersonButtonVerticalPadding,
                               image.size.width,
                               image.size.height);
     [button setImage:image forState:UIControlStateNormal];
@@ -302,27 +310,36 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
     [button addTarget:self
                action:@selector(likeFrontCardView)
      forControlEvents:UIControlEventTouchUpInside];
-    [self.viewContainer addSubview:button];
+    [self.cardView addSubview:button];
 }
 
 #pragma mark Control Events
 
 // Programmatically "nopes" the front card view.
-- (void)nopeFrontCardView {
+- (void)nopeFrontCardView
+{
     [self.frontCardView mdc_swipe:MDCSwipeDirectionLeft];
 }
 
 // Programmatically "likes" the front card view.
-- (void)likeFrontCardView {
+- (void)likeFrontCardView
+{
     [self.frontCardView mdc_swipe:MDCSwipeDirectionRight];
 }
 
 -(void)getMoreYelp
 {
+    
+    if([[NSUserDefaults standardUserDefaults] objectForKey:@"Yelp Search Term"]==nil)
+    {
+        [[NSUserDefaults standardUserDefaults] setObject:@"Restaurants" forKey:@"Yelp Search Term"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+    
     NSString *fixedURL = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/yelp/%@/%@/%@/%d",
-                          @"37.777644",
-                          @"-122.399053",
-                          @"restaurants",
+                          [[NSUserDefaults standardUserDefaults] objectForKey:@"User Location Latitude"],
+                          [[NSUserDefaults standardUserDefaults] objectForKey:@"User Location Longitude"],
+                          [[NSUserDefaults standardUserDefaults] objectForKey:@"Yelp Search Term"],
                           self.offset
                           ];
     NSURL *url = [NSURL URLWithString:fixedURL];
@@ -346,20 +363,20 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
          if (responseStatusCode == 200 && data)
          {
              dispatch_async(dispatch_get_main_queue(), ^(void)
-                            {
-                                NSArray*fetchedData = [NSJSONSerialization JSONObjectWithData:data
-                                                                                      options:0
-                                                                                        error:nil];
-                                NSLog(@"got more cards");
-                                [self.cards addObjectsFromArray:fetchedData];
-                                if(self.cards.count==20)
-                                {
-                                    [self setUp];
-                                }
-                                self.offset +=20;
-                                gettingMoreCards = false;
+                {
+                    NSArray*fetchedData = [NSJSONSerialization JSONObjectWithData:data
+                                                                          options:0
+                                                                            error:nil];
+                    NSLog(@"got more cards");
+                    [self.cards addObjectsFromArray:fetchedData];
+                    if(self.cards.count==20)
+                    {
+                        [self setUp];
+                    }
+                    self.offset +=20;
+                    gettingMoreCards = false;
 
-                            }); // Main Queue dispatch block
+                }); // Main Queue dispatch block
              
              // do something with this data
              // if you want to update UI, do it on main queue
@@ -394,33 +411,11 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
     
     NSLog(@"Location: %@", newLocation);
     currentLocation = newLocation;
-    if (currentLocation != nil)
-    {
 
-    }
-    
-    [geocoder reverseGeocodeLocation:currentLocation completionHandler:^(NSArray *placemarks, NSError *error)
-     {
-         if (error == nil && [placemarks count] > 0)
-         {
-         }
-         else
-         {
-             NSLog(@"%@",error.debugDescription);
-         }
-         
-     }];
-    
-    // Singleton
-#pragma message "Why are you storing GeoLocations as strings? It would be nicer to store them with their actual type and let the NetworkCommunication class translate them into strings before talking to the server"
-    [NetworkCommunication sharedManager].stringYelpLocation = [NSString stringWithFormat:(@"%f,%f"),
-                                                               currentLocation.coordinate.latitude,
-                                                               currentLocation.coordinate.longitude];
-    
-    [NetworkCommunication sharedManager].stringCurrentLatitude = [NSString stringWithFormat:(@"%f"), currentLocation.coordinate.latitude];
-    
-    [NetworkCommunication sharedManager].stringCurrentLongitude = [NSString stringWithFormat:(@"%f"), currentLocation.coordinate.longitude];
-    
+    //Save current location to NSUserDefaults
+    [[NSUserDefaults standardUserDefaults] setObject:@(currentLocation.coordinate.latitude) forKey:@"User Location Latitude"];
+    [[NSUserDefaults standardUserDefaults] setObject:@(currentLocation.coordinate.longitude) forKey:@"User Location Longitude"];
+
     [manager stopUpdatingLocation];
 }
 

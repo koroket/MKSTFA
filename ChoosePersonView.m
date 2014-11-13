@@ -33,15 +33,13 @@
 
 - (instancetype)initWithFrame:(CGRect)frame
                        person:(UIImage *)image
-                      options:(MDCSwipeToChooseViewOptions *)options {
+                      options:(MDCSwipeToChooseViewOptions *)options
+{
     self = [super initWithFrame:frame options:options];
-    if (self) {
-       
+    if (self)
+    {
         self.imageView.image = image;
-        
-        self.autoresizingMask = UIViewAutoresizingFlexibleHeight |
-        UIViewAutoresizingFlexibleWidth |
-        UIViewAutoresizingFlexibleBottomMargin;
+        self.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin;
         self.imageView.autoresizingMask = self.autoresizingMask;
         
     }
