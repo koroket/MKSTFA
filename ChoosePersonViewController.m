@@ -97,16 +97,23 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
     geocoder = [[CLGeocoder alloc] init];
     manager.delegate = self;
     manager.desiredAccuracy = kCLLocationAccuracyBest;
-    if (currentLocation == nil)
+
+    if([[NSUserDefaults standardUserDefaults] objectForKey:@"User Location Latitude"]==nil)
     {
-        [manager requestWhenInUseAuthorization];
-        [manager startUpdatingLocation];
+        if (currentLocation == nil)
+        {
+            [manager requestWhenInUseAuthorization];
+            [manager startUpdatingLocation];
+        }
+        else
+        {
+            [manager stopUpdatingLocation];
+        }
     }
     else
     {
-        [manager stopUpdatingLocation];
+        [self getMoreYelp];
     }
-    [self getMoreYelp];
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -498,7 +505,7 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
     [[NSUserDefaults standardUserDefaults] setObject:@(currentLocation.coordinate.latitude) forKey:@"User Location Latitude"];
     [[NSUserDefaults standardUserDefaults] setObject:@(currentLocation.coordinate.longitude) forKey:@"User Location Longitude"];
     [[NSUserDefaults standardUserDefaults] synchronize];
-
+    [self getMoreYelp];
     [manager stopUpdatingLocation];
 }
 -(void)requestScrape:(NSString*)myurl forView:(MDCSwipeToChooseView *) myview
