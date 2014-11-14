@@ -15,10 +15,12 @@
 
 @implementation SavedCardsTableViewController
 
-- (id)initWithCoder:(NSCoder *)aDecoder {
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
     self = [super initWithCoder:aDecoder];
     
-    if (self) {
+    if (self)
+    {
         NSManagedObjectContext *context = ((AppDelegate *)[UIApplication sharedApplication].delegate).managedObjectContext;
         
         NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
@@ -30,11 +32,14 @@
         NSArray* temp = [context executeFetchRequest:fetchRequest error:&error];
         self.cards = [temp mutableCopy];
         
-        if (error) {
+        if (error)
+        {
             NSLog(@"Unable to execute fetch request.");
             NSLog(@"%@, %@", error, error.localizedDescription);
             
-        } else {
+        }
+        else
+        {
             NSLog(@"%@", self.cards);
         }
         
@@ -45,7 +50,8 @@
 
 #pragma mark - View Lifecycle
 
-- (void)viewWillAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated
+{
     [super viewWillAppear:animated];
     [self.tableView reloadData];
     
@@ -53,14 +59,18 @@
 
 #pragma mark - Table view data source
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)tableView:(UITableView *)tableView
+ numberOfRowsInSection:(NSInteger)section
+{
     // Return the number of rows in the section.
     
     return [self.cards count];
 }
 
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCell *)tableView:(UITableView *)tableView
+         cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CardCell" forIndexPath:indexPath];
     cell.textLabel.text = [(Card*)self.cards[indexPath.row] name];
@@ -68,7 +78,10 @@
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+- (void)tableView:(UITableView *)tableView
+commitEditingStyle:(UITableViewCellEditingStyle)editingStyle
+forRowAtIndexPath:(NSIndexPath *)indexPath
+{
     NSManagedObjectContext *context = ((AppDelegate *)[UIApplication sharedApplication].delegate).managedObjectContext;
     
     
@@ -76,7 +89,8 @@
     [context deleteObject:self.cards[indexPath.row]];
     NSError *error = nil;
     
-    if (![context save:&error]) {
+    if (![context save:&error])
+    {
         NSLog(@"Unable to save managed object context.");
         NSLog(@"%@, %@", error, error.localizedDescription);
     }

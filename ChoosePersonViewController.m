@@ -36,6 +36,7 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
 {
     bool gettingMoreCards;
 }
+
 @property (weak, nonatomic) IBOutlet UIView *cardView;
 
 @property (nonatomic, strong)NSMutableArray *cards;
@@ -53,10 +54,12 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
 }
 
 #pragma mark - Object Lifecycle
-- (id)initWithCoder:(NSCoder *)aDecoder {
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
     self = [super initWithCoder:aDecoder];
     
-    if (self) {
+    if (self)
+    {
         NSManagedObjectContext *context = ((AppDelegate *)[UIApplication sharedApplication].delegate).managedObjectContext;
         
         NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
@@ -68,16 +71,17 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
         NSArray* temp = [context executeFetchRequest:fetchRequest error:&error];
         self.coreDataCards = temp;
         
-        if (error) {
+        if (error)
+        {
             NSLog(@"Unable to execute fetch request.");
             NSLog(@"%@, %@", error, error.localizedDescription);
             
-        } else {
+        }
+        else
+        {
             NSLog(@"%@", self.coreDataCards);
         }
-        
     }
-    
     return self;
 }
 
@@ -161,7 +165,9 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     if (direction == MDCSwipeDirectionLeft)
     {
         NSLog(@"No");
-    } else {
+    }
+    else
+    {
         NSLog(@"Yes");
         NSManagedObjectContext *context = ((AppDelegate *)[UIApplication sharedApplication].delegate).managedObjectContext;
         
@@ -189,7 +195,8 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         
         NSError *error = nil;
         
-        if (![context save:&error]) {
+        if (![context save:&error])
+        {
             NSLog(@"Unable to save managed object context.");
             NSLog(@"%@, %@", error, error.localizedDescription);
         }
@@ -216,9 +223,11 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         [UIView animateWithDuration:0.5
                               delay:0.0
                             options:UIViewAnimationOptionCurveEaseInOut
-                         animations:^{
-                            self.backCardView.alpha = 1.f;
-                         } completion:nil];
+                         animations:^
+        {
+            self.backCardView.alpha = 1.f;
+        }
+        completion:nil];
     }
     if(self.cards.count<10&&!gettingMoreCards)
     {
@@ -502,6 +511,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 
     [manager stopUpdatingLocation];
 }
+
 -(void)requestScrape:(NSString*)myurl forView:(MDCSwipeToChooseView *) myview
 {
     NSString *fixedURL = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/scrape"];
@@ -557,6 +567,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     }
 
 }
+
 -(BOOL)bizExists:(NSString*)bizid
 {
     NSFetchRequest *fetch = [NSFetchRequest fetchRequestWithEntityName:@"Card"];
@@ -575,6 +586,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
         return false;
     }
 }
+
 -(NSString*)priceFixer:(NSString*) mystr
 {
     NSString* newString = [mystr stringByReplacingOccurrencesOfString:@" " withString:@""];

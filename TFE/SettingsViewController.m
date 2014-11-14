@@ -17,9 +17,15 @@
 
 @interface SettingsViewController () <CLLocationManagerDelegate>
 
+// properties
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 @property (weak, nonatomic) IBOutlet UIPickerView *pickerView;
 @property (weak, nonatomic) IBOutlet UINavigationItem *NavigationItem;
+
+// IBOutlets
+- (IBAction)handlePan:(UIPanGestureRecognizer *)recognizer;
+
+//
 
 @end
 
@@ -31,7 +37,10 @@
     CLGeocoder *geocoder;
     CLLocation *currentLocation;
     
+    //Array
     NSArray *_pickerData;
+    
+
 
 }
 
@@ -66,6 +75,36 @@
     _pickerData = @[@"Restaurants", @"Quick Eats", @"Bars", @"NightLife", @"Coffee & Breakfast"];
     self.pickerView.dataSource = self;
     self.pickerView.delegate = self;
+    
+    
+    
+    UITapGestureRecognizer *singleTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapGesture:)];
+    [self.mapView addGestureRecognizer:singleTapGestureRecognizer];
+    
+    
+    
+    //This is the shittiest way possible to make this work...
+    if ([[[NSUserDefaults standardUserDefaults] stringForKey:(@"Yelp Search Term")]  isEqual: @"Restaurants"])
+    {
+        [_pickerView selectRow:0 inComponent:0 animated:YES];
+    }
+    else if ([[[NSUserDefaults standardUserDefaults] stringForKey:(@"Yelp Search Term")]  isEqual: @"Quick Eats"])
+    {
+        [_pickerView selectRow:1 inComponent:0 animated:YES];
+    }
+    else if ([[[NSUserDefaults standardUserDefaults] stringForKey:(@"Yelp Search Term")]  isEqual: @"Bars"])
+    {
+        [_pickerView selectRow:2 inComponent:0 animated:YES];
+    }
+    else if ([[[NSUserDefaults standardUserDefaults] stringForKey:(@"Yelp Search Term")]  isEqual: @"NightLife"])
+    {
+        [_pickerView selectRow:3 inComponent:0 animated:YES];
+    }
+    else if ([[[NSUserDefaults standardUserDefaults] stringForKey:(@"Yelp Search Term")]  isEqual: @"Coffee & Breakfast"])
+    {
+        [_pickerView selectRow:4 inComponent:0 animated:YES];
+    }
+    
 }
 
 #pragma mark - Picker
@@ -101,7 +140,6 @@ numberOfRowsInComponent:(NSInteger)component
       didSelectRow:(NSInteger)row
        inComponent:(NSInteger)component
 {
-    //[NetworkCommunication sharedManager].stringYelpSearchTerm = _pickerData[row];
     
     [[NSUserDefaults standardUserDefaults] setObject:_pickerData[row] forKey:@"Yelp Search Term"];
     [[NSUserDefaults standardUserDefaults] synchronize];
@@ -115,32 +153,19 @@ numberOfRowsInComponent:(NSInteger)component
  * Locations
  * --------------------------------------------------------------------------
  */
+
+-(void)handleSingleTapGesture:(UITapGestureRecognizer *)tapGestureRecognizer
+{
+    NSLog(@"Segue");
+    [self performSegueWithIdentifier: @"mapViewSegue" sender:self];
+}
+
 - (void)locationManager:(CLLocationManager *)manager
     didUpdateToLocation:(CLLocation *)newLocation
            fromLocation:(CLLocation *)oldLocation
 {
-    
     NSLog(@"Location: %@", newLocation);
     currentLocation = newLocation;
-    if (currentLocation != nil)
-    {
-        //self.textFieldLocation.text = [NSString stringWithFormat:@" ";
-    }
-    
-    [geocoder reverseGeocodeLocation:currentLocation completionHandler:^(NSArray *placemarks, NSError *error)
-     {
-         if (error == nil)
-         {
-
-         }
-         else
-         {
-             NSLog(@"%@",error.debugDescription);
-         }
-         
-     }];
-    
-    
     
     // Map View Stuff
     CLLocationCoordinate2D location = CLLocationCoordinate2DMake(currentLocation.coordinate.latitude, currentLocation.coordinate.longitude);
@@ -162,7 +187,6 @@ numberOfRowsInComponent:(NSInteger)component
     [manager stopUpdatingLocation];
 }
 
-
 #pragma mark - Navigation
 /**
  * --------------------------------------------------------------------------
@@ -174,6 +198,11 @@ numberOfRowsInComponent:(NSInteger)component
 - (void)prepareForSegue:(UIStoryboardSegue *)segue
                  sender:(id)sender
 {
+    
+    if ([segue.identifier isEqual: @"mapViewSegue"])
+    {
+        
+    }
 
 }
 
@@ -183,7 +212,6 @@ numberOfRowsInComponent:(NSInteger)component
     UIViewController *sourceViewController = unwindSegue.sourceViewController;
     UIViewController *destinationViewController = unwindSegue.destinationViewController;
     
-    
     // Add the destination view as a subview, temporarily
     [sourceViewController.view addSubview:destinationViewController.view];
     
@@ -192,21 +220,24 @@ numberOfRowsInComponent:(NSInteger)component
     
     // Store original centre point of the destination view
     CGPoint originalCenter = destinationViewController.view.center;
+    
     // Set center to start point of the button
     //destinationViewController.view.center = self.originatingPoint;
     
     [UIView animateWithDuration:0.5
                           delay:0.0
                         options:UIViewAnimationOptionCurveEaseInOut
-                     animations:^ {
-                         // Grow!
-                         destinationViewController.view.transform = CGAffineTransformMakeScale(1.0, 1.0);
-                         destinationViewController.view.center = originalCenter;
-                     }
-                     completion:^(BOOL finished) {
-                         [destinationViewController.view removeFromSuperview]; // remove from temp super view
-                         [sourceViewController presentViewController:destinationViewController animated:NO completion:NULL]; // present VC
-                     }];
+                     animations:^
+    {
+         // Grow!
+         destinationViewController.view.transform = CGAffineTransformMakeScale(1.0, 1.0);
+         destinationViewController.view.center = originalCenter;
+    }
+                     completion:^(BOOL finished)
+    {
+         [destinationViewController.view removeFromSuperview]; // remove from temp super view
+         [sourceViewController presentViewController:destinationViewController animated:NO completion:NULL]; // present VC
+    }];
 }
 
 

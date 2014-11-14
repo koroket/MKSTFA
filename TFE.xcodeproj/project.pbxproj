@@ -174,6 +174,8 @@
 			children = (
 				D5996B0D1A12B4BC003049F3 /* SettingsViewController.h */,
 				D5996B0E1A12B4BC003049F3 /* SettingsViewController.m */,
+				D518EE3519F5CFAF00329A05 /* LocationFinderViewController.h */,
+				D518EE3619F5CFAF00329A05 /* LocationFinderViewController.m */,
 			);
 			name = Settings;
 			sourceTree = "<group>";
@@ -330,8 +332,6 @@
 				D5551DF919DA1B030017790D /* OverlayView.m */,
 				D5551DF519DA1AE10017790D /* DraggableBackground.h */,
 				D5551DF619DA1AE10017790D /* DraggableBackground.m */,
-				D518EE3519F5CFAF00329A05 /* LocationFinderViewController.h */,
-				D518EE3619F5CFAF00329A05 /* LocationFinderViewController.m */,
 				62BD81D019E17A6800813045 /* SearchSettingViewController.h */,
 				62BD81D119E17A6800813045 /* SearchSettingViewController.m */,
 				D5551DEB19DA06E00017790D /* FriendTable */,
