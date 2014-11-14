@@ -20,9 +20,6 @@
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 @property (weak, nonatomic) IBOutlet UILabel *address;
 
-- (IBAction)buttonCurrentLocation:(UIButton *)sender;
-- (IBAction)buttonStopUpdatingLocation:(UIButton *)sender;
-
 @end
 
 @implementation LocationFinderViewController
@@ -64,22 +61,6 @@
     }
 }
 
-#pragma mark - button
-/**
- * --------------------------------------------------------------------------
- * Buttons
- * --------------------------------------------------------------------------
- */
-- (IBAction)buttonCurrentLocation:(UIButton *)sender
-{
-    [manager startUpdatingLocation];
-}
-
-- (IBAction)buttonStopUpdatingLocation:(UIButton *)sender
-{
-    [manager stopUpdatingLocation];
-}
-
 #pragma mark - locations
 /**
  * --------------------------------------------------------------------------
@@ -92,14 +73,6 @@
     NSLog(@"Error: %@", error);
     NSLog(@"Failed to get location!:(");
 }
-
-//- (void)locationManager:(CLLocationManager *)manager
-//     didUpdateLocations:(NSArray *)locations
-//{
-//    [locations lastObject];
-//    
-//    
-//}
 
 - (void)locationManager:(CLLocationManager *)manager
     didUpdateToLocation:(CLLocation *)newLocation
@@ -118,13 +91,13 @@
         if (error == nil && [placemarks count] > 0)
         {
             placemark = [placemarks lastObject];
-            self.address.text = [NSString stringWithFormat:@"%@ %@\n%@\n %@\n%@%@",
-                                   placemark.subThoroughfare,
-                                   placemark.thoroughfare,
-                                   placemark.postalCode,
-                                   placemark.locality,
-                                   placemark.administrativeArea,
-                                   placemark.country];
+            self.address.text = [NSString stringWithFormat:@"%@ %@\n%@, %@, %@",
+                                placemark.subThoroughfare,
+                                placemark.thoroughfare,
+                                placemark.locality,
+                                placemark.administrativeArea,
+                                placemark.postalCode
+                                ];
         }
         else
         {
