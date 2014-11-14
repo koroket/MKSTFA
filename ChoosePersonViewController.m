@@ -254,9 +254,6 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
 
 - (MDCSwipeToChooseView *)popPersonViewWithFrame:(CGRect)frame
 {
-
-
-    
     while(self.cards>0&&[self bizExists:((NSMutableDictionary*)self.cards[0])[@"id"]])
     {
         [self.cards removeObjectAtIndex:0];

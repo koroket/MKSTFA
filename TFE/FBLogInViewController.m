@@ -104,7 +104,7 @@
 - (void)loginViewShowingLoggedOutUser:(FBLoginView *)loginView
 {
   self.nameLabel.text = @"";
-  self.statusLabel.text = @"You are not logged in!";
+  self.statusLabel.text = @"You are not logged in";
   [self.splashScreen removeFromSuperview];
 }
 
