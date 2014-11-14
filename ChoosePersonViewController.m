@@ -28,6 +28,7 @@
 #import <MDCSwipeToChoose/MDCSwipeToChoose.h>
 #import <CoreLocation/CoreLocation.h>
 #import "AppDelegate.h"
+
 static const CGFloat ChoosePersonButtonHorizontalPadding = 80.f;
 static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
 
@@ -79,6 +80,13 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
     
     return self;
 }
+
+- (void)tableView:(UITableView *)tableView
+didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [NetworkCommunication sharedManager].currentCard = self.coreDataCards[indexPath.row];
+}
+
 - (void)viewDidLoad
 {
     // Display the first ChoosePersonView in front. Users can swipe to indicate

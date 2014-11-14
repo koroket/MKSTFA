@@ -498,9 +498,6 @@
                                 <exclude reference="buk-Gq-Htd"/>
                                 <exclude reference="i25-En-teK"/>
                                 <exclude reference="jfm-ew-ncK"/>
-                                <exclude reference="0If-qP-SIX"/>
-                                <exclude reference="1Su-XP-f7P"/>
-                                <exclude reference="u7d-aW-GC8"/>
                                 <exclude reference="D2e-5Z-T2v"/>
                                 <exclude reference="N57-CC-jPG"/>
                                 <exclude reference="Te0-oI-KQv"/>
@@ -509,6 +506,9 @@
                                 <exclude reference="pcb-CC-2MH"/>
                                 <exclude reference="vfo-cE-Rd5"/>
                                 <exclude reference="zb1-PE-1zZ"/>
+                                <exclude reference="0If-qP-SIX"/>
+                                <exclude reference="1Su-XP-f7P"/>
+                                <exclude reference="u7d-aW-GC8"/>
                                 <exclude reference="8MT-3E-nAc"/>
                                 <exclude reference="Stf-7q-v2i"/>
                                 <exclude reference="jwF-xG-eGw"/>
@@ -955,7 +955,7 @@
         <!--View Controller-->
         <scene sceneID="vtX-GZ-mEe">
             <objects>
-                <viewController id="JHm-UB-SDf" sceneMemberID="viewController">
+                <viewController id="JHm-UB-SDf" customClass="SavedCardsDetailViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="elN-OL-AX1"/>
                         <viewControllerLayoutGuide type="bottom" id="1kb-Wj-NYD"/>

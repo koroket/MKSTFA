@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "FBLogInViewController.h"
 #import "GroupTableViewController.h"
+#import "Card.h"
 @interface NetworkCommunication : NSObject
 
 @property NSString *HerokuURL;
@@ -54,4 +55,6 @@
 @property BOOL boolDebug;
 @property BOOL initialLoading;
 
+//Card
+@property (nonatomic, strong) Card* currentCard;
 @end
