@@ -164,7 +164,7 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
         
         
         Card *newCard = [[Card alloc] initWithEntity:entityDescription insertIntoManagedObjectContext:context];
-        
+        NSLog(@"%@",view.city);
         [newCard setValue:view.bizid forKey:@"bizid"];
         [newCard setValue:view.information.text forKey:@"name"];
         [newCard setValue:view.Price.text forKey:@"price"];
@@ -172,6 +172,7 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
         [newCard setValue:view.rating.text forKey:@"rating"];
         [newCard setValue:view.hours.text forKey:@"hours"];
         [newCard setValue:view.categories.text forKey:@"categories"];
+        [newCard setValue:view.city forKey:@"city"];
         
         NSData *imageData = UIImagePNGRepresentation(view.imageView.image);
         [newCard setValue:imageData forKey:@"image"];
@@ -278,6 +279,9 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
     personView.information.text = temp[@"Name"];
     personView.bizid = temp[@"id"];
     [self requestScrape:temp[@"url"] forView:personView];
+    
+    NSDictionary* locations = temp[@"location"];
+    personView.city = locations[@"city"];
     if(temp[@"ImageURL"]!=nil)
     {
         

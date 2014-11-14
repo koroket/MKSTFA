@@ -3,6 +3,7 @@
     <entity name="Card" representedClassName="Card" syncable="YES">
         <attribute name="bizid" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="categories" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="city" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="distance" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="hours" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="image" optional="YES" attributeType="Binary" syncable="YES"/>
@@ -16,6 +17,6 @@
     </entity>
     <elements>
         <element name="Friend" positionX="-63" positionY="-18" width="128" height="73"/>
-        <element name="Card" positionX="-63" positionY="0" width="128" height="165"/>
+        <element name="Card" positionX="-63" positionY="0" width="128" height="180"/>
     </elements>
 </model>

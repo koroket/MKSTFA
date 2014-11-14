@@ -18,5 +18,6 @@
 @dynamic categories;
 @dynamic distance;
 @dynamic price;
-
+@dynamic bizid;
+@dynamic city;
 @end
