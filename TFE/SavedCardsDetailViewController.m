@@ -7,7 +7,7 @@
 //
 
 #import "SavedCardsDetailViewController.h"
-
+#import "NetworkCommunication.h"
 @interface SavedCardsDetailViewController ()
 @property (strong, nonatomic) IBOutlet UIImageView *imageview;
 @property (strong, nonatomic) IBOutlet UILabel *placesLabel;
@@ -21,14 +21,24 @@
 
 @implementation SavedCardsDetailViewController
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [self loadMyData];
 }
-
-- (void)didReceiveMemoryWarning
+-(void)loadMyData
 {
+    self.priceLabel.text = [NetworkCommunication sharedManager].currentCard.price;
+    self.distLabel.text = [NetworkCommunication sharedManager].currentCard.distance;
+    self.ratingLabel.text = [NetworkCommunication sharedManager].currentCard.rating;
+    self.categoryLabel.text = [NetworkCommunication sharedManager].currentCard.categories;
+    self.hoursLabel.text = [NetworkCommunication sharedManager].currentCard.hours;
+    self.placesLabel.text = [NetworkCommunication sharedManager].currentCard.name;
+    self.imageview.image = [UIImage imageWithData:[NetworkCommunication sharedManager].currentCard.image];
+    
+    
+}
+- (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
