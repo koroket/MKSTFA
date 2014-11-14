@@ -513,6 +513,9 @@
                                 <exclude reference="buk-Gq-Htd"/>
                                 <exclude reference="i25-En-teK"/>
                                 <exclude reference="jfm-ew-ncK"/>
+                                <exclude reference="0If-qP-SIX"/>
+                                <exclude reference="1Su-XP-f7P"/>
+                                <exclude reference="u7d-aW-GC8"/>
                                 <exclude reference="D2e-5Z-T2v"/>
                                 <exclude reference="N57-CC-jPG"/>
                                 <exclude reference="Te0-oI-KQv"/>
@@ -521,9 +524,6 @@
                                 <exclude reference="pcb-CC-2MH"/>
                                 <exclude reference="vfo-cE-Rd5"/>
                                 <exclude reference="zb1-PE-1zZ"/>
-                                <exclude reference="0If-qP-SIX"/>
-                                <exclude reference="1Su-XP-f7P"/>
-                                <exclude reference="u7d-aW-GC8"/>
                                 <exclude reference="8MT-3E-nAc"/>
                                 <exclude reference="Stf-7q-v2i"/>
                                 <exclude reference="jwF-xG-eGw"/>
@@ -753,9 +753,9 @@
                                 <exclude reference="Rly-4w-ytv"/>
                                 <exclude reference="fgw-Ga-Z49"/>
                                 <exclude reference="q6J-TB-WJz"/>
-                                <exclude reference="a6u-kT-HZu"/>
                                 <exclude reference="Ilu-by-v2N"/>
                                 <exclude reference="Xk6-yj-Zk7"/>
+                                <exclude reference="a6u-kT-HZu"/>
                                 <exclude reference="2eT-8Y-QiC"/>
                                 <exclude reference="z1K-Sk-kQW"/>
                             </mask>
@@ -1050,12 +1050,12 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </toolbar>
                     <connections>
-                        <segue destination="2yF-yU-JQ1" kind="relationship" relationship="rootViewController" id="O87-Du-E9u"/>
+                        <segue destination="vXZ-lx-hvc" kind="relationship" relationship="rootViewController" id="CvG-bE-ceG"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iOH-5v-gZk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-7" y="-2344"/>
+            <point key="canvasLocation" x="-7" y="-2394"/>
         </scene>
         <!--My Stack-->
         <scene sceneID="tqW-iO-NUw">
@@ -1202,4 +1202,7 @@
         <image name="nightLife" width="512" height="639"/>
         <image name="snacks" width="473" height="448"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="CvG-bE-ceG"/>
+    </inferredMetricsTieBreakers>
 </document>
