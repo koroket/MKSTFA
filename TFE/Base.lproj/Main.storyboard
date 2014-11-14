@@ -1041,6 +1041,15 @@
                         </variation>
                     </view>
                     <navigationItem key="navigationItem" id="W2u-BW-15J"/>
+                    <connections>
+                        <outlet property="categoryLabel" destination="dMm-G8-fsN" id="r8Q-Rp-NpU"/>
+                        <outlet property="distLabel" destination="DLx-cR-YgF" id="dTW-EG-idl"/>
+                        <outlet property="hoursLabel" destination="bJa-w8-E9P" id="RdY-PQ-cWf"/>
+                        <outlet property="imageview" destination="j9m-Oj-pEZ" id="1oC-jk-YRS"/>
+                        <outlet property="placesLabel" destination="zwk-7e-Bxt" id="nhW-mS-8pK"/>
+                        <outlet property="priceLabel" destination="Zro-OO-Sjz" id="Pja-Vc-Xg7"/>
+                        <outlet property="ratingLabel" destination="Dt7-zq-wO7" id="hlU-OT-FwF"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1HW-Gb-6MC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

@@ -9,6 +9,13 @@
 #import "SavedCardsDetailViewController.h"
 
 @interface SavedCardsDetailViewController ()
+@property (strong, nonatomic) IBOutlet UIImageView *imageview;
+@property (strong, nonatomic) IBOutlet UILabel *placesLabel;
+@property (strong, nonatomic) IBOutlet UILabel *distLabel;
+@property (strong, nonatomic) IBOutlet UILabel *ratingLabel;
+@property (strong, nonatomic) IBOutlet UILabel *categoryLabel;
+@property (strong, nonatomic) IBOutlet UILabel *hoursLabel;
+@property (strong, nonatomic) IBOutlet UILabel *priceLabel;
 
 @end
 
