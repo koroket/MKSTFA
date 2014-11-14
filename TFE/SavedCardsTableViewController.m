@@ -9,6 +9,7 @@
 #import "SavedCardsTableViewController.h"
 #import "AppDelegate.h"
 #import "Card.h"
+#import "NetworkCommunication.h"
 @interface SavedCardsTableViewController ()
 
 @end
@@ -41,6 +42,12 @@
     }
     
     return self;
+}
+
+- (void)tableView:(UITableView *)tableView
+didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [NetworkCommunication sharedManager].currentCard = self.cards[indexPath.row];
 }
 
 #pragma mark - View Lifecycle

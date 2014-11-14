@@ -81,11 +81,6 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
     return self;
 }
 
-- (void)tableView:(UITableView *)tableView
-didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    [NetworkCommunication sharedManager].currentCard = self.coreDataCards[indexPath.row];
-}
 
 - (void)viewDidLoad
 {
