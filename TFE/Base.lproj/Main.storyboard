@@ -952,7 +952,7 @@
             </objects>
             <point key="canvasLocation" x="1332" y="-1635"/>
         </scene>
-        <!--View Controller-->
+        <!--Saved Cards Detail View Controller-->
         <scene sceneID="vtX-GZ-mEe">
             <objects>
                 <viewController id="JHm-UB-SDf" customClass="SavedCardsDetailViewController" sceneMemberID="viewController">
