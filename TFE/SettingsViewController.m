@@ -147,6 +147,17 @@ numberOfRowsInComponent:(NSInteger)component
     NSLog(@"The current selection is %@",_pickerData[row]);
 }
 
+// Change the attributes of the text in the UIPicker
+- (NSAttributedString *)pickerView:(UIPickerView *)pickerView attributedTitleForRow:(NSInteger)row forComponent:(NSInteger)component
+{
+    
+    NSAttributedString *attString = [[NSAttributedString alloc] initWithString:_pickerData[row] attributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
+    
+    
+    return attString;
+    
+}
+
 #pragma mark - locations
 /**
  * --------------------------------------------------------------------------
