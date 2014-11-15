@@ -36,6 +36,8 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
 {
     bool gettingMoreCards;
     bool outOfCards;
+    bool noBack;
+    bool noFront;
 }
 
 @property (weak, nonatomic) IBOutlet UIView *cardView;
@@ -87,12 +89,14 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
 }
 -(void)setLimits
 {
-    [NetworkCommunication sharedManager].minRating = 4.0;
-    [NetworkCommunication sharedManager].maxDistance = 1.5;
+    [NetworkCommunication sharedManager].minRating = 4.5;
+    [NetworkCommunication sharedManager].maxDistance = 5.0;
 }
 
 - (void)viewDidLoad
 {
+    noBack = true;
+    noFront = true;
     [self setLimits];
     // Display the first ChoosePersonView in front. Users can swipe to indicate
     // whether they like or dislike the person displayed.
@@ -124,6 +128,8 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
     {
         [self getMoreYelp];
     }
+    [self constructNopeButton];
+    [self constructLikedButton];
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -138,23 +144,37 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
 
 -(void)setUp
 {
-    self.frontCardView = [self popPersonViewWithFrame:[self backCardViewFrame]];
-    self.frontCardView.frame = self.viewContainer.frame;
-    [self.cardView addSubview:self.frontCardView];
-    
-    // Display the second ChoosePersonView in back. This view controller uses
-    // the MDCSwipeToChooseDelegate protocol methods to update the front and
-    // back views after each user swipe.
-    self.backCardView = [self popPersonViewWithFrame:[self backCardViewFrame]];
-    [self.cardView insertSubview:self.backCardView belowSubview:self.frontCardView];
-    
-    // Add buttons to programmatically swipe the view left or right.
-    // See the `nopeFrontCardView` and `likeFrontCardView` methods.
+    [self loadFront];
+    [self loadBack];
     [self constructNopeButton];
     [self constructLikedButton];
     
 }
+-(void)loadBack
+{
+    self.backCardView = [self popPersonViewWithFrame:[self backCardViewFrame]];
+    if(self.backCardView == nil)
+    {
+        noBack = true;
+    }
 
+            [self.cardView insertSubview:self.backCardView belowSubview:self.frontCardView];
+    
+
+}
+-(void)loadFront
+{
+    self.frontCardView = [self popPersonViewWithFrame:[self backCardViewFrame]];
+    if(self.backCardView == nil)
+    {
+        noFront = true;
+    }
+
+        self.frontCardView.frame = self.viewContainer.frame;
+        [self.cardView addSubview:self.frontCardView];
+    
+
+}
 
 #pragma mark - MDCSwipeToChooseDelegate Protocol Methods
 
@@ -246,6 +266,14 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
         NSLog(@"low on cards, getting more");
         gettingMoreCards = true;
         [self getMoreYelp];
+    }
+    if(self.frontCardView==nil)
+    {
+        noFront = true;
+    }
+    if(self.backCardView==nil)
+    {
+        noBack = true;
     }
 }
 
@@ -498,14 +526,24 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
                     NSLog(@"got more cards");
 
                     [self.cards addObjectsFromArray:fetchedData];
+
+                    self.offset +=20;
+                    
+                    if(noFront)
+                    {
+                        noFront = false;
+                        [self loadFront];
+                    }
+                    if(noBack)
+                    {
+                        noBack = false;
+                        [self loadBack];
+                    }
                     if(outOfCards)
                     {
                         outOfCards = false;
-                        [self setUp];
                     }
-                    self.offset +=20;
                     gettingMoreCards = false;
-
                 }); // Main Queue dispatch block
              
              // do something with this data
