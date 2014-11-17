@@ -35,6 +35,9 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
 @interface ChoosePersonViewController () <CLLocationManagerDelegate>
 {
     bool gettingMoreCards;
+    bool outOfCards;
+    bool noBack;
+    bool noFront;
 }
 
 @property (weak, nonatomic) IBOutlet UIView *cardView;
@@ -84,15 +87,22 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
     }
     return self;
 }
-
+-(void)setLimits
+{
+    [NetworkCommunication sharedManager].minRating = 4.5;
+    [NetworkCommunication sharedManager].maxDistance = 5.0;
+}
 
 - (void)viewDidLoad
 {
+    noBack = true;
+    noFront = true;
+    [self setLimits];
     // Display the first ChoosePersonView in front. Users can swipe to indicate
     // whether they like or dislike the person displayed.
     [super viewDidLoad];
     self.cards = [NSMutableArray array];
-    
+    outOfCards = true;
 //    [self.navigationController setNavigationBarHidden:NO animated:YES];
 //    self.navigationController.navigationBar.barTintColor= [UIColor colorWithRed:155/255.0 green:89/255.0 blue:182/255.0 alpha:1];
     
@@ -118,6 +128,8 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
     {
         [self getMoreYelp];
     }
+    [self constructNopeButton];
+    [self constructLikedButton];
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -132,23 +144,37 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
 
 -(void)setUp
 {
-    self.frontCardView = [self popPersonViewWithFrame:[self backCardViewFrame]];
-    self.frontCardView.frame = self.viewContainer.frame;
-    [self.cardView addSubview:self.frontCardView];
-    
-    // Display the second ChoosePersonView in back. This view controller uses
-    // the MDCSwipeToChooseDelegate protocol methods to update the front and
-    // back views after each user swipe.
-    self.backCardView = [self popPersonViewWithFrame:[self backCardViewFrame]];
-    [self.cardView insertSubview:self.backCardView belowSubview:self.frontCardView];
-    
-    // Add buttons to programmatically swipe the view left or right.
-    // See the `nopeFrontCardView` and `likeFrontCardView` methods.
+    [self loadFront];
+    [self loadBack];
     [self constructNopeButton];
     [self constructLikedButton];
     
 }
+-(void)loadBack
+{
+    self.backCardView = [self popPersonViewWithFrame:[self backCardViewFrame]];
+    if(self.backCardView == nil)
+    {
+        noBack = true;
+    }
 
+            [self.cardView insertSubview:self.backCardView belowSubview:self.frontCardView];
+    
+
+}
+-(void)loadFront
+{
+    self.frontCardView = [self popPersonViewWithFrame:[self backCardViewFrame]];
+    if(self.backCardView == nil)
+    {
+        noFront = true;
+    }
+
+        self.frontCardView.frame = self.viewContainer.frame;
+        [self.cardView addSubview:self.frontCardView];
+    
+
+}
 
 #pragma mark - MDCSwipeToChooseDelegate Protocol Methods
 
@@ -163,7 +189,10 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
 {
     // MDCSwipeToChooseView shows "NOPE" on swipes to the left,
     // and "LIKED" on swipes to the right.
-    
+    if(self.cards.count<1)
+    {
+        outOfCards = true;
+    }
     if (direction == MDCSwipeDirectionLeft)
     {
         NSLog(@"No");
@@ -238,6 +267,14 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
         gettingMoreCards = true;
         [self getMoreYelp];
     }
+    if(self.frontCardView==nil)
+    {
+        noFront = true;
+    }
+    if(self.backCardView==nil)
+    {
+        noBack = true;
+    }
 }
 
 #pragma mark - Internal Methods
@@ -254,16 +291,40 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
 
 - (MDCSwipeToChooseView *)popPersonViewWithFrame:(CGRect)frame
 {
-    while(self.cards>0&&[self bizExists:((NSMutableDictionary*)self.cards[0])[@"id"]])
-    {
-        [self.cards removeObjectAtIndex:0];
-    }
-    
+    NSMutableDictionary *temp;
+
     if ([self.cards count] == 0) {
+        if(!gettingMoreCards)
+        {
+            NSLog(@"low on cards, getting more");
+            gettingMoreCards = true;
+            [self getMoreYelp];
+        }
+        outOfCards = true;
         return nil;
     }
-
-    NSMutableDictionary *temp = self.cards[0];
+    else
+    {
+        temp = self.cards[0];
+    }
+    
+    while(self.cards.count>0&&([self bizExists:temp[@"id"]]||![self isWithInDistnaceRange:temp[@"distance"]]||![self isWithInPriceRange:@""]||![self isWithInRatingRange:temp[@"rating"]]))
+    {
+        [self.cards removeObjectAtIndex:0];
+        if ([self.cards count] == 0) {
+            if(!gettingMoreCards)
+            {
+                NSLog(@"low on cards, getting more");
+                gettingMoreCards = true;
+                [self getMoreYelp];
+            }
+            return nil;
+        }
+        else
+        {
+            temp = self.cards[0];
+        }
+    }
     
     // UIView+MDCSwipeToChoose and MDCSwipeToChooseView are heavily customizable.
     // Each take an "options" argument. Here, we specify the view controller as
@@ -430,7 +491,7 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
         [[NSUserDefaults standardUserDefaults] setObject:@"Restaurants" forKey:@"Yelp Search Term"];
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
-    
+    NSLog(@"%d",self.offset);
     NSString *fixedURL = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/yelp/%@/%@/%@/%d",
                           [[NSUserDefaults standardUserDefaults] objectForKey:@"User Location Latitude"],
                           [[NSUserDefaults standardUserDefaults] objectForKey:@"User Location Longitude"],
@@ -463,14 +524,26 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
                                                                           options:0
                                                                             error:nil];
                     NSLog(@"got more cards");
-                    [self.cards addObjectsFromArray:fetchedData];
-                    if(self.cards.count==20)
-                    {
-                        [self setUp];
-                    }
-                    self.offset +=20;
-                    gettingMoreCards = false;
 
+                    [self.cards addObjectsFromArray:fetchedData];
+
+                    self.offset +=20;
+                    
+                    if(noFront)
+                    {
+                        noFront = false;
+                        [self loadFront];
+                    }
+                    if(noBack)
+                    {
+                        noBack = false;
+                        [self loadBack];
+                    }
+                    if(outOfCards)
+                    {
+                        outOfCards = false;
+                    }
+                    gettingMoreCards = false;
                 }); // Main Queue dispatch block
              
              // do something with this data
@@ -589,7 +662,72 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
         return false;
     }
 }
+-(BOOL)isWithInPriceRange:(NSString*) price
+{
+    if([price containsString:@"-"])
+    {
+        NSArray* str= [price componentsSeparatedByString:@"-"];
+        NSString* min = str[0];
+        min = [min stringByReplacingOccurrencesOfString:@"$" withString:@""];
+        NSString* max = str[1];
+        max = [max stringByReplacingOccurrencesOfString:@"$" withString:@""];
+        if(max.intValue<=[NetworkCommunication sharedManager].maxPrice)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    else if([price containsString:@"Under"])
+    {
+        
+        //NSString* min = @"0";
+        NSString* max = [price stringByReplacingOccurrencesOfString:@"Under$" withString:@""];
+        
+        if(max.intValue<=[NetworkCommunication sharedManager].maxPrice)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    else
+    {
+        return true;
+    }
+}
+-(BOOL)isWithInDistnaceRange:(NSString*) distance
+{
+    double dbleval = [distance doubleValue];
+    dbleval = dbleval/1600.0;
+    if(dbleval<=[NetworkCommunication sharedManager].maxDistance)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+-(BOOL)isWithInRatingRange:(NSNumber*) rating
+{
+    
+    double dbleval = [rating doubleValue];
+    if(dbleval>=[NetworkCommunication sharedManager].minRating)
+    {
+            return true;
+    }
+    else
+    {
+            return false;
+    }
+    
 
+}
 -(NSString*)priceFixer:(NSString*) mystr
 {
     NSString* newString = [mystr stringByReplacingOccurrencesOfString:@" " withString:@""];

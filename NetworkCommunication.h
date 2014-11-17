@@ -57,4 +57,8 @@
 
 //Card
 @property (nonatomic, strong) Card* currentCard;
+
+@property (nonatomic, assign) double minRating;
+@property (nonatomic, assign) double maxDistance;
+@property (nonatomic, assign) int maxPrice;
 @end
