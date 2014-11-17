@@ -8,20 +8,20 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" restorationIdentifier="SwipeCardView" id="iN0-l3-epB" customClass="MDCSwipeToChooseView">
-            <rect key="frame" x="0.0" y="0.0" width="300" height="505"/>
+            <rect key="frame" x="0.0" y="0.0" width="300" height="558"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="GOPR0007.JPG" translatesAutoresizingMaskIntoConstraints="NO" id="FwR-Nm-JMA">
-                    <rect key="frame" x="0.0" y="0.0" width="300" height="505"/>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="IMG_5544.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="FwR-Nm-JMA">
+                    <rect key="frame" x="0.0" y="0.0" width="300" height="558"/>
                 </imageView>
                 <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="z4P-KW-7T0">
-                    <rect key="frame" x="0.0" y="0.0" width="300" height="505"/>
+                    <rect key="frame" x="0.0" y="0.0" width="300" height="558"/>
                     <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="atm-Bc-ORc">
-                        <rect key="frame" x="0.0" y="0.0" width="300" height="505"/>
+                        <rect key="frame" x="0.0" y="0.0" width="300" height="558"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1.2 mi." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1Pb-TW-a0q">
-                                <rect key="frame" x="5" y="357" width="53" height="25"/>
+                                <rect key="frame" x="5" y="362" width="52.5" height="25"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="6gY-xu-kgd"/>
                                 </constraints>
@@ -34,22 +34,8 @@
                                     </mask>
                                 </variation>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Place's Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qUr-j8-VFk">
-                                <rect key="frame" x="5" y="298" width="290" height="51"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="xOD-if-8iN"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="37"/>
-                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="xOD-if-8iN"/>
-                                    </mask>
-                                </variation>
-                            </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Data" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="884-N0-Zan">
-                                <rect key="frame" x="147" y="357" width="68" height="25"/>
+                                <rect key="frame" x="147" y="362" width="67.5" height="25"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="BW1-Vy-uas"/>
                                 </constraints>
@@ -63,7 +49,7 @@
                                 </variation>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Data" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NMV-tL-vs1">
-                                <rect key="frame" x="5" y="423" width="68" height="25"/>
+                                <rect key="frame" x="5" y="428" width="67.5" height="25"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="HvV-aK-04Z"/>
                                 </constraints>
@@ -77,7 +63,7 @@
                                 </variation>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Categories" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Hzy-wu-6xD">
-                                <rect key="frame" x="5" y="390" width="290" height="25"/>
+                                <rect key="frame" x="5" y="395" width="290" height="25"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="A5Y-5J-0wm"/>
                                 </constraints>
@@ -91,7 +77,7 @@
                                 </variation>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Data" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zwS-9g-W4r">
-                                <rect key="frame" x="66" y="357" width="68" height="25"/>
+                                <rect key="frame" x="65" y="362" width="67.5" height="25"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="dAh-cb-RUn"/>
                                 </constraints>
@@ -101,6 +87,20 @@
                                 <variation key="default">
                                     <mask key="constraints">
                                         <exclude reference="dAh-cb-RUn"/>
+                                    </mask>
+                                </variation>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Place's Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qUr-j8-VFk">
+                                <rect key="frame" x="5" y="303" width="290" height="51"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="xOD-if-8iN"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="37"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="xOD-if-8iN"/>
                                     </mask>
                                 </variation>
                             </label>
@@ -132,8 +132,8 @@
                     </view>
                     <blurEffect style="light"/>
                 </visualEffectView>
-                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="rcA-Ki-gWb">
-                    <rect key="frame" x="10" y="10" width="280" height="280"/>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="rcA-Ki-gWb">
+                    <rect key="frame" x="10" y="15" width="280" height="280"/>
                     <constraints>
                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="280" id="BDI-6Z-UyU"/>
                         <constraint firstAttribute="height" constant="280" id="Rq3-dc-Ts8"/>
@@ -160,7 +160,7 @@
                 <constraint firstItem="rcA-Ki-gWb" firstAttribute="leading" secondItem="qUr-j8-VFk" secondAttribute="leading" constant="5" id="HuK-PZ-c6E"/>
                 <constraint firstAttribute="bottom" secondItem="FwR-Nm-JMA" secondAttribute="bottom" id="QPb-1j-2CM"/>
                 <constraint firstItem="qUr-j8-VFk" firstAttribute="top" secondItem="rcA-Ki-gWb" secondAttribute="bottom" constant="8" id="V9h-Yw-FX5"/>
-                <constraint firstItem="rcA-Ki-gWb" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="10" id="VfT-NP-BsL"/>
+                <constraint firstItem="rcA-Ki-gWb" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="15" id="VfT-NP-BsL"/>
                 <constraint firstAttribute="bottom" secondItem="z4P-KW-7T0" secondAttribute="bottom" id="bQu-8Y-rJC"/>
                 <constraint firstItem="FwR-Nm-JMA" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="jzu-M8-CRr"/>
                 <constraint firstAttribute="trailing" secondItem="FwR-Nm-JMA" secondAttribute="trailing" id="wMj-1O-j2A"/>
@@ -178,7 +178,7 @@
                 <outlet property="information" destination="qUr-j8-VFk" id="P29-B8-wHg"/>
                 <outlet property="rating" destination="zwS-9g-W4r" id="F1g-Xr-RGE"/>
             </connections>
-            <point key="canvasLocation" x="241" y="-445.5"/>
+            <point key="canvasLocation" x="238" y="-354"/>
         </view>
         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Yelp Rating" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3TE-8b-m2k">
             <rect key="frame" x="0.0" y="0.0" width="212" height="30"/>
@@ -192,6 +192,6 @@
         </label>
     </objects>
     <resources>
-        <image name="GOPR0007.JPG" width="4000" height="3000"/>
+        <image name="IMG_5544.jpg" width="2448" height="3264"/>
     </resources>
 </document>
