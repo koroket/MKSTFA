@@ -41,8 +41,9 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
 }
 
 @property (weak, nonatomic) IBOutlet UIView *cardView;
-
 @property (nonatomic, strong)NSMutableArray *cards;
+// IBOutlets
+- (IBAction)handlePan:(UIPanGestureRecognizer *)recognizer;
 
 @end
 
