@@ -62,6 +62,10 @@
     self.categoryLabel.text = [NetworkCommunication sharedManager].currentCard.categories;
     self.hoursLabel.text = [NetworkCommunication sharedManager].currentCard.hours;
     self.placesLabel.text = [NetworkCommunication sharedManager].currentCard.name;
+    NSLog([NetworkCommunication sharedManager].currentCard.address);
+    NSLog([NetworkCommunication sharedManager].currentCard.city);
+    NSLog([NetworkCommunication sharedManager].currentCard.state);
+    NSLog([NetworkCommunication sharedManager].currentCard.zipcode);
     self.imageview.image = [UIImage imageWithData:[NetworkCommunication sharedManager].currentCard.image];
     
     
