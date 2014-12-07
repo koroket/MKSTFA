@@ -135,7 +135,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     
     // URL
     //#pragma message "Backend Access should be moved into separate class"
-    NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/groups/%@",
+    NSString *fixedUrl = [NSString stringWithFormat:@"http://tinder-for-anything.herokuapp.com/groups/%@",
                                                     ((Group*)[NetworkCommunication sharedManager].arrayOfGroups[indexPath.row]).groupID];
     NSURL *url = [NSURL URLWithString:fixedUrl];
     // Request
@@ -271,7 +271,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
                with:(NSString *)myId
 {
     //URL
-    NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/ppl/%@groups/%@", pplid, myId];
+    NSString *fixedUrl = [NSString stringWithFormat:@"http://tinder-for-anything.herokuapp.com/ppl/%@groups/%@", pplid, myId];
     NSURL *url = [NSURL URLWithString:fixedUrl];
     
     //Request
@@ -310,7 +310,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
     //URL
-    NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/groups/%@", str];
+    NSString *fixedUrl = [NSString stringWithFormat:@"http://tinder-for-anything.herokuapp.com/groups/%@", str];
     NSURL *url = [NSURL URLWithString:fixedUrl];
     
     //Request
@@ -349,7 +349,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 - (void)resetGroups
 {
     //URL
-    NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/groups"];
+    NSString *fixedUrl = [NSString stringWithFormat:@"http://tinder-for-anything.herokuapp.com/groups"];
     NSURL *url = [NSURL URLWithString:fixedUrl];
 
     //Request
@@ -395,7 +395,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 - (void)resetPeople:(NSString *)pplid
 {
     //URL
-    NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/ppl/%@groups", pplid];
+    NSString *fixedUrl = [NSString stringWithFormat:@"http://tinder-for-anything.herokuapp.com/ppl/%@groups", pplid];
     NSURL *url = [NSURL URLWithString:fixedUrl];
 
     //Request
@@ -461,7 +461,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
     //URL
-    NSString *fixedURL = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/google/food"];
+    NSString *fixedURL = [NSString stringWithFormat:@"http://tinder-for-anything.herokuapp.com/google/food"];
     NSURL *url = [NSURL URLWithString:fixedURL];
     
     //Request

@@ -36,8 +36,6 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
 {
     bool gettingMoreCards;
     bool outOfCards;
-    bool noBack;
-    bool noFront;
 }
 
 @property (weak, nonatomic) IBOutlet UIView *cardView;
@@ -96,8 +94,6 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
 
 - (void)viewDidLoad
 {
-    noBack = true;
-    noFront = true;
     [self setLimits];
     // Display the first ChoosePersonView in front. Users can swipe to indicate
     // whether they like or dislike the person displayed.
@@ -127,7 +123,7 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
     }
     else
     {
-        [self getMoreYelp];
+        [self getMoreYelp];//first yelp call
     }
     [self constructNopeButton];
     [self constructLikedButton];
@@ -154,25 +150,16 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
 -(void)loadBack
 {
     self.backCardView = [self popPersonViewWithFrame:[self backCardViewFrame]];
-    if(self.backCardView == nil)
-    {
-        noBack = true;
-    }
-
-            [self.cardView insertSubview:self.backCardView belowSubview:self.frontCardView];
+    [self.cardView insertSubview:self.backCardView belowSubview:self.frontCardView];
     
 
 }
 -(void)loadFront
 {
     self.frontCardView = [self popPersonViewWithFrame:[self backCardViewFrame]];
-    if(self.backCardView == nil)
-    {
-        noFront = true;
-    }
 
-        self.frontCardView.frame = self.viewContainer.frame;
-        [self.cardView addSubview:self.frontCardView];
+    self.frontCardView.frame = self.viewContainer.frame;
+    [self.cardView addSubview:self.frontCardView];
     
 
 }
@@ -268,13 +255,14 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
         gettingMoreCards = true;
         [self getMoreYelp];
     }
-    if(self.frontCardView==nil)
+    if(outOfCards&&!gettingMoreCards)
     {
-        noFront = true;
+        gettingMoreCards = true;
+        [self getMoreYelp];
     }
-    if(self.backCardView==nil)
+    if(!gettingMoreCards&&(self.backCardView==nil||self.frontCardView==nil))
     {
-        noBack = true;
+        [self getMoreYelp];
     }
 }
 
@@ -292,6 +280,7 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
 
 - (MDCSwipeToChooseView *)popPersonViewWithFrame:(CGRect)frame
 {
+
     NSMutableDictionary *temp;
 
     if ([self.cards count] == 0) {
@@ -300,7 +289,9 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
             NSLog(@"low on cards, getting more");
             gettingMoreCards = true;
             [self getMoreYelp];
+            
         }
+
         outOfCards = true;
         return nil;
     }
@@ -315,10 +306,12 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
         if ([self.cards count] == 0) {
             if(!gettingMoreCards)
             {
+
                 NSLog(@"low on cards, getting more");
                 gettingMoreCards = true;
                 [self getMoreYelp];
             }
+
             return nil;
         }
         else
@@ -493,7 +486,7 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
     NSLog(@"%d",self.offset);
-    NSString *fixedURL = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/yelp/%@/%@/%@/%d",
+    NSString *fixedURL = [NSString stringWithFormat:@"http://tinder-for-anything.herokuapp.com/yelp/%@/%@/%@/%d",
                           [[NSUserDefaults standardUserDefaults] objectForKey:@"User Location Latitude"],
                           [[NSUserDefaults standardUserDefaults] objectForKey:@"User Location Longitude"],
                           [[NSUserDefaults standardUserDefaults] objectForKey:@"Yelp Search Term"],
@@ -530,14 +523,14 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
 
                     self.offset +=20;
                     
-                    if(noFront)
+                    if(self.frontCardView == nil)
                     {
-                        noFront = false;
+                        NSLog(@"nofront");
                         [self loadFront];
                     }
-                    if(noBack)
+                    if(self.backCardView == nil)
                     {
-                        noBack = false;
+                        NSLog(@"noBack");
                         [self loadBack];
                     }
                     if(outOfCards)
@@ -591,7 +584,7 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
 
 -(void)requestScrape:(NSString*)myurl forView:(MDCSwipeToChooseView *) myview
 {
-    NSString *fixedURL = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/scrape"];
+    NSString *fixedURL = [NSString stringWithFormat:@"http://tinder-for-anything.herokuapp.com/scrape"];
     NSURL *url = [NSURL URLWithString:fixedURL];
     
     //Session

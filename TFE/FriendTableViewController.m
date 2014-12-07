@@ -157,7 +157,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [NetworkCommunication sharedManager].intYelpNumberOfLocations = 20;
     //URL
-    NSString *fixedURL = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/yelp/%@/%@/%@/%d/%@",
+    NSString *fixedURL = [NSString stringWithFormat:@"http://tinder-for-anything.herokuapp.com/yelp/%@/%@/%@/%d/%@",
                           [NetworkCommunication sharedManager].stringCurrentLatitude,
                           [NetworkCommunication sharedManager].stringCurrentLongitude,
                           [NetworkCommunication sharedManager].stringYelpSearchTerm,

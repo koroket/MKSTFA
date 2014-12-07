@@ -69,7 +69,7 @@
     if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"NetworkCommunication - HerokuRequests - Start");}
 
     //param 1 - URL
-    _HerokuURL = @"http://young-sierra-7245.herokuapp.com/";
+    _HerokuURL = @"http://tinder-for-anything.herokuapp.com/";
     
     NSString *fixedUrl = [NSString stringWithFormat:@"%@%@",_HerokuURL,urlID];
     NSURL *url = [NSURL URLWithString:fixedUrl];
@@ -133,7 +133,7 @@
 - (void)sendNotification:(NSString*)tempToken
 {
     //URL
-    NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/token/push/%@/%@",
+    NSString *fixedUrl = [NSString stringWithFormat:@"http://tinder-for-anything.herokuapp.com/token/push/%@/%@",
                           tempToken,
                           [self stringfix:[NetworkCommunication sharedManager].stringFBUserName]];
     
@@ -314,7 +314,7 @@
 - (void)linkDeviceToken
 {
     //URL
-    NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/token/%@token",
+    NSString *fixedUrl = [NSString stringWithFormat:@"http://tinder-for-anything.herokuapp.com/token/%@token",
                           [NetworkCommunication sharedManager].stringFBUserId];
     NSURL *url = [NSURL URLWithString:fixedUrl];
     //Session

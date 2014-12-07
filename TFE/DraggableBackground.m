@@ -299,7 +299,7 @@ static const int MAX_BUFFER_SIZE = 2; //%%% max number of cards loaded at any gi
 //{
 //    #pragma message "Backend Code should be in separate class. Is this a duplicate of the other 'yesWith:...' method?"
 //    //URL
-//    NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/groups/%@/%d/%@/%@groups/%d",
+//    NSString *fixedUrl = [NSString stringWithFormat:@"http://tinder-for-anything.herokuapp.com/groups/%@/%d/%@/%@groups/%d",
 //                          groupID,
 //                          index+[NetworkCommunication sharedManager].intSelectedGroupProgressIndex,
 //                          [NetworkCommunication sharedManager].stringCurrentDB,
@@ -352,7 +352,7 @@ static const int MAX_BUFFER_SIZE = 2; //%%% max number of cards loaded at any gi
 
 -(void)getMoreYelp
 {
-    NSString *fixedURL = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/yelp/%@/%@/%@/%d",
+    NSString *fixedURL = [NSString stringWithFormat:@"http://tinder-for-anything.herokuapp.com/yelp/%@/%@/%@/%d",
                           [NetworkCommunication sharedManager].stringCurrentLatitude,
                           [NetworkCommunication sharedManager].stringCurrentLongitude,
                           @"restaurants",
