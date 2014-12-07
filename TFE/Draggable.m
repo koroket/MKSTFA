@@ -257,7 +257,7 @@
 -(void)yes:(int) index
 {
     //URL
-    NSString *fixedUrl = [NSString stringWithFormat:@"http://young-sierra-7245.herokuapp.com/groups/543482c59b6f750200271e81/%d", index];
+    NSString *fixedUrl = [NSString stringWithFormat:@"http://tinder-for-anything.herokuapp.com/groups/543482c59b6f750200271e81/%d", index];
     NSURL *url = [NSURL URLWithString:fixedUrl];
     
     //Request

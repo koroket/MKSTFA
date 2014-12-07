@@ -75,7 +75,7 @@
     _pickerData = @[@"Restaurants", @"Quick Eats", @"Bars", @"NightLife", @"Coffee & Breakfast"];
     self.pickerView.dataSource = self;
     self.pickerView.delegate = self;
-    
+
     
     
     UITapGestureRecognizer *singleTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapGesture:)];
