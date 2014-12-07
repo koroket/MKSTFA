@@ -20,4 +20,7 @@
 @dynamic price;
 @dynamic bizid;
 @dynamic city;
+@dynamic address;
+@dynamic state;
+@dynamic zipcode;
 @end

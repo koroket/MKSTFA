@@ -20,6 +20,9 @@
 @property (nonatomic, retain) NSString * distance;
 @property (nonatomic, retain) NSString * price;
 @property (nonatomic, retain) NSString * bizid;
+@property (nonatomic, retain) NSString * address;
 @property (nonatomic, retain) NSString * city;
+@property (nonatomic, retain) NSString * state;
+@property (nonatomic, retain) NSString * zipcode;
 
 @end

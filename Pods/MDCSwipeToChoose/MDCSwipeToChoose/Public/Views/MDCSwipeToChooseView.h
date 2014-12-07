@@ -46,6 +46,9 @@
  * The "nope" view, which fades in as the `MDCSwipeToChooseView` is panned to the left.
  */
 @property (nonatomic, strong) NSString* city;
+@property (nonatomic, strong) NSString* address;
+@property (nonatomic, strong) NSString* zipcode;
+@property (nonatomic, strong) NSString* state;
 @property (nonatomic, strong) NSString* bizid;
 @property (nonatomic, strong) UIView *nopeView;
 @property (strong, nonatomic) IBOutlet UILabel *hours;

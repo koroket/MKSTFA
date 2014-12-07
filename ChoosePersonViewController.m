@@ -203,6 +203,10 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
         [newCard setValue:view.hours.text forKey:@"hours"];
         [newCard setValue:view.categories.text forKey:@"categories"];
         [newCard setValue:view.city forKey:@"city"];
+        [newCard setValue:view.address forKey:@"address"];
+        [newCard setValue:view.zipcode forKey:@"zipcode"];
+        [newCard setValue:view.state forKey:@"state"];
+        
         
         NSData *imageData = UIImagePNGRepresentation(view.imageView.image);
         [newCard setValue:imageData forKey:@"image"];
@@ -350,6 +354,11 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
     
     NSDictionary* locations = temp[@"location"];
     personView.city = locations[@"city"];
+    NSArray* temparr = locations[@"address"];
+    personView.address = temparr[0];
+    personView.state = locations[@"state_code"];
+    personView.zipcode = locations[@"postal_code"];
+    
     if(temp[@"ImageURL"]!=nil)
     {
         
