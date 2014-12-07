@@ -49,6 +49,10 @@
 		D5BF78DA1A157C2800E63AA1 /* SavedCardsDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D5BF78D91A157C2800E63AA1 /* SavedCardsDetailViewController.m */; };
 		D5E063A81A15DFDE00B6E2AF /* GOPR0007.JPG in Resources */ = {isa = PBXBuildFile; fileRef = D5E063A71A15DFDE00B6E2AF /* GOPR0007.JPG */; };
 		D5E063AE1A15F9A700B6E2AF /* GOPR0015.JPG in Resources */ = {isa = PBXBuildFile; fileRef = D5E063AD1A15F9A700B6E2AF /* GOPR0015.JPG */; };
+		D5E063B11A16ADD600B6E2AF /* SavedCardsDetailMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D5E063B01A16ADD600B6E2AF /* SavedCardsDetailMapViewController.m */; };
+		D5E063B31A16B6CA00B6E2AF /* IMG_5544.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D5E063B21A16B6CA00B6E2AF /* IMG_5544.jpg */; };
+		D5E063B61A1A7F9900B6E2AF /* floppy13.png in Resources */ = {isa = PBXBuildFile; fileRef = D5E063B41A1A7F9900B6E2AF /* floppy13.png */; };
+		D5E063B71A1A7F9900B6E2AF /* settings21.png in Resources */ = {isa = PBXBuildFile; fileRef = D5E063B51A1A7F9900B6E2AF /* settings21.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -128,6 +132,11 @@
 		D5BF78D91A157C2800E63AA1 /* SavedCardsDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SavedCardsDetailViewController.m; sourceTree = "<group>"; };
 		D5E063A71A15DFDE00B6E2AF /* GOPR0007.JPG */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = GOPR0007.JPG; sourceTree = "<group>"; };
 		D5E063AD1A15F9A700B6E2AF /* GOPR0015.JPG */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = GOPR0015.JPG; sourceTree = "<group>"; };
+		D5E063AF1A16ADD600B6E2AF /* SavedCardsDetailMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SavedCardsDetailMapViewController.h; sourceTree = "<group>"; };
+		D5E063B01A16ADD600B6E2AF /* SavedCardsDetailMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SavedCardsDetailMapViewController.m; sourceTree = "<group>"; };
+		D5E063B21A16B6CA00B6E2AF /* IMG_5544.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = IMG_5544.jpg; sourceTree = "<group>"; };
+		D5E063B41A1A7F9900B6E2AF /* floppy13.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = floppy13.png; sourceTree = "<group>"; };
+		D5E063B51A1A7F9900B6E2AF /* settings21.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings21.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -176,9 +185,11 @@
 		D518EE3819F5CFB800329A05 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				D5E063B41A1A7F9900B6E2AF /* floppy13.png */,
+				D5E063B51A1A7F9900B6E2AF /* settings21.png */,
+				D5E063A71A15DFDE00B6E2AF /* GOPR0007.JPG */,
 				D5996B0D1A12B4BC003049F3 /* SettingsViewController.h */,
 				D5996B0E1A12B4BC003049F3 /* SettingsViewController.m */,
-				D5E063A71A15DFDE00B6E2AF /* GOPR0007.JPG */,
 				D518EE3519F5CFAF00329A05 /* LocationFinderViewController.h */,
 				D518EE3619F5CFAF00329A05 /* LocationFinderViewController.m */,
 			);
@@ -207,6 +218,7 @@
 			isa = PBXGroup;
 			children = (
 				D5E063AD1A15F9A700B6E2AF /* GOPR0015.JPG */,
+				D5E063B21A16B6CA00B6E2AF /* IMG_5544.jpg */,
 				D5AB92A619D60B1A001FB2A7 /* FBLogInViewController.h */,
 				D5AB92A719D60B1A001FB2A7 /* FBLogInViewController.m */,
 			);
@@ -353,6 +365,8 @@
 				62518C761A14ABD200CBBCE2 /* SavedCardsTableViewController.m */,
 				D5BF78D81A157C2800E63AA1 /* SavedCardsDetailViewController.h */,
 				D5BF78D91A157C2800E63AA1 /* SavedCardsDetailViewController.m */,
+				D5E063AF1A16ADD600B6E2AF /* SavedCardsDetailMapViewController.h */,
+				D5E063B01A16ADD600B6E2AF /* SavedCardsDetailMapViewController.m */,
 			);
 			name = "Saved Cards";
 			sourceTree = "<group>";
@@ -442,9 +456,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				D5AB928C19D60565001FB2A7 /* Images.xcassets in Resources */,
+				D5E063B71A1A7F9900B6E2AF /* settings21.png in Resources */,
 				D5E063A81A15DFDE00B6E2AF /* GOPR0007.JPG in Resources */,
 				62BD81CF19E12F3E00813045 /* Main.storyboard in Resources */,
+				D5E063B31A16B6CA00B6E2AF /* IMG_5544.jpg in Resources */,
 				62B2177219EBC2EB00834EBA /* Pushbots.plist in Resources */,
+				D5E063B61A1A7F9900B6E2AF /* floppy13.png in Resources */,
 				6223D78F19F594B5004A2900 /* SwipeCardView.xib in Resources */,
 				D5E063AE1A15F9A700B6E2AF /* GOPR0015.JPG in Resources */,
 			);
@@ -507,6 +524,7 @@
 				625CD5FF19D9D51400A5D41E /* FriendTableViewController.m in Sources */,
 				62B2177519ECF4D900834EBA /* NetworkCommunication.m in Sources */,
 				D5AB92A819D60B1A001FB2A7 /* FBLogInViewController.m in Sources */,
+				D5E063B11A16ADD600B6E2AF /* SavedCardsDetailMapViewController.m in Sources */,
 				D5AB928419D60565001FB2A7 /* TFE.xcdatamodeld in Sources */,
 				D5AB92B119D6251C001FB2A7 /* GroupTableViewController.m in Sources */,
 				D5551DEA19D9EA400017790D /* Group.m in Sources */,

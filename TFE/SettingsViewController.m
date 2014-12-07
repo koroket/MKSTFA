@@ -8,7 +8,6 @@
 
 #import "SettingsViewController.h"
 #import "NetworkCommunication.h"
-#import "DraggableBackground.h"
 #import "MBProgressHUD.h"
 
 #import <CoreLocation/CoreLocation.h>
@@ -39,9 +38,6 @@
     
     //Array
     NSArray *_pickerData;
-    
-
-
 }
 
 #pragma mark - Init
@@ -75,13 +71,9 @@
     _pickerData = @[@"Restaurants", @"Quick Eats", @"Bars", @"NightLife", @"Coffee & Breakfast"];
     self.pickerView.dataSource = self;
     self.pickerView.delegate = self;
-
-    
     
     UITapGestureRecognizer *singleTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapGesture:)];
     [self.mapView addGestureRecognizer:singleTapGestureRecognizer];
-    
-    
     
     //This is the shittiest way possible to make this work...
     if ([[[NSUserDefaults standardUserDefaults] stringForKey:(@"Yelp Search Term")]  isEqual: @"Restaurants"])
@@ -100,7 +92,7 @@
     {
         [_pickerView selectRow:3 inComponent:0 animated:YES];
     }
-    else if ([[[NSUserDefaults standardUserDefaults] stringForKey:(@"Yelp Search Term")]  isEqual: @"Coffee & Breakfast"])
+    else if ([[[NSUserDefaults standardUserDefaults] stringForKey:(@"Yelp Search Term")]  isEqual: @"Breakfast"])
     {
         [_pickerView selectRow:4 inComponent:0 animated:YES];
     }
@@ -153,7 +145,6 @@ numberOfRowsInComponent:(NSInteger)component
     
     NSAttributedString *attString = [[NSAttributedString alloc] initWithString:_pickerData[row] attributes:@{NSForegroundColorAttributeName:[UIColor whiteColor]}];
     
-    
     return attString;
     
 }
@@ -180,7 +171,7 @@ numberOfRowsInComponent:(NSInteger)component
     
     // Map View Stuff
     CLLocationCoordinate2D location = CLLocationCoordinate2DMake(currentLocation.coordinate.latitude, currentLocation.coordinate.longitude);
-    MKCoordinateSpan span = MKCoordinateSpanMake(0.02, 0.02);
+    MKCoordinateSpan span = MKCoordinateSpanMake(0.002, 0.002);
     MKCoordinateRegion region = MKCoordinateRegionMake(location, span);
     [self.mapView setRegion:region animated:YES];
     

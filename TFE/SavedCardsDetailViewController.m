@@ -8,7 +8,12 @@
 
 #import "SavedCardsDetailViewController.h"
 #import "NetworkCommunication.h"
-@interface SavedCardsDetailViewController ()
+
+#import <MapKit/MapKit.h>
+#import <CoreLocation/CoreLocation.h>
+
+@interface SavedCardsDetailViewController () <CLLocationManagerDelegate>
+
 @property (strong, nonatomic) IBOutlet UIImageView *imageview;
 @property (strong, nonatomic) IBOutlet UILabel *placesLabel;
 @property (strong, nonatomic) IBOutlet UILabel *distLabel;
@@ -17,15 +22,38 @@
 @property (strong, nonatomic) IBOutlet UILabel *hoursLabel;
 @property (strong, nonatomic) IBOutlet UILabel *priceLabel;
 
+@property (strong, nonatomic) IBOutlet MKMapView *mapView;
+
 @end
 
 @implementation SavedCardsDetailViewController
+{
+    CLLocationManager *manager;
+    CLGeocoder *geocoder;
+    CLPlacemark *placemark;
+    CLLocation *currentLocation;
+}
 
-- (void)viewDidLoad {
+#pragma mark - init
+/**
+ * --------------------------------------------------------------------------
+ * Init
+ * --------------------------------------------------------------------------
+ */
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self loadMyData];
+    
+    UITapGestureRecognizer *singleTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapGesture:)];
+    [self.mapView addGestureRecognizer:singleTapGestureRecognizer];
+    
+    [manager requestWhenInUseAuthorization];
+    [manager startUpdatingLocation];
+    
 }
+
 -(void)loadMyData
 {
     self.priceLabel.text = [NetworkCommunication sharedManager].currentCard.price;
@@ -38,19 +66,67 @@
     
     
 }
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+
+-(void)handleSingleTapGesture:(UITapGestureRecognizer *)tapGestureRecognizer
+{
+    NSLog(@"Segue");
+    [self performSegueWithIdentifier: @"mapViewSegue" sender:self];
 }
 
-/*
+#pragma mark - locations
+/**
+ * --------------------------------------------------------------------------
+ * Locations
+ * --------------------------------------------------------------------------
+ */
+- (void) locationManager:(CLLocationManager *)manager
+        didFailWithError:(NSError *)error
+{
+    NSLog(@"Error: %@", error);
+    NSLog(@"Failed to get location!:(");
+}
+
+- (void)locationManager:(CLLocationManager *)manager
+    didUpdateToLocation:(CLLocation *)newLocation
+           fromLocation:(CLLocation *)oldLocation
+{
+    
+
+    
+    // Map View Stuff
+    CLLocationCoordinate2D location = CLLocationCoordinate2DMake(currentLocation.coordinate.latitude, currentLocation.coordinate.longitude);
+    MKCoordinateSpan span = MKCoordinateSpanMake(0.009, 0.009);
+    MKCoordinateRegion region = MKCoordinateRegionMake(location, span);
+    [self.mapView setRegion:region animated:YES];
+    
+    // Sets the pin
+    MKPointAnnotation *annotation = [[MKPointAnnotation alloc] init];
+    [annotation setCoordinate:currentLocation.coordinate];
+    [annotation setTitle:@"Title"]; //You can set the subtitle too
+    [self.mapView addAnnotation:annotation];
+    
+    [manager stopUpdatingLocation];
+    
+}
+
+
 #pragma mark - Navigation
+/**
+ * --------------------------------------------------------------------------
+ * Navigation
+ * --------------------------------------------------------------------------
+ */
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)prepareForSegue:(UIStoryboardSegue *)segue
+                 sender:(id)sender
+{
+    
+    if ([segue.identifier isEqual: @"mapViewSegue"])
+    {
+        
+    }
+    
 }
-*/
 
 @end
