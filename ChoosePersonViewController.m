@@ -40,6 +40,7 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
 
 @property (weak, nonatomic) IBOutlet UIView *cardView;
 @property (nonatomic, strong)NSMutableArray *cards;
+
 // IBOutlets
 - (IBAction)handlePan:(UIPanGestureRecognizer *)recognizer;
 
@@ -86,6 +87,7 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
     }
     return self;
 }
+
 -(void)setLimits
 {
     [NetworkCommunication sharedManager].minRating = 4.5;
@@ -147,6 +149,7 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
     [self constructLikedButton];
     
 }
+
 -(void)loadBack
 {
     self.backCardView = [self popPersonViewWithFrame:[self backCardViewFrame]];
@@ -154,6 +157,7 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
     
 
 }
+
 -(void)loadFront
 {
     self.frontCardView = [self popPersonViewWithFrame:[self backCardViewFrame]];
@@ -177,10 +181,11 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
 {
     // MDCSwipeToChooseView shows "NOPE" on swipes to the left,
     // and "LIKED" on swipes to the right.
-    if(self.cards.count<1)
+    if(self.cards.count < 1)
     {
         outOfCards = true;
     }
+    
     if (direction == MDCSwipeDirectionLeft)
     {
         NSLog(@"No");
@@ -191,7 +196,6 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
         NSManagedObjectContext *context = ((AppDelegate *)[UIApplication sharedApplication].delegate).managedObjectContext;
         
         NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Card" inManagedObjectContext:context];
-        
         
         Card *newCard = [[Card alloc] initWithEntity:entityDescription insertIntoManagedObjectContext:context];
         NSLog(@"%@",view.city);
@@ -207,12 +211,9 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
         [newCard setValue:view.zipcode forKey:@"zipcode"];
         [newCard setValue:view.state forKey:@"state"];
         
-        
         NSData *imageData = UIImagePNGRepresentation(view.imageView.image);
         [newCard setValue:imageData forKey:@"image"];
 
-        
-        
 //        NSData *imageData = UIImagePNGRepresentation(view.imageView.image);
 //        
 //        [newCard setValue:imageData forKey:@"image"];
@@ -227,9 +228,7 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
         else
         {
             NSLog(@"Saved");
-            
         }
-
     }
 
     // MDCSwipeToChooseView removes the view from the view hierarchy
@@ -287,7 +286,8 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
 
     NSMutableDictionary *temp;
 
-    if ([self.cards count] == 0) {
+    if ([self.cards count] == 0)
+    {
         if(!gettingMoreCards)
         {
             NSLog(@"low on cards, getting more");
@@ -307,7 +307,8 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
     while(self.cards.count>0&&([self bizExists:temp[@"id"]]||![self isWithInDistnaceRange:temp[@"distance"]]||![self isWithInPriceRange:@""]||![self isWithInRatingRange:temp[@"rating"]]))
     {
         [self.cards removeObjectAtIndex:0];
-        if ([self.cards count] == 0) {
+        if ([self.cards count] == 0)
+        {
             if(!gettingMoreCards)
             {
 
@@ -622,7 +623,8 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
                                                   if (responseStatusCode == 200 && data)
                                                   {
                                                       dispatch_async(dispatch_get_main_queue(), ^(void)
-                                                                     {
+                                                                     
+                                                      {
                                                                          NSLog(@"Scrape Success");
                                                                          NSDictionary *fetchedData = [NSJSONSerialization JSONObjectWithData:data
                                                                                                                                 options:0
@@ -703,6 +705,7 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
         return true;
     }
 }
+
 -(BOOL)isWithInDistnaceRange:(NSString*) distance
 {
     double dbleval = [distance doubleValue];
@@ -716,6 +719,7 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
         return false;
     }
 }
+
 -(BOOL)isWithInRatingRange:(NSNumber*) rating
 {
     
@@ -728,9 +732,8 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
     {
             return false;
     }
-    
-
 }
+
 -(NSString*)priceFixer:(NSString*) mystr
 {
     NSString* newString = [mystr stringByReplacingOccurrencesOfString:@" " withString:@""];

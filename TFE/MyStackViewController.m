@@ -1,22 +1,24 @@
 //
-//  SavedCardsTableViewController.m
+//  MyStackViewController.m
 //  TFE
 //
-//  Created by sloot on 11/13/14.
+//  Created by Luke Solomon on 12/24/14.
 //  Copyright (c) 2014 SoloBando Enterprises. All rights reserved.
 //
 
-#import "SavedCardsTableViewController.h"
+#import "MyStackViewController.h"
 #import "AppDelegate.h"
 #import "Card.h"
 #import "NetworkCommunication.h"
 
-@interface SavedCardsTableViewController ()
+@interface MyStackViewController ()
+
+@property (strong, nonatomic) IBOutlet UITableView *tableView;
+
 
 @end
 
-
-@implementation SavedCardsTableViewController
+@implementation MyStackViewController
 {
     NSMutableDictionary* sections;
     NSMutableArray* sectionNames;
@@ -58,24 +60,23 @@
             NSLog(@"%@, %@", error, error.localizedDescription);
             
         }
+        
         else
         {
             NSLog(@"%@", self.cards);
         }
-        
     }
-    
     return self;
 }
-
 
 #pragma mark - View Lifecycle
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    
     [super viewWillAppear:animated];
     [self.tableView reloadData];
-    
+    self.tableView.backgroundColor = [UIColor clearColor];
 }
 
 #pragma mark - Table view data source
@@ -98,7 +99,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Return the number of rows in the section.
     
-    // return [self.cards count];
+    //return [self.cards count];
     NSString *sectionTitle = [sectionNames objectAtIndex:section];
     NSMutableArray *sectionAnimals = [sections objectForKey:sectionTitle];
     return [sectionAnimals count];
@@ -113,6 +114,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CardCell" forIndexPath:indexPath];
     
     NSString *sectionTitle = [sectionNames objectAtIndex:indexPath.section];
@@ -129,7 +131,7 @@ commitEditingStyle:(UITableViewCellEditingStyle)editingStyle
 forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSManagedObjectContext *context = ((AppDelegate *)[UIApplication sharedApplication].delegate).managedObjectContext;
-
+    
     [context deleteObject:self.cards[indexPath.row]];
     NSError *error = nil;
     

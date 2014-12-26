@@ -32,6 +32,9 @@
     CLGeocoder *geocoder;
     CLPlacemark *placemark;
     CLLocation *currentLocation;
+    
+    NSString *theAddress;
+
 }
 
 #pragma mark - init
@@ -49,26 +52,52 @@
     UITapGestureRecognizer *singleTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapGesture:)];
     [self.mapView addGestureRecognizer:singleTapGestureRecognizer];
     
-    [manager requestWhenInUseAuthorization];
-    [manager startUpdatingLocation];
+    //LocationManager stuff
+    manager = [[CLLocationManager alloc] init];
+    geocoder = [[CLGeocoder alloc] init];
     
+    manager.delegate = self;
+    manager.desiredAccuracy = kCLLocationAccuracyBest;
+    
+    if (currentLocation == nil)
+    {
+        [manager requestWhenInUseAuthorization];
+        [manager startUpdatingLocation];
+    }
+    else
+    {
+        [manager stopUpdatingLocation];
+    }
+    
+    self->theAddress = [NSString stringWithFormat:@"%@/%@/%@/%@",
+                        [NetworkCommunication sharedManager].currentCard.address,
+                        [NetworkCommunication sharedManager].currentCard.city,
+                        [NetworkCommunication sharedManager].currentCard.state,
+                        [NetworkCommunication sharedManager].currentCard.zipcode
+                        ];
 }
 
 -(void)loadMyData
 {
-    self.priceLabel.text = [NetworkCommunication sharedManager].currentCard.price;
+    //set the title of the View Controller to the place's name
+    self.navigationItem.title = [NetworkCommunication sharedManager].currentCard.name;
+    
+    //Load the information for the card from Navigation controller
+    self.imageview.image = [UIImage imageWithData:[NetworkCommunication sharedManager].currentCard.image];
+    self.placesLabel.text = [NetworkCommunication sharedManager].currentCard.name;
     self.distLabel.text = [NetworkCommunication sharedManager].currentCard.distance;
+    self.priceLabel.text = [NetworkCommunication sharedManager].currentCard.price;
     self.ratingLabel.text = [NetworkCommunication sharedManager].currentCard.rating;
     self.categoryLabel.text = [NetworkCommunication sharedManager].currentCard.categories;
     self.hoursLabel.text = [NetworkCommunication sharedManager].currentCard.hours;
-    self.placesLabel.text = [NetworkCommunication sharedManager].currentCard.name;
+    
+    //print a bunch of shit
     NSLog([NetworkCommunication sharedManager].currentCard.address);
     NSLog([NetworkCommunication sharedManager].currentCard.city);
     NSLog([NetworkCommunication sharedManager].currentCard.state);
     NSLog([NetworkCommunication sharedManager].currentCard.zipcode);
-    self.imageview.image = [UIImage imageWithData:[NetworkCommunication sharedManager].currentCard.image];
     
-    
+
 }
 
 -(void)handleSingleTapGesture:(UITapGestureRecognizer *)tapGestureRecognizer
@@ -95,23 +124,40 @@
            fromLocation:(CLLocation *)oldLocation
 {
     
-
+    //Geocode the Address of the restaurant
+    CLGeocoder *geocoder = [[CLGeocoder alloc] init];
+    [geocoder geocodeAddressString:self->theAddress
+                 completionHandler:^(NSArray* placemarks,
+                                     NSError* error)
+     {
+         for (CLPlacemark* aPlacemark in placemarks)
+         {
+             // Process the placemark.
+             NSString *latDest1 = [NSString stringWithFormat:@"%.4f",aPlacemark.location.coordinate.latitude];
+             NSString *lngDest1 = [NSString stringWithFormat:@"%.4f",aPlacemark.location.coordinate.longitude];
+             //lblDestinationLat.text = latDest1;
+             //lblDestinationLng.text = lngDest1;
+             NSLog(@"lat: %@, lng: %@", latDest1, lngDest1);
+             
+             //Make a 2dCoordinate
+             CLLocationCoordinate2D RestaurantLocation = CLLocationCoordinate2DMake(aPlacemark.location.coordinate.latitude, aPlacemark.location.coordinate.longitude);
+             
+             // Map View Stuff
+             MKCoordinateSpan span = MKCoordinateSpanMake(0.02, 0.02);
+             MKCoordinateRegion thisRegion = MKCoordinateRegionMake(RestaurantLocation, span);
+             [self.mapView setRegion:thisRegion animated:NO];
+             
+             // Sets the pin
+             MKPointAnnotation *annotation = [[MKPointAnnotation alloc] init];
+             [annotation setCoordinate:RestaurantLocation];
+             [annotation setTitle:[NetworkCommunication sharedManager].currentCard.address];
+             [self.mapView addAnnotation:annotation];
+         }
+     }];
     
-    // Map View Stuff
-    CLLocationCoordinate2D location = CLLocationCoordinate2DMake(currentLocation.coordinate.latitude, currentLocation.coordinate.longitude);
-    MKCoordinateSpan span = MKCoordinateSpanMake(0.009, 0.009);
-    MKCoordinateRegion region = MKCoordinateRegionMake(location, span);
-    [self.mapView setRegion:region animated:YES];
-    
-    // Sets the pin
-    MKPointAnnotation *annotation = [[MKPointAnnotation alloc] init];
-    [annotation setCoordinate:currentLocation.coordinate];
-    [annotation setTitle:@"Title"]; //You can set the subtitle too
-    [self.mapView addAnnotation:annotation];
-    
-    [manager stopUpdatingLocation];
-    
+    [self->manager stopUpdatingLocation];
 }
+
 
 
 #pragma mark - Navigation

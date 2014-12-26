@@ -40,9 +40,7 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
-    self.navigationItem.leftBarButtonItem.image = [UIImage imageNamed:@"checkMark.png"];
-    
+        
     //LocationManager stuff
     manager = [[CLLocationManager alloc] init];
     geocoder = [[CLGeocoder alloc] init];
@@ -110,7 +108,7 @@
     CLLocationCoordinate2D location = CLLocationCoordinate2DMake(currentLocation.coordinate.latitude, currentLocation.coordinate.longitude);
     MKCoordinateSpan span = MKCoordinateSpanMake(0.009, 0.009);
     MKCoordinateRegion region = MKCoordinateRegionMake(location, span);
-    [self.mapView setRegion:region animated:YES];
+    [self.mapView setRegion:region animated:NO];
     
     // Sets the pin
     MKPointAnnotation *annotation = [[MKPointAnnotation alloc] init];

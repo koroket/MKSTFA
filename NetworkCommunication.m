@@ -66,7 +66,9 @@
      whatDictionary:(NSDictionary*)dictionaryID
           withBlock:(void (^)())blockName
 {
-    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"NetworkCommunication - HerokuRequests - Start");}
+    if ([NetworkCommunication sharedManager].boolDebug == true)
+    {
+    }
 
     //param 1 - URL
     _HerokuURL = @"http://tinder-for-anything.herokuapp.com/";
@@ -107,7 +109,9 @@
     
     [dataTask resume];
     
-    if ([NetworkCommunication sharedManager].boolDebug == true) {NSLog(@"NetworkCommunication - HerokuRequests - Finished");}
+    if ([NetworkCommunication sharedManager].boolDebug == true)
+    {
+    }
 }
 
 /**
@@ -173,7 +177,7 @@
             {
                 
             });
-     }];
+    }];
     [dataTask resume];
 }
 
