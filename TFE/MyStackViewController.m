@@ -15,7 +15,6 @@
 
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 
-
 @end
 
 @implementation MyStackViewController
@@ -73,7 +72,6 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
-    
     [super viewWillAppear:animated];
     [self.tableView reloadData];
     self.tableView.backgroundColor = [UIColor clearColor];
@@ -89,10 +87,50 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
     [NetworkCommunication sharedManager].currentCard = [sectionCards objectAtIndex:indexPath.row];
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+// Section Header Functions
+
+- (UIView *)tableView:(UITableView *)tableView
+viewForHeaderInSection:(NSInteger)section
 {
-    return [sectionNames objectAtIndex:section];
+    UIView* sectionHeaderUIView = [[UIView alloc] initWithFrame:(CGRectMake(0, 0, tableView.frame.size.width, 20))];
+    
+    UILabel* sectionHeaderLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 20)];
+    
+    UIFont *headerFont = [UIFont fontWithName:@"Avenir-Heavy" size:20.0];
+    
+    //sectionHeaderLabel.text = @" something ";
+    sectionHeaderLabel.text = [sectionNames objectAtIndex:section];
+    sectionHeaderLabel.textAlignment = NSTextAlignmentCenter;
+    sectionHeaderLabel.textColor = [UIColor whiteColor];
+    sectionHeaderLabel.font = headerFont;
+    
+//    sectionHeaderLabel.text = @" %@",[sectionNames objectAtIndex:section];
+    
+    [sectionHeaderUIView addSubview:sectionHeaderLabel];
+    
+    sectionHeaderUIView.backgroundColor = nil;
+    
+    return sectionHeaderUIView;
 }
+
+//- (CGFloat)tableView:(UITableView *)tableView
+//heightForHeaderInSection:(NSInteger)section
+//{
+//    double heightDouble = 10;
+//    
+//    CGFloat *heightFloat = &heightDouble;
+//    
+//    return *heightFloat;
+//}
+
+//- (NSString *)tableView:(UITableView *)tableView
+//titleForHeaderInSection:(NSInteger)section
+//{
+//    return [sectionNames objectAtIndex:section];
+//}
+
+
+
 
 - (NSInteger)tableView:(UITableView *)tableView
  numberOfRowsInSection:(NSInteger)section
@@ -114,14 +152,16 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CardCell" forIndexPath:indexPath];
     
     NSString *sectionTitle = [sectionNames objectAtIndex:indexPath.section];
     NSMutableArray *sectionCards = [sections objectForKey:sectionTitle];
     Card* currentCard = [sectionCards objectAtIndex:indexPath.row];
     
+    UIFont *textLabelFont = [UIFont fontWithName:@"Avenir-Light" size:18.0];
+    cell.textLabel.font = textLabelFont;
     cell.textLabel.text = currentCard.name;
+    cell.textLabel.textColor = [UIColor whiteColor];
     
     return cell;
 }

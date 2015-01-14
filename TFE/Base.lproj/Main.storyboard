@@ -18,7 +18,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LLh-Om-WXx" customClass="ChoosePersonView">
+                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LLh-Om-WXx" customClass="ChoosePersonView">
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="300" id="Qmk-VT-iC5"/>
@@ -45,7 +45,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="600" height="492"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pfL-Oh-RYS">
-                                                    <rect key="frame" x="182" y="218.5" width="237" height="55"/>
+                                                    <rect key="frame" x="182" y="218" width="237" height="55"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="237" id="gll-LV-PKr"/>
                                                     </constraints>
@@ -91,18 +91,24 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="15i-bq-AiO" secondAttribute="bottom" id="3eH-9c-6hl"/>
+                            <constraint firstItem="LLh-Om-WXx" firstAttribute="top" secondItem="kh9-bI-dsS" secondAttribute="top" constant="300" id="CGZ-Ax-QJ5"/>
                             <constraint firstItem="2fi-mo-0CV" firstAttribute="top" secondItem="gis-GV-off" secondAttribute="bottom" id="FaB-Vo-Xpu"/>
                             <constraint firstAttribute="trailingMargin" secondItem="15i-bq-AiO" secondAttribute="trailing" constant="-15" id="HdU-at-edg"/>
                             <constraint firstItem="gis-GV-off" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" id="KZQ-Lx-FrN"/>
                             <constraint firstItem="gis-GV-off" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="-16" id="MYT-VS-CiC"/>
                             <constraint firstItem="15i-bq-AiO" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leadingMargin" constant="-15" id="Pob-lT-DVB"/>
+                            <constraint firstAttribute="centerY" secondItem="LLh-Om-WXx" secondAttribute="centerY" id="RrM-pQ-VDf"/>
                             <constraint firstItem="gis-GV-off" firstAttribute="trailing" secondItem="kh9-bI-dsS" secondAttribute="trailingMargin" constant="16" id="YES-sK-arB"/>
+                            <constraint firstItem="LLh-Om-WXx" firstAttribute="leading" secondItem="kh9-bI-dsS" secondAttribute="leading" constant="300" id="a1p-Bf-AH5"/>
                             <constraint firstAttribute="centerY" secondItem="gis-GV-off" secondAttribute="centerY" id="gSw-Ys-FuA"/>
                             <constraint firstAttribute="centerX" secondItem="gis-GV-off" secondAttribute="centerX" id="k5f-9R-q13"/>
                             <constraint firstItem="15i-bq-AiO" firstAttribute="top" secondItem="jyV-Pf-zRb" secondAttribute="bottom" id="laV-Kr-IYA"/>
+                            <constraint firstAttribute="centerX" secondItem="LLh-Om-WXx" secondAttribute="centerX" id="yNB-g8-hzC"/>
                         </constraints>
                         <variation key="default">
                             <mask key="constraints">
+                                <exclude reference="CGZ-Ax-QJ5"/>
+                                <exclude reference="a1p-Bf-AH5"/>
                                 <exclude reference="gSw-Ys-FuA"/>
                             </mask>
                         </variation>
@@ -251,7 +257,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xxj-PE-oGs" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="2SK-sj-vqE" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="657" y="-154"/>
+            <point key="canvasLocation" x="1351" y="-847"/>
         </scene>
         <!--SearchSettingViewController-->
         <scene sceneID="Igj-w5-6JS">
@@ -602,7 +608,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UII-mE-xTo" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="v5X-E3-5et" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1365" y="-3059"/>
+            <point key="canvasLocation" x="1351" y="-3059"/>
         </scene>
         <!--Settings-->
         <scene sceneID="mwz-dy-MAQ">
@@ -834,7 +840,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qkV-Qx-Cws" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tapGestureRecognizer id="UYf-fR-eBX"/>
             </objects>
-            <point key="canvasLocation" x="657" y="-853"/>
+            <point key="canvasLocation" x="657" y="-847"/>
         </scene>
         <!--Invite Friends-->
         <scene sceneID="cvR-wP-aQt">
@@ -976,7 +982,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vjZ-fz-4bj" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="Q7W-WH-sTe" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1365" y="-2395"/>
+            <point key="canvasLocation" x="1351" y="-2395"/>
         </scene>
         <!--Log In-->
         <scene sceneID="kPM-ko-Gm8">
@@ -1125,36 +1131,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iOH-5v-gZk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-88" y="-1599"/>
-        </scene>
-        <!--My Stack-->
-        <scene sceneID="tqW-iO-NUw">
-            <objects>
-                <tableViewController id="wQf-4A-K50" customClass="SavedCardsTableViewController" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="D2D-DH-JeW">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CardCell" id="7eC-Jw-a4i">
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="7eC-Jw-a4i" id="cxy-e4-4MK">
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                                <connections>
-                                    <segue destination="JHm-UB-SDf" kind="show" id="Yvy-95-LmM"/>
-                                </connections>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="wQf-4A-K50" id="dJn-RV-2Wg"/>
-                            <outlet property="delegate" destination="wQf-4A-K50" id="C02-fp-5JW"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" title="My Stack" id="5lr-ws-MhT"/>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="cfE-Ey-Ufm" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1365" y="-1599"/>
         </scene>
         <!--Saved Cards Detail View Controller-->
         <scene sceneID="vtX-GZ-mEe">
@@ -1325,7 +1301,7 @@
                         <outlet property="priceLabel" destination="Zro-OO-Sjz" id="Pja-Vc-Xg7"/>
                         <outlet property="ratingLabel" destination="Dt7-zq-wO7" id="hlU-OT-FwF"/>
                         <segue destination="zyJ-vB-ehp" kind="show" identifier="" id="whQ-Jw-7y1"/>
-                        <segue destination="zyJ-vB-ehp" kind="presentation" identifier="mapViewSegue" modalTransitionStyle="crossDissolve" id="klD-qU-uE2"/>
+                        <segue destination="zyJ-vB-ehp" kind="show" identifier="mapViewSegue" id="klD-qU-uE2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1HW-Gb-6MC" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1349,17 +1325,17 @@
                                 <rect key="frame" x="0.0" y="77" width="600" height="523"/>
                             </imageView>
                             <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MdA-T6-BeJ">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="556"/>
+                                <rect key="frame" x="0.0" y="64" width="600" height="492"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="Odg-3f-ge1">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="556"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="492"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="70" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Tig-hg-Z6z">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="556"/>
+                                        <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="70" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Tig-hg-Z6z">
+                                            <rect key="frame" x="0.0" y="0.0" width="600" height="492"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="sectionIndexBackgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             <prototypes>
-                                                <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CardCell" id="4om-Nw-tSu">
+                                                <tableViewCell contentMode="scaleToFill" selectionStyle="gray" indentationWidth="10" reuseIdentifier="CardCell" id="4om-Nw-tSu">
                                                     <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="4om-Nw-tSu" id="I5x-2D-ql2">
@@ -1369,8 +1345,15 @@
                                                     </tableViewCellContentView>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                     <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                                    <connections>
+                                                        <segue destination="JHm-UB-SDf" kind="show" id="uJG-aQ-CW2"/>
+                                                    </connections>
                                                 </tableViewCell>
                                             </prototypes>
+                                            <connections>
+                                                <outlet property="dataSource" destination="uh9-jw-V7i" id="Rch-ys-QLJ"/>
+                                                <outlet property="delegate" destination="uh9-jw-V7i" id="Mna-9C-KlO"/>
+                                            </connections>
                                         </tableView>
                                     </subviews>
                                     <constraints>
@@ -1388,17 +1371,18 @@
                             <constraint firstAttribute="trailingMargin" secondItem="MdA-T6-BeJ" secondAttribute="trailing" constant="-16" id="2qA-AH-rt3"/>
                             <constraint firstItem="R4T-iZ-dXd" firstAttribute="top" secondItem="MdA-T6-BeJ" secondAttribute="bottom" id="CCg-21-92d"/>
                             <constraint firstItem="MdA-T6-BeJ" firstAttribute="leading" secondItem="CjE-PE-asF" secondAttribute="leadingMargin" constant="-16" id="Hbv-dq-WRU"/>
-                            <constraint firstItem="MdA-T6-BeJ" firstAttribute="top" secondItem="CjE-PE-asF" secondAttribute="topMargin" id="IQi-hW-WrZ"/>
+                            <constraint firstItem="MdA-T6-BeJ" firstAttribute="top" secondItem="CjE-PE-asF" secondAttribute="topMargin" constant="64" id="IQi-hW-WrZ"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="My Stack" id="k85-BW-wHg"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <outlet property="tableView" destination="Tig-hg-Z6z" id="wIn-tR-1En"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rZm-oG-Klr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1357" y="-853"/>
+            <point key="canvasLocation" x="1351" y="-1596"/>
         </scene>
         <!--Saved Cards Detail Map View Controller-->
         <scene sceneID="9yp-ZH-yQX">
@@ -1526,7 +1510,7 @@
         <image name="snacks" width="473" height="448"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="QCG-pP-Gwh"/>
+        <segue reference="U4p-Ce-F3y"/>
         <segue reference="klD-qU-uE2"/>
     </inferredMetricsTieBreakers>
 </document>

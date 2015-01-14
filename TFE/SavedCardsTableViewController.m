@@ -16,6 +16,7 @@
 @end
 
 
+
 @implementation SavedCardsTableViewController
 {
     NSMutableDictionary* sections;
@@ -64,10 +65,8 @@
         }
         
     }
-    
     return self;
 }
-
 
 #pragma mark - View Lifecycle
 
