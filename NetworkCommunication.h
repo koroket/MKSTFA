@@ -54,6 +54,7 @@
 //Booleans
 @property BOOL boolDebug;
 @property BOOL initialLoading;
+@property BOOL searchTermDidChange;
 
 //Card
 @property (nonatomic, strong) Card* currentCard;

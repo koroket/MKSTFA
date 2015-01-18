@@ -136,6 +136,7 @@ numberOfRowsInComponent:(NSInteger)component
     [[NSUserDefaults standardUserDefaults] setObject:_pickerData[row] forKey:@"Yelp Search Term"];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
+    [NetworkCommunication sharedManager].searchTermDidChange = true;
     NSLog(@"The current selection is %@",_pickerData[row]);
 }
 

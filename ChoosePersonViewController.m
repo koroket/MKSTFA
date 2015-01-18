@@ -131,10 +131,19 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
     [self constructLikedButton];
 }
 
--(void)viewDidAppear:(BOOL)animated
+-(void)viewWillAppear:(BOOL)animated
 {
-    [super viewDidAppear:animated];
-    
+    [super viewWillAppear:animated];
+    if([NetworkCommunication sharedManager].searchTermDidChange)
+    {
+        [NetworkCommunication sharedManager].searchTermDidChange = false;
+        self.offset = 0;
+        self.cards = [NSMutableArray array];
+        self.frontCardView = nil;
+        self.backCardView = nil;
+        outOfCards = true;
+        [self getMoreYelp];
+    }
     
 }
 
@@ -306,6 +315,7 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
     
     while(self.cards.count>0&&([self bizExists:temp[@"id"]]||![self isWithInDistnaceRange:temp[@"distance"]]||![self isWithInPriceRange:@""]||![self isWithInRatingRange:temp[@"rating"]]))
     {
+        NSLog(@"%lu",(unsigned long)self.cards.count);
         [self.cards removeObjectAtIndex:0];
         if ([self.cards count] == 0)
         {
@@ -356,7 +366,10 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
     NSDictionary* locations = temp[@"location"];
     personView.city = locations[@"city"];
     NSArray* temparr = locations[@"address"];
-    personView.address = temparr[0];
+    if(temparr.count>0)
+    {
+            personView.address = temparr[0];
+    }
     personView.state = locations[@"state_code"];
     personView.zipcode = locations[@"postal_code"];
     
