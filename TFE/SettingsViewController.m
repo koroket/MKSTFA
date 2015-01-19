@@ -23,6 +23,10 @@
 
 // IBOutlets
 - (IBAction)handlePan:(UIPanGestureRecognizer *)recognizer;
+@property (strong, nonatomic) IBOutlet UISlider *distanceSlider;
+@property (strong, nonatomic) IBOutlet UISlider *ratingSlider;
+@property (strong, nonatomic) IBOutlet UILabel *distanceLabel;
+@property (strong, nonatomic) IBOutlet UILabel *ratingLabel;
 
 //
 
@@ -38,6 +42,17 @@
     
     //Array
     NSArray *_pickerData;
+}
+- (IBAction)distanceChanged:(id)sender {
+    NSLog([NSString stringWithFormat:@"%f",((UISlider*)sender).value]);
+    [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%f",((UISlider*)sender).value*20.0] forKey:@"maxDistance"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    self.distanceLabel.text = [NSString stringWithFormat:@"%f",((UISlider*)sender).value*20.0];
+}
+- (IBAction)ratingChanged:(id)sender {
+        [[NSUserDefaults standardUserDefaults] setObject:[NSString stringWithFormat:@"%f",((UISlider*)sender).value*5.0] forKey:@"minRating"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    self.ratingLabel.text = [NSString stringWithFormat:@"%f",((UISlider*)sender).value*5.0];
 }
 
 #pragma mark - Init

@@ -695,6 +695,9 @@
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="150" id="aFB-HE-KC9"/>
                                             </constraints>
+                                            <connections>
+                                                <action selector="distanceChanged:" destination="GgL-Ya-Dv5" eventType="valueChanged" id="6uj-bS-sc5"/>
+                                            </connections>
                                         </slider>
                                         <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="0.5" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="bRG-sb-QlI">
                                             <rect key="frame" x="223" y="370" width="154" height="31"/>
@@ -739,6 +742,9 @@
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="150" id="qi5-rh-KIh"/>
                                             </constraints>
+                                            <connections>
+                                                <action selector="ratingChanged:" destination="GgL-Ya-Dv5" eventType="valueChanged" id="AUi-bH-Yke"/>
+                                            </connections>
                                         </slider>
                                         <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" showsBuildings="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LSp-fB-pSi">
                                             <rect key="frame" x="0.0" y="39" width="600" height="75"/>
@@ -832,8 +838,12 @@
                     <navigationItem key="navigationItem" title="Settings" id="hfy-g8-G2Y"/>
                     <connections>
                         <outlet property="NavigationItem" destination="hfy-g8-G2Y" id="rkc-5w-qiv"/>
+                        <outlet property="distanceLabel" destination="63b-he-fu5" id="CMI-Sh-UbL"/>
+                        <outlet property="distanceSlider" destination="nyj-fa-3IS" id="7Kd-PV-rSg"/>
                         <outlet property="mapView" destination="LSp-fB-pSi" id="XM5-nP-KqI"/>
                         <outlet property="pickerView" destination="tt9-4V-aUe" id="3mH-cq-tOV"/>
+                        <outlet property="ratingLabel" destination="zRc-om-PN5" id="JAJ-SQ-jXs"/>
+                        <outlet property="ratingSlider" destination="F6s-Iw-spR" id="LDS-sB-BTw"/>
                         <segue destination="nt7-VA-Qwm" kind="show" identifier="mapViewSegue" id="6dZ-Ro-Mtl"/>
                     </connections>
                 </viewController>

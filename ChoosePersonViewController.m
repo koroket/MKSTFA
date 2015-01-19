@@ -682,48 +682,54 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
 }
 -(BOOL)isWithInPriceRange:(NSString*) price
 {
-    if([price containsString:@"-"])
-    {
-        NSArray* str= [price componentsSeparatedByString:@"-"];
-        NSString* min = str[0];
-        min = [min stringByReplacingOccurrencesOfString:@"$" withString:@""];
-        NSString* max = str[1];
-        max = [max stringByReplacingOccurrencesOfString:@"$" withString:@""];
-        if(max.intValue<=[NetworkCommunication sharedManager].maxPrice)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-    else if([price containsString:@"Under"])
-    {
-        
-        //NSString* min = @"0";
-        NSString* max = [price stringByReplacingOccurrencesOfString:@"Under$" withString:@""];
-        
-        if(max.intValue<=[NetworkCommunication sharedManager].maxPrice)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-    else
-    {
-        return true;
-    }
+    return true;
+//    if([price containsString:@"-"])
+//    {
+//        NSArray* str= [price componentsSeparatedByString:@"-"];
+//        NSString* min = str[0];
+//        min = [min stringByReplacingOccurrencesOfString:@"$" withString:@""];
+//        NSString* max = str[1];
+//        max = [max stringByReplacingOccurrencesOfString:@"$" withString:@""];
+//        if(max.intValue<=[NetworkCommunication sharedManager].maxPrice)
+//        {
+//            return true;
+//        }
+//        else
+//        {
+//            return false;
+//        }
+//    }
+//    else if([price containsString:@"Under"])
+//    {
+//        
+//        //NSString* min = @"0";
+//        NSString* max = [price stringByReplacingOccurrencesOfString:@"Under$" withString:@""];
+//        
+//        if(max.intValue<=[NetworkCommunication sharedManager].maxPrice)
+//        {
+//            return true;
+//        }
+//        else
+//        {
+//            return false;
+//        }
+//    }
+//    else
+//    {
+//        return true;
+//    }
 }
 
 -(BOOL)isWithInDistnaceRange:(NSString*) distance
 {
     double dbleval = [distance doubleValue];
     dbleval = dbleval/1600.0;
-    if(dbleval<=[NetworkCommunication sharedManager].maxDistance)
+    if([[NSUserDefaults standardUserDefaults] objectForKey:@"maxDistance"]==nil)
+    {
+        [[NSUserDefaults standardUserDefaults] setObject:@"20.0" forKey:@"maxDistance"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+    if(dbleval<=[((NSString*)[[NSUserDefaults standardUserDefaults] objectForKey:@"maxDistance"]) doubleValue])
     {
         return true;
     }
@@ -737,7 +743,12 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
 {
     
     double dbleval = [rating doubleValue];
-    if(dbleval>=[NetworkCommunication sharedManager].minRating)
+    if([[NSUserDefaults standardUserDefaults] objectForKey:@"minRating"]==nil)
+    {
+        [[NSUserDefaults standardUserDefaults] setObject:@"0.0" forKey:@"minRating"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+    if(dbleval>=[((NSString*)[[NSUserDefaults standardUserDefaults] objectForKey:@"minRating"]) doubleValue])
     {
             return true;
     }
