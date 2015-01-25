@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="10w-ke-JC6">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="10w-ke-JC6">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -716,6 +716,9 @@
                                                 <constraint firstAttribute="height" constant="200" id="NdE-ng-GwF"/>
                                             </constraints>
                                         </imageView>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="IMG_5544.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="FG1-fm-Y1G">
+                                            <rect key="frame" x="0.0" y="-54" width="600" height="600"/>
+                                        </imageView>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="xql-tF-3ih" firstAttribute="leading" secondItem="XgZ-pg-eYC" secondAttribute="leading" id="1hG-8M-mZw"/>
@@ -725,6 +728,8 @@
                                         <constraint firstItem="XgZ-pg-eYC" firstAttribute="top" secondItem="xql-tF-3ih" secondAttribute="bottom" constant="8" id="Mbc-Lr-4bj"/>
                                         <constraint firstItem="cLY-L0-A9W" firstAttribute="top" secondItem="XgZ-pg-eYC" secondAttribute="bottom" constant="24" id="NYj-aZ-SeB"/>
                                         <constraint firstItem="dhz-Sa-67K" firstAttribute="leading" secondItem="xql-tF-3ih" secondAttribute="leading" id="Yoy-ir-mdG"/>
+                                        <constraint firstAttribute="centerX" secondItem="FG1-fm-Y1G" secondAttribute="centerX" id="aTt-1a-K7d"/>
+                                        <constraint firstAttribute="centerY" secondItem="FG1-fm-Y1G" secondAttribute="centerY" id="dEU-KJ-FFg"/>
                                         <constraint firstItem="dhz-Sa-67K" firstAttribute="leading" secondItem="XgZ-pg-eYC" secondAttribute="trailing" constant="8" id="exE-Fe-cJE"/>
                                         <constraint firstItem="dhz-Sa-67K" firstAttribute="top" secondItem="XgZ-pg-eYC" secondAttribute="top" id="fex-Ng-WTc"/>
                                         <constraint firstItem="cLY-L0-A9W" firstAttribute="top" secondItem="XgZ-pg-eYC" secondAttribute="bottom" constant="87" id="gFc-Gx-Ya4"/>
@@ -749,6 +754,8 @@
                             <constraint firstItem="oFL-xE-brD" firstAttribute="leading" secondItem="SrJ-Xe-7jZ" secondAttribute="leadingMargin" constant="-16" id="3II-MX-dPk"/>
                             <constraint firstItem="aBb-ht-qpx" firstAttribute="leading" secondItem="SrJ-Xe-7jZ" secondAttribute="leadingMargin" constant="-16" id="3y3-K4-f3M"/>
                             <constraint firstItem="hK5-85-KNQ" firstAttribute="top" secondItem="aBb-ht-qpx" secondAttribute="bottom" id="8Nt-5t-hdE"/>
+                            <constraint firstItem="FG1-fm-Y1G" firstAttribute="height" secondItem="SrJ-Xe-7jZ" secondAttribute="height" id="HHp-bZ-svH"/>
+                            <constraint firstItem="FG1-fm-Y1G" firstAttribute="width" secondItem="SrJ-Xe-7jZ" secondAttribute="width" id="PhX-sg-WHQ"/>
                             <constraint firstItem="hK5-85-KNQ" firstAttribute="top" secondItem="oFL-xE-brD" secondAttribute="bottom" id="Yl5-9v-MEM"/>
                             <constraint firstAttribute="trailingMargin" secondItem="aBb-ht-qpx" secondAttribute="trailing" constant="-16" id="YwH-ad-cF1"/>
                             <constraint firstAttribute="trailingMargin" secondItem="oFL-xE-brD" secondAttribute="trailing" constant="-16" id="f91-cB-GpV"/>
@@ -762,7 +769,9 @@
                         <outlet property="loginView" destination="cLY-L0-A9W" id="N6i-sl-urd"/>
                         <outlet property="nameLabel" destination="dhz-Sa-67K" id="2Sn-qv-Mmw"/>
                         <outlet property="profilePictureView" destination="XgZ-pg-eYC" id="jL4-3N-3WP"/>
+                        <outlet property="splashScreen" destination="FG1-fm-Y1G" id="xDf-dk-9Cx"/>
                         <outlet property="statusLabel" destination="xql-tF-3ih" id="g9f-5p-HHw"/>
+                        <segue destination="vXZ-lx-hvc" kind="show" identifier="ToMainView" id="XlQ-ww-8nr"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1Nq-Aa-cP5" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -790,7 +799,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </toolbar>
                     <connections>
-                        <segue destination="vXZ-lx-hvc" kind="relationship" relationship="rootViewController" id="U4p-Ce-F3y"/>
+                        <segue destination="2yF-yU-JQ1" kind="relationship" relationship="rootViewController" id="c1p-a7-HNg"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iOH-5v-gZk" userLabel="First Responder" sceneMemberID="firstResponder"/>

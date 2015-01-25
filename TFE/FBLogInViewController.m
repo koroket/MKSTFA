@@ -36,7 +36,7 @@
 {
     [super viewDidLoad];
 
-    [self.splashScreen removeFromSuperview];
+
     
 //    [self.navigationController setNavigationBarHidden:YES animated:YES];
 
@@ -93,16 +93,18 @@
 - (void)loginViewShowingLoggedInUser:(FBLoginView *)loginView
 {
     //[[NetworkCommunication sharedManager] getRequests];
-    if([NetworkCommunication sharedManager].stringDeviceToken != nil)
-    {
-        [[NetworkCommunication sharedManager] linkDeviceToken];
-    }
+//    if([NetworkCommunication sharedManager].stringDeviceToken != nil)
+//    {
+//        [[NetworkCommunication sharedManager] linkDeviceToken];
+//    }
+    [self performSegueWithIdentifier:@"ToMainView" sender:self];
     self.statusLabel.text = @"You are logged in as";
     
 }
 
 - (void)loginViewShowingLoggedOutUser:(FBLoginView *)loginView
 {
+    
   self.nameLabel.text = @"";
   self.statusLabel.text = @"You are not logged in";
   [self.splashScreen removeFromSuperview];
