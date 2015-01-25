@@ -20,13 +20,11 @@
 @end
 
 
-@implementation SavedCardsDetailMapViewController
-{
+@implementation SavedCardsDetailMapViewController {
     CLLocationManager *manager;
     CLGeocoder *geocoder;
     CLPlacemark *placemark;
     CLLocation *currentLocation;
-    
     NSString *theAddress;
 }
 
@@ -36,8 +34,7 @@
  * Init
  * --------------------------------------------------------------------------
  */
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
@@ -48,13 +45,10 @@
     manager.delegate = self;
     manager.desiredAccuracy = kCLLocationAccuracyBest;
     
-    if (currentLocation == nil)
-    {
+    if (currentLocation == nil) {
         [manager requestWhenInUseAuthorization];
         [manager startUpdatingLocation];
-    }
-    else
-    {
+    } else {
         [manager stopUpdatingLocation];
     }
     
@@ -82,31 +76,22 @@
  * Locations
  * --------------------------------------------------------------------------
  */
-- (void) locationManager:(CLLocationManager *)manager
-        didFailWithError:(NSError *)error
-{
+- (void) locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
     NSLog(@"Error: %@", error);
     NSLog(@"Failed to get location!:(");
 }
 
-- (void)locationManager:(CLLocationManager *)manager
-    didUpdateToLocation:(CLLocation *)newLocation
-           fromLocation:(CLLocation *)oldLocation
-{
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
     //Geocode the Address of the restaurant
     CLGeocoder *geocoder = [[CLGeocoder alloc] init];
-    [geocoder geocodeAddressString:self->theAddress
-                 completionHandler:^(NSArray* placemarks,
-                                     NSError* error)
-     {
-         for (CLPlacemark* aPlacemark in placemarks)
-         {
+    [geocoder geocodeAddressString:self->theAddress completionHandler:^(NSArray* placemarks, NSError* error) {
+         for (CLPlacemark* aPlacemark in placemarks) {
              // Process the placemark.
              NSString *latDest1 = [NSString stringWithFormat:@"%.4f",aPlacemark.location.coordinate.latitude];
              NSString *lngDest1 = [NSString stringWithFormat:@"%.4f",aPlacemark.location.coordinate.longitude];
              //lblDestinationLat.text = latDest1;
              //lblDestinationLng.text = lngDest1;
-             NSLog(@"lat: %@, lng: %@", latDest1, lngDest1);
+             //NSLog(@"lat: %@, lng: %@", latDest1, lngDest1);
              
              //Make a 2dCoordinate
              CLLocationCoordinate2D RestaurantLocation = CLLocationCoordinate2DMake(aPlacemark.location.coordinate.latitude, aPlacemark.location.coordinate.longitude);
@@ -123,10 +108,7 @@
              [self.mapView addAnnotation:annotation];
          }
      }];
-    
     [self->manager stopUpdatingLocation];
 }
-
-
 
 @end

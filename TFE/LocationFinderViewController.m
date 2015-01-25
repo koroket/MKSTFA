@@ -36,8 +36,7 @@
  * Init
  * --------------------------------------------------------------------------
  */
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
         
@@ -48,46 +47,33 @@
     manager.delegate = self;
     manager.desiredAccuracy = kCLLocationAccuracyBest;
     
-    if (currentLocation == nil)
-    {
+    if (currentLocation == nil) {
         [manager requestWhenInUseAuthorization];
         [manager startUpdatingLocation];
-    }
-    else
-    {
+    } else {
         [manager stopUpdatingLocation];
     }
 }
 
-#pragma mark - locations
+#pragma mark - Locations
 /**
  * --------------------------------------------------------------------------
  * Locations
  * --------------------------------------------------------------------------
  */
-- (void) locationManager:(CLLocationManager *)manager
-        didFailWithError:(NSError *)error
-{
+- (void) locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error {
     NSLog(@"Error: %@", error);
     NSLog(@"Failed to get location!:(");
 }
 
-- (void)locationManager:(CLLocationManager *)manager
-    didUpdateToLocation:(CLLocation *)newLocation
-           fromLocation:(CLLocation *)oldLocation
-{
-    
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
     NSLog(@"Location: %@", newLocation);
     currentLocation = newLocation;
-    if (currentLocation != nil)
-    {
+    if (currentLocation != nil) {
         //self.textFieldLocation.text = [NSString stringWithFormat:@" ";
     }
-    
-    [geocoder reverseGeocodeLocation:currentLocation completionHandler:^(NSArray *placemarks, NSError *error)
-    {
-        if (error == nil && [placemarks count] > 0)
-        {
+    [geocoder reverseGeocodeLocation:currentLocation completionHandler:^(NSArray *placemarks, NSError *error) {
+        if (error == nil && [placemarks count] > 0) {
             placemark = [placemarks lastObject];
             self.address.text = [NSString stringWithFormat:@"%@ %@\n%@, %@, %@",
                                 placemark.subThoroughfare,
@@ -96,20 +82,15 @@
                                 placemark.administrativeArea,
                                 placemark.postalCode
                                 ];
-        }
-        else
-        {
+        } else {
             NSLog(@"%@",error.debugDescription);
         }
-        
     }];
-    
     // Map View Stuff
     CLLocationCoordinate2D location = CLLocationCoordinate2DMake(currentLocation.coordinate.latitude, currentLocation.coordinate.longitude);
     MKCoordinateSpan span = MKCoordinateSpanMake(0.009, 0.009);
     MKCoordinateRegion region = MKCoordinateRegionMake(location, span);
     [self.mapView setRegion:region animated:NO];
-    
     // Sets the pin
     MKPointAnnotation *annotation = [[MKPointAnnotation alloc] init];
     [annotation setCoordinate:currentLocation.coordinate];
@@ -118,31 +99,21 @@
     
     // Singleton
 #pragma message "Why are you storing GeoLocations as strings? It would be nicer to store them with their actual type and let the NetworkCommunication class translate them into strings before talking to the server"
-    [NetworkCommunication sharedManager].stringYelpLocation = [NSString stringWithFormat:(@"%f,%f"),
-                                                               currentLocation.coordinate.latitude,
-                                                               currentLocation.coordinate.longitude];
-    
+    [NetworkCommunication sharedManager].stringYelpLocation = [NSString stringWithFormat:(@"%f,%f"), currentLocation.coordinate.latitude, currentLocation.coordinate.longitude];
     [NetworkCommunication sharedManager].stringCurrentLatitude = [NSString stringWithFormat:(@"%f"), currentLocation.coordinate.latitude];
-    
     [NetworkCommunication sharedManager].stringCurrentLongitude = [NSString stringWithFormat:(@"%f"), currentLocation.coordinate.longitude];
-    
     [manager stopUpdatingLocation];
     
 }
 
-
-#pragma mark - Navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue
-                 sender:(id)sender
-{
-    if ([segue.identifier isEqualToString:@"SaveLocation"])
-    {
+#pragma mark - Segue
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"SaveLocation"]) {
         
     }
 }
 
-- (IBAction)unwindToSearchSettings:(UIStoryboardSegue *)unwindSegue
-{
+- (IBAction)unwindToSearchSettings:(UIStoryboardSegue *)unwindSegue {
 #pragma message "Instead of repeating the following line again and again it would be nicer to define a helper function that gets called with a string; that would allow you to change the behavior of that funtion in one single place"
 
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
