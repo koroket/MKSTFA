@@ -22,8 +22,7 @@
 
 @end
 
-@implementation LocationFinderViewController
-{
+@implementation LocationFinderViewController {
     CLLocationManager *manager;
     CLGeocoder *geocoder;
     CLPlacemark *placemark;
