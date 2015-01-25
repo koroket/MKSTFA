@@ -281,6 +281,8 @@
 				D5AB928019D60565001FB2A7 /* AppDelegate.m */,
 				D5551DE819D9EA400017790D /* Group.h */,
 				D5551DE919D9EA400017790D /* Group.m */,
+				D5551DEB19DA06E00017790D /* FriendTable */,
+				D5551DEC19DA06F70017790D /* GroupTable */,
 				D5551DED19DA071D0017790D /* Login */,
 				D5551DF119DA1A920017790D /* Swiping */,
 				D5BF78DB1A157C4200E63AA1 /* Saved Cards */,
@@ -355,8 +357,6 @@
 				D5551DF619DA1AE10017790D /* DraggableBackground.m */,
 				62BD81D019E17A6800813045 /* SearchSettingViewController.h */,
 				62BD81D119E17A6800813045 /* SearchSettingViewController.m */,
-				D5551DEB19DA06E00017790D /* FriendTable */,
-				D5551DEC19DA06F70017790D /* GroupTable */,
 			);
 			name = Unused;
 			sourceTree = "<group>";
@@ -427,11 +427,11 @@
 				TargetAttributes = {
 					D5AB927719D60565001FB2A7 = {
 						CreatedOnToolsVersion = 6.0.1;
-						DevelopmentTeam = 8V8HUCA3M9;
+						DevelopmentTeam = 6TK8Q4KD6G;
 					};
 					D5AB929319D60565001FB2A7 = {
 						CreatedOnToolsVersion = 6.0.1;
-						DevelopmentTeam = 8V8HUCA3M9;
+						DevelopmentTeam = 6TK8Q4KD6G;
 						TestTargetID = D5AB927719D60565001FB2A7;
 					};
 				};
