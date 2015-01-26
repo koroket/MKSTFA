@@ -48,7 +48,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="608" height="492"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pfL-Oh-RYS">
-                                                    <rect key="frame" x="93" y="218.5" width="423" height="55"/>
+                                                    <rect key="frame" x="93" y="219" width="423" height="55"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="423" id="gll-LV-PKr"/>
                                                     </constraints>
@@ -310,7 +310,7 @@
                                             </variation>
                                         </pickerView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aXm-Ty-cid">
-                                            <rect key="frame" x="152" y="335" width="68.5" height="23.5"/>
+                                            <rect key="frame" x="152" y="335" width="69" height="24"/>
                                             <attributedString key="attributedText">
                                                 <fragment content="Distance">
                                                     <attributes>
@@ -323,7 +323,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zi2-YG-Hfg">
-                                            <rect key="frame" x="182" y="366" width="38.5" height="23.5"/>
+                                            <rect key="frame" x="182" y="366" width="39" height="24"/>
                                             <attributedString key="attributedText">
                                                 <fragment content="Price">
                                                     <attributes>
@@ -336,13 +336,13 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Current Location..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="S2I-vw-PGh">
-                                            <rect key="frame" x="219.5" y="8" width="169" height="27.5"/>
+                                            <rect key="frame" x="220" y="8" width="169" height="28"/>
                                             <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="20"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6XW-K9-tJs">
-                                            <rect key="frame" x="170" y="402" width="51" height="23.5"/>
+                                            <rect key="frame" x="170" y="402" width="51" height="24"/>
                                             <attributedString key="attributedText">
                                                 <fragment content="Rating">
                                                     <attributes>
@@ -370,7 +370,7 @@
                                             </constraints>
                                         </slider>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qDR-p6-1DP">
-                                            <rect key="frame" x="387" y="375" width="69.5" height="20.5"/>
+                                            <rect key="frame" x="387" y="375" width="70" height="21"/>
                                             <attributedString key="attributedText">
                                                 <fragment content="...dollars">
                                                     <attributes>
@@ -383,7 +383,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zRc-om-PN5">
-                                            <rect key="frame" x="387" y="413" width="55" height="20.5"/>
+                                            <rect key="frame" x="387" y="413" width="55" height="21"/>
                                             <attributedString key="attributedText">
                                                 <fragment content="...stars">
                                                     <attributes>
@@ -396,7 +396,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Search For..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e0k-ID-oBt">
-                                            <rect key="frame" x="248" y="144" width="112" height="27.5"/>
+                                            <rect key="frame" x="248" y="144" width="112" height="28"/>
                                             <fontDescription key="fontDescription" name="AvenirNext-DemiBold" family="Avenir Next" pointSize="20"/>
                                             <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
@@ -421,7 +421,7 @@
                                             </connections>
                                         </mapView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="63b-he-fu5">
-                                            <rect key="frame" x="387" y="337" width="36" height="21.5"/>
+                                            <rect key="frame" x="387" y="337" width="36" height="22"/>
                                             <attributedString key="attributedText">
                                                 <fragment content="...mi">
                                                     <attributes>
@@ -779,7 +779,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1Nq-Aa-cP5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-43" y="-1242"/>
+            <point key="canvasLocation" x="-31" y="-1596"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="AgL-F3-0OY">
@@ -853,7 +853,7 @@
                                             </variation>
                                         </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Dist" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DLx-cR-YgF">
-                                            <rect key="frame" x="8" y="251" width="31.5" height="25"/>
+                                            <rect key="frame" x="8" y="251" width="32" height="25"/>
                                             <fontDescription key="fontDescription" name="Avenir-Light" family="Avenir" pointSize="18"/>
                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -865,13 +865,13 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hours" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bJa-w8-E9P">
-                                            <rect key="frame" x="8" y="301" width="47.5" height="25"/>
+                                            <rect key="frame" x="8" y="301" width="48" height="25"/>
                                             <fontDescription key="fontDescription" name="Avenir-Light" family="Avenir" pointSize="18"/>
                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Phone Number" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DKe-ha-Ovi">
-                                            <rect key="frame" x="8" y="326" width="122.5" height="25"/>
+                                            <rect key="frame" x="8" y="326" width="123" height="25"/>
                                             <fontDescription key="fontDescription" name="Avenir-Light" family="Avenir" pointSize="18"/>
                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -882,8 +882,8 @@
                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rating" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dt7-zq-wO7">
-                                            <rect key="frame" x="184" y="251" width="51.5" height="25"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Rating" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dt7-zq-wO7">
+                                            <rect key="frame" x="184" y="251" width="52" height="25"/>
                                             <fontDescription key="fontDescription" name="Avenir-Light" family="Avenir" pointSize="18"/>
                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
@@ -905,7 +905,7 @@
                                             </connections>
                                         </mapView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Price" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zro-OO-Sjz">
-                                            <rect key="frame" x="102" y="251" width="39.5" height="25"/>
+                                            <rect key="frame" x="102" y="251" width="40" height="25"/>
                                             <fontDescription key="fontDescription" name="Avenir-Light" family="Avenir" pointSize="18"/>
                                             <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>

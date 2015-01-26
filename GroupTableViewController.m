@@ -279,8 +279,7 @@
 - (void)getGoogle {
     NSString *fixedURL = [NSString stringWithFormat:@"http://tinder-for-anything.herokuapp.com/google/food"];
     NSURL *url = [NSURL URLWithString:fixedURL];
-    NSMutableURLRequest *request =
-    [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
     [request setHTTPMethod:@"GET"];
     NSURLSession *urlSession = [NSURLSession sharedSession];
     NSURLSessionDataTask *dataTask =
