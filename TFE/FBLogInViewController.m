@@ -189,7 +189,7 @@
     
 }
 
-- (IBAction)unwindSegueUserLoggedOut:(UIStoryboardSegue *)unwindSegue
+- (IBAction)unwindToLoginViewController:(UIStoryboardSegue *)unwindSegue
 {
     
 }

@@ -17,8 +17,7 @@
 
 @end
 
-@implementation NetworkCommunication
-{
+@implementation NetworkCommunication {
 #pragma message "Use NSInteger instead of int"
     int counter;
     int numOfPicsToDownload;
@@ -31,19 +30,16 @@
  * --------------------------------------------------------------------------
  */
 
-+ (instancetype)sharedManager
-{
++ (instancetype)sharedManager {
     static NetworkCommunication *sharedMyManager = nil;
     static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^
-      {
-          sharedMyManager = [[self alloc] init];
-      });
+    dispatch_once(&onceToken, ^ {
+        sharedMyManager = [[self alloc] init];
+    });
     return sharedMyManager;
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
     // Should never be called, but just here for clarity really.
 }
 
@@ -139,7 +135,7 @@
     numOfPicsToDownload = 0;
     for (int i = 0; i < self.arrayOfGroups.count; i++) {
 #pragma message "You shouldn't use 'magic numbers' all numbers should be declared as constants"
-        if(((Group*)self.arrayOfGroups[i]).friendIDs.count<4) {
+        if(((Group*)self.arrayOfGroups[i]).friendIDs.count < 4) {
             numOfPicsToDownload+=((Group*)self.arrayOfGroups[i]).friendIDs.count-1;
         } else {
             numOfPicsToDownload+=3;
@@ -214,15 +210,14 @@
              NSInteger responseStatusCode = [httpResponse statusCode];
              if (responseStatusCode == 200 && data) {
                  dispatch_async(dispatch_get_main_queue(), ^(void) {
-                    NSArray *fetchedData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                    NSDictionary *data1 = [fetchedData objectAtIndex:0];
+                     NSArray *fetchedData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                     NSDictionary *data1 = [fetchedData objectAtIndex:0];
                  });
              }
-         }];
+        }];
         [uploadTask resume];
         //NSLog(@"Connected to server");
-    }
-    else {
+    } else {
         //NSLog(@"Cannot connect to server");
     }
 }

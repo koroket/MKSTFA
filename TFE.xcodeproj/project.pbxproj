@@ -29,7 +29,6 @@
 		62B2177219EBC2EB00834EBA /* Pushbots.plist in Resources */ = {isa = PBXBuildFile; fileRef = 62B2177119EBC2EB00834EBA /* Pushbots.plist */; };
 		62B2177519ECF4D900834EBA /* NetworkCommunication.m in Sources */ = {isa = PBXBuildFile; fileRef = 62B2177319ECF4D900834EBA /* NetworkCommunication.m */; };
 		62BD81CF19E12F3E00813045 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 62BD81CD19E12F3E00813045 /* Main.storyboard */; };
-		62BD81D219E17A6800813045 /* SearchSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 62BD81D119E17A6800813045 /* SearchSettingViewController.m */; };
 		CA194D46B55476E25DC5AF16 /* libPods-TFE.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D787F848FB445131EEE608 /* libPods-TFE.a */; };
 		D518EE3719F5CFAF00329A05 /* LocationFinderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D518EE3619F5CFAF00329A05 /* LocationFinderViewController.m */; };
 		D5551DEA19D9EA400017790D /* Group.m in Sources */ = {isa = PBXBuildFile; fileRef = D5551DE919D9EA400017790D /* Group.m */; };
@@ -54,6 +53,7 @@
 		D5E063B31A16B6CA00B6E2AF /* IMG_5544.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D5E063B21A16B6CA00B6E2AF /* IMG_5544.jpg */; };
 		D5E063B61A1A7F9900B6E2AF /* floppy13.png in Resources */ = {isa = PBXBuildFile; fileRef = D5E063B41A1A7F9900B6E2AF /* floppy13.png */; };
 		D5E063B71A1A7F9900B6E2AF /* settings21.png in Resources */ = {isa = PBXBuildFile; fileRef = D5E063B51A1A7F9900B6E2AF /* settings21.png */; };
+		D5EBE1211A77104000258B84 /* TabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D5EBE1201A77104000258B84 /* TabBarViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -97,8 +97,6 @@
 		62B2177319ECF4D900834EBA /* NetworkCommunication.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = NetworkCommunication.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		62B2177419ECF4D900834EBA /* NetworkCommunication.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetworkCommunication.h; sourceTree = "<group>"; };
 		62BD81CE19E12F3E00813045 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		62BD81D019E17A6800813045 /* SearchSettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchSettingViewController.h; sourceTree = "<group>"; };
-		62BD81D119E17A6800813045 /* SearchSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchSettingViewController.m; sourceTree = "<group>"; };
 		82D787F848FB445131EEE608 /* libPods-TFE.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TFE.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D518EE3519F5CFAF00329A05 /* LocationFinderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationFinderViewController.h; sourceTree = "<group>"; };
 		D518EE3619F5CFAF00329A05 /* LocationFinderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationFinderViewController.m; sourceTree = "<group>"; };
@@ -140,6 +138,8 @@
 		D5E063B21A16B6CA00B6E2AF /* IMG_5544.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = IMG_5544.jpg; sourceTree = "<group>"; };
 		D5E063B41A1A7F9900B6E2AF /* floppy13.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = floppy13.png; sourceTree = "<group>"; };
 		D5E063B51A1A7F9900B6E2AF /* settings21.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settings21.png; sourceTree = "<group>"; };
+		D5EBE11F1A77104000258B84 /* TabBarViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TabBarViewController.h; sourceTree = "<group>"; };
+		D5EBE1201A77104000258B84 /* TabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TabBarViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -188,9 +188,6 @@
 		D518EE3819F5CFB800329A05 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				D5E063B41A1A7F9900B6E2AF /* floppy13.png */,
-				D5E063B51A1A7F9900B6E2AF /* settings21.png */,
-				D5E063A71A15DFDE00B6E2AF /* GOPR0007.JPG */,
 				D5996B0D1A12B4BC003049F3 /* SettingsViewController.h */,
 				D5996B0E1A12B4BC003049F3 /* SettingsViewController.m */,
 				D518EE3519F5CFAF00329A05 /* LocationFinderViewController.h */,
@@ -220,7 +217,6 @@
 		D5551DED19DA071D0017790D /* Login */ = {
 			isa = PBXGroup;
 			children = (
-				D5E063AD1A15F9A700B6E2AF /* GOPR0015.JPG */,
 				D5E063B21A16B6CA00B6E2AF /* IMG_5544.jpg */,
 				D5AB92A619D60B1A001FB2A7 /* FBLogInViewController.h */,
 				D5AB92A719D60B1A001FB2A7 /* FBLogInViewController.m */,
@@ -281,14 +277,19 @@
 				D5AB928019D60565001FB2A7 /* AppDelegate.m */,
 				D5551DE819D9EA400017790D /* Group.h */,
 				D5551DE919D9EA400017790D /* Group.m */,
-				D5551DEB19DA06E00017790D /* FriendTable */,
-				D5551DEC19DA06F70017790D /* GroupTable */,
 				D5551DED19DA071D0017790D /* Login */,
+				D5EBE1221A77106000258B84 /* Tab Bar */,
+				D5551DEC19DA06F70017790D /* GroupTable */,
+				D5551DEB19DA06E00017790D /* FriendTable */,
 				D5551DF119DA1A920017790D /* Swiping */,
 				D5BF78DB1A157C4200E63AA1 /* Saved Cards */,
 				D518EE3819F5CFB800329A05 /* Settings */,
 				D599940A19EDA8870098802B /* Singleton */,
 				D5AB928B19D60565001FB2A7 /* Images.xcassets */,
+				D5E063AD1A15F9A700B6E2AF /* GOPR0015.JPG */,
+				D5E063B41A1A7F9900B6E2AF /* floppy13.png */,
+				D5E063B51A1A7F9900B6E2AF /* settings21.png */,
+				D5E063A71A15DFDE00B6E2AF /* GOPR0007.JPG */,
 				D5AB928D19D60565001FB2A7 /* LaunchScreen.xib */,
 				D5AB928219D60565001FB2A7 /* TFE.xcdatamodeld */,
 				D5AB927B19D60565001FB2A7 /* Supporting Files */,
@@ -349,14 +350,14 @@
 		D5BF78D71A15773300E63AA1 /* Unused */ = {
 			isa = PBXGroup;
 			children = (
+				62518C751A14ABD200CBBCE2 /* SavedCardsTableViewController.h */,
+				62518C761A14ABD200CBBCE2 /* SavedCardsTableViewController.m */,
 				D5551DF219DA1ACB0017790D /* Draggable.h */,
 				D5551DF319DA1ACB0017790D /* Draggable.m */,
 				D5551DF819DA1B030017790D /* OverlayView.h */,
 				D5551DF919DA1B030017790D /* OverlayView.m */,
 				D5551DF519DA1AE10017790D /* DraggableBackground.h */,
 				D5551DF619DA1AE10017790D /* DraggableBackground.m */,
-				62BD81D019E17A6800813045 /* SearchSettingViewController.h */,
-				62BD81D119E17A6800813045 /* SearchSettingViewController.m */,
 			);
 			name = Unused;
 			sourceTree = "<group>";
@@ -366,14 +367,21 @@
 			children = (
 				D5C8A7C61A4A9A7A000F1D2D /* MyStackViewController.h */,
 				D5C8A7C71A4A9A7A000F1D2D /* MyStackViewController.m */,
-				62518C751A14ABD200CBBCE2 /* SavedCardsTableViewController.h */,
-				62518C761A14ABD200CBBCE2 /* SavedCardsTableViewController.m */,
 				D5BF78D81A157C2800E63AA1 /* SavedCardsDetailViewController.h */,
 				D5BF78D91A157C2800E63AA1 /* SavedCardsDetailViewController.m */,
 				D5E063AF1A16ADD600B6E2AF /* SavedCardsDetailMapViewController.h */,
 				D5E063B01A16ADD600B6E2AF /* SavedCardsDetailMapViewController.m */,
 			);
 			name = "Saved Cards";
+			sourceTree = "<group>";
+		};
+		D5EBE1221A77106000258B84 /* Tab Bar */ = {
+			isa = PBXGroup;
+			children = (
+				D5EBE11F1A77104000258B84 /* TabBarViewController.h */,
+				D5EBE1201A77104000258B84 /* TabBarViewController.m */,
+			);
+			name = "Tab Bar";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -537,9 +545,9 @@
 				62528DD81A0BF50100EF4CB4 /* ChoosePersonViewController.m in Sources */,
 				D5C8A7C81A4A9A7A000F1D2D /* MyStackViewController.m in Sources */,
 				D5551DFA19DA1B030017790D /* OverlayView.m in Sources */,
+				D5EBE1211A77104000258B84 /* TabBarViewController.m in Sources */,
 				D5BF78DA1A157C2800E63AA1 /* SavedCardsDetailViewController.m in Sources */,
 				D518EE3719F5CFAF00329A05 /* LocationFinderViewController.m in Sources */,
-				62BD81D219E17A6800813045 /* SearchSettingViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
