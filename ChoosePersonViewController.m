@@ -476,7 +476,7 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
 
 -(BOOL)isWithInPriceRange:(NSString*) price {
     return true;
-    /* if([price containsString:@"-"]) {
+     if([price containsString:@"-"]) {
         NSArray* str= [price componentsSeparatedByString:@"-"];
         NSString* min = str[0];
         min = [min stringByReplacingOccurrencesOfString:@"$" withString:@""];
@@ -498,7 +498,7 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
         }
     } else {
         return true;
-    } */
+    }
 }
 
 -(BOOL)isWithInDistnaceRange:(NSString*) distance {
@@ -537,11 +537,6 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
 
 - (IBAction)unwindToChoosePersonViewController:(UIStoryboardSegue *)unwindSegue {
     
-    
-    
 }
-
-
-
 
 @end

@@ -37,37 +37,19 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
     //LocationManager stuff
     manager = [[CLLocationManager alloc] init];
     geocoder = [[CLGeocoder alloc] init];
-    
     manager.delegate = self;
     manager.desiredAccuracy = kCLLocationAccuracyBest;
-    
     if (currentLocation == nil) {
         [manager requestWhenInUseAuthorization];
         [manager startUpdatingLocation];
     } else {
         [manager stopUpdatingLocation];
     }
-    
-    self.address.text = [NSString stringWithFormat:@"%@\n%@, %@, %@",
-                         [NetworkCommunication sharedManager].currentCard.address,
-                         [NetworkCommunication sharedManager].currentCard.city,
-                         [NetworkCommunication sharedManager].currentCard.state,
-                         [NetworkCommunication sharedManager].currentCard.zipcode
-                         ];
-    
-    self->theAddress = [NSString stringWithFormat:@"%@/%@/%@/%@",
-     [NetworkCommunication sharedManager].currentCard.address,
-     [NetworkCommunication sharedManager].currentCard.city,
-     [NetworkCommunication sharedManager].currentCard.state,
-     [NetworkCommunication sharedManager].currentCard.zipcode
-     ];
-    
-
-    
+    self.address.text = [NSString stringWithFormat:@"%@\n%@, %@, %@", [NetworkCommunication sharedManager].currentCard.address, [NetworkCommunication sharedManager].currentCard.city, [NetworkCommunication sharedManager].currentCard.state, [NetworkCommunication sharedManager].currentCard.zipcode ];
+    self->theAddress = [NSString stringWithFormat:@"%@/%@/%@/%@", [NetworkCommunication sharedManager].currentCard.address, [NetworkCommunication sharedManager].currentCard.city, [NetworkCommunication sharedManager].currentCard.state, [NetworkCommunication sharedManager].currentCard.zipcode ];
 }
 
 #pragma mark - locations
@@ -92,15 +74,12 @@
              //lblDestinationLat.text = latDest1;
              //lblDestinationLng.text = lngDest1;
              //NSLog(@"lat: %@, lng: %@", latDest1, lngDest1);
-             
              //Make a 2dCoordinate
              CLLocationCoordinate2D RestaurantLocation = CLLocationCoordinate2DMake(aPlacemark.location.coordinate.latitude, aPlacemark.location.coordinate.longitude);
-             
              // Map View Stuff
              MKCoordinateSpan span = MKCoordinateSpanMake(0.02, 0.02);
              MKCoordinateRegion thisRegion = MKCoordinateRegionMake(RestaurantLocation, span);
              [self.mapView setRegion:thisRegion animated:NO];
-             
              // Sets the pin
              MKPointAnnotation *annotation = [[MKPointAnnotation alloc] init];
              [annotation setCoordinate:RestaurantLocation];

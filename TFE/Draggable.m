@@ -207,7 +207,7 @@
         NSInteger responseStatusCode = [httpResponse statusCode];
         if (responseStatusCode == 200 && data) {
             dispatch_async(dispatch_get_main_queue(), ^(void) {
-                NSArray *fetchedData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                //NSArray *fetchedData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
             });
             // do something with this data
             // if you want to update UI, do it on main queue

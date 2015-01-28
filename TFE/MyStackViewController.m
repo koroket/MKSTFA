@@ -85,22 +85,6 @@
     return sectionHeaderUIView;
 }
 
-//- (CGFloat)tableView:(UITableView *)tableView
-//heightForHeaderInSection:(NSInteger)section
-//{
-//    double heightDouble = 10;
-//    
-//    CGFloat *heightFloat = &heightDouble;
-//    
-//    return *heightFloat;
-//}
-
-//- (NSString *)tableView:(UITableView *)tableView
-//titleForHeaderInSection:(NSInteger)section
-//{
-//    return [sectionNames objectAtIndex:section];
-//}
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
     //return [self.cards count];

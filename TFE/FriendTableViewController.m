@@ -21,7 +21,7 @@
 @property(nonatomic, strong) NSMutableArray *selectedFriends;
 
 - (IBAction)buttonAddGroup:(id)sender;
-- (IBAction)unwind:(id)sender;
+- (IBAction)unwindToChoosePersonViewController:(id)sender;
 
 @end
 
@@ -122,12 +122,7 @@
 
 - (void)createGroup {
     [NetworkCommunication sharedManager].intYelpNumberOfLocations = 20;
-    NSString *fixedURL = [NSString stringWithFormat:@"http://tinder-for-anything.herokuapp.com/yelp/%@/%@/%@/%d/%@",
-                          [NetworkCommunication sharedManager].stringCurrentLatitude,
-                          [NetworkCommunication sharedManager].stringCurrentLongitude,
-                          [NetworkCommunication sharedManager].stringYelpSearchTerm,
-                          [NetworkCommunication sharedManager].intYelpNumberOfLocations,
-                          [NetworkCommunication sharedManager].stringFBUserId];
+    NSString *fixedURL = [NSString stringWithFormat:@"http://tinder-for-anything.herokuapp.com/yelp/%@/%@/%@/%d/%@", [NetworkCommunication sharedManager].stringCurrentLatitude, [NetworkCommunication sharedManager].stringCurrentLongitude, [NetworkCommunication sharedManager].stringYelpSearchTerm, [NetworkCommunication sharedManager].intYelpNumberOfLocations, [NetworkCommunication sharedManager].stringFBUserId];
     NSURL *url = [NSURL URLWithString:fixedURL];
     NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:config];
