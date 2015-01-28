@@ -28,10 +28,10 @@
     
     if(userInfo) {
         // Notification Message
-        NSString* notificationMsg = [userInfo valueForKey:@"message"];
+        //NSString* notificationMsg = [userInfo valueForKey:@"message"];
         
         // Custom Field
-        NSString* title = [userInfo valueForKey:@"title"];
+        //NSString* title = [userInfo valueForKey:@"title"];
         //NSLog(@"Notification Msg is %@ and Custom field title = %@", notificationMsg, title);
     }
     return YES;

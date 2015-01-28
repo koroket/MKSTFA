@@ -40,7 +40,7 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
 @property (weak, nonatomic) IBOutlet UIView *cardView;
 @property (nonatomic, strong)NSMutableArray *cards;
 
-- (IBAction)handlePan:(UIPanGestureRecognizer *)recognizer;
+//- (IBAction)handlePan:(UIPanGestureRecognizer *)recognizer;
 
 @end
 
@@ -250,7 +250,7 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
     options.delegate = self;
     options.threshold = 160.f;
     options.onPan = ^(MDCPanState *state){
-        CGRect frame = [self backCardViewFrame];
+        //CGRect frame = [self backCardViewFrame];
         self.backCardView.frame = [self backCardViewFrame];
     };
     // Create a personView with the top person in the people array, then pop that person off the stack. ChoosePersonView *personView = [[ChoosePersonView alloc] initWithFrame:frame person:self.people[0] options:options];

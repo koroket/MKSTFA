@@ -10,17 +10,14 @@
 #import "FBLogInViewController.h"
 #import "GroupTableViewController.h"
 #import "Card.h"
-@interface NetworkCommunication : NSObject
 
+@interface NetworkCommunication : NSObject
 @property NSString *HerokuURL;
 @property NSData *myData;
 
 + (instancetype)sharedManager;
 
-- (void)serverRequests:(NSString *)urlID
-                  type:(NSString *)requestID
-        whatDictionary:(NSDictionary*)dictionaryID
-             withBlock:(void (^)())blockName;
+-(void)serverRequests:(NSString *)urlID type:(NSString *)requestID whatDictionary:(NSDictionary*)dictionaryID withBlock:(void (^)())blockName;
 -(void)getRequests;
 -(void)linkDeviceToken;
 
@@ -31,7 +28,6 @@
 @property NSString *stringSelectedGroupID;
 @property NSString *stringYelpSearchTerm;
 @property NSString *stringCurrentDB;
-
 @property NSString *stringYelpLocation;
 @property NSString *stringCurrentLatitude;
 @property NSString *stringCurrentLongitude;
@@ -44,13 +40,14 @@
 //Arrays
 @property NSMutableArray *arraySelectedGroupCardData;
 @property NSMutableArray *arraySelectedGroupDeviceTokens;
+
 //Arrays-group
 @property (nonatomic,strong) NSMutableArray* arrayOfGroups;
 
 //Controllers
-#pragma message "It's pretty bad design when the NetworkSingleton has a reference to ViewControllers, can you come up with a better solution?"
 @property FBLogInViewController  *controllerCurrentLogin;
 @property GroupTableViewController *controllerCurrentGroup;
+
 //Booleans
 @property BOOL boolDebug;
 @property BOOL initialLoading;
@@ -62,4 +59,5 @@
 @property (nonatomic, assign) double minRating;
 @property (nonatomic, assign) double maxDistance;
 @property (nonatomic, assign) int maxPrice;
+
 @end

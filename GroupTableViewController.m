@@ -33,7 +33,7 @@
 
 
 @implementation GroupTableViewController {
-    int myIndex;
+    NSInteger myIndex;
     int counter;
     bool isTableLoading;
 }
@@ -89,7 +89,7 @@
  */
 -(void)dataSuccessfullyReceived {
     [self.tableView reloadData];
-}
+}		
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
@@ -122,7 +122,7 @@
               [NetworkCommunication sharedManager].arraySelectedGroupCardData = tempArray;
               //Set this array equal to the Device tokens from all of the users in the selected group
               [NetworkCommunication sharedManager].arraySelectedGroupDeviceTokens = fetchedData[@"Tokens"];
-              
+#pragma message "code for swiping needs to go here"
               [self performSegueWithIdentifier:@"ToSwiping" sender:self];
               
               [MBProgressHUD hideHUDForView:self.view animated:YES];
@@ -275,7 +275,7 @@
  * Google
  * --------------------------------------------------------------------------
  */
-
+/*
 - (void)getGoogle {
     NSString *fixedURL = [NSString stringWithFormat:@"http://tinder-for-anything.herokuapp.com/google/food"];
     NSURL *url = [NSURL URLWithString:fixedURL];
@@ -302,8 +302,8 @@
          }
      }];
     [dataTask resume];
-    
 }
+*/
 
 #pragma mark - Facebook
 /**

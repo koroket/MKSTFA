@@ -14,12 +14,10 @@
 #import <MapKit/MapKit.h>
 
 @interface LocationFinderViewController () <CLLocationManagerDelegate>
-
 @property (weak, nonatomic) IBOutlet UITextField *textFieldLocation;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *buttonDone;
 @property (weak, nonatomic) IBOutlet MKMapView *mapView;
 @property (weak, nonatomic) IBOutlet UILabel *address;
-
 @end
 
 @implementation LocationFinderViewController {
@@ -37,15 +35,10 @@
  */
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-        
-    //LocationManager stuff
     manager = [[CLLocationManager alloc] init];
     geocoder = [[CLGeocoder alloc] init];
-    
     manager.delegate = self;
     manager.desiredAccuracy = kCLLocationAccuracyBest;
-    
     if (currentLocation == nil) {
         [manager requestWhenInUseAuthorization];
         [manager startUpdatingLocation];
@@ -74,13 +67,7 @@
     [geocoder reverseGeocodeLocation:currentLocation completionHandler:^(NSArray *placemarks, NSError *error) {
         if (error == nil && [placemarks count] > 0) {
             placemark = [placemarks lastObject];
-            self.address.text = [NSString stringWithFormat:@"%@ %@\n%@, %@, %@",
-                                placemark.subThoroughfare,
-                                placemark.thoroughfare,
-                                placemark.locality,
-                                placemark.administrativeArea,
-                                placemark.postalCode
-                                ];
+            self.address.text = [NSString stringWithFormat:@"%@ %@\n%@, %@, %@", placemark.subThoroughfare, placemark.thoroughfare, placemark.locality, placemark.administrativeArea, placemark.postalCode];
         } else {
             NSLog(@"%@",error.debugDescription);
         }
@@ -95,14 +82,11 @@
     [annotation setCoordinate:currentLocation.coordinate];
     [annotation setTitle:@"Title"]; //You can set the subtitle too
     [self.mapView addAnnotation:annotation];
-    
     // Singleton
-#pragma message "Why are you storing GeoLocations as strings? It would be nicer to store them with their actual type and let the NetworkCommunication class translate them into strings before talking to the server"
     [NetworkCommunication sharedManager].stringYelpLocation = [NSString stringWithFormat:(@"%f,%f"), currentLocation.coordinate.latitude, currentLocation.coordinate.longitude];
     [NetworkCommunication sharedManager].stringCurrentLatitude = [NSString stringWithFormat:(@"%f"), currentLocation.coordinate.latitude];
     [NetworkCommunication sharedManager].stringCurrentLongitude = [NSString stringWithFormat:(@"%f"), currentLocation.coordinate.longitude];
     [manager stopUpdatingLocation];
-    
 }
 
 #pragma mark - Segue
@@ -113,13 +97,10 @@
 }
 
 - (IBAction)unwindToSearchSettings:(UIStoryboardSegue *)unwindSegue {
-#pragma message "Instead of repeating the following line again and again it would be nicer to define a helper function that gets called with a string; that would allow you to change the behavior of that funtion in one single place"
-
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     hud.mode = MBProgressHUDModeIndeterminate;
     hud.labelText = @"Loading";
-    
-    UIViewController* sourceViewController = unwindSegue.sourceViewController;
+    //UIViewController* sourceViewController = unwindSegue.sourceViewController;
 }
 
 @end

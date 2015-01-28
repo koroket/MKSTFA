@@ -17,8 +17,7 @@
 
 #import "Draggable.h"
 
-@implementation Draggable
-{
+@implementation Draggable {
     CGFloat xFromCenter;
     CGFloat yFromCenter;
 }
@@ -30,44 +29,29 @@
 @synthesize overlayView;
 @synthesize imageView;
 
--(id)initWithCoder:(NSCoder *)aDecoder
-{
+-(id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
         [self setupView];
-        
         //Placeholder card Specific Info
-        
         information.text = @"no info given";
         [information setTextAlignment:NSTextAlignmentCenter];
         information.textColor = [UIColor blackColor];
-        
         //imageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 200, 100, 100)];
-        
-        
         self.backgroundColor = [UIColor whiteColor];
         //Placeholder card Specific Info
-        
-        
-        
         panGestureRecognizer = [[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(beingDragged:)];
-        
         [self addGestureRecognizer:panGestureRecognizer];
-        
-        
-
     }
     return self;
 }
 
--(void)createOverLay
-{
+-(void)createOverLay {
     overlayView = [[OverlayView alloc]initWithFrame:CGRectMake(self.frame.size.width/2-100, 0, 100, 100)];
     overlayView.alpha = 0;
     [self addSubview:overlayView];
 }
--(void)setupView
-{
+-(void)setupView {
     self.layer.cornerRadius = 4;
     self.layer.shadowRadius = 3;
     self.layer.shadowOpacity = 0.2;
@@ -85,51 +69,39 @@
 
 //%%% called when you move your finger across the screen.
 // called many times a second
--(void)beingDragged:(UIPanGestureRecognizer *)gestureRecognizer
-{
+-(void)beingDragged:(UIPanGestureRecognizer *)gestureRecognizer {
     //%%% this extracts the coordinate data from your swipe movement. (i.e. How much did you move?)
     xFromCenter = [gestureRecognizer translationInView:self].x; //%%% positive for right swipe, negative for left
     yFromCenter = [gestureRecognizer translationInView:self].y; //%%% positive for up, negative for down
     
     //%%% checks what state the gesture is in. (are you just starting, letting go, or in the middle of a swipe?)
-    switch (gestureRecognizer.state)
-    {
+    switch (gestureRecognizer.state) {
             //%%% just started swiping
-        case UIGestureRecognizerStateBegan:
-        {
+        case UIGestureRecognizerStateBegan: {
             self.originalPoint = self.center;
             break;
         };
             //%%% in the middle of a swipe
-        case UIGestureRecognizerStateChanged:
-        {
+        case UIGestureRecognizerStateChanged:{
             //%%% dictates rotation (see ROTATION_MAX and ROTATION_STRENGTH for details)
             CGFloat rotationStrength = MIN(xFromCenter / ROTATION_STRENGTH, ROTATION_MAX);
-            
             //%%% degree change in radians
             CGFloat rotationAngel = (CGFloat) (ROTATION_ANGLE * rotationStrength);
-            
             //%%% amount the height changes when you move the card up to a certain point
             CGFloat scale = MAX(1 - fabsf(rotationStrength) / SCALE_STRENGTH, SCALE_MAX);
-            
             //%%% move the object's center by center + gesture coordinate
             self.center = CGPointMake(self.originalPoint.x + xFromCenter, self.originalPoint.y + yFromCenter);
-            
             //%%% rotate by certain amount
             CGAffineTransform transform = CGAffineTransformMakeRotation(rotationAngel);
-            
             //%%% scale by certain amount
             CGAffineTransform scaleTransform = CGAffineTransformScale(transform, scale, scale);
-            
             //%%% apply transformations
             self.transform = scaleTransform;
             [self updateOverlay:xFromCenter];
-            
             break;
         };
             //%%% let go of the card
-        case UIGestureRecognizerStateEnded:
-        {
+        case UIGestureRecognizerStateEnded:{
             [self afterSwipeAction];
             break;
         };
@@ -140,14 +112,11 @@
 }
 
 //%%% checks to see if you are moving right or left and applies the correct overlay image
--(void)updateOverlay:(CGFloat)distance
-{
-    if (distance > 0)
-    {
+-(void)updateOverlay:(CGFloat)distance {
+    if (distance > 0){
         overlayView.mode = GGOverlayViewModeRight;
     }
-    else
-    {
+    else{
         overlayView.mode = GGOverlayViewModeLeft;
     }
     //NSLog(@"%f",distance);
@@ -155,21 +124,14 @@
 }
 
 //%%% called when the card is let go
-- (void)afterSwipeAction
-{
-    if (xFromCenter > ACTION_MARGIN)
-    {
+- (void)afterSwipeAction {
+    if (xFromCenter > ACTION_MARGIN){
         [self rightAction];
-    }
-    else if (xFromCenter < -ACTION_MARGIN)
-    {
+    } else if (xFromCenter < -ACTION_MARGIN){
         [self leftAction];
-    }
-    else
-    { //%%% resets the card
-        [UIView animateWithDuration:0.3
-                         animations:^
-        {
+    } else {
+        //%%% resets the card
+        [UIView animateWithDuration:0.3 animations:^ {
              self.center = self.originalPoint;
              self.transform = CGAffineTransformMakeRotation(0);
              overlayView.alpha = 0;
@@ -178,126 +140,80 @@
 }
 
 //%%% called when a swipe exceeds the ACTION_MARGIN to the right
--(void)rightAction
-{
+-(void)rightAction {
     CGPoint finishPoint = CGPointMake(500, 2*yFromCenter +self.originalPoint.y);
-    [UIView animateWithDuration:0.3
-                     animations:^
-    {
+    [UIView animateWithDuration:0.3 animations:^{
          self.center = finishPoint;
     }
-    completion:^(BOOL complete)
-    {
-         [self removeFromSuperview];
+    completion:^(BOOL complete) {
+        [self removeFromSuperview];
     }];
-    
     [delegate cardSwipedRight:self];
-    
-    NSLog(@"YES");
+    //NSLog(@"YES");
 }
 
 //%%% called when a swip exceeds the ACTION_MARGIN to the left
--(void)leftAction
-{
+-(void)leftAction {
     CGPoint finishPoint = CGPointMake(-500, 2 * yFromCenter + self.originalPoint.y);
-    [UIView animateWithDuration:0.3
-                     animations:^
-    {
+    [UIView animateWithDuration:0.3 animations:^ {
         self.center = finishPoint;
     }
-    completion:^(BOOL complete)
-    {
+    completion:^(BOOL complete) {
         [self removeFromSuperview];
     }];
-    
     [delegate cardSwipedLeft:self];
-    
-    NSLog(@"NO");
+    //NSLog(@"NO");
 }
 
--(void)rightClickAction
-{
+-(void)rightClickAction {
     CGPoint finishPoint = CGPointMake(600, self.center.y);
-    [UIView animateWithDuration:0.3
-                     animations:^
-    {
+    [UIView animateWithDuration:0.3 animations:^ {
         self.center = finishPoint;
         self.transform = CGAffineTransformMakeRotation(1);
     }
-    completion:^(BOOL complete)
-    {
+    completion:^(BOOL complete) {
          [self removeFromSuperview];
     }];
-    
     [delegate cardSwipedRight:self];
-    
-    
-    NSLog(@"YES");
+    //NSLog(@"YES");
 }
 
--(void)leftClickAction
-{
+-(void)leftClickAction {
     CGPoint finishPoint = CGPointMake(-600, self.center.y);
-    [UIView animateWithDuration:0.3
-                     animations:^
-    {
+    [UIView animateWithDuration:0.3 animations:^ {
          self.center = finishPoint;
          self.transform = CGAffineTransformMakeRotation(-1);
      }
-     completion:^(BOOL complete)
-     {
+     completion:^(BOOL complete) {
          [self removeFromSuperview];
      }];
-    
     [delegate cardSwipedLeft:self];
-    
-    NSLog(@"NO");
+    //NSLog(@"NO");
 }
 
--(void)yes:(int) index
-{
-    //URL
+#pragma mark - Server Communication
+/*
+ 
+ */
+-(void)yes:(int) index {
     NSString *fixedUrl = [NSString stringWithFormat:@"http://tinder-for-anything.herokuapp.com/groups/543482c59b6f750200271e81/%d", index];
     NSURL *url = [NSURL URLWithString:fixedUrl];
-    
-    //Request
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url
-                                                           cachePolicy:NSURLRequestUseProtocolCachePolicy
-                                                       timeoutInterval:30.0];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
     [request setHTTPMethod:@"PUT"];
-    
-    //Session
     NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
-    NSURLSession *urlSession = [NSURLSession sessionWithConfiguration:config
-                                                             delegate:self
-                                                        delegateQueue:nil];
-    
-    //Data Task Block
-    NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request
-                                                   completionHandler:^(NSData *data,
-                                                                       NSURLResponse *response,
-                                                                       NSError *error)
-    {
-        
+    NSURLSession *urlSession = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:nil];
+    NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
         NSInteger responseStatusCode = [httpResponse statusCode];
-        
-        if (responseStatusCode == 200 && data)
-        {
-            dispatch_async(dispatch_get_main_queue(), ^(void)
-            {
-                NSArray *fetchedData = [NSJSONSerialization JSONObjectWithData:data
-                                                                       options:0
-                                                                         error:nil];
+        if (responseStatusCode == 200 && data) {
+            dispatch_async(dispatch_get_main_queue(), ^(void) {
+                NSArray *fetchedData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
             });
-            
             // do something with this data
             // if you want to update UI, do it on main queue
-        }
-        else
-        {
+        } else {
             // error handling
-            NSLog(@"ERROR YES");
+            NSLog(@"ERROR: Draggable - yes");
         }
     }];
     [dataTask resume];
