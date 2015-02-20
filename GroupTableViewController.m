@@ -49,6 +49,7 @@
     [super viewDidLoad];
     [NetworkCommunication sharedManager].controllerCurrentGroup = self;
     [self.navigationItem setHidesBackButton:NO animated:YES];
+    [self tableWillReload];
     [self.tableView addPullToRefreshWithActionHandler:^ {
         [self tableWillReload];
     }];
@@ -102,6 +103,7 @@
     [NetworkCommunication sharedManager].intSelectedGroupNumberOfPeople =[(NSNumber*)((Group*)[NetworkCommunication sharedManager].arrayOfGroups[indexPath.row]).numberOfPeople intValue];
     [NetworkCommunication sharedManager].stringCurrentDB = ((Group*)[NetworkCommunication sharedManager].arrayOfGroups[indexPath.row]).dbID;
     [NetworkCommunication sharedManager].intSelectedGroupProgressIndex = [(NSNumber*)((Group*)[NetworkCommunication sharedManager].arrayOfGroups[indexPath.row]).groupIndex intValue];
+    
     NSString *fixedUrl = [NSString stringWithFormat:@"http://tinder-for-anything.herokuapp.com/groups/%@", ((Group*)[NetworkCommunication sharedManager].arrayOfGroups[indexPath.row]).groupID];
     NSURL *url = [NSURL URLWithString:fixedUrl];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
@@ -116,15 +118,15 @@
               //Set the singleton array equal to all of the fetched card data from Yelp
               [NetworkCommunication sharedManager].arraySelectedGroupCardData = fetchedData[@"Objects"];
               NSMutableArray* tempArray = [NSMutableArray array];
-              for(int i = [NetworkCommunication sharedManager].intSelectedGroupProgressIndex;i<[NetworkCommunication sharedManager].arraySelectedGroupCardData.count;i++) {
+              for(int i = [NetworkCommunication sharedManager].intSelectedGroupProgressIndex; i < [NetworkCommunication sharedManager].arraySelectedGroupCardData.count; i++) {
                   [tempArray addObject:[NetworkCommunication sharedManager].arraySelectedGroupCardData[i]];
               }
               [NetworkCommunication sharedManager].arraySelectedGroupCardData = tempArray;
               //Set this array equal to the Device tokens from all of the users in the selected group
               [NetworkCommunication sharedManager].arraySelectedGroupDeviceTokens = fetchedData[@"Tokens"];
-#pragma message "code for swiping needs to go here"
-              [self performSegueWithIdentifier:@"ToSwiping" sender:self];
-              
+#pragma message "code for segue needs to go here"
+              [self performSegueWithIdentifier:@"unwindToChoosePerson" sender:self];
+
               [MBProgressHUD hideHUDForView:self.view animated:YES];
           });
         } else {
@@ -343,18 +345,16 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"AddGroup"]) {
-//        FriendTableViewController *controller = [segue destinationViewController];
-//        controller.parent = self;
-    } else if ([segue.identifier isEqualToString:@"ToSwiping"]) {
+        FriendTableViewController *controller = [segue destinationViewController];
+        controller.parent = self;
+    } else if ([segue.identifier isEqualToString:@"unwindToChoosePerson"]) {
         DraggableBackground *controller = [segue destinationViewController];
-        controller.groupID = ((Group*)[NetworkCommunication sharedManager].arrayOfGroups[myIndex]).groupID;
+        //controller.groupID = ((Group*)[NetworkCommunication sharedManager].arrayOfGroups[myIndex]).groupID;
     }
 }
 
-- (IBAction)unwindToFriendTableViewController:(UIStoryboardSegue *)unwindSegue {
-    [self tableWillReload];
+- (IBAction)unwindToChoosePersonViewController:(UIStoryboardSegue *)unwindSegue {
+    
 }
-
-
 
 @end

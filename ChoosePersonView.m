@@ -31,9 +31,7 @@
 
 @implementation ChoosePersonView
 
-- (instancetype)initWithFrame:(CGRect)frame
-                       person:(UIImage *)image
-                      options:(MDCSwipeToChooseViewOptions *)options {
+- (instancetype)initWithFrame:(CGRect)frame person:(UIImage *)image options:(MDCSwipeToChooseViewOptions *)options {
     self = [super initWithFrame:frame options:options];
     if (self) {
         self.imageView.image = image;

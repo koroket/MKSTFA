@@ -23,4 +23,5 @@
 @dynamic address;
 @dynamic state;
 @dynamic zipcode;
+
 @end

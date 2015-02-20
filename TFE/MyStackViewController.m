@@ -20,48 +20,80 @@
 @implementation MyStackViewController {
     NSMutableDictionary* sections;
     NSMutableArray* sectionNames;
+    NSMutableArray* mutableArrayCards;
 }
+
+#pragma mark - Object Lifecycle
+/**
+ * --------------------------------------------------------------------------
+ * Object Lifecycle
+ * --------------------------------------------------------------------------
+ */
 
 - (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     sectionNames = [NSMutableArray array];
     sections = [NSMutableDictionary dictionary];
     if (self) {
-        NSManagedObjectContext *context = ((AppDelegate *)[UIApplication sharedApplication].delegate).managedObjectContext;
-        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-        NSEntityDescription *entity = [NSEntityDescription entityForName:@"Card" inManagedObjectContext:context];
-        [fetchRequest setEntity:entity];
-        NSError *error = nil;
-        NSArray* temp = [context executeFetchRequest:fetchRequest error:&error];
-        self.cards = [temp mutableCopy];
-        for(int i = 0; i<self.cards.count; i++) {
-            if(sections[((Card*)self.cards[i]).city]==nil) {
-                sections[((Card*)self.cards[i]).city] = [NSMutableArray arrayWithObjects:self.cards[i], nil];
-                [sectionNames addObject:((Card*)self.cards[i]).city];
-            } else {
-                [(NSMutableArray*)sections[((Card*)self.cards[i]).city] addObject:self.cards[i]];
-            }
-        }
-        if (error) {
-            NSLog(@"Unable to execute fetch request.");
-            NSLog(@"%@, %@", error, error.localizedDescription);
-        } else {
-            NSLog(@"%@", self.cards);
-        }
+        [self updateSectionsAndCards];
     }
     return self;
 }
 
-#pragma mark - View Lifecycle
+- (void)updateSectionsAndCards {
+    NSManagedObjectContext *context = ((AppDelegate *)[UIApplication sharedApplication].delegate).managedObjectContext;
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Card" inManagedObjectContext:context];
+    [fetchRequest setEntity:entity];
+    NSError *error = nil;
+    
+    //wipe the 
+    sections = [NSMutableDictionary dictionary];
+    sectionNames = [NSMutableArray array];
+    
+    NSArray* cardArray = [context executeFetchRequest:fetchRequest error:&error];
+    mutableArrayCards = [cardArray mutableCopy];
+    for(int i = 0; i < mutableArrayCards.count; i++) {
+        if( sections[ ((Card*) mutableArrayCards[i]).city ] == nil) {
+            sections[ ( (Card*) mutableArrayCards[i]).city ] = [ NSMutableArray arrayWithObjects:mutableArrayCards[i], nil ];
+            [ sectionNames addObject:( (Card*) mutableArrayCards[i]).city ];
+        } else {
+            [ (NSMutableArray*)sections [ ( (Card*) mutableArrayCards[i]).city] addObject:mutableArrayCards[i] ];
+        }
+    }
+    if (error) {
+        NSLog(@"Unable to execute fetch request.");
+        NSLog(@"%@, %@", error, error.localizedDescription);
+    } else {
+        NSLog(@"updateSectionsAndCards - MutableArrayCards:%@", mutableArrayCards);
+    }
+    
+}
+
+#pragma mark - UIViewController Overrides
+/**
+ * --------------------------------------------------------------------------
+ * UIViewController Overrides
+ * --------------------------------------------------------------------------
+ */
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
+    [self updateSectionsAndCards];
+    
+    //change the color of the tab bar icon
+    self.tabBarItem.selectedImage = [[UIImage imageNamed:@"StackIcon.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    
     [self.tableView reloadData];
     self.tableView.backgroundColor = [UIColor clearColor];
 }
 
 #pragma mark - Table view data source
-
+/**
+ * --------------------------------------------------------------------------
+ * Table view data source
+ * --------------------------------------------------------------------------
+ */
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSString *sectionTitle = [sectionNames objectAtIndex:indexPath.section];
     NSMutableArray *sectionCards = [sections objectForKey:sectionTitle];
@@ -71,9 +103,12 @@
 // Section Header Functions
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    
     UIView* sectionHeaderUIView = [[UIView alloc] initWithFrame:(CGRectMake(0, 0, tableView.frame.size.width, 20))];
     UILabel* sectionHeaderLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 20)];
+    
     UIFont *headerFont = [UIFont fontWithName:@"Avenir-Heavy" size:20.0];
+    
     //sectionHeaderLabel.text = @" something ";
     sectionHeaderLabel.text = [sectionNames objectAtIndex:section];
     sectionHeaderLabel.textAlignment = NSTextAlignmentCenter;
@@ -84,22 +119,6 @@
     sectionHeaderUIView.backgroundColor = nil;
     return sectionHeaderUIView;
 }
-
-//- (CGFloat)tableView:(UITableView *)tableView
-//heightForHeaderInSection:(NSInteger)section
-//{
-//    double heightDouble = 10;
-//    
-//    CGFloat *heightFloat = &heightDouble;
-//    
-//    return *heightFloat;
-//}
-
-//- (NSString *)tableView:(UITableView *)tableView
-//titleForHeaderInSection:(NSInteger)section
-//{
-//    return [sectionNames objectAtIndex:section];
-//}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     // Return the number of rows in the section.
@@ -124,21 +143,6 @@
     cell.textLabel.text = currentCard.name;
     cell.textLabel.textColor = [UIColor whiteColor];
     return cell;
-}
-
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSManagedObjectContext *context = ((AppDelegate *)[UIApplication sharedApplication].delegate).managedObjectContext;
-    [context deleteObject:self.cards[indexPath.row]];
-    NSError *error = nil;
-    if (![context save:&error]) {
-        NSLog(@"Unable to save managed object context.");
-        NSLog(@"%@, %@", error, error.localizedDescription);
-    } else {
-        NSString *sectionTitle = [sectionNames objectAtIndex:indexPath.section];
-        [(NSMutableArray*)[sections objectForKey:sectionTitle] removeObject:((NSMutableArray*)[sections objectForKey:sectionTitle])[indexPath.row]];
-        [self.cards removeObjectAtIndex:indexPath.row];
-        [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-    }
 }
 
 @end

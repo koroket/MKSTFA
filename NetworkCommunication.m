@@ -109,7 +109,6 @@
     [sharedCommunication serverRequests: [NSString stringWithFormat:@"ppl/%@groups", [NetworkCommunication sharedManager].stringFBUserId] type:@"GET" whatDictionary:nil withBlock:^(void) {
         
          self.arrayOfGroups = [NSMutableArray array];
-        
          NSArray *fetchedData = [NSJSONSerialization JSONObjectWithData:sharedCommunication.myData options:0 error:nil];
          
          for (int i = 0; i < fetchedData.count; i++) {
@@ -136,7 +135,7 @@
     for (int i = 0; i < self.arrayOfGroups.count; i++) {
 #pragma message "You shouldn't use 'magic numbers' all numbers should be declared as constants"
         if(((Group*)self.arrayOfGroups[i]).friendIDs.count < 4) {
-            numOfPicsToDownload+=((Group*)self.arrayOfGroups[i]).friendIDs.count-1;
+            numOfPicsToDownload += ((Group*)self.arrayOfGroups[i]).friendIDs.count-1;
         } else {
             numOfPicsToDownload+=3;
         }
@@ -184,7 +183,7 @@
             j++;
         }
     }
-    if(self.arrayOfGroups.count==0) {
+    if(self.arrayOfGroups.count == 0) {
         if([NetworkCommunication sharedManager].controllerCurrentGroup==nil) {
             [self.controllerCurrentLogin performSegueWithIdentifier:@"loggedin" sender:self.controllerCurrentLogin];
         } else {

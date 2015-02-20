@@ -3,11 +3,12 @@
     {
       "idiom" : "universal",
       "scale" : "1x",
-      "filename" : "floppy13.png"
+      "filename" : "groupIconx35.png"
     },
     {
       "idiom" : "universal",
-      "scale" : "2x"
+      "scale" : "2x",
+      "filename" : "groupIcon.png"
     },
     {
       "idiom" : "universal",

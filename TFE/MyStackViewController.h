@@ -10,6 +10,5 @@
 
 @interface MyStackViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
-@property (strong, nonatomic) NSMutableArray* cards;
 
 @end

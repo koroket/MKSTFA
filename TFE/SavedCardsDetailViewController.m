@@ -39,30 +39,20 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self loadMyData];
-    
     UITapGestureRecognizer *singleTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTapGesture:)];
     [self.mapView addGestureRecognizer:singleTapGestureRecognizer];
-    
     //LocationManager stuff
     manager = [[CLLocationManager alloc] init];
     geocoder = [[CLGeocoder alloc] init];
-    
     manager.delegate = self;
     manager.desiredAccuracy = kCLLocationAccuracyBest;
-    
     if (currentLocation == nil) {
         [manager requestWhenInUseAuthorization];
         [manager startUpdatingLocation];
     } else {
         [manager stopUpdatingLocation];
     }
-    
-    self->theAddress = [NSString stringWithFormat:@"%@/%@/%@/%@",
-                        [NetworkCommunication sharedManager].currentCard.address,
-                        [NetworkCommunication sharedManager].currentCard.city,
-                        [NetworkCommunication sharedManager].currentCard.state,
-                        [NetworkCommunication sharedManager].currentCard.zipcode
-                        ];
+    self->theAddress = [NSString stringWithFormat:@"%@/%@/%@/%@", [NetworkCommunication sharedManager].currentCard.address, [NetworkCommunication sharedManager].currentCard.city, [NetworkCommunication sharedManager].currentCard.state, [NetworkCommunication sharedManager].currentCard.zipcode ];
 }
 
 -(void)loadMyData {
@@ -73,43 +63,37 @@
     //Name
     if ([NetworkCommunication sharedManager].currentCard.name != nil) {
         self.placesLabel.text = [NetworkCommunication sharedManager].currentCard.name;
-    }
-    else {
+    } else {
         self.placesLabel.text = @" ";
     }
     //Distance
     if ([NetworkCommunication sharedManager].currentCard.distance != nil) {
         self.distLabel.text = [NetworkCommunication sharedManager].currentCard.distance;
-    }
-    else {
+    } else {
         self.distLabel.text = @" ";
     }
     //Price
     if ([NetworkCommunication sharedManager].currentCard.price != nil) {
         self.priceLabel.text = [NetworkCommunication sharedManager].currentCard.price;
-    }
-    else {
+    } else {
         self.priceLabel.text = @" ";
     }
     //Rating
     if ([NetworkCommunication sharedManager].currentCard.rating != nil) {
         self.ratingLabel.text = [NetworkCommunication sharedManager].currentCard.rating;
-    }
-    else {
+    } else {
         self.ratingLabel.text = @" ";
     }
     //Categories
     if ([NetworkCommunication sharedManager].currentCard.categories != nil) {
         self.categoryLabel.text = [NetworkCommunication sharedManager].currentCard.categories;
-    }
-    else {
+    } else {
         self.categoryLabel.text = @" ";
     }
     //Hours
     if ([NetworkCommunication sharedManager].currentCard.hours != nil) {
         self.hoursLabel.text = [NetworkCommunication sharedManager].currentCard.hours;
-    }
-    else {
+    } else {
         self.hoursLabel.text = @" ";
     }
 }
@@ -134,14 +118,13 @@
     //Geocode the Address of the restaurant
     CLGeocoder *geocoder = [[CLGeocoder alloc] init];
     [geocoder geocodeAddressString:self->theAddress completionHandler:^(NSArray* placemarks, NSError* error) {
-         for (CLPlacemark* aPlacemark in placemarks) {
+        for (CLPlacemark* aPlacemark in placemarks) {
              // Process the placemark.
-             NSString *latDest1 = [NSString stringWithFormat:@"%.4f",aPlacemark.location.coordinate.latitude];
-             NSString *lngDest1 = [NSString stringWithFormat:@"%.4f",aPlacemark.location.coordinate.longitude];
+             //NSString *latDest1 = [NSString stringWithFormat:@"%.4f",aPlacemark.location.coordinate.latitude];
+             //NSString *lngDest1 = [NSString stringWithFormat:@"%.4f",aPlacemark.location.coordinate.longitude];
              //lblDestinationLat.text = latDest1;
              //lblDestinationLng.text = lngDest1;
              //NSLog(@"lat: %@, lng: %@", latDest1, lngDest1);
-             
              //Make a 2dCoordinate
              CLLocationCoordinate2D RestaurantLocation = CLLocationCoordinate2DMake(aPlacemark.location.coordinate.latitude, aPlacemark.location.coordinate.longitude);
              // Map View Stuff
@@ -153,8 +136,8 @@
              [annotation setCoordinate:RestaurantLocation];
              [annotation setTitle:[NetworkCommunication sharedManager].currentCard.address];
              [self.mapView addAnnotation:annotation];
-         }
-     }];
+        }
+    }];
     [self->manager stopUpdatingLocation];
 }
 

@@ -11,6 +11,7 @@
 #import "GroupTableViewController.h"
 
 @interface FBLogInViewController ()
+
 @property (weak, nonatomic) IBOutlet FBLoginView *loginView;
 @property (weak, nonatomic) IBOutlet UILabel *statusLabel;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
@@ -62,12 +63,12 @@
     [NetworkCommunication sharedManager].stringFBUserName = user.name;
 }
 
-- (void)loginViewShowingLoggedInUser:(FBLoginView *)loginView{
+- (void)loginViewShowingLoggedInUser:(FBLoginView *)loginView {
     [self performSegueWithIdentifier:@"ToMainView" sender:self];
     self.statusLabel.text = @"You are logged in as";
 }
 
-- (void)loginViewShowingLoggedOutUser:(FBLoginView *)loginView{
+- (void)loginViewShowingLoggedOutUser:(FBLoginView *)loginView {
   self.nameLabel.text = @"";
   self.statusLabel.text = @"You are not logged in";
   [self.splashScreen removeFromSuperview];

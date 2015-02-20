@@ -40,7 +40,6 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
 @property (weak, nonatomic) IBOutlet UIView *cardView;
 @property (nonatomic, strong)NSMutableArray *cards;
 
-//- (IBAction)handlePan:(UIPanGestureRecognizer *)recognizer;
 
 @end
 
@@ -54,8 +53,14 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
 }
 
 #pragma mark - Object Lifecycle
+/**
+ * --------------------------------------------------------------------------
+ * Object Lifecycle
+ * --------------------------------------------------------------------------
+ */
 - (id)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
+    
     if (self) {
         NSManagedObjectContext *context = ((AppDelegate *)[UIApplication sharedApplication].delegate).managedObjectContext;
         NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
@@ -79,11 +84,22 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
     [NetworkCommunication sharedManager].maxDistance = 5.0;
 }
 
+
+#pragma mark - UIViewController Overrides
+/**
+ * --------------------------------------------------------------------------
+ * UIViewController Overrides
+ * --------------------------------------------------------------------------
+ */
 - (void)viewDidLoad {
     [self setLimits];
     // Display the first ChoosePersonView in front. Users can swipe to indicate
     // whether they like or dislike the person displayed.
     [super viewDidLoad];
+    
+    //Change the color of the tab bar item
+    self.tabBarItem.selectedImage = [[UIImage imageNamed:@"ShuffleIcon.png"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    
     self.cards = [NSMutableArray array];
     outOfCards = true;
     //LocationManager stuff
@@ -91,6 +107,7 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
     geocoder = [[CLGeocoder alloc] init];
     manager.delegate = self;
     manager.desiredAccuracy = kCLLocationAccuracyBest;
+    
     if([[NSUserDefaults standardUserDefaults] objectForKey:@"User Location Latitude"] == nil) {
         if (currentLocation == nil) {
             [manager requestWhenInUseAuthorization];
@@ -101,6 +118,7 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
     } else {
         [self getMoreYelp];
     }
+    
     [self constructNopeButton];
     [self constructLikedButton];
 }
@@ -118,8 +136,12 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
     }
 }
 
-
-#pragma mark - UIViewController Overrides
+#pragma mark - Internal Methods
+/**
+ * --------------------------------------------------------------------------
+ * Internal Methods
+ * --------------------------------------------------------------------------
+ */
 
 -(void)setUp {
     [self loadFront];
@@ -142,7 +164,7 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
 #pragma mark - MDCSwipeToChooseDelegate Protocol Methods
 // This is called when a user didn't fully swipe left or right.
 - (void)viewDidCancelSwipe:(UIView *)view {
-
+    
 }
 
 // This is called then a user swipes the view fully left or right.
@@ -152,13 +174,16 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
     }
     
     if (direction == MDCSwipeDirectionLeft) {
-        NSLog(@"No");
+        NSLog(@"User Swiped Left (no)");
     } else {
-        NSLog(@"Yes");
+        NSLog(@"User Swiped Right (yes)");
+        
         NSManagedObjectContext *context = ((AppDelegate *)[UIApplication sharedApplication].delegate).managedObjectContext;
         NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Card" inManagedObjectContext:context];
         Card *newCard = [[Card alloc] initWithEntity:entityDescription insertIntoManagedObjectContext:context];
+        
         NSLog(@"%@",view.city);
+        
         [newCard setValue:view.bizid forKey:@"bizid"];
         [newCard setValue:view.information.text forKey:@"name"];
         [newCard setValue:view.Price.text forKey:@"price"];
@@ -194,7 +219,7 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
         }
         completion:nil];
     }
-    if(self.cards.count<10&&!gettingMoreCards) {
+    if(self.cards.count < 10 &&! gettingMoreCards) {
         NSLog(@"low on cards, getting more");
         gettingMoreCards = true;
         [self getMoreYelp];
@@ -212,7 +237,6 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
 
 - (void)setFrontCardView:(MDCSwipeToChooseView *)frontCardView {
     // Keep track of the person currently being chosen.
-    // Quick and dirty, just for the purposes of this sample app.
     _frontCardView = frontCardView;
     _frontCardView.frame = self.viewContainer.frame;
 }
@@ -253,7 +277,7 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
         //CGRect frame = [self backCardViewFrame];
         self.backCardView.frame = [self backCardViewFrame];
     };
-    // Create a personView with the top person in the people array, then pop that person off the stack. ChoosePersonView *personView = [[ChoosePersonView alloc] initWithFrame:frame person:self.people[0] options:options];
+    // Create a personView with the top person in the people array, then pop that person off the stack.
     MDCSwipeToChooseView *personView = [[MDCSwipeToChooseView alloc] initWithFrame:self.cardView.frame options:options];
 //    personView.frame = self.viewContainer.frame;
 //    [personView setOptions:options];
@@ -338,36 +362,34 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
     button.frame = CGRectMake(CGRectGetMaxX(self.cardView.frame) - image.size.width - ChoosePersonButtonHorizontalPadding, CGRectGetMaxY(self.cardView.frame) + ChoosePersonButtonVerticalPadding, image.size.width, image.size.height);
     [button setImage:image forState:UIControlStateNormal];
     [button setTintColor:[UIColor colorWithRed:29.f/255.f green:245.f/255.f blue:106.f/255.f alpha:1.f]];
-    [button addTarget:self action:@selector(likeFrontCardView)
-    forControlEvents:UIControlEventTouchUpInside];
+    [button addTarget:self action:@selector(likeFrontCardView) forControlEvents:UIControlEventTouchUpInside];
     [self.cardView addSubview:button];
 }
 
 #pragma mark Control Events
 // Programmatically "nopes" the front card view.
 - (void)nopeFrontCardView {
-    [self.frontCardView mdc_swipe:MDCSwipeDirectionLeft];
+    [ self.frontCardView mdc_swipe:MDCSwipeDirectionLeft ];
 }
 
 // Programmatically "likes" the front card view.
 - (void)likeFrontCardView {
-    [self.frontCardView mdc_swipe:MDCSwipeDirectionRight];
+    [ self.frontCardView mdc_swipe:MDCSwipeDirectionRight ];
 }
 
 -(void)getMoreYelp {
-    if([[NSUserDefaults standardUserDefaults] objectForKey:@"Yelp Search Term"]==nil) {
-        [[NSUserDefaults standardUserDefaults] setObject:@"Restaurants" forKey:@"Yelp Search Term"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
+    if( [ [NSUserDefaults standardUserDefaults] objectForKey:@"Yelp Search Term"] == nil ) {
+        [ [NSUserDefaults standardUserDefaults] setObject:@"Restaurants" forKey:@"Yelp Search Term"];
+        [ [NSUserDefaults standardUserDefaults] synchronize];
     }
-    NSLog(@"%d",self.offset);
-    NSString *fixedURL = [NSString stringWithFormat:@"http://tinder-for-anything.herokuapp.com/yelp/%@/%@/%@/%d",
-                          [[NSUserDefaults standardUserDefaults] objectForKey:@"User Location Latitude"],
-                          [[NSUserDefaults standardUserDefaults] objectForKey:@"User Location Longitude"],
-                          [[NSUserDefaults standardUserDefaults] objectForKey:@"Yelp Search Term"],
+    NSLog(@"getMoreYelp: %d",self.offset);
+    NSString *fixedURL = [ NSString stringWithFormat:@"http://tinder-for-anything.herokuapp.com/yelp/%@/%@/%@/%d",
+                          [ [NSUserDefaults standardUserDefaults] objectForKey:@"User Location Latitude" ],
+                          [ [NSUserDefaults standardUserDefaults] objectForKey:@"User Location Longitude" ],
+                          [ [NSUserDefaults standardUserDefaults] objectForKey:@"Yelp Search Term" ],
                           self.offset ];
     NSURL *url = [NSURL URLWithString:fixedURL];
-    NSMutableURLRequest *request =
-    [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
     [request setHTTPMethod:@"GET"];
     NSURLSession *urlSession = [NSURLSession sharedSession];
     NSURLSessionDataTask *dataTask =
@@ -377,15 +399,15 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
          if (responseStatusCode == 200 && data) {
              dispatch_async(dispatch_get_main_queue(), ^(void) {
                     NSArray*fetchedData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                    NSLog(@"got more cards");
+                    NSLog(@"getMoreYelp: got more cards");
                     [self.cards addObjectsFromArray:fetchedData];
                     self.offset +=20;
                     if(self.frontCardView == nil) {
-                        NSLog(@"nofront");
+                        NSLog(@"getMoreYelp: nofrontcardview");
                         [self loadFront];
                     }
                     if(self.backCardView == nil) {
-                        NSLog(@"noBack");
+                        NSLog(@"getMoreYelp: noBackcardview");
                         [self loadBack];
                     }
                     if(outOfCards) {
@@ -394,8 +416,8 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
                     gettingMoreCards = false;
              });
          } else {
-             NSLog(@"error");
-             // error handlingN
+             NSLog(@"getMoreYelp: error");
+             // error handling
          }
      }]; // Data Task Block
     [dataTask resume];
@@ -476,7 +498,7 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
 
 -(BOOL)isWithInPriceRange:(NSString*) price {
     return true;
-    /* if([price containsString:@"-"]) {
+     if([price containsString:@"-"]) {
         NSArray* str= [price componentsSeparatedByString:@"-"];
         NSString* min = str[0];
         min = [min stringByReplacingOccurrencesOfString:@"$" withString:@""];
@@ -498,7 +520,7 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
         }
     } else {
         return true;
-    } */
+    }
 }
 
 -(BOOL)isWithInDistnaceRange:(NSString*) distance {
@@ -537,11 +559,6 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
 
 - (IBAction)unwindToChoosePersonViewController:(UIStoryboardSegue *)unwindSegue {
     
-    
-    
 }
-
-
-
 
 @end

@@ -26,7 +26,6 @@
 #import <MDCSwipeToChoose/MDCSwipeToChoose.h>
 @interface ChoosePersonViewController : UIViewController <MDCSwipeToChooseDelegate>
 
-
 @property (strong, nonatomic) IBOutlet UIView *viewContainer;
 @property (nonatomic, strong) MDCSwipeToChooseView *frontCardView;
 @property (nonatomic, strong) MDCSwipeToChooseView *backCardView;
