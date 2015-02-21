@@ -8,16 +8,16 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" restorationIdentifier="SwipeCardView" id="iN0-l3-epB" customClass="MDCSwipeToChooseView">
-            <rect key="frame" x="0.0" y="0.0" width="300" height="479"/>
+            <rect key="frame" x="0.0" y="0.0" width="300" height="454"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="B&amp;Wtreez" translatesAutoresizingMaskIntoConstraints="NO" id="FwR-Nm-JMA">
-                    <rect key="frame" x="0.0" y="0.0" width="300" height="479"/>
+                    <rect key="frame" x="0.0" y="0.0" width="300" height="454"/>
                 </imageView>
                 <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="z4P-KW-7T0">
-                    <rect key="frame" x="0.0" y="0.0" width="300" height="479"/>
+                    <rect key="frame" x="0.0" y="0.0" width="300" height="454"/>
                     <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="atm-Bc-ORc">
-                        <rect key="frame" x="0.0" y="0.0" width="300" height="479"/>
+                        <rect key="frame" x="0.0" y="0.0" width="300" height="454"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1.2 mi." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1Pb-TW-a0q">
@@ -119,6 +119,7 @@
                             <constraint firstItem="1Pb-TW-a0q" firstAttribute="leading" secondItem="qUr-j8-VFk" secondAttribute="leading" id="aJf-Pn-FSQ"/>
                             <constraint firstItem="qUr-j8-VFk" firstAttribute="leading" secondItem="Hzy-wu-6xD" secondAttribute="leading" id="arc-yX-Nis"/>
                             <constraint firstAttribute="trailing" secondItem="qUr-j8-VFk" secondAttribute="trailing" constant="5" id="e8U-tJ-ZxS"/>
+                            <constraint firstAttribute="bottom" secondItem="NMV-tL-vs1" secondAttribute="bottom" id="lEn-7h-ewB"/>
                             <constraint firstItem="zwS-9g-W4r" firstAttribute="bottom" secondItem="1Pb-TW-a0q" secondAttribute="bottom" id="sCD-oL-rVJ"/>
                             <constraint firstItem="884-N0-Zan" firstAttribute="leading" secondItem="zwS-9g-W4r" secondAttribute="trailing" constant="14" id="tVJ-pM-Ivj"/>
                             <constraint firstItem="NMV-tL-vs1" firstAttribute="top" secondItem="Hzy-wu-6xD" secondAttribute="bottom" constant="8" id="yOA-kl-F1R"/>
@@ -127,6 +128,7 @@
                             <mask key="constraints">
                                 <exclude reference="AjW-Ua-dD9"/>
                                 <exclude reference="FLH-LA-OsM"/>
+                                <exclude reference="lEn-7h-ewB"/>
                             </mask>
                         </variation>
                     </view>
@@ -182,7 +184,7 @@
                 <outlet property="information" destination="qUr-j8-VFk" id="P29-B8-wHg"/>
                 <outlet property="rating" destination="zwS-9g-W4r" id="F1g-Xr-RGE"/>
             </connections>
-            <point key="canvasLocation" x="238" y="-393.5"/>
+            <point key="canvasLocation" x="238" y="-406"/>
         </view>
         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Yelp Rating" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3TE-8b-m2k">
             <rect key="frame" x="0.0" y="0.0" width="212" height="30"/>

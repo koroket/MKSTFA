@@ -136,10 +136,10 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
     }
 }
 
-#pragma mark - Internal Methods
+#pragma mark - MDCSwipeToChooseDelegate Protocol Methods
 /**
  * --------------------------------------------------------------------------
- * Internal Methods
+ * MDCSwipeToChooseDelegate Protocol Methods
  * --------------------------------------------------------------------------
  */
 
@@ -161,13 +161,12 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
     [self.cardView addSubview:self.frontCardView];
 }
 
-#pragma mark - MDCSwipeToChooseDelegate Protocol Methods
-// This is called when a user didn't fully swipe left or right.
+
 - (void)viewDidCancelSwipe:(UIView *)view {
     
 }
 
-// This is called then a user swipes the view fully left or right.
+// A user swiped the view fully left or right.
 - (void)view:(MDCSwipeToChooseView *)view wasChosenWithDirection:(MDCSwipeDirection)direction {
     if(self.cards.count < 1) {
         outOfCards = true;
@@ -233,7 +232,12 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
     }
 }
 
-#pragma mark - Internal Methods
+#pragma mark - View Construction
+/**
+ * --------------------------------------------------------------------------
+ * View Construction
+ * --------------------------------------------------------------------------
+ */
 
 - (void)setFrontCardView:(MDCSwipeToChooseView *)frontCardView {
     // Keep track of the person currently being chosen.
@@ -241,9 +245,9 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
     _frontCardView.frame = self.viewContainer.frame;
 }
 
-
 - (MDCSwipeToChooseView *)popPersonViewWithFrame:(CGRect)frame {
-    NSMutableDictionary *temp;
+    NSMutableDictionary *businessAttributesDictionary;
+    
     if ([self.cards count] == 0) {
         if(!gettingMoreCards) {
             // NSLog(@"low on cards, getting more");
@@ -253,9 +257,12 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
         outOfCards = true;
         return nil;
     } else {
-        temp = self.cards[0];
+        businessAttributesDictionary = self.cards[0];
     }
-    while(self.cards.count>0&&([self bizExists:temp[@"id"]]||![self isWithInDistnaceRange:temp[@"distance"]]||![self isWithInPriceRange:@""]||![self isWithInRatingRange:temp[@"rating"]])) {
+    
+    while ( self.cards.count > 0 && ( [self businessExists:businessAttributesDictionary[@"id"]] ||
+                                     ![self isWithInDistnaceRange:businessAttributesDictionary[@"distance"]] ||
+                                     ![self isWithInPriceRange:@""] ||! [self isWithInRatingRange:businessAttributesDictionary[@"rating"]] ) ) {
         NSLog(@"%lu",(unsigned long)self.cards.count);
         [self.cards removeObjectAtIndex:0];
         if ([self.cards count] == 0) {
@@ -266,10 +273,11 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
             }
             return nil;
         } else {
-            temp = self.cards[0];
+            businessAttributesDictionary = self.cards[0];
         }
     }
-    /* UIView+MDCSwipeToChoose and MDCSwipeToChooseView are heavily customizable. Each take an "options" argument. Here, we specify the view controller as a delegate, and provide a custom callback that moves the back card view based on how far the user has panned the front card view.*/
+    
+    // Specify the view controller as a delegate, and provide a custom callback that moves the back card view based on how far the user has panned the front card view.
     MDCSwipeToChooseViewOptions *options = [MDCSwipeToChooseViewOptions new];
     options.delegate = self;
     options.threshold = 160.f;
@@ -277,23 +285,25 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
         //CGRect frame = [self backCardViewFrame];
         self.backCardView.frame = [self backCardViewFrame];
     };
+    
     // Create a personView with the top person in the people array, then pop that person off the stack.
     MDCSwipeToChooseView *personView = [[MDCSwipeToChooseView alloc] initWithFrame:self.cardView.frame options:options];
-//    personView.frame = self.viewContainer.frame;
-//    [personView setOptions:options];
-    personView.information.text = temp[@"Name"];
-    personView.bizid = temp[@"id"];
-    [self requestScrape:temp[@"url"] forView:personView];
-    NSDictionary* locations = temp[@"location"];
+    personView.information.text = businessAttributesDictionary[@"Name"];
+    personView.bizid = businessAttributesDictionary[@"id"];
+    [self requestScrape:businessAttributesDictionary[@"url"] forView:personView];
+    NSDictionary* locations = businessAttributesDictionary[@"location"];
     personView.city = locations[@"city"];
-    NSArray* temparr = locations[@"address"];
-    if(temparr.count>0) {
-            personView.address = temparr[0];
+    NSArray* tempArrayToFixAddress = locations[@"address"];
+    
+    if(tempArrayToFixAddress.count > 0) {
+            personView.address = tempArrayToFixAddress[0];
     }
+    
     personView.state = locations[@"state_code"];
     personView.zipcode = locations[@"postal_code"];
-    if(temp[@"ImageURL"]!=nil) {
-        NSString* newString = temp[@"ImageURL"];
+    
+    if(businessAttributesDictionary[@"ImageURL"] != nil) {
+        NSString* newString = businessAttributesDictionary[@"ImageURL"];
         NSString* new2String = [newString stringByReplacingOccurrencesOfString:@"/ms.jpg" withString:@"/o.jpg"];
         dispatch_async(dispatch_get_global_queue(0, 0), ^{
             UIImage *tempImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:new2String]]];
@@ -302,39 +312,43 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
             });
         });
     }
-    if(temp[@"rating"]!=nil) {
-        NSNumber *k = temp[@"rating"];
+    
+    if(businessAttributesDictionary[@"rating"] != nil) {
+        NSNumber *k = businessAttributesDictionary[@"rating"];
         personView.rating.text  = [NSString stringWithFormat:@"%.1f Rating",[k doubleValue]];
     }
-    if(temp[@"distance"]!=nil) {
-        NSNumber *k = temp[@"distance"];
+    
+    if(businessAttributesDictionary[@"distance"] != nil) {
+        NSNumber *k = businessAttributesDictionary[@"distance"];
         double meters = [k doubleValue];
         double miles = meters/1600.0;
         personView.distance.text  = [NSString stringWithFormat:@"%.1f mi",miles];
     }
-    if(temp[@"Category"]!=nil) {
-        NSArray *cats = temp[@"Category"];
+    
+    if(businessAttributesDictionary[@"Category"] != nil) {
+        NSArray *cats = businessAttributesDictionary[@"Category"];
         NSString* catsString = @"";
         for(int i = 0; i < cats.count;i++) {
             catsString = [NSString stringWithFormat:@"%@ %@",catsString,cats[i]];
         }
         personView.categories.text  = catsString;
     }
-    if(temp[@"price"]!=nil)
+    
+    if(businessAttributesDictionary[@"price"] != nil)
     {
-        NSString *k = [self priceFix:temp[@"price"]];
+        NSString *k = [self priceFix:businessAttributesDictionary[@"price"]];
         personView.Price.text  = [NSString stringWithFormat:@"%@",k];
     }
-    if(temp[@"hours"]!=nil)
+    
+    if(businessAttributesDictionary[@"hours"] != nil)
     {
-        NSString *k = temp[@"hours"];
+        NSString *k = businessAttributesDictionary[@"hours"];
         personView.hours.text  = [NSString stringWithFormat:@"%@",k];
     }
+    
     [self.cards removeObjectAtIndex:0];
     return personView;
 }
-
-#pragma mark View Contruction
 
 - (CGRect)frontCardViewFrame {
     return self.viewContainer.frame;
@@ -348,7 +362,9 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
 - (void)constructNopeButton {
     UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     UIImage *image = [UIImage imageNamed:@"nope"];
+    
     button.frame = CGRectMake(CGRectGetMinX(self.cardView.frame), CGRectGetMaxY(self.cardView.frame) + ChoosePersonButtonVerticalPadding, image.size.width, image.size.height);
+    
     [button setImage:image forState:UIControlStateNormal];
     [button setTintColor:[UIColor colorWithRed:247.f/255.f green:91.f/255.f blue:37.f/255.f alpha:1.f]];
     [button addTarget:self action:@selector(nopeFrontCardView) forControlEvents:UIControlEventTouchUpInside];
@@ -359,14 +375,15 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
 - (void)constructLikedButton {
     UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     UIImage *image = [UIImage imageNamed:@"liked"];
+    
     button.frame = CGRectMake(CGRectGetMaxX(self.cardView.frame) - image.size.width - ChoosePersonButtonHorizontalPadding, CGRectGetMaxY(self.cardView.frame) + ChoosePersonButtonVerticalPadding, image.size.width, image.size.height);
+    
     [button setImage:image forState:UIControlStateNormal];
     [button setTintColor:[UIColor colorWithRed:29.f/255.f green:245.f/255.f blue:106.f/255.f alpha:1.f]];
     [button addTarget:self action:@selector(likeFrontCardView) forControlEvents:UIControlEventTouchUpInside];
     [self.cardView addSubview:button];
 }
 
-#pragma mark Control Events
 // Programmatically "nopes" the front card view.
 - (void)nopeFrontCardView {
     [ self.frontCardView mdc_swipe:MDCSwipeDirectionLeft ];
@@ -376,59 +393,6 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
 - (void)likeFrontCardView {
     [ self.frontCardView mdc_swipe:MDCSwipeDirectionRight ];
 }
-
--(void)getMoreYelp {
-    if( [ [NSUserDefaults standardUserDefaults] objectForKey:@"Yelp Search Term"] == nil ) {
-        [ [NSUserDefaults standardUserDefaults] setObject:@"Restaurants" forKey:@"Yelp Search Term"];
-        [ [NSUserDefaults standardUserDefaults] synchronize];
-    }
-    NSLog(@"getMoreYelp: %d",self.offset);
-    NSString *fixedURL = [ NSString stringWithFormat:@"http://tinder-for-anything.herokuapp.com/yelp/%@/%@/%@/%d",
-                          [ [NSUserDefaults standardUserDefaults] objectForKey:@"User Location Latitude" ],
-                          [ [NSUserDefaults standardUserDefaults] objectForKey:@"User Location Longitude" ],
-                          [ [NSUserDefaults standardUserDefaults] objectForKey:@"Yelp Search Term" ],
-                          self.offset ];
-    NSURL *url = [NSURL URLWithString:fixedURL];
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
-    [request setHTTPMethod:@"GET"];
-    NSURLSession *urlSession = [NSURLSession sharedSession];
-    NSURLSessionDataTask *dataTask =
-    [urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-         NSInteger responseStatusCode = [httpResponse statusCode];
-         if (responseStatusCode == 200 && data) {
-             dispatch_async(dispatch_get_main_queue(), ^(void) {
-                    NSArray*fetchedData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-                    NSLog(@"getMoreYelp: got more cards");
-                    [self.cards addObjectsFromArray:fetchedData];
-                    self.offset +=20;
-                    if(self.frontCardView == nil) {
-                        NSLog(@"getMoreYelp: nofrontcardview");
-                        [self loadFront];
-                    }
-                    if(self.backCardView == nil) {
-                        NSLog(@"getMoreYelp: noBackcardview");
-                        [self loadBack];
-                    }
-                    if(outOfCards) {
-                        outOfCards = false;
-                    }
-                    gettingMoreCards = false;
-             });
-         } else {
-             NSLog(@"getMoreYelp: error");
-             // error handling
-         }
-     }]; // Data Task Block
-    [dataTask resume];
-}
-
--(NSString*)priceFix:(NSString*) str {
-    NSString* tempStr = [str stringByReplacingOccurrencesOfString:@" " withString:@""];
-    tempStr = [tempStr stringByReplacingOccurrencesOfString:@"\n" withString:@""];
-    return tempStr;
-}
-
 #pragma mark - locations
 /**
  * --------------------------------------------------------------------------
@@ -437,7 +401,7 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
  */
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation {
-    NSLog(@"Location: %@", newLocation);
+    NSLog(@"ChoosePersonViewController - Locationmanager - Location: %@", newLocation);
     currentLocation = newLocation;
     [[NSUserDefaults standardUserDefaults] setObject:@(currentLocation.coordinate.latitude) forKey:@"User Location Latitude"];
     [[NSUserDefaults standardUserDefaults] setObject:@(currentLocation.coordinate.longitude) forKey:@"User Location Longitude"];
@@ -446,7 +410,14 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
     [manager stopUpdatingLocation];
 }
 
--(void)requestScrape:(NSString*)myurl forView:(MDCSwipeToChooseView *) myview {
+#pragma mark - Network Communication
+/**
+ * --------------------------------------------------------------------------
+ * Network Communication
+ * --------------------------------------------------------------------------
+ */
+
+-(void)requestScrape:(NSString*)myurl forView:(MDCSwipeToChooseView *)myview {
     NSString *fixedURL = [NSString stringWithFormat:@"http://tinder-for-anything.herokuapp.com/scrape"];
     NSURL *url = [NSURL URLWithString:fixedURL];
     NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
@@ -469,29 +440,90 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
                     NSLog(@"%@",fetchedData);
                     myview.hours.text = fetchedData[@"hour"];
                     myview.Price.text = [self priceFixer:fetchedData[@"price"]];
-                });//Dispatch main queue block
+                }); //Dispatch main queue block
             } else {
-                NSLog(@"ERROR: ChoosePersonViewController - requestScrape:forView");
+                NSLog(@"ERROR: ChoosePersonViewController - requestScrape");
             }
         }];//upload task Block
         [uploadTask resume];
-        NSLog(@"Connected to server");
+        //NSLog(@"Connected to server");
     } else {
         NSLog(@"Cannot connect to server");
     }
 }
 
--(BOOL)bizExists:(NSString*)bizid {
+-(void)getMoreYelp {
+    if( [ [NSUserDefaults standardUserDefaults] objectForKey:@"Yelp Search Term" ] == nil ) {
+        [ [NSUserDefaults standardUserDefaults] setObject:@"Restaurants" forKey:@"Yelp Search Term" ];
+        [ [NSUserDefaults standardUserDefaults] synchronize ];
+    }
+    NSLog(@"ChoosePersonViewController - getMoreYelp - offeset: %d",self.offset);
+    NSString *fixedURL = [ NSString stringWithFormat:@"http://tinder-for-anything.herokuapp.com/yelp/%@/%@/%@/%d",
+                          [ [NSUserDefaults standardUserDefaults] objectForKey:@"User Location Latitude" ],
+                          [ [NSUserDefaults standardUserDefaults] objectForKey:@"User Location Longitude" ],
+                          [ [NSUserDefaults standardUserDefaults] objectForKey:@"Yelp Search Term" ],
+                          self.offset ];
+    NSURL *url = [NSURL URLWithString:fixedURL];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
+    [request setHTTPMethod:@"GET"];
+    NSURLSession *urlSession = [NSURLSession sharedSession];
+    NSURLSessionDataTask *dataTask =
+    [urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+        NSInteger responseStatusCode = [httpResponse statusCode];
+        if (responseStatusCode == 200 && data) {
+            dispatch_async(dispatch_get_main_queue(), ^(void) {
+                NSArray*fetchedData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+                NSLog(@"choosePersonViewController - getMoreYelp: got more cards");
+                [self.cards addObjectsFromArray:fetchedData];
+                self.offset += 20;
+                if(self.frontCardView == nil) {
+                    NSLog(@"choosePersonViewController - getMoreYelp: nofrontcardview");
+                    [self loadFront];
+                }
+                if(self.backCardView == nil) {
+                    NSLog(@"choosePersonViewController - getMoreYelp: noBackcardview");
+                    [self loadBack];
+                }
+                if(outOfCards) {
+                    outOfCards = false;
+                }
+                gettingMoreCards = false;
+            });
+        } else {
+            NSLog(@"choosePersonViewController - getMoreYelp: error");
+            // error handling
+        }
+    }]; // Data Task Block
+    [dataTask resume];
+}
+
+#pragma mark - Fixer methods
+/**
+ * --------------------------------------------------------------------------
+ * Fixer methods and soon to be implemented features
+ * --------------------------------------------------------------------------
+ */
+
+-(NSString*)priceFix:(NSString*) str {
+    NSString* tempStr = [str stringByReplacingOccurrencesOfString:@" " withString:@""];
+    tempStr = [tempStr stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+    return tempStr;
+}
+
+
+
+-(BOOL)businessExists:(NSString*)businessID {
     NSFetchRequest *fetch = [NSFetchRequest fetchRequestWithEntityName:@"Card"];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"bizid = %@", bizid];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"bizid = %@", businessID];
     [fetch setPredicate:predicate];
     NSError *error = nil;
     NSArray *results = [((AppDelegate *)[UIApplication sharedApplication].delegate).managedObjectContext executeFetchRequest:fetch error:&error];
-    if(results.count>0) {
-        NSLog(@"duplicate");
+    if(results.count > 0) {
+        NSLog(@"choosePersonViewController - businessExists: duplicate");
         return true;
     } else {
-        NSLog(@"new");
+        NSLog(@"choosePersonViewController - businessExists: new");
         return false;
     }
 }
@@ -504,12 +536,12 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
         min = [min stringByReplacingOccurrencesOfString:@"$" withString:@""];
         NSString* max = str[1];
         max = [max stringByReplacingOccurrencesOfString:@"$" withString:@""];
-    if(max.intValue<=[NetworkCommunication sharedManager].maxPrice) {
+    if(max.intValue <= [NetworkCommunication sharedManager].maxPrice) {
             return true;
         } else {
             return false;
         }
-    } else if([price containsString:@"Under"]) {
+    } else if( [price containsString:@"Under"] ) {
         //NSString* min = @"0";
         NSString* max = [price stringByReplacingOccurrencesOfString:@"Under$" withString:@""];
         
@@ -526,11 +558,13 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
 -(BOOL)isWithInDistnaceRange:(NSString*) distance {
     double dbleval = [distance doubleValue];
     dbleval = dbleval/1600.0;
-    if([[NSUserDefaults standardUserDefaults] objectForKey:@"maxDistance"]==nil) {
-        [[NSUserDefaults standardUserDefaults] setObject:@"20.0" forKey:@"maxDistance"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    if ( [[NSUserDefaults standardUserDefaults] objectForKey:@"maxDistance"] == nil ) {
+         [[NSUserDefaults standardUserDefaults] setObject:@"20.0" forKey:@"maxDistance"];
+         [[NSUserDefaults standardUserDefaults] synchronize];
     }
-    if(dbleval<=[((NSString*)[[NSUserDefaults standardUserDefaults] objectForKey:@"maxDistance"]) doubleValue]) {
+    
+    if (dbleval <= [ ((NSString*)[[NSUserDefaults standardUserDefaults] objectForKey:@"maxDistance"]) doubleValue] ) {
         return true;
     } else {
         return false;
@@ -539,11 +573,13 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
 
 -(BOOL)isWithInRatingRange:(NSNumber*) rating {
     double dbleval = [rating doubleValue];
-    if([[NSUserDefaults standardUserDefaults] objectForKey:@"minRating"]==nil) {
-        [[NSUserDefaults standardUserDefaults] setObject:@"0.0" forKey:@"minRating"];
-        [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    if ( [[NSUserDefaults standardUserDefaults] objectForKey:@"minRating"] == nil ) {
+         [[NSUserDefaults standardUserDefaults] setObject:@"0.0" forKey:@"minRating"];
+         [[NSUserDefaults standardUserDefaults] synchronize];
     }
-    if(dbleval>=[((NSString*)[[NSUserDefaults standardUserDefaults] objectForKey:@"minRating"]) doubleValue]) {
+    
+    if (dbleval >= [((NSString*)[[NSUserDefaults standardUserDefaults] objectForKey:@"minRating"]) doubleValue]) {
             return true;
     } else {
             return false;
