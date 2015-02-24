@@ -26,8 +26,11 @@
 #import "AppDelegate.h"
 #import "NetworkCommunication.h"
 #import "ChoosePersonViewController.h"
+#import "Mixpanel.h"
 #import <MDCSwipeToChoose/MDCSwipeToChoose.h>
 #import <CoreLocation/CoreLocation.h>
+
+#define MIXPANEL_TOKEN @"415ae3248e8e431462e61e457872ca55"
 
 static const CGFloat ChoosePersonButtonHorizontalPadding = 80.f;
 static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
@@ -168,15 +171,29 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
 
 // A user swiped the view fully left or right.
 - (void)view:(MDCSwipeToChooseView *)view wasChosenWithDirection:(MDCSwipeDirection)direction {
+    
     if(self.cards.count < 1) {
         outOfCards = true;
     }
     
+    
     if (direction == MDCSwipeDirectionLeft) {
         NSLog(@"User Swiped Left (no)");
+        // Initialize the library with your
+        // Mixpanel project token
+        [Mixpanel sharedInstanceWithToken:MIXPANEL_TOKEN];
+        Mixpanel *mixpanel = [Mixpanel sharedInstance];
+        [mixpanel track:@"Swiped Left" properties:@{
+        }];
+    
     } else {
         NSLog(@"User Swiped Right (yes)");
-        
+        // Initialize the library with your
+        // Mixpanel project token
+        [Mixpanel sharedInstanceWithToken:MIXPANEL_TOKEN];
+        Mixpanel *mixpanel = [Mixpanel sharedInstance];
+        [mixpanel track:@"Swiped Right" properties:@{
+        }];
         NSManagedObjectContext *context = ((AppDelegate *)[UIApplication sharedApplication].delegate).managedObjectContext;
         NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Card" inManagedObjectContext:context];
         Card *newCard = [[Card alloc] initWithEntity:entityDescription insertIntoManagedObjectContext:context];
@@ -262,9 +279,12 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
     
     while ( self.cards.count > 0 && ( [self businessExists:businessAttributesDictionary[@"id"]] ||
                                      ![self isWithInDistnaceRange:businessAttributesDictionary[@"distance"]] ||
-                                     ![self isWithInPriceRange:@""] ||! [self isWithInRatingRange:businessAttributesDictionary[@"rating"]] ) ) {
-        NSLog(@"%lu",(unsigned long)self.cards.count);
+                                     ![self isWithInPriceRange:@""] ||
+                                     ![self isWithInRatingRange:businessAttributesDictionary[@"rating"]] ) ) {
+        NSLog(@"ChoosePersonViewController - popPersonViewWithFrame - cards.count: %lu",(unsigned long)self.cards.count);
+        
         [self.cards removeObjectAtIndex:0];
+        
         if ([self.cards count] == 0) {
             if(!gettingMoreCards) {
                 NSLog(@"low on cards, getting more");

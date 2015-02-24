@@ -10,9 +10,12 @@
 #import "DraggableBackground.h"
 #import "NetworkCommunication.h"
 #import "FBLogInViewController.h"
-
+#import "Mixpanel.h"
+#import <Crashlytics/Crashlytics.h>
 #import <FacebookSDK/FacebookSDK.h>
 #import <Pushbots/Pushbots.h>
+
+#define MIXPANEL_TOKEN @"415ae3248e8e431462e61e457872ca55"
 
 @interface AppDelegate ()
 
@@ -25,6 +28,16 @@
     [FBLoginView class];
     [Pushbots getInstance];
     NSDictionary * userInfo = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+    
+    //Crashlytics
+    [Crashlytics startWithAPIKey:@"d4f8559039f24d47502e9f757f1be530b0f72c63"];
+    
+    // Initialize the library with your
+    // Mixpanel project token
+    [Mixpanel sharedInstanceWithToken:MIXPANEL_TOKEN];
+    Mixpanel *mixpanel = [Mixpanel sharedInstance];
+    [mixpanel track:@"App Opened" properties:@{
+    }];
     
     if(userInfo) {
         // Notification Message

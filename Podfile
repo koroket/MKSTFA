@@ -10,6 +10,7 @@ pod 'AMSmoothAlert', '~> 1.0'
 pod 'TDBadgedCell', '~> 2.5.2.1'
 pod 'MMDrawerController', '~> 0.5.7'
 pod "MDCSwipeToChoose"
+pod 'Mixpanel'
 end
 
 target 'TFETests' do
