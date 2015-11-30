@@ -11,9 +11,6 @@
             <rect key="frame" x="0.0" y="0.0" width="300" height="454"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="B&amp;Wtreez" translatesAutoresizingMaskIntoConstraints="NO" id="FwR-Nm-JMA">
-                    <rect key="frame" x="0.0" y="0.0" width="300" height="454"/>
-                </imageView>
                 <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="z4P-KW-7T0">
                     <rect key="frame" x="0.0" y="0.0" width="300" height="454"/>
                     <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="atm-Bc-ORc">
@@ -26,7 +23,7 @@
                                     <constraint firstAttribute="height" constant="30" id="6gY-xu-kgd"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="Avenir-Light" family="Avenir" pointSize="18"/>
-                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                                 <variation key="default">
                                     <mask key="constraints">
@@ -40,7 +37,7 @@
                                     <constraint firstAttribute="height" constant="30" id="BW1-Vy-uas"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="Avenir-Light" family="Avenir" pointSize="18"/>
-                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                                 <variation key="default">
                                     <mask key="constraints">
@@ -54,7 +51,7 @@
                                     <constraint firstAttribute="height" constant="30" id="HvV-aK-04Z"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="Avenir-Light" family="Avenir" pointSize="18"/>
-                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                                 <variation key="default">
                                     <mask key="constraints">
@@ -68,25 +65,11 @@
                                     <constraint firstAttribute="height" constant="30" id="A5Y-5J-0wm"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="Avenir-Light" family="Avenir" pointSize="18"/>
-                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                                 <variation key="default">
                                     <mask key="constraints">
                                         <exclude reference="A5Y-5J-0wm"/>
-                                    </mask>
-                                </variation>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Data" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zwS-9g-W4r">
-                                <rect key="frame" x="65" y="362" width="67.5" height="25"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="30" id="dAh-cb-RUn"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="Avenir-Light" family="Avenir" pointSize="18"/>
-                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <nil key="highlightedColor"/>
-                                <variation key="default">
-                                    <mask key="constraints">
-                                        <exclude reference="dAh-cb-RUn"/>
                                     </mask>
                                 </variation>
                             </label>
@@ -96,11 +79,25 @@
                                     <constraint firstAttribute="height" constant="30" id="xOD-if-8iN"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="Avenir-Book" family="Avenir" pointSize="37"/>
-                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                                 <variation key="default">
                                     <mask key="constraints">
                                         <exclude reference="xOD-if-8iN"/>
+                                    </mask>
+                                </variation>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No Data" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" adjustsLetterSpacingToFitWidth="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zwS-9g-W4r">
+                                <rect key="frame" x="65" y="362" width="67.5" height="25"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="dAh-cb-RUn"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Avenir-Light" family="Avenir" pointSize="18"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="dAh-cb-RUn"/>
                                     </mask>
                                 </variation>
                             </label>
@@ -164,14 +161,10 @@
                 <constraint firstItem="z4P-KW-7T0" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="FOY-pA-rTC"/>
                 <constraint firstAttribute="trailing" secondItem="z4P-KW-7T0" secondAttribute="trailing" id="FpN-Xh-DXt"/>
                 <constraint firstItem="rcA-Ki-gWb" firstAttribute="leading" secondItem="qUr-j8-VFk" secondAttribute="leading" constant="5" id="HuK-PZ-c6E"/>
-                <constraint firstAttribute="bottom" secondItem="FwR-Nm-JMA" secondAttribute="bottom" id="QPb-1j-2CM"/>
                 <constraint firstItem="qUr-j8-VFk" firstAttribute="top" secondItem="rcA-Ki-gWb" secondAttribute="bottom" constant="8" id="V9h-Yw-FX5"/>
                 <constraint firstItem="rcA-Ki-gWb" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="15" id="VfT-NP-BsL"/>
                 <constraint firstAttribute="bottom" secondItem="z4P-KW-7T0" secondAttribute="bottom" id="bQu-8Y-rJC"/>
-                <constraint firstItem="FwR-Nm-JMA" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="jzu-M8-CRr"/>
-                <constraint firstAttribute="trailing" secondItem="FwR-Nm-JMA" secondAttribute="trailing" id="wMj-1O-j2A"/>
                 <constraint firstAttribute="trailing" secondItem="rcA-Ki-gWb" secondAttribute="trailing" constant="10" id="zO2-18-F8O"/>
-                <constraint firstItem="FwR-Nm-JMA" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="zfo-Jd-SOs"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
@@ -198,7 +191,4 @@
         </label>
         <tapGestureRecognizer id="9TT-Lh-5Ba"/>
     </objects>
-    <resources>
-        <image name="B&amp;Wtreez" width="1379" height="2048"/>
-    </resources>
 </document>

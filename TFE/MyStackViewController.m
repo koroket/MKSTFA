@@ -135,7 +135,9 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CardCell" forIndexPath:indexPath];
+    
     NSString *sectionTitle = [sectionNames objectAtIndex:indexPath.section];
+    
     NSMutableArray *sectionCards = [sections objectForKey:sectionTitle];
     Card* currentCard = [sectionCards objectAtIndex:indexPath.row];
     UIFont *textLabelFont = [UIFont fontWithName:@"Avenir-Light" size:18.0];

@@ -1,6 +1,9 @@
 PODS:
   - AMSmoothAlert (1.1):
     - GPUImage
+  - EAIntroView (2.7.0):
+    - EARestrictedScrollView (~> 0.1.0)
+  - EARestrictedScrollView (0.1.0)
   - GPUImage (0.1.6)
   - MBProgressHUD (0.9)
   - MDCSwipeToChoose (0.2.1)
@@ -24,6 +27,7 @@ PODS:
 
 DEPENDENCIES:
   - AMSmoothAlert (~> 1.0)
+  - EAIntroView (~> 2.7.0)
   - MBProgressHUD (~> 0.8)
   - MDCSwipeToChoose
   - Mixpanel
@@ -38,6 +42,8 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   AMSmoothAlert: 1b4bf6688b698a606a963c336b5060490f4d3db2
+  EAIntroView: 2284bb6d9105035cb09f8952933e83591f0a81ca
+  EARestrictedScrollView: 6023847998f13e2d80dff2d575181c2598349507
   GPUImage: cecb0830bb9428f50192042e3c7b53810f51388e
   MBProgressHUD: 2038dbcf3dce73215abed6001657043d53aa79a8
   MDCSwipeToChoose: 54f7b1675eff182cdc46c582360c7fca4c766a67

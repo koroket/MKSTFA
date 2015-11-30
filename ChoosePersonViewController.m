@@ -277,10 +277,10 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
         businessAttributesDictionary = self.cards[0];
     }
     
-    while ( self.cards.count > 0 && ( [self businessExists:businessAttributesDictionary[@"id"]] ||
-                                     ![self isWithInDistnaceRange:businessAttributesDictionary[@"distance"]] ||
-                                     ![self isWithInPriceRange:@""] ||
-                                     ![self isWithInRatingRange:businessAttributesDictionary[@"rating"]] ) ) {
+    while (self.cards.count > 0 && ([self businessExists:businessAttributesDictionary[@"id"]] ||
+                                    ![self isWithInDistnaceRange:businessAttributesDictionary[@"distance"]] ||
+                                    ![self isWithInPriceRange:@""] ||
+                                    ![self isWithInRatingRange:businessAttributesDictionary[@"rating"]] ) ) {
         NSLog(@"ChoosePersonViewController - popPersonViewWithFrame - cards.count: %lu",(unsigned long)self.cards.count);
         
         [self.cards removeObjectAtIndex:0];
@@ -307,6 +307,8 @@ static const CGFloat ChoosePersonButtonVerticalPadding = 20.f;
     };
     
     // Create a personView with the top person in the people array, then pop that person off the stack.
+    NSLog(@"ChoosePersonViewController - popPersonViewWithFrame: %@",self.cardView.frame);
+    
     MDCSwipeToChooseView *personView = [[MDCSwipeToChooseView alloc] initWithFrame:self.cardView.frame options:options];
     personView.information.text = businessAttributesDictionary[@"Name"];
     personView.bizid = businessAttributesDictionary[@"id"];

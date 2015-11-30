@@ -24,7 +24,6 @@
 
 #import "ChoosePersonView.h"
 
-
 @interface ChoosePersonView ()
 
 @end
@@ -37,12 +36,8 @@
         self.imageView.image = image;
         self.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin;
         self.imageView.autoresizingMask = self.autoresizingMask;
-        
     }
     return self;
 }
-
-
-
 
 @end

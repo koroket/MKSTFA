@@ -11,6 +11,7 @@ pod 'TDBadgedCell', '~> 2.5.2.1'
 pod 'MMDrawerController', '~> 0.5.7'
 pod "MDCSwipeToChoose"
 pod 'Mixpanel'
+pod 'EAIntroView', '~> 2.7.0'
 end
 
 target 'TFETests' do

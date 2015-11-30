@@ -62,6 +62,7 @@
     self.myGroupIndex = [NSMutableArray array];
     self.view.userInteractionEnabled = false;
     [self.navigationController setNavigationBarHidden:NO animated:YES];
+    
     if(!isTableLoading) {
         isTableLoading = true;
         self.view.userInteractionEnabled = false;
@@ -73,7 +74,6 @@
 }
 
 -(void)tableDidReload {
-    [self.tableView reloadData];
     [self.tableView reloadData];
     self.view.userInteractionEnabled = true;
     [self.tableView.pullToRefreshView stopAnimating];
@@ -148,7 +148,8 @@
     backgroundView.layer.borderWidth = 2;
     UIImageView *firstImageView = (UIImageView *)[cell viewWithTag:5];
     firstImageView.image = ((Group*)[NetworkCommunication sharedManager].arrayOfGroups[indexPath.row]).imageID;
-    for(int i = 0; i < ((Group*)[NetworkCommunication sharedManager].arrayOfGroups[indexPath.row]).friendPics.count;i++) {
+    
+    for (int i = 0; i < ((Group*)[NetworkCommunication sharedManager].arrayOfGroups[indexPath.row]).friendPics.count;i++) {
         UIImageView *nextImageView = (UIImageView *)[cell viewWithTag:6+i];
         nextImageView.image = ((Group*)[NetworkCommunication sharedManager].arrayOfGroups[indexPath.row]).friendPics[i];
     }
@@ -183,6 +184,7 @@
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
     [request setHTTPMethod:@"DELETE"];
     NSURLSession *urlSession = [NSURLSession sharedSession];
+    
     NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
         NSInteger responseStatusCode = [httpResponse statusCode];
@@ -206,9 +208,11 @@
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:30.0];
     [request setHTTPMethod:@"DELETE"];
     NSURLSession *urlSession = [NSURLSession sharedSession];
+    
     NSURLSessionDataTask *dataTask = [urlSession dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
       NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
       NSInteger responseStatusCode = [httpResponse statusCode];
+        
       if (responseStatusCode == 200 && data) {
           dispatch_async(dispatch_get_main_queue(), ^(void) {
               

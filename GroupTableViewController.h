@@ -1,5 +1,5 @@
 //
-//  FriendTableViewController.h
+//  GroupTableViewController.h
 //  TFE
 //
 //  Created by Luke Solomon on 9/26/14.
@@ -11,7 +11,9 @@
 @interface GroupTableViewController : UITableViewController
 
 @property (nonatomic,assign) bool didLoadForFirstTime;
+
 -(void)dataSuccessfullyReceived;
 -(void)tableDidReload;
+
 @end
 
